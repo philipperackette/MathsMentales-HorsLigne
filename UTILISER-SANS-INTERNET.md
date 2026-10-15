@@ -8,10 +8,10 @@ Testé sous Windows 10 et macOS, avec Google Chrome.
 
 ## 1. Récupérer MathsMentales (une seule fois, avec internet)
 
-1. Téléchargez le ZIP (environ 75 Mo) : **[MathsMentales-main.zip](https://github.com/philipperackette/MathsMentales/archive/refs/heads/main.zip)**
+1. Téléchargez le ZIP (environ 75 Mo) : **[MathsMentales-HorsLigne-main.zip](https://github.com/philipperackette/MathsMentales-HorsLigne/archive/refs/heads/main.zip)**
    (ou, sur la page GitHub du dépôt, bouton vert **Code**, puis **Download ZIP**).
 2. Décompressez le fichier ZIP :
-   - **Windows** : clic droit sur le ZIP, **Extraire tout…** (ne lancez rien depuis l'intérieur du ZIP) ; l'extraction prend quelques minutes. Windows crée deux dossiers du même nom l'un dans l'autre : les lanceurs sont dans `MathsMentales-main\MathsMentales-main` ;
+   - **Windows** : clic droit sur le ZIP, **Extraire tout…** (ne lancez rien depuis l'intérieur du ZIP) ; l'extraction prend quelques minutes. Windows crée deux dossiers du même nom l'un dans l'autre : les lanceurs sont dans `MathsMentales-HorsLigne-main\MathsMentales-HorsLigne-main` ;
    - **Mac** : double-clic sur le ZIP.
 3. Rangez le dossier obtenu où vous voulez (Documents, clé USB…). Il fonctionne depuis n'importe quel emplacement, et sur plusieurs ordinateurs si vous le copiez sur une clé USB.
 
