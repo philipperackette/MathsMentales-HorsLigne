@@ -16,10 +16,17 @@ Cette copie de MathsMentales peut fonctionner sur un ordinateur **sans connexion
 
 ### Windows (10 et 11)
 
-1. Double-cliquez sur **`MathsMentales-Windows.cmd`**.
-2. La première fois, Windows peut afficher « Windows a protégé votre ordinateur » : cliquez sur **Informations complémentaires**, puis **Exécuter quand même**.
-3. Une fenêtre noire s'ouvre, puis MathsMentales s'affiche dans le navigateur.
-4. **Laissez la fenêtre noire ouverte** pendant l'utilisation. Pour arrêter, fermez-la.
+1. **Décompressez d'abord le ZIP** : clic droit sur le fichier ZIP → **Extraire tout…** → **Extraire**. Windows permet d'ouvrir un ZIP comme un dossier, mais un lanceur ouvert depuis l'intérieur du ZIP ne trouve pas le serveur.
+2. Dans le dossier extrait, double-cliquez sur **`MathsMentales-Windows.cmd`**.
+3. La première fois, Windows peut afficher « Windows a protégé votre ordinateur » : cliquez sur **Informations complémentaires**, puis **Exécuter quand même**.
+4. Une fenêtre noire s'ouvre, puis MathsMentales s'affiche dans le navigateur.
+5. **Laissez la fenêtre noire ouverte** pendant l'utilisation (vous pouvez la réduire). Pour arrêter, fermez-la.
+
+Si MathsMentales ne s'ouvre pas, la fenêtre noire reste ouverte et explique pourquoi :
+
+- « *Le fichier hors-ligne\serveur.ps1 est introuvable* » : le ZIP n'a pas été décompressé (étape 1) ;
+- « *PowerShell est limité sur cet ordinateur* » ou un message parlant de scripts désactivés : l'administration informatique de l'établissement bloque les scripts PowerShell ; c'est à voir avec elle ;
+- autre message : faites-en une capture d'écran pour le signaler.
 
 ### Mac
 
@@ -57,7 +64,6 @@ Ouvrez l'application **Terminal** (Applications → Utilitaires), tapez `perl ` 
 - **Historique** : MathsMentales garde l'historique des diaporamas dans le navigateur, pour l'adresse `http://127.0.0.1:1180`. Utilisez toujours le même navigateur pour le retrouver. Si le port 1180 est déjà occupé, le serveur prend le suivant (1181…) et le signale : l'historique est alors distinct.
 - **Ce qui ne fonctionne pas sans internet** : ce qui dépend du serveur officiel mathsmentales.net, comme les liens courts ou la synchronisation de l'historique en ligne.
 - **Mettre à jour** : téléchargez de nouveau le ZIP et remplacez l'ancien dossier.
-- **Ça ne démarre pas sous Windows** (la fenêtre se ferme ou parle de scripts désactivés) : l'administration informatique de l'établissement bloque peut-être les scripts PowerShell ; c'est à voir avec elle.
 - **Ancien lanceur** : `public/startMM.cmd` fonctionne toujours ; il appelle désormais `MathsMentales-Windows.cmd`.
 
 ## Pour les curieux
