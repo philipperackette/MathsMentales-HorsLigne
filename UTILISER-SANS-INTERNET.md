@@ -23,14 +23,34 @@ Cette copie de MathsMentales peut fonctionner sur un ordinateur **sans connexion
 
 ### Mac
 
-1. Double-cliquez sur **`MathsMentales-Mac.command`**.
-2. La première fois, macOS peut refuser de l'ouvrir (« développeur non identifié » ou « Apple n'a pas pu vérifier… ») :
-   - macOS 15 et suivants : ouvrez **Réglages Système → Confidentialité et sécurité**, descendez jusqu'au message concernant `MathsMentales-Mac.command` et cliquez sur **Ouvrir quand même** ;
-   - versions précédentes : clic droit (ou Ctrl+clic) sur le fichier, **Ouvrir**, puis **Ouvrir**.
-3. Une fenêtre du Terminal s'ouvre, puis MathsMentales s'affiche dans le navigateur.
-4. **Laissez la fenêtre du Terminal ouverte** pendant l'utilisation. Pour arrêter, fermez-la (ou Ctrl+C).
+#### Premier lancement (une seule fois)
 
-Autre possibilité sur Mac, sans message de sécurité : ouvrez l'application **Terminal**, tapez `perl ` (avec une espace), faites glisser dans la fenêtre le fichier `hors-ligne/serveur.pl` du dossier MathsMentales, puis appuyez sur Entrée.
+macOS bloque au premier lancement les fichiers téléchargés sur internet qui ne sont pas signés par un développeur enregistré auprès d'Apple (l'enregistrement est payant). C'est le cas de `MathsMentales-Mac.command` : il s'agit d'un simple fichier texte de quelques lignes, que vous pouvez lire avec TextEdit avant de le lancer. Voici comment l'autoriser.
+
+1. Double-cliquez sur **`MathsMentales-Mac.command`**.
+2. macOS affiche : « *« MathsMentales-Mac.command » n'a pas été ouvert* » (ou, selon la version, « *Apple n'a pas pu confirmer que « MathsMentales-Mac.command » ne contenait pas de logiciels malveillants…* »).
+   Cliquez sur **Terminé**. ⚠️ **Ne cliquez pas sur « Placer dans la corbeille »**, qui supprimerait le fichier.
+3. Ouvrez le menu Apple (la pomme en haut à gauche de l'écran) → **Réglages Système…** → **Confidentialité et sécurité**, puis descendez jusqu'à la rubrique **Sécurité**. Vous y trouvez :
+   > *« MathsMentales-Mac.command » a été bloqué pour protéger votre Mac.*
+
+   Cliquez sur **Ouvrir quand même**. Ce bouton n'apparaît que pendant environ une heure après l'étape 1 ; s'il n'est plus là, recommencez à l'étape 1.
+4. macOS demande une dernière confirmation : cliquez sur **Ouvrir quand même**, puis saisissez le mot de passe de la session (ou utilisez Touch ID).
+5. Une fenêtre du Terminal s'ouvre, puis MathsMentales s'affiche dans le navigateur.
+6. Si macOS demande si **« Terminal » peut accéder aux fichiers** de votre dossier Téléchargements (ou Documents, Bureau), cliquez sur **Autoriser** : sans cela, le serveur ne peut pas lire les fichiers de MathsMentales et la page reste vide ou incomplète.
+
+Sur les versions de macOS antérieures à macOS 15 (Sequoia), on peut aussi faire, à la place des étapes 2 à 4 : clic droit (ou Ctrl+clic) sur le fichier → **Ouvrir**, puis **Ouvrir**.
+
+Cette autorisation est mémorisée : les fois suivantes, un double-clic suffit. Elle est à refaire si vous téléchargez une nouvelle version du ZIP.
+
+#### Utilisation habituelle
+
+1. Double-cliquez sur **`MathsMentales-Mac.command`** : le Terminal s'ouvre, puis MathsMentales s'affiche dans le navigateur.
+2. **Laissez la fenêtre du Terminal ouverte** pendant l'utilisation (vous pouvez la réduire dans le Dock).
+3. Pour arrêter, fermez la fenêtre du Terminal (ou Ctrl+C). Si le Terminal demande s'il faut mettre fin aux processus en cours, cliquez sur **Terminer**.
+
+#### Sans aucun message de sécurité
+
+Ouvrez l'application **Terminal** (Applications → Utilitaires), tapez `perl ` (avec une espace à la fin), faites glisser dans la fenêtre le fichier `hors-ligne/serveur.pl` du dossier MathsMentales, puis appuyez sur Entrée. MathsMentales s'ouvre dans le navigateur ; fermez la fenêtre du Terminal pour l'arrêter.
 
 ## 3. Bon à savoir
 
