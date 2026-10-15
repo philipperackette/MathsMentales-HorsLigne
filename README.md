@@ -1,3 +1,15 @@
+> **Copie de travail de MathsMentales**
+>
+> Ce dépôt est une copie de [MathsMentales](https://www.mathsmentales.net/), créé par **Sébastien Cogez** et ses contributeurs (voir « Auteurs » ci-dessous), publié sous licence [Apache 2.0](LICENSE).
+>
+> - Source : <https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr>
+> - Version reprise : branche `master` au **11 octobre 2026** — version 2.4.11, commit `a39d7713e0a9d3efcace9a2e29419fae3b34b361`
+> - Modifications par rapport à l'original : ajout de cette note ; retrait du dossier `RebexTinyWebServer` (petit serveur web local pour Windows, sous licence propriétaire qui n'autorise pas la redistribution).
+>
+> Pour utiliser MathsMentales ou contribuer au projet officiel, rendez-vous sur le site et sur la Forge ci-dessus.
+
+---
+
 ## Mathsmentales
 Projet de réécriture du site MathsMentales.net qui permet de créer des diaporamas de calcul mental sans effort
 Démo : https://www.mathsmentales.net/
