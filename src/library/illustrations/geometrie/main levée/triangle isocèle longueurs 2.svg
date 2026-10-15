@@ -1,0 +1,18 @@
+<svg width="218" height="140" version="1.1" viewBox="0 0 218 140" xmlns="http://www.w3.org/2000/svg" class="svg-file">
+<style>.svg-file path{fill:none;stroke-linecap:round;stroke:#000}.svg-file line{stroke:#000}.svg-file text{font-size:12px;text-align:center;text-anchor:middle}</style>
+ <path d="m176 29s-18 1.6-24 1.5c-4.8 0.3-19-0.4-24-0.5s-19-1-24-0.5c-4.8-0.1-19 2.6-24 2.5-4.8 0.5-19-0.4-24-0.5m0 0c-4.8-0.1-19-0.4-24-0.5"/>
+ <path d="m176 29s-8.8 13-13 17c-2.6 3.4-12 12-15 15-3.1 3.1-13 12-15 16-2.9 3-9.1 14-12 17m0 0c-2.5 3.5-12 12-15 15"/>
+ <line x1="146" x2="141" y1="68" y2="64"/>
+ <line x1="143" x2="139" y1="71" y2="67"/>
+ <path d="m32 32s12 9.9 16 14c3.2 2.9 11 13 14 16 2.6 3.2 11 13 14 15 2.9 3.3 14 11 17 14m0 0c3.2 2.8 11 13 14 16"/>
+ <line x1="68" x2="64" y1="66" y2="70"/>
+ <line x1="71" x2="67" y1="69" y2="73"/>
+ <text x="183.15317" y="25.672606">${:A}</text>
+ <text x="23.020725" y="29.895323">${:B}</text>
+ <text x="103.96828" y="122.25835">${:C}</text>
+ <text x="105.69628" y="24.591297">${:AB} ${:u}</text>
+ <g transform="translate(96 10)">
+  <text transform="rotate(-52)" x="-13.158298" y="88.387894">${:CA} ${:u}</text>
+ </g>
+ <text transform="rotate(48)" x="95.540932" y="13.267457">${:BC} ${:u}</text>
+</svg>

@@ -1,0 +1,118 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0 0 6rem 0;
+  background: #f7f7f7;
+  color: #222;
+}
+#pe-app {
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+}
+#pe-app section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+}
+#pe-app h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.6rem 0;
+}
+.pe-champ {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.pe-champ label {
+  min-width: 12rem;
+}
+.pe-champ input[type="text"] {
+  flex: 1 1 16rem;
+  padding: 0.3rem;
+}
+.pe-champ input[type="number"] {
+  width: 6rem;
+  padding: 0.3rem;
+}
+.pe-aide {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0.2rem 0 0.6rem 0;
+}
+.pe-avertissement {
+  color: #b35c00;
+}
+.pe-erreur {
+  color: #c62828;
+}
+.pe-ok {
+  color: #2a8f2a;
+}
+#pe-pied {
+  /* position: sticky ne fonctionne pas ici : le bloc englobant d'un élément
+     sticky est la content box de son parent (body), qui ne comprend pas le
+     padding-bottom réservé plus bas — donc aucune marge de déplacement.
+     position: fixed s'appuie directement sur le viewport ; le
+     padding-bottom du body réserve déjà la place occupée par ce pied. */
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-top: 2px solid #ddd;
+  padding: 0.8rem 1rem;
+}
+#pe-pied ul {
+  margin: 0 0 0.6rem 0;
+  padding-left: 1.2rem;
+}
+button {
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}
+button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.pe-etape {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
+  background: #fafafa;
+}
+.pe-etape-entete {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+.pe-etape-entete input[type="text"] {
+  flex: 1 1 14rem;
+  padding: 0.3rem;
+}
+.pe-poignee {
+  cursor: grab;
+  font-size: 1.2rem;
+  color: #888;
+}
+.pe-etape-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.pe-resume {
+  font-size: 0.9rem;
+  color: #444;
+  margin: 0.3rem 0;
+}
+
+.pe-import-fichier {
+  display: none;
+}

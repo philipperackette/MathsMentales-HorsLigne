@@ -1,0 +1,14 @@
+<svg width='211' height='139' version='1.1' viewBox='0 0 211 139' xmlns='http://www.w3.org/2000/svg' class='svg-file'>
+<style>.svg-file path{fill:none;stroke-linecap:round;stroke:#000}.svg-file line{stroke:#000}.svg-file text{font-size:12px;text-align:center;text-anchor:middle}</style><path d='m182 23s-4 15-6.2 20c-1.3 4.2-6.6 16-8.2 20s-7.2 16-8.2 20c-1.6 3.9-4.2 16-5.2 20'/>
+<path d='m182 23s-14 8.9-20 12c-3.8 2.2-16 7.6-20 9.5s-16 7.2-20 9.5c-4.2 2-16 10-20 12-3.7 2.3-16 7.6-20 9.5s-16 7.3-20 9.5c-4.1 2-16 9.2-20 12l-20 12'/>
+<path d='m24 107s16-1.6 22-1.5c4.3-0.3 17 0.4 22 0.5s17 1 22 0.5c4.3 0.1 17-2.6 22-2.5 4.3-0.5 17 0.4 22 0.5s17 0.4 22 0.5'/>
+<path d='m48 94a25 25 0 0 1 2.9 11'/>
+<path d='m140 104a13 12 0 0 1 17-12'/>
+<path d='m142 105a11 11 0 0 1 15-11'/>
+<text x='187.43999' y='19.733'>${:A}</text>
+<text x='161.756' y='114.983'>${:B}</text>
+<text x='11.02299' y='115.48299'>${:C}</text>
+<text transform='rotate(-.51)' x='90.499733' y='118.54414'>${:BC} ${:u}</text>
+<text x='52.054996' y='100.84' style='font-size:10px;text-align:left;text-anchor:start'>${:angC}°</text>
+<text x='151.84998' y='89.714996' style='font-size:10px;text-align:end;text-anchor:end'>${:angB}°</text>
+</svg>

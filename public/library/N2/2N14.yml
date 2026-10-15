@@ -1,0 +1,75 @@
+title: Calculer avec des racines carrées
+description: >-
+  Simplifier une racine carrée, extraire un carré parfait, écrire sous la forme a√b,
+  produit de racines, somme et différence de racines, radicaux.
+dest: [2N1]
+type: latex
+valueType: racineSimplifiee
+consigne: Simplifier au maximum.
+keys: ["√", "-", "_", "_", "_", "_", "_", "_"]
+options:
+  - name: Simplifier $$a\sqrt{b}$$
+    vars:
+      r: [2, 3, 5, 6, 7, 10, 11]
+      k: "2_5"
+      a: "2_9"
+      n: "${:k**2*:r}"
+    question: ':a\sqrt{:n}'
+    answer: ':question = :a\times\sqrt{${:k**2}}\times\sqrt{:r} = :a\times :k\sqrt{:r} = \color{red}{${:a*:k}\sqrt{:r}}'
+    value: '${:a*:k}\sqrt{:r}'
+  - name: Produit $$\sqrt{a}\times\sqrt{b}$$
+    vars:
+      r: [2, 3, 5, 6, 7, 10]
+      s: [2, 3, 5, 6, 7, 10]
+      k: "1_4"
+      l: "2_4"
+      n: "${:k**2*:r}"
+      m: "${:l**2*:s}"
+    question: '\sqrt{:n}\times\sqrt{:m}'
+    answer: ':question = \sqrt{${:n*:m}} = \color{red}{${MMmath.simplifieRacine(:n*:m)}}'
+    value: '${MMmath.simplifieRacine(:n*:m)}'
+  - name: Produit $$a\sqrt{b}\times c\sqrt{d}$$
+    vars:
+      r: [2, 3, 5, 6, 7, 10]
+      s: [2, 3, 5, 6, 7, 10]
+      k: "1_3"
+      l: "1_3"
+      c: "2_5_2"
+      n: "${:k**2*:r}"
+      m: "${:l**2*:s}"
+    question: ':c[0]\sqrt{:n}\times :c[1]\sqrt{:m}'
+    answer: ':question = ${:c[0]*:c[1]}\sqrt{${:n*:m}} = \color{red}{${MMmath.simplifieRacine(:c[0]**2*:c[1]**2*:n*:m)}}'
+    value: '${MMmath.simplifieRacine(:c[0]**2*:c[1]**2*:n*:m)}'
+  - name: Somme ou différence $$a\sqrt{b}\pm c\sqrt{d}$$
+    vars:
+      r: [2, 3, 5, 6, 7]
+      k: "2_5_2_^&"
+      a: "1_5"
+      b: "1_5"
+      e: [1, -1]
+      n: "${:k[0]**2*:r}"
+      m: "${:k[1]**2*:r}"
+      p: "${:a*:k[0]}"
+      q: "${:b*:k[1]}"
+      t: "${:p + :e*:q}"
+      op: "${:e > 0 ? '+' : '-'}"
+      res: "${:t === 0 ? 0 : (:t < 0 ? '-' : '') + MMmath.simplifieRacine(:t**2 * :r)}"
+    question: '${MMmath.signIfOne(:a)}\sqrt{:n} :op ${MMmath.signIfOne(:b)}\sqrt{:m}'
+    answer: ':question = :p\sqrt{:r} :op :q\sqrt{:r} = \color{red}{:res}'
+    value: ':res'
+  - name: Somme de trois racines
+    vars:
+      r: [2, 3, 5, 6, 7]
+      k: "1_5_3_^&"
+      e: [1, -1]
+      f: [1, -1]
+      n0: "${:k[0]**2*:r}"
+      n1: "${:k[1]**2*:r}"
+      n2: "${:k[2]**2*:r}"
+      t: "${:k[0] + :e*:k[1] + :f*:k[2]}"
+      op1: "${:e > 0 ? '+' : '-'}"
+      op2: "${:f > 0 ? '+' : '-'}"
+      res: "${:t === 0 ? 0 : (:t < 0 ? '-' : '') + MMmath.simplifieRacine(:t**2 * :r)}"
+    question: '\sqrt{:n0} :op1 \sqrt{:n1} :op2 \sqrt{:n2}'
+    answer: ':question = ${MMmath.signIfOne(:k[0])}\sqrt{:r} :op1 ${MMmath.signIfOne(:k[1])}\sqrt{:r} :op2 ${MMmath.signIfOne(:k[2])}\sqrt{:r} = \color{red}{:res}'
+    value: ':res'

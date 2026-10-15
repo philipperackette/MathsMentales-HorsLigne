@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Automatismes en classe de 4e</title>
+        <style>
+            :root {
+                --accent: #2c6e9e;
+                --accent-light: #eaf3fa;
+                --border: #dde3e8;
+                --text: #23303a;
+                --muted: #8a97a1;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                margin: 0;
+                padding: 0 20px 40px;
+                color: var(--text);
+                background: #f7f9fb;
+            }
+            header {
+                padding: 30px 0 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+                margin: 0 0 4px;
+                color: var(--accent);
+            }
+            .subtitle {
+                color: var(--muted);
+                margin: 0 0 20px;
+                font-size: 0.95em;
+            }
+            .sommaire {
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 16px 24px;
+                margin-bottom: 24px;
+            }
+            .sommaire h2 {
+                font-size: 1.05em;
+                margin: 0 0 8px;
+            }
+            .sommaire ul {
+                columns: 3;
+                margin: 0;
+                padding-left: 18px;
+            }
+            .sommaire a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+            .sommaire a:hover {
+                text-decoration: underline;
+            }
+            .container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+                gap: 20px;
+            }
+            .tile {
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 16px 20px 18px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                transition: box-shadow 0.15s ease;
+            }
+            .tile:hover {
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            }
+            .tile h2 {
+                font-weight: bold;
+                margin: 0 0 10px;
+                font-size: 1.15em;
+                color: var(--accent);
+                border-bottom: 2px solid var(--accent-light);
+                padding-bottom: 8px;
+            }
+            .tile ul {
+                margin: 0;
+                padding-left: 0;
+                list-style: none;
+            }
+            .tile li {
+                padding: 7px 0;
+                border-bottom: 1px dashed var(--border);
+                line-height: 1.35;
+            }
+            .tile li:last-child {
+                border-bottom: none;
+            }
+            .tile a {
+                color: var(--text);
+                text-decoration: none;
+            }
+            .tile ul a::before {
+                content: "→ ";
+                color: var(--accent);
+                font-weight: bold;
+            }
+            .tile a:hover {
+                color: var(--accent);
+                text-decoration: underline;
+            }
+            .tile li.soon {
+                color: var(--muted);
+            }
+            .badge {
+                display: inline-block;
+                font-size: 0.72em;
+                color: var(--muted);
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                padding: 1px 8px;
+                margin-left: 4px;
+                vertical-align: middle;
+            }
+            footer {
+                margin-top: 30px;
+                color: var(--muted);
+                font-size: 0.85em;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Automatismes en classe de 4e</h1>
+            <p class="subtitle">
+                D'après le programme de mathématiques du cycle 4 (BO du 5 mars 2026).
+            </p>
+        </header>
+        <div class="sommaire">
+            <h2>Sommaire des thèmes</h2>
+            <ul>
+                <li><a href="#operations">Opérations sur les nombres relatifs</a></li>
+                <li><a href="#rationnels">Nombres rationnels</a></li>
+                <li><a href="#puissances">Puissances et racine carrée</a></li>
+                <li><a href="#litteral">Calcul littéral et algébrique</a></li>
+                <li><a href="#reperage">Repérage</a></li>
+                <li><a href="#espace">Solides et grandeurs</a></li>
+                <li><a href="#transformations">Parallélogrammes et transformations</a></li>
+                <li><a href="#triangles">Triangles</a></li>
+                <li><a href="#statistiques">Statistiques</a></li>
+                <li><a href="#proportions">Proportionnalité</a></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="tile">
+                <a name="operations"></a>
+                <h2>Opérations sur les nombres relatifs</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Sommes%20et%20diff%C3%A9rences&p=0~t=4e%20-%20Sommes%20et%20diff%C3%A9rences~c=1~o=true~d=normal~at=10_i=5NC13~o=0,1~q=0.-1.-2.-3.-4.-5.~t=8~n=2_i=5NC1~o=3,2,1~q=1.-2.-3.-5.~t=8~n=3_i=5NC14~o=2~q=0.-2.-3.-4.~t=8~n=1_i=5LN2~o=2~q=0.-1.-2.4,5~t=8~n=2_i=5NC2~o=0,1~q=0.-1.-2.~t=8~n=2" target="_blank" rel="noopener">Sommes et différences</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Oppos%C3%A9s&p=0~t=4e%20-%20Oppos%C3%A9s~c=1~o=true~d=normal~at=10_i=5LN2~o=0~q=0.1,2~t=8~n=2_i=5NA2~q=0.-1.-2.~t=8~n=6" target="_blank" rel="noopener">Nombres opposés</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Multiplications&p=0~t=4e%20-%20Multiplications~c=1~o=true~d=normal~at=10_i=6ND28~o=7,6,5~q=5.0,1,2-6.0,1,2-7.0,1,2~t=8~n=6_i=5NC5~o=0,1~q=0.-1.~t=8~n=4" target="_blank" rel="noopener">Tables de multiplication</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Multiplier%20Diviser%20par%2010%2C%20100%2C%201000&p=0~t=4e%20-%20Multiplier%20Diviser%20par%2010,%20100,%201000~c=1~o=true~d=normal~at=10_i=8NE4~o=0,1,2~q=0.-1.-2.-4.-5.-6.-7.-8.~t=8~n=2_i=6NE11~o=0,1,2~q=0.-1.-2.-4.-5.~t=8~n=2_i=8NE4~o=3,4,5~q=0.-1.-2.-3.-4.-5.-6.-7.-8.~t=8~n=2_i=6NE11~o=3,4,5~q=0.-1.-2.-3.-4.-5.~t=8~n=2_i=8NE2~q=0.-1.-2.-3.-4.-5.~t=8~n=2_i=8NE3~q=0.-1.-3.-4.-5.~t=8~n=2" target="_blank" rel="noopener">Multiplier et diviser par 10, 100, 1 000</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Quotient%20et%20multiplication&p=0~t=4e%20-%20Quotient%20et%20multiplication~c=1~o=true~d=normal~at=10_i=5NC16~q=0.-1.-2.-3.~t=8~n=5_i=5NC6~q=0.-1.-3.~t=8~n=3" target="_blank" rel="noopener">Quotient et multiplication</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="rationnels"></a>
+                <h2>Nombres rationnels</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Additionner%20soustraire%20des%20fractions&p=0~t=4e%20-%20Additionner%20soustraire%20des%20fractions~c=1~o=true~d=normal~at=10_i=5NC7~o=0,1~q=0.-1.~t=8~n=2_i=5NC7~o=2~q=0.-1.-2.0,1~t=8~n=2_i=5NC7~o=3~q=0.-1.-3.~t=8~n=2_i=5NC7~o=8~q=0.-1.-3.-8.~t=8~n=1_i=5NC8~o=2,4,7~q=2.-4.-7.~t=8~n=3" target="_blank" rel="noopener">Additionner et soustraire des fractions simples</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Comparer%20des%20fractions&p=0~t=4e%20-%20Comparer%20des%20fractions~c=1~o=true~d=normal~at=10_i=6NB4~q=0.-1.~t=8~n=2_i=6NB2~t=8~n=2_i=6NB3~o=0,1,4~q=0.-1.-4.~t=8~n=4_i=6NB8~q=0.-1.~t=8~n=2" target="_blank" rel="noopener">Comparer des fractions</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Fraction%20quotient&p=0~t=4e%20-%20Fraction%20quotient~c=1~o=true~d=normal~at=10_i=5NC16~q=0.-1.-2.-3.~t=8~n=5" target="_blank" rel="noopener">Fraction quotient</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Fraction%20d'un%20nombre&p=0~t=4e%20-%20Fraction%20d'un%20nombre~c=1~o=true~d=normal~at=10_i=7NB1~o=0~q=0.0,1~t=8~n=4_i=7NB1~o=1~q=1.0,1~t=8~n=3_i=7NB1~o=2~q=2.0,1~t=8~n=3" target="_blank" rel="noopener">Fraction d'un nombre</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="puissances"></a>
+                <h2>Puissances et racine carrée</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Carr%C3%A9s%20parfaits&p=0~t=4e%20-%20Carr%C3%A9s%20parfaits~c=1~o=true~d=normal~at=10_i=4NC1~o=1~q=1.0,1~t=8~n=5_i=4NC1~o=2~q=2.0,1~t=8~n=5" target="_blank" rel="noopener">Reconnaître les carrés parfaits de 0 à 12</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20%C3%89galit%C3%A9s%20du%20type%201200%3D1%2C2x...&p=0~t=4e%20-%20%C3%89galit%C3%A9s%20du%20type%201200=1,2x...~c=1~o=true~d=normal~at=10_i=4NE10~q=0.-1.-2.-3.~t=8~n=6">Compléter des égalités du type 1 200 = 1,2 × … </a></li>
+                    <li><a href="http://127.0.0.1:5500/src/wall.html?a=,fs=serif,t=4e%20%2d%20Puissances%20simples&p=0~t=4e%20-%20Puissances%20simples~c=1~o=true~d=normal~at=10_i=4NA6~o=0~q=0.~t=8~n=6_i=4NA5~o=0~q=0.~t=8~n=4">Connaître des puissances simples (2², 2³, 3³, 10², 10³)</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="litteral"></a>
+                <h2>Calcul littéral et algébrique</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Valeur%20d'une%20expression&p=0~t=4e%20-%20Valeur%20d'une%20expression~c=1~o=true~d=normal~at=10_i=6ND11~o=1,2,4,5~q=1.-2.-4.-5.~t=8~n=2_i=6ND12~o=3,2,1,5,0~q=0.-1.-2.-3.-5.~t=8~n=4_i=5NE3~o=0,1~q=0.-1.~t=8~n=2_i=5NE3~o=8,9~q=0.-1.-8.-9.~t=8~n=2_i=5NE3~o=2~q=0.-1.-2.-8.-9.~t=8~n=1_i=5NE3~o=4~q=0.-1.-2.-4.-8.-9.~t=8~n=1" target="_blank" rel="noopener">Valeur d'expressions numériques simples</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20%C3%89quations&p=0~t=4e%20-%20%C3%89quations~c=1~o=true~d=normal~at=10_i=4NE7~o=0,1~q=0.0-1.0~t=8~n=2_i=4NE6~o=0,1~q=0.0-1.0-2.~t=8~n=2_i=4NE8~o=0,1~q=0.-1.~t=8~n=4" target="_blank" rel="noopener">Résoudre des équations ax = c et x + b = c</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20R%C3%A9duire%20un%20produit&p=0~t=4e%20-%20R%C3%A9duire%20un%20produit~c=1~o=true~d=normal~at=10_i=5NE2~o=0,1~q=0.0,1-1.~t=8~n=2_i=5NE2~o=2,3,4,5~q=1.-2.0,1,2-3.0,1,2-4.0,1,2-5.0,1,2~t=8~n=4_i=5NE11~q=0.-2.-3.-4.~t=8~n=4" target="_blank" rel="noopener">Réduire un produit</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Traduire%20une%20expression&p=0~t=4e%20-%20Traduire%20une%20expression~c=1~o=true~d=normal~at=10_i=4NE10~q=0.-1.-2.-3.~t=8~n=6">Donner le double, le triple, la moitié, le prédécesseur, le successeur, le carré d'un nombre</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Tester%20une%20%C3%A9galit%C3%A9&p=0~t=4e%20-%20Tester%20une%20%C3%A9galit%C3%A9~c=1~o=true~d=normal~at=10_i=5NE4~q=0.-1.-2.-3.~t=8~n=6" target="_blank" rel="noopener">Tester si un nombre vérifie une égalité</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="reperage"></a>
+                <h2>Repérage</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Abscisse&p=0~t=4e%20-%20Abscisse~c=1~o=true~d=normal~at=10_i=5NA8~o=0,1,2,3,4,5~q=0.-1.-2.-3.-4.-5.~t=8~n=6_i=5NA10~o=0,1,2,3,4,5~q=0.-1.-2.-3.-4.-5.~t=8~n=6" target="_blank" rel="noopener">Lire et utiliser l'abscisse</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Coordonn%C3%A9es&p=0~t=4e%20-%20Coordonn%C3%A9es~c=1~o=true~d=normal~at=10_i=5GR2~q=0.-1.~t=8~n=2_i=5GR1~q=0.-1.~t=8~n=4" target="_blank" rel="noopener">Lire et utiliser les coordonnées d'un point</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="espace"></a>
+                <h2>Solides et grandeurs</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Reconna%C3%AEtre%20un%20solide&p=0~t=4e%20-%20Reconna%C3%AEtre%20un%20solide~c=1~o=true~d=normal~at=10_i=5GA4~o=0,1~q=0.-1.~t=8~n=4_i=5GA2~o=0,1~q=0.-1.~t=8~n=4" target="_blank" rel="noopener">Reconnaître un cube, un pavé, un cylindre, un prisme droit</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Volumes%20des%20solides&p=0~t=4e%20-%20Volumes%20des%20solides~c=1~o=true~d=normal~at=10_i=5LG2~o=2~q=2.0,1,2,4~t=8~n=4_i=5MA2~q=0.-1.-2.~t=8~n=3_i=5MA4~o=0,1~q=0.-1.-2.-3.~t=8~n=2" target="_blank" rel="noopener">Connaître et utiliser les formules de volume (cube, pavé, prisme, cylindre)</a></li>
+                    <li><a href="" target="_blank" rel="noopener">Reconnaître la base d'un prisme en perspective cavalière</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Aires%20des%20figures%20de%20base&p=0~t=4e%20-%20Aires%20des%20figures%20de%20base~c=1~o=true~d=normal~at=10_i=5LM1~o=2~q=2.0,1,3,4~t=8~n=4_i=6MC1~o=0,1,2,6,7,5~q=0.-1.-2.-5.-6.-7.~t=8~n=4" target="_blank" rel="noopener">Calculer l'aire des figures planes usuelles (triangle, rectangle, disque)</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="transformations"></a>
+                <h2>Parallélogrammes et transformations</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Reconna%C3%AEtre%20la%20sym%C3%A9trie&p=0~t=4e%20-%20Reconna%C3%AEtre%20la%20sym%C3%A9trie~c=1~o=true~d=normal~at=10_i=5GT2~o=0,1~q=0.-1.~t=8~n=8" target="_blank" rel="noopener">Dire si deux figures sont images l'une de l'autre par symétrie axiale ou demi-tour</a></li>
+                    <li><a href="https://mathsmentales.net/diaporama.html?a=,fs=serif,i=321,e=correction,o=no,s=1,so=h,f=n,colors=,snd=null&p=0~t=Diapo%201~c=1~o=false~d=normal~at=10_i=6GD9~q=0.-2.-4.-8.~t=8~n=4_i=5GT5~q=1.-4.-6.-7.~t=8~n=4_i=5GT6~q=5.-7.~t=8~n=2" target="_blank" rel="noopener">Déterminer l'image d'une figure, d'une droite, d'un segment ou d'un point par symétrie axiale ou demi-tour</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Reconna%C3%AEtre%20un%20parall%C3%A9logramme&p=0~t=4e%20-%20Reconna%C3%AEtre%20un%20parall%C3%A9logramme~c=1~o=false~d=normal~at=10_i=5GB8~o=0~q=0.-1.-2.-3.-4.~t=8~n=4_i=5GB10~o=0,1,2,6,7~q=0.-1.-2.-3.-4.-5.-6.-7.~t=8~n=4" target="_blank" rel="noopener">Reconnaître un parallélogramme grâce à sa définition ou à une propriété caractéristique</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Reconna%C3%AEtre%20un%20quadrilat%C3%A8re%20particulier&p=0~t=4e%20-%20Reconna%C3%AEtre%20un%20quadrilat%C3%A8re%20particulier~c=1~o=true~d=normal~at=10_i=5GB8~o=3,2,1,0~q=0.-1.-2.-3.-4.~t=8~n=4_i=5GB10~o=3,4,5,0,1~q=0.-1.-2.-3.-4.-5.~t=8~n=4" target="_blank" rel="noopener">Reconnaître un parallélogramme particulier grâce à ses propriétés caractéristiques</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="triangles"></a>
+                <h2>Triangles</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Propri%C3%A9t%C3%A9s%20du%20triangle&p=0~t=4e%20-%20Propri%C3%A9t%C3%A9s%20du%20triangle~c=1~o=true~d=normal~at=10_i=5LG3~o=0,1~q=0.3,4,5,6-1.2~t=8~n=3_i=5GB3~q=0.-1.-2.~t=8~n=3_i=5GB2~o=2,0,1~q=0.-1.-2.-3.-4.~t=8~n=2" target="_blank" rel="noopener">Connaitre les propriétés des triangles.</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Droites%20remarquables%20du%20triangle&p=0~t=4e%20-%20Droites%20remarquables%20du%20triangle~c=1~o=true~d=normal~at=10_i=5GB9~o=0,1,3,2,4,5,10,11,12,13~q=0.-1.-2.-3.-4.-5.-10.-11.-12.-13.~t=8~n=8" target="_blank" rel="noopener">Reconnaître les droites remarquables (médiatrices, médianes, hauteurs, bissectrices)</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="statistiques"></a>
+                <h2>Statistiques</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Statistiques%20%3A%20moyenne&p=0~t=4e%20-%20Statistiques%20:%20moyenne~c=1~o=true~d=normal~at=10_i=5LD1~o=0,1~q=0.3-1.0,2~t=8~n=3_i=5DA2~o=0~q=0.~t=8~n=3" target="_blank" rel="noopener">Calculer une moyenne pour un très petit nombre de valeurs</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Statistiques%20%3A%20tableau&p=0~t=4e%20-%20Statistiques%20:%20tableau~c=1~o=true~d=normal~at=10_i=6DA3~q=0.-1.~t=8~n=2_i=6DA5~q=0.-1.-2.-4.~t=8~n=4" target="_blank" rel="noopener">Calculer un effectif manquant dans un tableau pour un petit nombre de valeurs</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Statistiques%20%3A%20fr%C3%A9quence&p=0~t=4e%20-%20Statistiques%20:%20fr%C3%A9quence~c=1~o=true~d=normal~at=10_i=5LD1~o=0,1~q=0.3-1.0,1~t=8~n=3_i=5DA3~q=0.-1.-2.-3.~t=8~n=4" target="_blank" rel="noopener">Calculer une fréquence simple</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="proportions"></a>
+                <h2>Proportionnalité</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Calcul%20de%20pourcentages&p=0~t=4e%20-%20Calcul%20de%20pourcentages~c=1~o=true~d=normal~at=10_i=5NA7~o=0,1,4~q=0.0,1-1.0,1-4.0,1~t=8~n=4_i=5NC10~o=0,2,4,7,8~q=0.0,1-2.0,1-4.0,1-7.0,1-8.0,1~t=8~n=4" target="_blank" rel="noopener">Calculer a % de c pour a = 100 %, 50 %, 25 %, 10 % ou 1 %</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=4e%20%2d%20Autour%20des%20pourcentages&p=0~t=4e%20-%20Autour%20des%20pourcentages~c=1~o=true~d=normal~at=10_i=5NA5~q=0.-1.-2.~t=8~n=4_i=4DC3~q=0.-1.-2.-3.-4.~t=8~n=6" target="_blank" rel="noopener">Compléter des calculs de pourcentage (20 % de 120 = … ; 30 = … % de 100)</a></li>
+                </ul>
+            </div>
+        </div>
+        <footer>
+            Les entrées marquées « bientôt » n'ont pas encore d'activité
+            correspondante dans la bibliothèque MathsMentales.
+        </footer>
+    </body>
+</html>

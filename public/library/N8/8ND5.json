@@ -1,0 +1,48 @@
+{
+    "title":"Double, triple, quadruple / moitié, tiers, quart : relier deux nombres",
+    "description":"Relier deux nombres : double, triple, quadruple, moitié, tiers, quart, multiple, diviseur. Non adapté au mode interactif (online/duel).",
+    "ID":"8ND5",
+    "type":"text",
+    "speech":1,
+    "keys":["dbl","trpl","qdpl","_","moit","tiers","qrt","_"],
+    "textSize":"medium",
+    "dest":["8ND","7ND","6ND"],
+    "vars":{
+        "k":"2_4",
+        "n":"2_20",
+        "p":"${:n*:k}",
+        "mot":"${:k==2?'double':(:k==3?'triple':'quadruple')}",
+        "motd":"${:k==2?'moitié':(:k==3?'tiers':'quart')}",
+        "artd":"${:k==2?'la':'le'}"
+    },
+    "options":[
+        {
+            "name":"Multiple : double, triple, quadruple",
+            "question":[
+                "Complète : $$${:p}$$ est le … de $$${:n}$$.",
+                "$$${:p}$$, est-il le double, le triple ou le quadruple de $$${:n}$$ ?"
+            ],
+            "audio":[
+                "${:p} est le combien de ${:n} ? Double, triple ou quadruple ?",
+                "${:p}, est-il le double, le triple ou le quadruple de ${:n} ?"
+            ],
+            "shortq":["$$${:p}$$ est le … de $$${:n}$$","$$${:p}$$ est le … de $$${:n}$$"],
+            "answer":"$$${:p}=${:n}\\times ${:k}$$ donc ${:p} est le <span class='red'>${:mot}</span> de ${:n}.",
+            "value":["${:mot}","le ${:mot}"]
+        },
+        {
+            "name":"Diviseur : moitié, tiers, quart",
+            "question":[
+                "Complète : $$${:n}$$ est … de $$${:p}$$.",
+                "$$${:n}$$, est-il la moitié, le tiers ou le quart de $$${:p}$$ ?"
+            ],
+            "audio":[
+                "${:n} est quelle part de ${:p} ? La moitié, le tiers ou le quart ?",
+                "${:n}, est-il la moitié, le tiers ou le quart de ${:p} ?"
+            ],
+            "shortq":["$$${:n}$$ est … de $$${:p}$$","$$${:n}$$ est … de $$${:p}$$"],
+            "answer":"$$${:n}=${:p}\\div ${:k}$$ donc ${:n} est <span class='red'>${:artd} ${:motd}</span> de ${:p}.",
+            "value":["${:motd}","${:artd} ${:motd}"]
+        }
+    ]
+}

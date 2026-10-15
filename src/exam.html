@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr" id="thehtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            /*MMentales*/
+            @page {
+                size: A4 portrait;
+                margin: 0.8cm;
+            }
+        </style>
+        <title>Interrogation MathsMentales</title>
+        <link rel="stylesheet" href="css/exam.css" type="text/css" />
+        <link rel="stylesheet" href="js/libs/katex/katex.min.css" />
+        <link rel="stylesheet" href="css/mm-katex.css" />
+        <script
+            type="module"
+            src="js/lib.exam.js?v=2.0.34"
+            id="mmscriptid"
+        ></script>
+    </head>
+    <body size="A4">
+        <div class="noprint" style="text-align: center">
+            <button
+                onclick="window.print()"
+                title="Imprimer ou enregistrer en pdf"
+                style="width: 70pt; height: 18pt"
+            >
+                🖨️ Imprimer
+            </button>
+            <button
+                id="pageOrientation"
+                title="Change l'orientation de la page"
+            >
+                paysage
+            </button>
+            (mettre les marges à zéro)
+        </div>
+        <div id="creator-container">
+            <section id="creator-menu" class="noprint">
+                <span class="radios-oui-non">
+                    Encart réponse :
+                    <input type="radio" name="encart" value="oui" id="encart-oui" checked />
+                    <label for="encart-oui">oui</label>
+                    <input type="radio" name="encart" value="non" id="encart-non" />
+                    <label for="encart-non">non</label>
+                </span>
+                | Énoncés :
+                <input
+                    type="number"
+                    min="1"
+                    id="nbFiches"
+                    size="3"
+                    title="Nombre de fiches à générer"
+                />
+                <button
+                    id="fichesSeparation"
+                    title="Regrouper ou Séparer les fiches d’interro"
+                >
+                    Séparer
+                </button>
+                <span class="radios-oui-non">
+                    Fusionner questions :
+                    <input type="radio" name="fusion" value="oui" id="fusion-oui" />
+                    <label for="fusion-oui">oui</label>
+                    <input type="radio" name="fusion" value="non" id="fusion-non" checked />
+                    <label for="fusion-non">non</label>
+                </span>
+                |
+                <span class="radios-oui-non">
+                    Corrigé :
+                    <input type="radio" name="corrige" value="oui" id="corrige-oui" checked />
+                    <label for="corrige-oui">oui</label>
+                    <input type="radio" name="corrige" value="non" id="corrige-non" />
+                    <label for="corrige-non">non</label>
+                </span>
+                <span id="btpCorrigePlace" class="hidden">
+                    <span class="radios-oui-non">
+                    Saut de page :
+                    <input type="radio" name="sautpage" value="oui" id="sautpage-oui" />
+                    <label for="sautpage-oui">oui</label>
+                    <input type="radio" name="sautpage" value="non" id="sautpage-non" checked />
+                    <label for="sautpage-non">non</label>
+                </span>
+                </span>
+                | Police : <span id="fontSize"></span>
+            </section>
+            <section id="tab-accueil" class="noprint"></section>
+            <section id="creator-content"></section>
+        </div>
+    </body>
+</html>

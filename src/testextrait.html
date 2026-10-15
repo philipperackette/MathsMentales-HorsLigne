@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Brevet 2025 – Liens cliquables</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;margin:2rem;}
+  h2{margin-top:2rem;}
+  ul{list-style-type:none;padding-left:0;}
+  li{margin:0.4rem 0;}
+  a{color:#0066cc;cursor:pointer;text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  #log{margin-top:1.5rem;font-family:monospace;background:#f8f8f8;padding:0.8rem;border:1px solid #ddd;}
+</style>
+</head>
+<body>
+<h1>Brevet 2025 – Liste de liens</h1>
+
+<div id="content"></div>
+
+<h2>Log (exemple de ce que la fonction reçoit)</h2>
+<pre id="log"></pre>
+
+<script>
+/* ────────────────────────────────────────────────────────
+   1. Extraction des paires i / o
+   ──────────────────────────────────────────────────────── */
+function extractIoPairs(url) {
+  const query = url.split('?')[1] ?? '';
+  const iMatches = [...query.matchAll(/i=([^~]*)/g)];
+  const oMatches = [...query.matchAll(/o=([^~]*)/g)];
+
+  const pairs = [];
+  let oIndex = 0;
+
+  for (const iMatch of iMatches) {
+    const iVal = iMatch[1];
+    const iPos  = iMatch.index;
+
+    let oVal = null;
+    for (; oIndex < oMatches.length; oIndex++) {
+      const oMatch = oMatches[oIndex];
+      if (oMatch.index > iPos) { oVal = oMatch[1]; break; }
+    }
+
+    pairs.push({ i: iVal, o: oVal });
+  }
+  return pairs;
+}
+
+/* ────────────────────────────────────────────────────────
+   2. Fonction appelée lorsqu’on clique sur un lien
+   ──────────────────────────────────────────────────────── */
+function handleLink(iArray, oArray) {
+  // Ici vous pouvez faire ce que vous voulez avec les tableaux
+  // Exemple : afficher dans le <pre id="log">
+  const logEl = document.getElementById('log');
+  logEl.textContent = JSON.stringify({ iArray, oArray }, null, 2);
+}
+
+/* ────────────────────────────────────────────────────────
+   3. Traitement du fichier HTML
+   ──────────────────────────────────────────────────────── */
+async function processContent(htmlText) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlText, 'text/html');
+
+  const resultContainer = document.getElementById('content');
+  resultContainer.innerHTML = ''; // vide
+
+  // On parcourt tous les <h2>
+  const headings = doc.querySelectorAll('h2');
+  let first = true
+  headings.forEach(h2 => {
+    if (first) {
+        first = false
+        return
+    }
+    // Clone le titre (et le ajoute au résultat)
+    const h2Clone = h2.cloneNode(true);
+    resultContainer.appendChild(h2Clone);
+
+    // On suppose que la <ul> vient juste après le <h2>
+    const ul = h2.parentNode.nextElementSibling;
+    if (ul && ul.tagName === 'UL') {
+      const ulClone = ul.cloneNode(false); // clone uniquement la balise UL
+      // On va construire les <li> à partir des liens
+      ul.querySelectorAll('li').forEach(li => {
+        const a = li.querySelector('a');
+        if (!a) return; // pas de lien
+
+        const originalHref = a.getAttribute('href');
+        const pairs = extractIoPairs(originalHref);
+        // On sépare les valeurs i et o dans deux tableaux
+        const iArray = pairs.map(p => p.i).filter(Boolean);
+        const oArray = pairs.map(p => p.o).filter(Boolean);
+
+        // Crée un nouveau <a> cliquable
+        const newA = document.createElement('a');
+        newA.textContent = a.textContent;
+        newA.href = '#';
+        newA.addEventListener('click', e => {
+          e.preventDefault();
+          handleLink(iArray, oArray);
+        });
+
+        // Crée le <li> et l’ajoute
+        const liClone = document.createElement('li');
+        liClone.appendChild(newA);
+        ulClone.appendChild(liClone);
+      });
+      resultContainer.appendChild(ulClone);
+    }
+  });
+}
+
+/* ────────────────────────────────────────────────────────
+   4. Chargement via HTTP (si le fichier est servi)
+   ──────────────────────────────────────────────────────── */
+async function loadFromServer() {
+  try {
+    const res = await fetch('brevet-2025.html', { cache: 'no-store' });
+    if (!res.ok) throw new Error('Impossible de charger brevet-2025.html');
+    const text = await res.text();
+    await processContent(text);
+  } catch (err) {
+    console.error(err);
+    alert('Erreur lors du chargement du fichier. Essayez le bouton « Charger ».');
+  }
+}
+
+/* ────────────────────────────────────────────────────────
+   5. Lancement automatique si le fichier est sur le serveur
+   ──────────────────────────────────────────────────────── */
+loadFromServer();
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+title: Vues d'un empilement de cubes
+description: "Reconnaitre ou dessiner la vue de face, arrière, de gauche, de droite, de dessus ou de dessous d'un solide formé de cubes empilés, sans aucun cube caché. Options « Dessiner une vue » non adaptées au mode interactif (online/duel)."
+type: text
+ID: 5GA3
+repeat: 2
+dest:
+  - 5GA
+consts:
+  mots: ["face", "arrière", "droite", "gauche", "dessus", "dessous"]
+  prose: ["de face", "arrière", "de droite", "de gauche", "de dessus", "de dessous"]
+  viewColor: "#222222"
+consigne: >-
+  Sur le dessin en perspective, La flèche montre la vue de face.
+vars:
+  h0: "2_4"
+  h1: "1_${:h0}"
+  h3: "1_${:h0}"
+  h2: "0_${:h1}"
+  hc: "0_${Math.min(:h3,:h1)}"
+  h6: "0_${:h3}"
+  h5: "0_${Math.min(:hc,:h2)}"
+  h7: "0_${Math.min(:h6,:hc)}"
+  h8: "0_${Math.min(:h7,:h5)}"
+  # cols[c][r] : hauteur de la colonne de profondeur c (c=0 arrière, c=2 avant)
+  # et de position latérale r. Pour l'observateur de face (flèche), r=0 est la
+  # colonne à sa DROITE et r=2 celle à sa GAUCHE (sur le dessin en perspective,
+  # r=0 apparaît à gauche de l'écran).
+  # La plus haute colonne est h0 (arrière, r=0), la plus éloignée de
+  # l'observateur : les hauteurs décroissent vers lui, donc aucun cube n'est caché.
+  cols:
+    - [["${:h0}","${:h1}","${:h2}"],["${:h3}","${:hc}","${:h5}"],["${:h6}","${:h7}","${:h8}"]]
+  # silhouettes : hx[r] vue en regardant selon l'axe avant-arrière, hy[c] selon l'axe gauche-droite
+  hx:
+    - ["${Math.max(:cols[0][0],:cols[1][0],:cols[2][0])}", "${Math.max(:cols[0][1],:cols[1][1],:cols[2][1])}", "${Math.max(:cols[0][2],:cols[1][2],:cols[2][2])}"]
+  hy:
+    - ["${Math.max(:cols[0][0],:cols[0][1],:cols[0][2])}", "${Math.max(:cols[1][0],:cols[1][1],:cols[1][2])}", "${Math.max(:cols[2][0],:cols[2][1],:cols[2][2])}"]
+  k: "0_5"
+  # V3 : hauteurs (0 à 4) des 3 barres de la vue :k, uniquement pour les 4
+  # premières vues (avant/arrière/droite/gauche) ; inutilisé pour dessus/dessous.
+  V3:
+    - ["${(:k==0)?:hx[2]:((:k==1)?:hx[0]:((:k==2)?:hy[2]:((:k==3)?:hy[0]:0)))}","${(:k==0)?:hx[1]:((:k==1)?:hx[1]:((:k==2)?:hy[1]:((:k==3)?:hy[1]:0)))}","${(:k==0)?:hx[0]:((:k==1)?:hx[2]:((:k==2)?:hy[0]:((:k==3)?:hy[2]:0)))}"]
+  # signature de chacune des six vues, dans l'ordre de :mots
+  vues:
+    -
+      - "${'B'+:hx[2]+','+:hx[1]+','+:hx[0]}"
+      - "${'B'+:hx[0]+','+:hx[1]+','+:hx[2]}"
+      - "${'B'+:hy[2]+','+:hy[1]+','+:hy[0]}"
+      - "${'B'+:hy[0]+','+:hy[1]+','+:hy[2]}"
+      - "${(function(){var M=[];for(var a=0;a<3;a++){M.push([]);for(var b=0;b<3;b++){M[a].push(:cols[2-a][2-b]>0?1:0);}}var mA=3,xA=-1,mB=3,xB=-1;for(var a=0;a<3;a++){for(var b=0;b<3;b++){if(M[a][b]){if(a<mA)mA=a;if(a>xA)xA=a;if(b<mB)mB=b;if(b>xB)xB=b;}}}var rows=[];for(var a=mA;a<=xA;a++){var row='';for(var b=mB;b<=xB;b++){row+=M[a][b];}rows.push(row);}return 'G'+(xA-mA+1)+'x'+(xB-mB+1)+':'+rows.join('/');})()}"
+      - "${(function(){var M=[];for(var a=0;a<3;a++){M.push([]);for(var b=0;b<3;b++){M[a].push(:cols[a][2-b]>0?1:0);}}var mA=3,xA=-1,mB=3,xB=-1;for(var a=0;a<3;a++){for(var b=0;b<3;b++){if(M[a][b]){if(a<mA)mA=a;if(a>xA)xA=a;if(b<mB)mB=b;if(b>xB)xB=b;}}}var rows=[];for(var a=mA;a<=xA;a++){var row='';for(var b=mB;b<=xB;b++){row+=M[a][b];}rows.push(row);}return 'G'+(xA-mA+1)+'x'+(xB-mB+1)+':'+rows.join('/');})()}"
+  # deux vues différentes peuvent donner exactement la même figure : on accepte alors les deux réponses
+  matchs: "${(function(){var o=[];for(var i=0;i<6;i++){if(:vues[i]===:vues[:k]){o.push(:mots[i]);}}return o.join('|');})()}"
+  note: "${(function(){var o=[];for(var i=0;i<6;i++){if(:vues[i]===:vues[:k]&&i!=:k){o.push(:prose[i]);}}if(o.length<1){return '';}return ' Ici, la vue '+o.join(' et la vue ')+' donne la même figure : cette réponse est aussi acceptée.';})()}"
+options:
+  - &reconnaitre
+    name: "Reconnaitre une vue : de face"
+    vars:
+      k: [0]
+    question: |-
+      Quelle vue du solide est dessinée en gris ?
+    shortq: Quelle vue est en gris ?
+    answer: |-
+      C'est la vue <span class="red">${:prose[:k]}</span>.${:note}
+    value:
+      - "${:mots[:k]}"
+      - "${:matchs.split('|')[0]}"
+      - "${:matchs.split('|')[Math.min(1,:matchs.split('|').length-1)]}"
+      - "${:matchs.split('|')[Math.min(2,:matchs.split('|').length-1)]}"
+    figure:
+      type: graph3Dcubes
+      boundingbox: [-5,8,5,0]
+      axis: false
+      grid: false
+      content:
+        - colors: ["#cccccc","#cccccc","#0072B2","#E1712B","#cccccc","#f2f2f2"]
+        - cubeincomplet: ["left","${:h0}","${:h1}","${:h2}","${:h3}","${:hc}","${:h5}","${:h6}","${:h7}","${:h8}"]
+        - polyedre: {"poly":[[[7.5, 3.2, 0], [7, 3.7, 0], [7.3,3.7,0],[7.3,5.2,0],[7.7,5.2,0],[7.7,3.7,0], [8, 3.7, 0]],[[0,1,2,3,4,5,6]]],"options":{"fillColorArray":["#56b4e9"]}}
+        - regularpolygon: {"poly":[[2,3],[3,3],4],"options":{"visible":"${(:k<4)?((0<:V3[0])?true:false):((:k==4)?((:cols[2][2]>0)?true:false):((:cols[0][2]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,3],[4,3],4],"options":{"visible":"${(:k<4)?((0<:V3[1])?true:false):((:k==4)?((:cols[2][1]>0)?true:false):((:cols[0][1]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,3],[5,3],4],"options":{"visible":"${(:k<4)?((0<:V3[2])?true:false):((:k==4)?((:cols[2][0]>0)?true:false):((:cols[0][0]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[2,4],[3,4],4],"options":{"visible":"${(:k<4)?((1<:V3[0])?true:false):((:k==4)?((:cols[1][2]>0)?true:false):((:cols[1][2]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,4],[4,4],4],"options":{"visible":"${(:k<4)?((1<:V3[1])?true:false):((:k==4)?((:cols[1][1]>0)?true:false):((:cols[1][1]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,4],[5,4],4],"options":{"visible":"${(:k<4)?((1<:V3[2])?true:false):((:k==4)?((:cols[1][0]>0)?true:false):((:cols[1][0]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[2,5],[3,5],4],"options":{"visible":"${(:k<4)?((2<:V3[0])?true:false):((:k==4)?((:cols[0][2]>0)?true:false):((:cols[2][2]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,5],[4,5],4],"options":{"visible":"${(:k<4)?((2<:V3[1])?true:false):((:k==4)?((:cols[0][1]>0)?true:false):((:cols[2][1]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,5],[5,5],4],"options":{"visible":"${(:k<4)?((2<:V3[2])?true:false):((:k==4)?((:cols[0][0]>0)?true:false):((:cols[2][0]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[2,6],[3,6],4],"options":{"visible":"${(:k<4)?((3<:V3[0])?true:false):false}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,6],[4,6],4],"options":{"visible":"${(:k<4)?((3<:V3[1])?true:false):false}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,6],[5,6],4],"options":{"visible":"${(:k<4)?((3<:V3[2])?true:false):false}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+  - <<: *reconnaitre
+    name: "Reconnaitre une vue : de dessus"
+    vars:
+      k: [4]
+  - <<: *reconnaitre
+    name: "Reconnaitre une vue : de gauche ou de droite"
+    vars:
+      k: [2,3]
+  - <<: *reconnaitre
+    name: "Reconnaitre une vue : arrière ou de dessous"
+    vars:
+      k: [1,5]
+  - &dessiner
+    name: "Dessiner une vue : de face"
+    vars:
+      k: [0]
+    question: |-
+      Voici un empilement de cubes.<br>Sur un quadrillage dessine la vue <b>${:prose[:k]}</b>.
+    shortq: "Dessine la vue ${:prose[:k]}"
+    answer: "Voici la vue ${:prose[:k]} attendue :"
+    figure:
+      type: graph3Dcubes
+      boundingbox: [-5,8,5,0]
+      axis: false
+      grid: false
+      content:
+        - colors: ["#cccccc","#cccccc","#0072B2","#E1712B","#cccccc","#f2f2f2"]
+        - cubeincomplet: ["left","${:h0}","${:h1}","${:h2}","${:h3}","${:hc}","${:h5}","${:h6}","${:h7}","${:h8}"]
+        - polyedre: {"poly":[[[7.5, 3.2, 0], [7, 3.7, 0], [7.3,3.7,0],[7.3,5.2,0],[7.7,5.2,0],[7.7,3.7,0], [8, 3.7, 0]],[[0,1,2,3,4,5,6]]],"options":{"fillColorArray":["#56b4e9"]}}
+    figureCorrection:
+      type: graph3Dcubes
+      boundingbox: [-5,8,5,0]
+      axis: false
+      grid: false
+      content:
+        - colors: ["#cccccc","#cccccc","#0072B2","#E1712B","#cccccc","#f2f2f2"]
+        - cubeincomplet: ["left","${:h0}","${:h1}","${:h2}","${:h3}","${:hc}","${:h5}","${:h6}","${:h7}","${:h8}"]
+        - polyedre: {"poly":[[[7.5, 3.2, 0], [7, 3.7, 0], [7.3,3.7,0],[7.3,5.2,0],[7.7,5.2,0],[7.7,3.7,0], [8, 3.7, 0]],[[0,1,2,3,4,5,6]]],"options":{"fillColorArray":["#56b4e9"]}}
+        - regularpolygon: {"poly":[[2,3],[3,3],4],"options":{"visible":"${(:k<4)?((0<:V3[0])?true:false):((:k==4)?((:cols[2][2]>0)?true:false):((:cols[0][2]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,3],[4,3],4],"options":{"visible":"${(:k<4)?((0<:V3[1])?true:false):((:k==4)?((:cols[2][1]>0)?true:false):((:cols[0][1]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,3],[5,3],4],"options":{"visible":"${(:k<4)?((0<:V3[2])?true:false):((:k==4)?((:cols[2][0]>0)?true:false):((:cols[0][0]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[2,4],[3,4],4],"options":{"visible":"${(:k<4)?((1<:V3[0])?true:false):((:k==4)?((:cols[1][2]>0)?true:false):((:cols[1][2]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,4],[4,4],4],"options":{"visible":"${(:k<4)?((1<:V3[1])?true:false):((:k==4)?((:cols[1][1]>0)?true:false):((:cols[1][1]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,4],[5,4],4],"options":{"visible":"${(:k<4)?((1<:V3[2])?true:false):((:k==4)?((:cols[1][0]>0)?true:false):((:cols[1][0]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[2,5],[3,5],4],"options":{"visible":"${(:k<4)?((2<:V3[0])?true:false):((:k==4)?((:cols[0][2]>0)?true:false):((:cols[2][2]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,5],[4,5],4],"options":{"visible":"${(:k<4)?((2<:V3[1])?true:false):((:k==4)?((:cols[0][1]>0)?true:false):((:cols[2][1]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,5],[5,5],4],"options":{"visible":"${(:k<4)?((2<:V3[2])?true:false):((:k==4)?((:cols[0][0]>0)?true:false):((:cols[2][0]>0)?true:false))}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[2,6],[3,6],4],"options":{"visible":"${(:k<4)?((3<:V3[0])?true:false):false}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[3,6],[4,6],4],"options":{"visible":"${(:k<4)?((3<:V3[1])?true:false):false}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+        - regularpolygon: {"poly":[[4,6],[5,6],4],"options":{"visible":"${(:k<4)?((3<:V3[2])?true:false):false}", "borders":{"strokeColor":"#000000"}, "fillColor":"${:viewColor}", "vertices":{"visible":false}}}
+  - <<: *dessiner
+    name: "Dessiner une vue : de dessus"
+    vars:
+      k: [4]
+  - <<: *dessiner
+    name: "Dessiner une vue : de gauche ou de droite"
+    vars:
+      k: [2,3]
+  - <<: *dessiner
+    name: "Dessiner une vue : arrière ou de dessous"
+    vars:
+      k: [1,5]

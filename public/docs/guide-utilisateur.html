@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guide d'utilisation — MathsMentales</title>
+<link rel="icon" type="image/png" href="/favicon/favicon-48x48.png" sizes="48x48" />
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="description" content="Guide illustré pour prendre en main MathsMentales : trouver des activités, composer un panier, et le mettre en forme en diaporama, panneau, fiches imprimables ou jeux." />
+<style>
+  :root{
+    --bleu: #1d5fd1;
+    --bleu-clair: #eaf1fd;
+    --rose: #d6337e;
+    --rose-clair: #fce9f2;
+    --creme: #fdfbe9;
+    --encre: #1c2230;
+    --gris: #5b6472;
+    --gris-clair: #eef0f4;
+    --bord: #dde1e8;
+    --fond: #ffffff;
+    --rayon: 14px;
+    --ombre: 0 4px 18px rgba(28,34,48,.07), 0 1px 3px rgba(28,34,48,.06);
+    --largeur: 1100px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{transition:none !important;} }
+  :focus-visible{outline:3px solid var(--bleu); outline-offset:2px; border-radius:4px;}
+  .skip{
+    position:absolute; left:1rem; top:-4rem; z-index:100;
+    background:var(--bleu); color:#fff; padding:.6rem 1rem; border-radius:0 0 10px 10px;
+    font-weight:700; text-decoration:none;
+  }
+  .skip:focus{top:0; color:#fff;}
+  body{
+    margin:0;
+    background:var(--fond);
+    color:var(--encre);
+    font-family:"Nunito","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--bleu);}
+  a:hover{color:var(--rose);}
+  h1,h2,h3{font-family:"Baloo 2","Nunito",sans-serif; line-height:1.2; letter-spacing:.2px;}
+  p{margin:0 0 1em;}
+  img{max-width:100%; display:block;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      radial-gradient(1200px 420px at 12% -10%, rgba(29,95,209,.14), transparent 60%),
+      radial-gradient(1000px 380px at 90% 0%, rgba(214,51,126,.12), transparent 55%),
+      linear-gradient(180deg, #fbfcff 0%, #ffffff 100%);
+    border-bottom:1px solid var(--bord);
+  }
+  .hero-inner{
+    max-width:var(--largeur);
+    margin:0 auto;
+    padding:3.2rem 1.5rem 2.6rem;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-weight:800; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--rose);
+    background:var(--rose-clair);
+    padding:.4rem .8rem; border-radius:999px;
+    margin-bottom:1.1rem;
+  }
+  .hero h1{
+    font-size:clamp(2rem, 4.2vw, 2.9rem);
+    margin:0 0 .6rem;
+  }
+  .hero h1 .maths{color:var(--bleu);}
+  .hero h1 .mentales{color:var(--rose);}
+  .hero p.lead{
+    font-size:1.15rem; color:var(--gris); max-width:60ch; margin-bottom:1.6rem;
+  }
+  .hero-cta{display:flex; flex-wrap:wrap; gap:.8rem; margin-bottom:2.2rem;}
+  .btn{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-weight:700; font-size:.95rem;
+    padding:.7rem 1.3rem; border-radius:999px;
+    text-decoration:none; border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--bleu); color:#fff; box-shadow:0 6px 16px rgba(29,95,209,.28);}
+  .btn-primary:hover{color:#fff;}
+  .btn-ghost{background:#fff; color:var(--encre); border-color:var(--bord);}
+  .btn-ghost:hover{color:var(--encre); border-color:var(--gris);}
+
+  .stepper{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;
+  }
+  .step{
+    background:#fff; border:1px solid var(--bord); border-radius:var(--rayon);
+    padding:1.1rem 1.2rem; box-shadow:var(--ombre);
+  }
+  .step .num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:1.7rem; height:1.7rem; border-radius:50%;
+    background:var(--bleu-clair); color:var(--bleu); font-weight:800; font-size:.85rem;
+    margin-bottom:.6rem;
+  }
+  a.step{display:block; text-decoration:none; color:inherit; transition:transform .15s ease, box-shadow .15s ease;}
+  a.step:hover{transform:translateY(-2px); color:inherit; box-shadow:0 8px 22px rgba(28,34,48,.12);}
+  .step h3{font-size:1.02rem; margin:0 0 .25rem;}
+  .step p{font-size:.92rem; color:var(--gris); margin:0;}
+
+  /* ---------- layout ---------- */
+  .page{
+    max-width:var(--largeur); margin:0 auto; padding:0 1.5rem;
+    display:grid; grid-template-columns:220px 1fr; gap:3rem;
+  }
+  nav.toc{
+    position:sticky; top:1.5rem; align-self:start;
+    padding:1.6rem 0 3rem;
+    font-size:.92rem;
+  }
+  nav.toc .toc-title{
+    font-weight:800; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--gris); margin-bottom:.8rem;
+  }
+  nav.toc ol{list-style:none; margin:0; padding:0; counter-reset:toc;}
+  nav.toc li{margin-bottom:.15rem;}
+  nav.toc a{
+    display:block; counter-increment:toc;
+    color:var(--encre); text-decoration:none;
+    padding:.4rem .6rem; border-radius:8px; border-left:2px solid transparent;
+  }
+  nav.toc a::before{
+    content:counter(toc) ". "; color:var(--gris); font-weight:700; margin-right:.1rem;
+  }
+  nav.toc a:hover{background:var(--gris-clair); color:var(--bleu);}
+  nav.toc a.actif{background:var(--bleu-clair); color:var(--bleu); border-left-color:var(--bleu); font-weight:700;}
+  nav.toc .toc-aide{margin-top:1.4rem; padding-top:1rem; border-top:1px solid var(--bord); font-size:.85rem; color:var(--gris);}
+  nav.toc .toc-aide a{display:inline; padding:0; border:0; background:none; text-decoration:underline; color:var(--bleu); font-weight:400;}
+  nav.toc .toc-aide a::before{content:none;}
+
+  main{padding:2.6rem 0 4rem; min-width:0;}
+  section{margin-bottom:4.2rem; scroll-margin-top:1.5rem;}
+  section > .kicker{
+    font-weight:800; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--bleu); margin-bottom:.4rem;
+  }
+  section > h2{font-size:1.7rem; margin:0 0 .9rem;}
+  section > p.intro{color:var(--gris); font-size:1.04rem; max-width:70ch;}
+
+  .shot{
+    border:1px solid var(--bord); border-radius:var(--rayon);
+    box-shadow:var(--ombre); overflow:hidden; background:#f4f5f7;
+    margin:1.3rem 0;
+  }
+  .shot img{width:100%; height:auto; cursor:zoom-in;}
+  figure{margin:0;}
+  figcaption{
+    font-size:.86rem; color:var(--gris); margin-top:.6rem;
+    padding-left:.1rem;
+  }
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;}
+  .two-col.reverse .txt{order:2;}
+  .two-col .txt h3{margin-top:0;}
+
+  .callout{
+    background:var(--bleu-clair); border:1px solid #cfe0fa; border-radius:var(--rayon);
+    padding:1rem 1.2rem; font-size:.94rem; margin:1.2rem 0;
+  }
+  .callout strong{color:var(--bleu);}
+  .callout.rose{background:var(--rose-clair); border-color:#f4cfe1;}
+  .callout.rose strong{color:var(--rose);}
+
+  code, kbd{
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    background:var(--gris-clair); border-radius:5px; padding:.1em .4em; font-size:.88em;
+  }
+
+  /* format cards */
+  .format-hero{
+    display:grid; grid-template-columns:1fr 1.15fr; gap:2.2rem; align-items:center;
+    background:#fff; border:1px solid var(--bord); border-radius:18px;
+    padding:1.6rem; box-shadow:var(--ombre); margin-bottom:1.6rem;
+  }
+  .format-hero .shot{margin:0;}
+  .format-hero h3{font-size:1.25rem; margin:0 0 .5rem; display:flex; align-items:center; gap:.5rem;}
+  .format-hero .badge{
+    font-size:.68rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--gris-clair); color:var(--gris); padding:.25rem .55rem; border-radius:999px;
+  }
+  .format-hero p{color:var(--gris); font-size:.96rem;}
+  .format-hero ul{margin:.6rem 0 0; padding-left:1.15rem; color:var(--gris); font-size:.92rem;}
+  .format-hero li{margin-bottom:.25rem;}
+
+  .format-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.6rem;
+  }
+  .format-card{
+    border:1px solid var(--bord); border-radius:12px; padding:1rem 1.1rem;
+    background:#fff;
+  }
+  .format-card h4{margin:0 0 .3rem; font-size:.98rem;}
+  .format-card p{margin:0; font-size:.86rem; color:var(--gris);}
+  .format-card .tag{
+    display:inline-block; font-size:.68rem; font-weight:800; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--bleu); background:var(--bleu-clair);
+    padding:.15rem .5rem; border-radius:999px; margin-bottom:.5rem;
+  }
+  .format-card .tag.rose{color:var(--rose); background:var(--rose-clair);}
+  .format-card .tag.gris{color:var(--gris); background:var(--gris-clair);}
+
+  table.mini{border-collapse:collapse; width:100%; font-size:.9rem; margin:1rem 0;}
+  table.mini th, table.mini td{
+    border-bottom:1px solid var(--bord); padding:.55rem .5rem; text-align:left; vertical-align:top;
+  }
+  table.mini th{color:var(--gris); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em;}
+
+  footer{
+    border-top:1px solid var(--bord); padding:2.4rem 1.5rem 3rem; margin-top:2rem;
+    background:var(--gris-clair);
+  }
+  footer .inner{max-width:var(--largeur); margin:0 auto; display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between; align-items:flex-start;}
+  footer h4{margin:0 0 .6rem; font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; color:var(--gris);}
+  footer ul{list-style:none; margin:0; padding:0; font-size:.9rem;}
+  footer li{margin-bottom:.4rem;}
+  footer a{color:var(--encre); text-decoration:none;}
+  footer a:hover{color:var(--bleu);}
+  footer .brand{font-weight:800; color:var(--encre); margin-bottom:.4rem;}
+  footer .brand .maths{color:var(--bleu);} footer .brand .mentales{color:var(--rose);}
+
+
+  /* ---------- choix du format ---------- */
+  table.mini td:first-child{font-weight:600; width:48%;}
+  table.mini td a{font-weight:600;}
+
+  /* ---------- tutos vidéo ---------- */
+  .video-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin:1.4rem 0;}
+  .video-card{border:1px solid var(--bord); border-radius:var(--rayon); background:#fff; box-shadow:var(--ombre); overflow:hidden; display:flex; flex-direction:column;}
+  .video-frame{position:relative; aspect-ratio:16/9; background:var(--gris-clair);}
+  .video-frame iframe, .video-frame video{position:absolute; inset:0; width:100%; height:100%; border:0;}
+  .video-placeholder{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem;
+    background:repeating-linear-gradient(135deg, #f3f5f9 0 14px, #eceff5 14px 28px);
+    color:var(--gris); font-weight:700; font-size:.85rem;
+  }
+  .video-placeholder .play{
+    width:3rem; height:3rem; border-radius:50%; background:#fff; color:var(--bleu);
+    display:flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:var(--ombre);
+  }
+  .video-body{padding:1rem 1.1rem 1.2rem;}
+  .video-body h3{font-size:1rem; margin:0 0 .3rem;}
+  .video-body p{margin:0; font-size:.88rem; color:var(--gris);}
+  .video-body .tag{
+    display:inline-block; font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--rose); background:var(--rose-clair); padding:.15rem .5rem; border-radius:999px; margin-bottom:.5rem;
+  }
+
+  /* ---------- lightbox & retour en haut ---------- */
+  dialog#zoom{border:0; padding:0; background:transparent; max-width:96vw; max-height:96vh;}
+  dialog#zoom::backdrop{background:rgba(20,24,34,.8);}
+  dialog#zoom img{max-width:96vw; max-height:92vh; width:auto; height:auto; border-radius:10px; cursor:zoom-out; background:#fff;}
+  #haut{
+    position:fixed; right:1.2rem; bottom:1.2rem; z-index:30;
+    width:2.8rem; height:2.8rem; border-radius:50%; border:1px solid var(--bord);
+    background:#fff; color:var(--bleu); font-size:1.2rem; cursor:pointer; box-shadow:var(--ombre);
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  #haut.visible{opacity:1; pointer-events:auto;}
+
+  @media print{
+    .hero-cta, nav.toc, #haut, .skip, footer, .video-grid, .video-intro-cta{display:none !important;}
+    .page{display:block;}
+    section{break-inside:auto; margin-bottom:2rem;}
+    .shot, .format-hero, .format-card{break-inside:avoid; box-shadow:none;}
+  }
+
+  @media (max-width: 900px){
+    .page{display:block;}
+    nav.toc{
+      position:sticky; top:0; z-index:20; padding:.6rem 1.5rem; margin:0 -1.5rem;
+      background:rgba(255,255,255,.96); border-bottom:1px solid var(--bord);
+    }
+    nav.toc .toc-title, nav.toc .toc-aide{display:none;}
+    nav.toc ol{display:flex; gap:.4rem; overflow-x:auto; white-space:nowrap; padding-bottom:.2rem;}
+    nav.toc li{margin:0;}
+    nav.toc a{border:1px solid var(--bord); border-radius:999px; padding:.3rem .8rem; border-left-width:1px;}
+    nav.toc a.actif{border-color:var(--bleu);}
+    section{scroll-margin-top:4.5rem;}
+    .video-grid{grid-template-columns:1fr 1fr;}
+    .stepper{grid-template-columns:1fr;}
+    .format-hero, .two-col{grid-template-columns:1fr;}
+    .format-hero .shot{order:-1;}
+    .format-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width: 560px){
+    .format-grid, .video-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Guide d'utilisation</span>
+    <h1><span class="maths">Maths</span><span class="mentales">Mentales</span> — prendre l'outil en main</h1>
+    <p class="lead">Un générateur d'activités de calcul mental et d'automatismes à données aléatoires. Choisissez un niveau, composez un panier d'activités, et transformez-le en diaporama, panneau d'écran, fiche imprimable ou jeu — corrigé compris.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="../index.html">Ouvrir MathsMentales</a>
+      <a class="btn btn-ghost" href="#trouver">Lire le guide</a>
+      <a class="btn btn-ghost" href="#videos">Tutos vidéo (bientôt)</a>
+      <a class="btn btn-ghost" href="../about.html">À propos du projet</a>
+    </div>
+    <div class="stepper">
+      <a class="step" href="#trouver"><span class="num">1</span><h3>Trouver</h3><p>Choisissez un niveau ou cherchez une notion par mot-clé.</p></a>
+      <a class="step" href="#panier"><span class="num">2</span><h3>Composer</h3><p>Ajoutez une ou plusieurs activités à un panier, réglez durée et nombre de questions.</p></a>
+      <a class="step" href="#formats"><span class="num">3</span><h3>Mettre en forme</h3><p>Choisissez un format — diaporama, panneau, fiche, jeu — et lancez ou générez.</p></a>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <nav class="toc" aria-label="Sommaire">
+    <div class="toc-title">Sommaire</div>
+    <ol>
+      <li><a href="#trouver">Trouver une activité</a></li>
+      <li><a href="#panier">Composer un panier</a></li>
+      <li><a href="#formats">Les formats disponibles</a></li>
+      <li><a href="#consulter">Énoncé et corrigé</a></li>
+      <li><a href="#partager">Partager et retrouver</a></li>
+      <li><a href="#creer">Créer ses propres activités</a></li>
+      <li><a href="#videos">Tutoriels vidéo</a></li>
+      <li><a href="#ressources">Ressources &amp; aide</a></li>
+    </ol>
+    <p class="toc-aide"><a href="../index.html">Ouvrir MathsMentales</a><br><a href="#">Haut de page</a></p>
+  </nav>
+
+  <main id="contenu">
+
+    <section id="trouver">
+      <div class="kicker">Étape 1</div>
+      <h2>Trouver une activité</h2>
+      <p class="intro">La page d'accueil classe les activités par niveau — de la <strong>CP</strong> à la <strong>Terminale</strong> — en <em>École</em>, <em>Collège</em> et <em>Lycée</em>. Chaque carte de niveau indique le nombre d'activités disponibles ; les niveaux collège ont aussi un raccourci <strong>Automatismes</strong> (6e/5e/4e/3e) pour cibler directement les items travaillés pour le brevet.</p>
+
+      <figure class="shot"><img src="img/accueil.png" width="1400" height="851" alt="Page d'accueil de MathsMentales : bandeau des formats disponibles, champ de recherche et grille des niveaux École / Collège / Lycée."></figure>
+
+      <div class="two-col">
+        <div class="txt">
+          <h3>Parcourir par niveau et par chapitre</h3>
+          <p>Cliquer sur une carte de niveau ouvre l'onglet <strong>Rechercher</strong> : les activités y sont classées par domaine (Nombres et calculs, Grandeurs et mesures, Géométrie…) puis par chapitre, avec une case à cocher devant chaque activité pour l'ajouter au panier en cours.</p>
+          <p>Une icône 📣 signale une activité disponible avec version audio (lecture des questions, utile pour la dictée de nombres ou l'accessibilité). Une icône 📃 signale un automatisme figurant au BO (programme officiel).</p>
+        </div>
+        <div class="txt">
+          <h3>Chercher par mot-clé</h3>
+          <p>Le champ <strong>Chercher une activité</strong> (3 caractères minimum) accepte un mot-clé de notion (« fractions », « Pythagore »…) ou l'identifiant exact d'une activité (ex. <code>6ND6</code>), utile pour retrouver rapidement une ressource déjà repérée dans la bibliothèque.</p>
+        </div>
+      </div>
+
+      <figure class="shot"><img src="img/recherche-activites.png" width="1400" height="851" loading="lazy" alt="Onglet Rechercher : liste des activités du niveau 6e, classées par chapitre, avec cases à cocher pour les ajouter au panier."></figure>
+      <figcaption>Onglet <strong>Rechercher</strong> — parcours du niveau 6e par chapitre du programme.</figcaption>
+    </section>
+
+    <section id="panier">
+      <div class="kicker">Étape 2</div>
+      <h2>Composer un panier</h2>
+      <p class="intro">Une fois une ou plusieurs activités cochées, l'onglet <strong>Paramétrer</strong> permet de régler chacune (durée d'affichage, nombre de questions, variantes proposées), de les combiner dans un même panier, puis de choisir le format de sortie.</p>
+
+      <figure class="shot"><img src="img/parametrer-panier-rempli.png" width="1408" height="741" loading="lazy" alt="Onglet Paramétrer : réglages de l'activité 6ND19 à gauche, panier « Diapo 1 » au centre, grille des types d'usage à droite."></figure>
+      <figcaption>Le panier « Diapo 1 » contient l'activité 6ND19 (10 questions, 8 s d'affichage) ; à droite, la grille des formats disponibles.</figcaption>
+
+      <div class="two-col">
+        <div class="txt">
+          <h3>Réglages d'une activité</h3>
+          <p><strong>Durée d'affichage</strong> : à 0 seconde, l'enseignant garde la main sur le rythme (clic ou flèche pour avancer) ; au-delà, la diapositive change automatiquement.</p>
+          <p><strong>Nombre de questions</strong> tirées pour cette activité, et si l'activité propose plusieurs <strong>variantes</strong> (« Options »), lesquelles inclure dans le tirage.</p>
+        </div>
+        <div class="txt">
+          <h3>Jusqu'à 4 paniers en parallèle</h3>
+          <p>Les icônes de panier au-dessus de la liste permettent de créer jusqu'à <strong>4 paniers distincts</strong> — pratique pour une classe à plusieurs niveaux, ou pour préparer plusieurs séances d'avance. Chaque panier peut être vidé, dupliqué ou supprimé indépendamment.</p>
+          <p>Le réglage <strong>Tirage</strong> permet, pour un panier riche, de tirer au hasard un sous-ensemble de questions plutôt que de toutes les poser.</p>
+        </div>
+      </div>
+
+      <div class="callout"><strong>Astuce.</strong> Cliquer sur l'identifiant d'une activité dans le panier (ex. <code>6ND19</code>) ouvre son éditeur inline : on peut y ajuster question par question sans quitter la page.</div>
+    </section>
+
+    <section id="formats">
+      <div class="kicker">Étape 3</div>
+      <h2>Les formats disponibles</h2>
+      <p class="intro">Le même panier peut être mis en forme de quatorze façons différentes, groupées en trois familles : <strong>projeter</strong> en classe, <strong>imprimer</strong>, ou <strong>jouer en ligne</strong>. Cinq formats phares sont détaillés ci-dessous ; les neuf autres sont résumés dans la grille qui suit. Le choix se fait dans l'onglet <strong>Paramétrer</strong>, parmi les tuiles « Type d'usage ».</p>
+
+      <div class="format-hero" id="format-diaporama">
+        <figure class="shot"><img src="img/diaporama-lecture.png" width="1408" height="741" loading="lazy" alt="Diaporama MathsMentales en cours de lecture : une question de multiplication affichée en grand, barre de progression et contrôles de lecture en haut."></figure>
+        <div>
+          <h3>Diaporama <span class="badge">Projeter</span></h3>
+          <p>Le format historique de MathsMentales : les questions défilent en plein écran, au rythme choisi ou au clic. Corrigé, minuteur, effets sonores et zoom du texte sont accessibles depuis la barre du haut.</p>
+          <ul>
+            <li>Jusqu'à 4 diaporamas indépendants côte à côte, pour différencier selon les groupes.</li>
+            <li>Idéal pour le rituel de calcul mental en début de séance.</li>
+            <li>L'option <strong>Répondre en ligne</strong> (réglages du diaporama) permet aux élèves de saisir leurs réponses sur leur appareil.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="format-hero" id="format-panneau">
+        <figure class="shot"><img src="img/panneau-affichage.png" width="1408" height="741" loading="lazy" alt="Panneau d'activités MathsMentales : grille de dix questions affichées simultanément, chacune dans une case colorée avec un bouton corrigé masqué par un point d'interrogation."></figure>
+        <div>
+          <h3>Panneau <span class="badge">Projeter</span></h3>
+          <p>Toutes les questions d'un coup, en mur d'activités : chaque élève ou binôme avance à son rythme sur la question de son choix, et révèle le corrigé en cliquant sur le <code>?</code>.</p>
+          <ul>
+            <li>Adapté au travail en autonomie ou par ateliers.</li>
+            <li>Zoom, dé (tirage au sort d'une case) et édition rapide en haut de l'écran.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="format-hero" id="format-cartesflash">
+        <figure class="shot"><img src="img/cartesflash-affichage.png" width="1408" height="741" loading="lazy" alt="Cartes flash : deux colonnes de cartes à découper, question au recto et réponse en rouge au verso, avec réglages de taille et de mise en page en haut de la page."></figure>
+        <div>
+          <h3>Cartes flash <span class="badge">Imprimer</span></h3>
+          <p>Un jeu de cartes recto (question) / verso (réponse) prêt à imprimer et découper — pour réviser en autonomie, en atelier ou à la maison.</p>
+          <ul>
+            <li>Taille de carte, police et mise en page (portrait/paysage) réglables avant impression.</li>
+            <li>Réponse au format normal ou « courte », pour des cartes plus compactes.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="format-hero" id="format-duel">
+        <figure class="shot"><img src="img/duel-affichage.png" width="1408" height="741" loading="lazy" alt="Écran d'accueil du Duel MathsMentales, sur fond bleu et rose façon jeu vidéo, avec le choix du mode (Top score, Le dernier, La roulette, Le plus rapide, Coop) et les avatars des deux joueurs."></figure>
+        <div>
+          <h3>Duel <span class="badge">Jouer en ligne</span></h3>
+          <p>Un jeu à deux, sur une même tablette ou un même écran tactile partagé en deux zones : chaque joueur répond de son côté aux mêmes questions.</p>
+          <ul>
+            <li>Cinq modes de jeu : Top score, Le dernier, La roulette, Le plus rapide, Coop.</li>
+            <li>Pensé pour la manipulation tactile — bien à sa place en fin de séance ou en récréation mathématique.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="format-hero" id="format-exercices">
+        <figure class="shot"><img src="img/exercices-affichage.png" width="1408" height="741" loading="lazy" alt="Feuille d'exercices imprimable : dix questions numérotées de A à J, avec un bandeau « Correction des exercices » repliable en dessous."></figure>
+        <div>
+          <h3>Feuille d'exercices <span class="badge">Imprimer</span></h3>
+          <p>Une fiche papier classique, questions numérotées et corrigé replié en dessous (à déplier ou masquer selon l'usage : devoir, entraînement, fiche d'aide).</p>
+          <ul>
+            <li>Plusieurs versions (V1, V2…) générables pour éviter la triche entre copies voisines.</li>
+            <li>Mise en page ajustable avant impression ou export PDF.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top:2.4rem;">Quel format pour quel usage&nbsp;?</h3>
+      <table class="mini">
+        <tr><th>Je veux…</th><th>Format conseillé</th></tr>
+        <tr><td>lancer un rituel de début de séance, au rythme de la classe</td><td><a href="#format-diaporama">Diaporama</a></td></tr>
+        <tr><td>laisser les élèves avancer seuls ou en ateliers, sur un écran</td><td><a href="#format-panneau">Panneau</a></td></tr>
+        <tr><td>donner un devoir ou un entraînement papier</td><td><a href="#format-exercices">Feuille d'exercices</a></td></tr>
+        <tr><td>évaluer, avec place pour la réponse</td><td>Feuille d'interro, Ceintures de CM</td></tr>
+        <tr><td>préparer l'épreuve sans calculatrice du brevet</td><td>Course aux nombres</td></tr>
+        <tr><td>faire réviser en petits groupes, de façon ludique</td><td><a href="#format-cartesflash">Cartes flash</a>, Dominos, Puzzles, J'ai / qui a ?</td></tr>
+        <tr><td>proposer un jeu sur tablette ou ordinateur</td><td><a href="#format-duel">Duel</a>, Associations</td></tr>
+        <tr><td>retravailler la mise en page dans un traitement de texte</td><td>Document LibreOffice</td></tr>
+      </table>
+
+      <h3 id="autres-formats" style="margin-top:2.4rem;">Les neuf autres formats</h3>
+      <p class="intro" style="margin-bottom:0;">Même principe : sélectionner le panier, choisir la tuile, régler les quelques options propres au format, puis <strong>Générer</strong> ou <strong>Lancer</strong>.</p>
+      <div class="format-grid">
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>Feuille d'interro</h4>
+          <p>Comme la feuille d'exercices, mais avec des emplacements réservés pour écrire la réponse — pour une évaluation notée.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>Ceintures de CM</h4>
+          <p>Fiches de calcul mental progressives façon « ceintures », avec titre, seuil de réussite et corrigé positionnable avant ou après.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>Course aux nombres</h4>
+          <p>Feuille au format de l'épreuve « Course aux nombres » du brevet, questions courtes chronométrées.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>Document LibreOffice</h4>
+          <p>Export <code>.odt</code> éditable du panier, pour retravailler la mise en page dans un traitement de texte.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>J'ai / qui a ?</h4>
+          <p>Jeu de cartes en chaîne façon « loto » : chaque carte donne la réponse de la précédente et pose la question suivante.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>Dominos</h4>
+          <p>Dominos question/réponse à imprimer et découper, nombre de pièces et présence de doublons réglables.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>Puzzles</h4>
+          <p>Puzzle à reconstituer où chaque pièce associe une question à sa réponse.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag rose">Imprimer</span>
+          <h4>Fiche mémorisation</h4>
+          <p>Support de mémorisation (type fiche de résultats à connaître par cœur), en une ou deux versions selon la mise en page choisie.</p>
+        </div>
+        <div class="format-card">
+          <span class="tag">Jouer en ligne</span>
+          <h4>Associations</h4>
+          <p>Jeu de correspondance à la souris ou au doigt : relier chaque question à la bonne réponse à l'écran.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="consulter">
+      <div class="kicker">Étape 4</div>
+      <h2>Énoncé et corrigé</h2>
+      <p class="intro">Une fois le format lancé ou généré, les questions apparaissent dans l'onglet <strong>Énoncé</strong> et leurs réponses dans l'onglet <strong>Corrigé</strong>. Ces deux onglets restent grisés tant qu'aucun panier n'est rempli.</p>
+      <div class="two-col">
+        <div class="txt">
+          <h3>La clé de données</h3>
+          <p>Les nombres sont tirés au hasard à partir d'une <strong>clé de données</strong> affichée en haut de l'onglet. Avec la même clé, on retrouve exactement les mêmes questions : l'énoncé et le corrigé restent donc cohérents, et la clé fait partie de l'adresse partagée. Le <strong>dé</strong> à côté du champ tire une nouvelle clé.</p>
+        </div>
+        <div class="txt">
+          <h3>Annoter et recommencer</h3>
+          <p>Le <strong>crayon</strong> ouvre un espace d'annotation par-dessus l'énoncé ou le corrigé, pratique au tableau. Dans l'onglet Corrigé, deux boutons relancent la séance : <strong>avec de nouvelles données</strong> ou <strong>avec les mêmes</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="partager">
+      <div class="kicker">Diffuser</div>
+      <h2>Partager et retrouver une ressource</h2>
+      <p class="intro">Une fois un format généré, le bouton <strong>Adresse/QRCode</strong> copie un lien unique reconstituant exactement le même panier et les mêmes réglages — pratique pour le partager à des collègues, le coller dans un ENT, ou l'afficher en QR code pour que les élèves l'ouvrent sur leur propre appareil.</p>
+      <div class="callout rose"><strong>Inclusion dans un site.</strong> Un diaporama peut être intégré en <code>&lt;iframe&gt;</code> dans un site ou un Genially. En ajoutant <code>&amp;embed=https://votre-site.org</code> à l'adresse, MathsMentales renvoie au site hôte (via <code>postMessage</code>) le score et d'autres informations de session une fois l'activité terminée.</div>
+
+      <figure class="shot"><img src="img/historique.png" width="1408" height="741" loading="lazy" alt="Onglet Historique des paniers : barre de recherche, filtre par type, et message indiquant que l'historique est vide."></figure>
+      <figcaption>L'onglet <strong>Historique</strong> conserve les adresses des paniers préparés récemment.</figcaption>
+      <p>Le bouton <strong>→ Historique</strong>, présent sur chaque écran de format, range l'adresse générée dans cet onglet pour la retrouver plus tard sans repartir de zéro — utile en cours d'année pour ressortir une fiche préparée quelques semaines plus tôt.</p>
+    </section>
+
+    <section id="creer">
+      <div class="kicker">Pour aller plus loin</div>
+      <h2>Créer ses propres activités</h2>
+      <p class="intro">Au-delà des activités déjà présentes en bibliothèque, MathsMentales fournit un éditeur pour en écrire de nouvelles : la question et la réponse sont des gabarits dans lesquels des <strong>variables</strong> tirent des nombres aléatoires à chaque affichage, ce qui évite d'avoir à préparer des séries de questions à la main.</p>
+
+      <figure class="shot"><img src="img/editeur-yaml.png" width="1408" height="741" loading="lazy" alt="Éditeur d'activité MathsMentales en YAML : gabarit de départ à gauche (title, dest, vars, options…) et zone de visualisation à droite."></figure>
+      <figcaption>L'éditeur YAML — une syntaxe plus lisible que le JSON équivalent pour décrire une activité.</figcaption>
+
+      <table class="mini">
+        <tr><th>Champ</th><th>Rôle</th></tr>
+        <tr><td><code>title</code></td><td>Titre affiché dans la bibliothèque.</td></tr>
+        <tr><td><code>dest</code></td><td>Chapitres où l'activité doit apparaître (niveau + thème).</td></tr>
+        <tr><td><code>vars</code></td><td>Variables aléatoires utilisées par la question — un entier dans une plage, une décimale, une valeur piochée dans une liste…</td></tr>
+        <tr><td><code>question</code> / <code>answer</code></td><td>Gabarits de l'énoncé et de la réponse, qui référencent les variables déclarées.</td></tr>
+      </table>
+
+      <p>Une fois l'activité écrite et enregistrée dans <code>public/library/</code>, elle doit être intégrée à l'index de la bibliothèque (commande <code>node scan</code>) pour apparaître dans l'application. Le détail complet de la syntaxe des variables, des figures et des options est décrit dans le <a href="https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr/-/blob/master/README.md" target="_blank" rel="noopener">README du projet</a> et le guide de contribution.</p>
+    </section>
+
+    <section id="videos">
+      <div class="kicker">Bientôt</div>
+      <h2>Tutoriels vidéo</h2>
+      <p class="intro">Une série de courtes vidéos viendra compléter ce guide : une prise en main rapide, puis un tutoriel par grand usage. Cette page sera mise à jour au fur et à mesure de leur publication.</p>
+
+      <div class="video-grid">
+        <!-- Pour publier un tutoriel : remplacer le <div class="video-placeholder"> par
+             <iframe src="URL_DE_LA_VIDEO" title="Titre du tutoriel" allowfullscreen loading="lazy"></iframe>
+             (ou une balise <video controls src="...">), et remplacer le tag « Bientôt » par la durée. -->
+        <article class="video-card" id="video-prise-en-main">
+          <div class="video-frame"><div class="video-placeholder"><span class="play" aria-hidden="true">▶</span>Vidéo à venir</div></div>
+          <div class="video-body"><span class="tag">Bientôt</span><h3>Prise en main en quelques minutes</h3><p>Trouver une activité, remplir un panier et lancer un premier diaporama.</p></div>
+        </article>
+        <article class="video-card" id="video-paniers">
+          <div class="video-frame"><div class="video-placeholder"><span class="play" aria-hidden="true">▶</span>Vidéo à venir</div></div>
+          <div class="video-body"><span class="tag">Bientôt</span><h3>Paniers et réglages</h3><p>Combiner plusieurs activités, régler durée, nombre de questions, variantes et tirage.</p></div>
+        </article>
+        <article class="video-card" id="video-imprimer">
+          <div class="video-frame"><div class="video-placeholder"><span class="play" aria-hidden="true">▶</span>Vidéo à venir</div></div>
+          <div class="video-body"><span class="tag">Bientôt</span><h3>Imprimer : fiches, interros, cartes</h3><p>Feuille d'exercices, interro, cartes flash, ceintures et export LibreOffice.</p></div>
+        </article>
+        <article class="video-card" id="video-jeux">
+          <div class="video-frame"><div class="video-placeholder"><span class="play" aria-hidden="true">▶</span>Vidéo à venir</div></div>
+          <div class="video-body"><span class="tag">Bientôt</span><h3>Jeux et activités ludiques</h3><p>Panneau, Duel, Associations, dominos, puzzles et « J'ai / qui a ? ».</p></div>
+        </article>
+        <article class="video-card" id="video-partager">
+          <div class="video-frame"><div class="video-placeholder"><span class="play" aria-hidden="true">▶</span>Vidéo à venir</div></div>
+          <div class="video-body"><span class="tag">Bientôt</span><h3>Partager avec les élèves et les collègues</h3><p>Adresse, QR code, historique, intégration dans un ENT ou un site.</p></div>
+        </article>
+        <article class="video-card" id="video-creer">
+          <div class="video-frame"><div class="video-placeholder"><span class="play" aria-hidden="true">▶</span>Vidéo à venir</div></div>
+          <div class="video-body"><span class="tag">Bientôt</span><h3>Créer sa propre activité</h3><p>Écrire une activité dans l'éditeur YAML : variables, question, réponse, figure.</p></div>
+        </article>
+      </div>
+
+      <div class="callout rose video-intro-cta"><strong>Un tutoriel vous manque&nbsp;?</strong> Proposez un sujet sur la <a href="https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr/-/issues" target="_blank" rel="noopener">Forge</a> : les demandes les plus fréquentes passeront en priorité.</div>
+    </section>
+
+    <section id="ressources">
+      <div class="kicker">Pour finir</div>
+      <h2>Ressources et aide</h2>
+      <p class="intro">L'onglet <strong>Téléchargements</strong> regroupe les documents complémentaires publiés autour du projet : programmes officiels, fiches d'automatismes prêtes à distribuer par niveau, ceintures de calcul mental partagées par d'autres enseignants, et le lien vers le code source.</p>
+      <figure class="shot"><img src="img/telechargements.png" width="1408" height="741" loading="lazy" alt="Onglet Téléchargements : liens vers le code source, la documentation, les fiches d'automatismes par niveau pour la rentrée 2026, et les ceintures de calcul mental partagées par Laureen De-Buyzer."></figure>
+      <p>MathsMentales est un logiciel libre (licence Apache 2.0), développé et maintenu par un professeur de mathématiques avec l'aide de plusieurs collègues contributeurs. Le code source est hébergé sur la Forge des Communs Numériques Éducatifs, où <a href="https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr/-/issues" target="_blank" rel="noopener">bugs et suggestions</a> peuvent être signalés.</p>
+      <p>Une documentation PDF plus ancienne est toujours disponible : <a href="MathsMentales%20documentation.pdf" target="_blank" rel="noopener">MathsMentales documentation (PDF)</a>.</p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="inner">
+    <div>
+      <div class="brand"><span class="maths">Maths</span><span class="mentales">Mentales</span></div>
+      <p style="color:var(--gris); font-size:.9rem; max-width:36ch; margin:0;">Un outil libre et gratuit pour travailler les automatismes en mathématiques, du CP à la Terminale.</p>
+    </div>
+    <div>
+      <h4>Le site</h4>
+      <ul>
+        <li><a href="../index.html">Accueil MathsMentales</a></li>
+        <li><a href="../about.html">À propos</a></li>
+        <li><a href="../liste-des-exercices.html">Liste des exercices</a></li>
+        <li><a href="#videos">Tutoriels vidéo</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Projet</h4>
+      <ul>
+        <li><a href="https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr" target="_blank" rel="noopener">Code source (Forge)</a></li>
+        <li><a href="../docs/MathsMentales%20documentation.pdf" target="_blank" rel="noopener">Documentation PDF historique</a></li>
+        <li><a href="../mentions-legales.html">Mentions légales</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<button type="button" id="haut" aria-label="Retour en haut de page" title="Haut de page">↑</button>
+<dialog id="zoom" aria-label="Capture d'écran agrandie"><img alt=""></dialog>
+
+<script>
+(function(){
+  /* sommaire : mise en évidence de la section courante */
+  var liens = document.querySelectorAll('nav.toc ol a');
+  var sections = Array.prototype.map.call(liens, function(a){ return document.querySelector(a.getAttribute('href')); });
+  function majSommaire(){
+    var seuil = window.innerHeight * 0.3, courant = 0;
+    sections.forEach(function(sec, i){ if (sec && sec.getBoundingClientRect().top <= seuil) courant = i; });
+    liens.forEach(function(a, i){
+      a.classList.toggle('actif', i === courant);
+      if (i === courant) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    document.getElementById('haut').classList.toggle('visible', window.scrollY > 600);
+  }
+  window.addEventListener('scroll', majSommaire, {passive:true});
+  window.addEventListener('resize', majSommaire);
+  majSommaire();
+
+  document.getElementById('haut').addEventListener('click', function(){ window.scrollTo({top:0}); });
+
+  /* captures d'écran : clic pour agrandir */
+  var zoom = document.getElementById('zoom'), zimg = zoom.querySelector('img');
+  if (typeof zoom.showModal === 'function') {
+    document.querySelectorAll('.shot img').forEach(function(im){
+      im.addEventListener('click', function(){ zimg.src = im.src; zimg.alt = im.alt; zoom.showModal(); });
+    });
+    zoom.addEventListener('click', function(){ zoom.close(); });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+{
+    "title":"Relations entre 1, 1/10, 1/100 et 1/1000",
+    "ID":"6NC14",
+    "type":"text",
+    "description":"Relier les fractions décimales usuelles (1, un dixième, un centième, un millième)",
+    "speech":1,
+    "consts":{"mots":["un","un dixième","un centième","un millième"]},
+    "dest":["6NC"],
+    "consigne":"Compléter",
+    "options":[
+      {
+          "name":"Trouver le résultat, ×10 (cas simple)",
+          "vars":{
+              "kj":"0_2",
+              "ki":"${:kj+1}",
+              "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+              "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+              "diff":"${:ki-:kj}",
+              "op":"${:diff>0?'\\times':'\\div'}",
+              "mult":"${Math.pow(10,Math.abs(:diff))}",
+              "ujdec":"${MMmath.round(1/Math.pow(10,:kj),:kj)}"
+          },
+          "question":"$$${:ui} ${:op} ${:mult} = ~...$$",
+          "shortq":"$$${:ui} ${:op} ${:mult} = \\colorbox{#ECECEC}{\\quad}$$",
+          "audio":"${:mots[:ki]} ${:diff>0?'multiplié':'divisé'} par ${:mult} égale combien ?",
+          "answer":"$$${:ui} ${:op} ${:mult} = \\color{red}{${:uj}}$$",
+          "value":"${:ujdec}"
+      },
+      {
+          "name":"Trouver le résultat, ×100 ou 1000",
+          "vars":{
+              "kj":"0_2",
+              "ki":"${:kj+2}_3",
+              "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+              "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+              "diff":"${:ki-:kj}",
+              "op":"${:diff>0?'\\times':'\\div'}",
+              "mult":"${Math.pow(10,Math.abs(:diff))}",
+              "ujdec":"${MMmath.round(1/Math.pow(10,:kj),:kj)}"
+          },
+          "question":"$$${:ui} ${:op} ${:mult} = ~...$$",
+          "shortq":"$$${:ui} ${:op} ${:mult} = \\colorbox{#ECECEC}{\\quad}$$",
+          "audio":"${:mots[:ki]} ${:diff>0?'multiplié':'divisé'} par ${:mult} égale combien ?",
+          "answer":"$$${:ui} ${:op} ${:mult} = \\color{red}{${:uj}}$$",
+          "value":"${:ujdec}"
+      },
+      {
+          "name":"Trouver le résultat, ÷10 (cas simple)",
+          "vars":{
+              "ki":"0_2",
+              "kj":"${:ki+1}",
+              "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+              "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+              "diff":"${:ki-:kj}",
+              "op":"${:diff>0?'\\times':'\\div'}",
+              "mult":"${Math.pow(10,Math.abs(:diff))}",
+              "ujdec":"${MMmath.round(1/Math.pow(10,:kj),:kj)}"
+          },
+          "question":"$$${:ui} ${:op} ${:mult} = ~...$$",
+          "shortq":"$$${:ui} ${:op} ${:mult} = \\colorbox{#ECECEC}{\\quad}$$",
+          "audio":"${:mots[:ki]} ${:diff>0?'multiplié':'divisé'} par ${:mult} égale combien ?",
+          "answer":"$$${:ui} ${:op} ${:mult} = \\color{red}{${:uj}}$$",
+          "value":"${:ujdec}"
+      },
+      {
+          "name":"Trouver le résultat, ÷100 ou 1000",
+          "vars":{
+              "ki":"0_2",
+              "kj":"${:ki+2}_3",
+              "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+              "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+              "diff":"${:ki-:kj}",
+              "op":"${:diff>0?'\\times':'\\div'}",
+              "mult":"${Math.pow(10,Math.abs(:diff))}",
+              "ujdec":"${MMmath.round(1/Math.pow(10,:kj),:kj)}"
+          },
+          "question":"$$${:ui} ${:op} ${:mult} = ~...$$",
+          "shortq":"$$${:ui} ${:op} ${:mult} = \\colorbox{#ECECEC}{\\quad}$$",
+          "audio":"${:mots[:ki]} ${:diff>0?'multiplié':'divisé'} par ${:mult} égale combien ?",
+          "answer":"$$${:ui} ${:op} ${:mult} = \\color{red}{${:uj}}$$",
+          "value":"${:ujdec}"
+      },
+    {
+        "name":"Multiplier par 10 (cas simple, croissant)",
+        "vars":{
+            "kj":"0_2",
+            "ki":"${:kj+1}",
+            "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+            "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+            "diff":"${:ki-:kj}",
+            "op":"${:diff>0?'\\times':'\\div'}",
+            "mult":"${Math.pow(10,Math.abs(:diff))}"
+        }
+    },
+    {
+        "name":"Multiplier par 100 ou 1000 (croissant)",
+        "vars":{
+            "kj":"0_2",
+            "ki":"${:kj+2}_3",
+            "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+            "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+            "diff":"${:ki-:kj}",
+            "op":"${:diff>0?'\\times':'\\div'}",
+            "mult":"${Math.pow(10,Math.abs(:diff))}"
+        }
+    },
+    {
+        "name":"Diviser par 10 (cas simple, décroissant)",
+        "vars":{
+            "ki":"0_2",
+            "kj":"${:ki+1}",
+            "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+            "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+            "diff":"${:ki-:kj}",
+            "op":"${:diff>0?'\\times':'\\div'}",
+            "mult":"${Math.pow(10,Math.abs(:diff))}"
+        }
+    },
+    {
+        "name":"Diviser par 100 ou 1000 (décroissant)",
+        "vars":{
+            "ki":"0_2",
+            "kj":"${:ki+2}_3",
+            "ui":"${:ki===0?'1':'\\dfrac{1}{'+Math.pow(10,:ki)+'}'}",
+            "uj":"${:kj===0?'1':'\\dfrac{1}{'+Math.pow(10,:kj)+'}'}",
+            "diff":"${:ki-:kj}",
+            "op":"${:diff>0?'\\times':'\\div'}",
+            "mult":"${Math.pow(10,Math.abs(:diff))}"
+        }
+    }
+    ],
+    "question":"$$${:ui} ${:op} ~...~ = ~${:uj}$$",
+    "shortq":"$$${:ui} ${:op} \\colorbox{#ECECEC}{\\quad} = ${:uj}$$",
+    "audio":"${:mots[:ki]} ${:diff>0?'multiplié':'divisé'} par combien égale ${:mots[:kj]} ?",
+    "answer":"$$${:ui} ${:op} \\color{red}{${:mult}} = ${:uj}$$",
+    "value":"${:mult}"
+}

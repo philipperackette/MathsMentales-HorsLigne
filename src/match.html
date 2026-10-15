@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MathsMentales – Associations</title>
+        <link rel="stylesheet" href="css/match.css" />
+        <link rel="stylesheet" href="js/libs/katex/katex.min.css" />
+        <link rel="stylesheet" href="css/mm-katex.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">✕ MathMentales - Associations</div>
+            <div class="subtitle">Associe les questions à leur réponses</div>
+        </header>
+
+        <div class="score-bar">
+            <div class="hearts" id="hearts"></div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="score-label" id="scoreLabel">0 / 0</div>
+            <div id="chrono"></div>
+        </div>
+
+        <div class="game-container">
+            <div class="columns"></div>
+            <div class="result-banner" id="resultBanner">
+                <div class="result-emoji" id="resultEmoji"></div>
+                <div class="result-title" id="resultTitle"></div>
+                <div class="result-sub" id="resultSub"></div>
+                <button class="btn-primary" id="nextBtn">Continuer →</button>
+            </div>
+        </div>
+        <div class="toast" id="toast"></div>
+        <script
+            src="js/lib.match.js?v=2.3.0"
+            type="module"
+            id="mmscriptid"
+        ></script>
+    </body>
+</html>

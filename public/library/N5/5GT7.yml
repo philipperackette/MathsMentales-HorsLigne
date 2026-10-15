@@ -1,0 +1,366 @@
+title: "Frises et pavages : reconnaitre la transformation qui mène d’un motif à l’autre"
+description: "frise, pavage, transformation, symétrie, translation, rotation, motif"
+ID: 5GT7
+type: text
+textSize: medium
+# l’énoncé de la frise est toujours le même mot pour mot, et il n’y a que trois
+# réponses possibles : la déduplication stricte n’en laisserait passer que trois.
+# repeat:3 tolère la répétition, mais pas trois fois de suite la même réponse.
+repeat: 3
+dest:
+  - 5GT
+  - 4GT
+  - 3GT
+consts:
+  # énoncé et énoncé court, selon qu’il s’agit d’une frise ou d’un pavage
+  enonce:
+    - "Cette frise est faite d’un motif répété.<br>Quelle transformation permet de passer d’un motif au motif voisin ?<br />(symétrie axiale, symétrie centrale ou autre transformation)"
+    - "Quelle transformation permet de passer du motif $$:numA$$ au motif $$:numB$$ ?<br />(symétrie axiale, symétrie centrale ou autre transformation)"
+  court:
+    - "Du motif au motif voisin : quelle transformation ?"
+    - "Du motif $$:numA$$ au motif $$:numB$$ : quelle transformation ?"
+  transf: ["symétrie axiale", "symétrie centrale", "autre transformation"]
+  # explication, dans le même ordre. Le dernier cas se dédouble : le motif est
+  # seulement décalé (translation), ou retourné puis décalé (symétrie glissée).
+  pourquoi:
+    - "L’axe est la droite ${:memeLigne?'verticale':'horizontale'} située à mi-chemin entre les deux motifs : chacun est le reflet de l’autre."
+    - "Le centre est le point situé à mi-chemin entre deux points qui se correspondent : un demi-tour amène un motif sur l’autre."
+    - "Les deux motifs sont orientés de la même façon : on passe de l’un à l’autre en le faisant glisser, sans le retourner. C’est une translation."
+    - "Le motif est bien retourné, mais il est aussi décalé le long de l’axe : aucun axe ne convient, le reflet tomberait à côté. C’est une symétrie axiale suivie d’une translation, ce qu’on appelle une symétrie glissée."
+  # ── motifs, six sommets dans une case de 2 sur 2. Aucun n'a d'axe de
+  # symétrie ni de centre : sinon un motif retourné se confondrait avec un
+  # motif seulement décalé, et la question n'aurait plus de réponse unique.
+  motifs:
+    # drapeau
+    - [[0.45, 0.25], [0.85, 0.25], [0.85, 0.95], [1.75, 1.3], [0.85, 1.65], [0.85, 1.8]]
+    # équerre
+    - [[0.3, 0.3], [1.75, 0.3], [1.75, 0.75], [0.85, 0.75], [0.85, 1.75], [0.3, 1.75]]
+    # éclair
+    - [[0.45, 0.25], [1.35, 0.25], [0.95, 0.95], [1.75, 0.95], [0.55, 1.8], [0.85, 1.05]]
+    # fanion
+    - [[0.3, 0.35], [1.8, 0.9], [1.15, 1.05], [1.5, 1.75], [0.75, 1.35], [0.35, 1.5]]
+    # marche
+    - [[0.3, 0.25], [1.1, 0.25], [1.1, 0.9], [1.75, 0.9], [1.75, 1.75], [0.3, 1.15]]
+    # crosse
+    - [[0.35, 0.3], [0.95, 0.3], [0.95, 1.25], [1.5, 1.25], [1.75, 1.8], [0.35, 1.55]]
+  # ── nature de la frise ou du pavage : [a, b, c, d] donne le retournement
+  # gauche-droite fx = a·colonne + b·ligne et le retournement bas-haut
+  # fy = c·colonne + d·ligne, modulo 2.
+  natures:
+    - [0, 0, 0, 0] # translations
+    - [1, 0, 0, 0] # axes verticaux
+    - [0, 0, 0, 1] # axes horizontaux
+    - [1, 1, 1, 1] # demi-tours
+    - [1, 0, 0, 1] # axes dans les deux sens
+    - [0, 0, 1, 0] # glissée horizontale
+    - [0, 1, 0, 0] # glissée verticale
+  # ── natures tirées, avec leur poids : frise puis pavage
+  friseNat: [0, 1, 1, 3, 3, 5]
+  pavNat: [0, 1, 2, 3, 3, 3, 4, 4, 4, 4]
+  # pavage à tuiles jointives sans trou : la nature 4 en est écartée, aucun
+  # contour ne se raccorde en se retournant dans les deux sens à la fois
+  pavNat1: [0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3]
+  # ── tuiles jointives, dans l'ordre où l'activité les choisit :
+  # 0 frise sans trou, 1 à 4 pavage sans trou (translations, axes verticaux,
+  # axes horizontaux, demi-tours), 5 tuile entaillée, qui laisse des trous et
+  # convient à toutes les natures. Toutes ramenées à 16 sommets, le dernier
+  # répété au besoin.
+  tuiles:
+    # AF — natures 0, 1, 3, 5
+    - [[0, 0], [0.5, 0.35], [1.2, -0.3], [2, 0], [2, 2], [1.4, 2.4], [0.7, 1.75], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2]]
+    # A0 — natures 0
+    - [[0, 0], [0.6, 0.3], [1.3, -0.25], [2, 0], [2.3, 0.6], [1.75, 1.35], [2, 2], [1.3, 1.75], [0.6, 2.3], [0, 2], [-0.25, 1.35], [0.3, 0.6], [0.3, 0.6], [0.3, 0.6], [0.3, 0.6], [0.3, 0.6]]
+    # A1 — natures 1
+    - [[0, 0], [0.6, 0.35], [1.3, -0.3], [2, 0], [2, 2], [1.3, 1.7], [0.6, 2.35], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2], [0, 2]]
+    # A2 — natures 2
+    - [[0, 0], [2, 0], [2.35, 0.6], [1.7, 1.3], [2, 2], [0, 2], [-0.3, 1.3], [0.35, 0.6], [0.35, 0.6], [0.35, 0.6], [0.35, 0.6], [0.35, 0.6], [0.35, 0.6], [0.35, 0.6], [0.35, 0.6], [0.35, 0.6]]
+    # A3 — natures 3
+    - [[0, 0], [0.55, 0.4], [1.45, -0.4], [2, 0], [2.35, 0.5], [1.65, 1.5], [2, 2], [1.3, 2.45], [0.7, 1.55], [0, 2], [-0.3, 1.4], [0.3, 0.6], [0.3, 0.6], [0.3, 0.6], [0.3, 0.6], [0.3, 0.6]]
+    # AT — natures 0, 1, 2, 3, 4, 5, 6
+    - [[0, 0], [0.6, 0], [0.85, 0.7], [1.4, 0], [2, 0], [2, 0.55], [1.35, 1.15], [2, 1.45], [2, 2], [1.4, 2], [1.2, 1.65], [0.6, 2], [0, 2], [0, 1.45], [0.25, 0.9], [0, 0.55]]
+  # débordement maximal d'un contour hors de sa case
+  debord: 0.45
+  # ── numérotations : les six cases numérotées, dans l'ordre des numéros
+  numeros:
+    - [0, 1, 5, 6, 10, 11]
+    - [3, 2, 6, 5, 9, 8]
+    - [1, 2, 4, 7, 8, 11]
+    - [0, 4, 5, 9, 10, 6]
+    - [2, 3, 7, 6, 11, 10]
+    - [1, 0, 4, 5, 9, 8]
+  # ── couples de numéros proposés : des cases voisines, côte à côte, l'une
+  # sur l'autre ou en diagonale. Numéros donnés par leur rang, de 0 à 5.
+  couples:
+    - [[0, 1], [1, 0], [2, 3], [1, 2], [2, 1], [3, 4], [0, 2], [1, 3]]
+    - [[0, 1], [1, 0], [2, 3], [1, 2], [2, 1], [3, 4], [0, 2], [1, 3]]
+    - [[0, 1], [1, 0], [2, 4], [3, 5], [4, 2], [0, 2], [1, 3], [2, 0]]
+    - [[1, 2], [2, 1], [2, 5], [0, 1], [1, 0], [2, 3], [0, 2], [1, 3]]
+    - [[0, 1], [1, 0], [2, 3], [0, 3], [1, 2], [2, 1], [0, 2], [1, 3]]
+    - [[0, 1], [1, 0], [2, 3], [0, 3], [1, 2], [2, 1], [0, 2], [1, 3]]
+vars:
+  # ─── pav : 0 pour la frise, 1 pour le pavage. fam : 0 motifs séparés,
+  # 1 tuiles jointives pavant sans trou, 2 tuiles jointives laissant des trous.
+  # Les deux sont fixés par l’option. Quand les tuiles sont jointives, la tuile
+  # est le motif : il n’y a rien de dessiné dessus.
+  pav: 0
+  fam: 0
+  # ─── la grille des cases, de deux unités de côté. La frise est une seule
+  # ligne de cinq cases, le pavage quatre colonnes sur trois lignes. x0 et y0
+  # sont le coin en haut à gauche du dessin.
+  nc: ${:pav===1?4:5}
+  nr: ${:pav===1?3:1}
+  x0: ${-:nc}
+  y0: ${:nr}
+  # ─── motif séparé tiré, et ses six sommets dans la case
+  mo: "0_5"
+  mx1: ${:motifs[:mo][0][0]}
+  my1: ${:motifs[:mo][0][1]}
+  mx2: ${:motifs[:mo][1][0]}
+  my2: ${:motifs[:mo][1][1]}
+  mx3: ${:motifs[:mo][2][0]}
+  my3: ${:motifs[:mo][2][1]}
+  mx4: ${:motifs[:mo][3][0]}
+  my4: ${:motifs[:mo][3][1]}
+  mx5: ${:motifs[:mo][4][0]}
+  my5: ${:motifs[:mo][4][1]}
+  mx6: ${:motifs[:mo][5][0]}
+  my6: ${:motifs[:mo][5][1]}
+  # ─── nature de la frise ou du pavage. Le pavage de tuiles jointives sans trou
+  # puise dans une liste à part : la nature qui retourne dans les deux sens à la
+  # fois n’a pas de tuile qui s’y raccorde.
+  inat: "0_${:pav===1?(:fam===1?12:9):5}"
+  nat: ${:pav===1?(:fam===1?:pavNat1[:inat]::pavNat[:inat])::friseNat[:inat]}
+  # les quatre coefficients, lus un à un : une variable qui vaudrait le tableau
+  # entier serait relue comme la chaine « 1,0,0,0 » et ses crochets ne
+  # renverraient plus que des caractères.
+  ka: ${:natures[:nat][0]}
+  kb: ${:natures[:nat][1]}
+  kc: ${:natures[:nat][2]}
+  kd: ${:natures[:nat][3]}
+  # ─── tuile employée. Une tuile ne se raccorde pas dans tous les sens : à
+  # chaque nature la sienne (voir tools/tables-5GT7.mjs). La tuile entaillée,
+  # elle, convient partout, ses bords ne se touchant que par des segments droits.
+  ol: ${:fam===2?5:(:pav===0?0:(:nat===0?1:(:nat===1?2:(:nat===2?3:4))))}
+  # ─── numérotation et couple proposé. Sur le pavage jointif sans trou, seuls
+  # les couples alignés sont proposés (les six premiers) : en diagonale, la
+  # réponse y serait presque toujours « autre transformation ».
+  # La frise ne numérote rien : la question y porte sur deux cases voisines
+  # quelconques, la 1re et la 2e feront l’affaire puisque le voisinage y est
+  # partout le même.
+  il: "0_5"
+  ico: "0_${:fam===1?5:7}"
+  rgA: ${:pav===1?:couples[:il][:ico][0]:0}
+  rgB: ${:pav===1?:couples[:il][:ico][1]:0}
+  numA: ${:rgA+1}
+  numB: ${:rgB+1}
+  csA: ${:pav===1?:numeros[:il][:rgA]:0}
+  csB: ${:pav===1?:numeros[:il][:rgB]:1}
+  colA: ${:csA%:nc}
+  ligA: ${Math.floor(:csA/:nc)}
+  colB: ${:csB%:nc}
+  ligB: ${Math.floor(:csB/:nc)}
+  # ─── retournements des deux cases comparées, et transformation qui en découle
+  fxA: ${(:ka*:colA+:kb*:ligA)%2}
+  fyA: ${(:kc*:colA+:kd*:ligA)%2}
+  fxB: ${(:ka*:colB+:kb*:ligB)%2}
+  fyB: ${(:kc*:colB+:kd*:ligB)%2}
+  dfx: ${:fxA!==:fxB}
+  dfy: ${:fyA!==:fyB}
+  memeLigne: ${:ligA===:ligB}
+  memeCol: ${:colA===:colB}
+  # 0 axiale, 1 centrale, 2 autre. Les deux retournements à la fois font toujours
+  # un demi-tour ; un seul fait une symétrie axiale s’il n’y a pas de décalage le
+  # long de l’axe, et une symétrie glissée sinon.
+  rep: ${(:dfx&&:dfy)?1:(((:dfx&&:memeLigne)||(:dfy&&:memeCol))?0:2)}
+  glis: ${(:dfx||:dfy)&&!(:dfx&&:dfy)}
+  # rang de l’explication : le cas « autre » se dédouble
+  expl: ${:rep<2?:rep:(:glis?3:2)}
+  # ─── colonne, ligne et retournements de chacune des douze cases. Les cases
+  # au delà de nc·nr ne sont pas dessinées.
+  co0: ${0%:nc}
+  li0: ${Math.floor(0/:nc)}
+  co1: ${1%:nc}
+  li1: ${Math.floor(1/:nc)}
+  co2: ${2%:nc}
+  li2: ${Math.floor(2/:nc)}
+  co3: ${3%:nc}
+  li3: ${Math.floor(3/:nc)}
+  co4: ${4%:nc}
+  li4: ${Math.floor(4/:nc)}
+  co5: ${5%:nc}
+  li5: ${Math.floor(5/:nc)}
+  co6: ${6%:nc}
+  li6: ${Math.floor(6/:nc)}
+  co7: ${7%:nc}
+  li7: ${Math.floor(7/:nc)}
+  co8: ${8%:nc}
+  li8: ${Math.floor(8/:nc)}
+  co9: ${9%:nc}
+  li9: ${Math.floor(9/:nc)}
+  co10: ${10%:nc}
+  li10: ${Math.floor(10/:nc)}
+  co11: ${11%:nc}
+  li11: ${Math.floor(11/:nc)}
+  fx0: ${(:ka*:co0+:kb*:li0)%2}
+  fy0: ${(:kc*:co0+:kd*:li0)%2}
+  fx1: ${(:ka*:co1+:kb*:li1)%2}
+  fy1: ${(:kc*:co1+:kd*:li1)%2}
+  fx2: ${(:ka*:co2+:kb*:li2)%2}
+  fy2: ${(:kc*:co2+:kd*:li2)%2}
+  fx3: ${(:ka*:co3+:kb*:li3)%2}
+  fy3: ${(:kc*:co3+:kd*:li3)%2}
+  fx4: ${(:ka*:co4+:kb*:li4)%2}
+  fy4: ${(:kc*:co4+:kd*:li4)%2}
+  fx5: ${(:ka*:co5+:kb*:li5)%2}
+  fy5: ${(:kc*:co5+:kd*:li5)%2}
+  fx6: ${(:ka*:co6+:kb*:li6)%2}
+  fy6: ${(:kc*:co6+:kd*:li6)%2}
+  fx7: ${(:ka*:co7+:kb*:li7)%2}
+  fy7: ${(:kc*:co7+:kd*:li7)%2}
+  fx8: ${(:ka*:co8+:kb*:li8)%2}
+  fy8: ${(:kc*:co8+:kd*:li8)%2}
+  fx9: ${(:ka*:co9+:kb*:li9)%2}
+  fy9: ${(:kc*:co9+:kd*:li9)%2}
+  fx10: ${(:ka*:co10+:kb*:li10)%2}
+  fy10: ${(:kc*:co10+:kd*:li10)%2}
+  fx11: ${(:ka*:co11+:kb*:li11)%2}
+  fy11: ${(:kc*:co11+:kd*:li11)%2}
+  # ─── sommets de la tuile
+  ctx1: ${:tuiles[:ol][0][0]}
+  cty1: ${:tuiles[:ol][0][1]}
+  ctx2: ${:tuiles[:ol][1][0]}
+  cty2: ${:tuiles[:ol][1][1]}
+  ctx3: ${:tuiles[:ol][2][0]}
+  cty3: ${:tuiles[:ol][2][1]}
+  ctx4: ${:tuiles[:ol][3][0]}
+  cty4: ${:tuiles[:ol][3][1]}
+  ctx5: ${:tuiles[:ol][4][0]}
+  cty5: ${:tuiles[:ol][4][1]}
+  ctx6: ${:tuiles[:ol][5][0]}
+  cty6: ${:tuiles[:ol][5][1]}
+  ctx7: ${:tuiles[:ol][6][0]}
+  cty7: ${:tuiles[:ol][6][1]}
+  ctx8: ${:tuiles[:ol][7][0]}
+  cty8: ${:tuiles[:ol][7][1]}
+  ctx9: ${:tuiles[:ol][8][0]}
+  cty9: ${:tuiles[:ol][8][1]}
+  ctx10: ${:tuiles[:ol][9][0]}
+  cty10: ${:tuiles[:ol][9][1]}
+  ctx11: ${:tuiles[:ol][10][0]}
+  cty11: ${:tuiles[:ol][10][1]}
+  ctx12: ${:tuiles[:ol][11][0]}
+  cty12: ${:tuiles[:ol][11][1]}
+  ctx13: ${:tuiles[:ol][12][0]}
+  cty13: ${:tuiles[:ol][12][1]}
+  ctx14: ${:tuiles[:ol][13][0]}
+  cty14: ${:tuiles[:ol][13][1]}
+  ctx15: ${:tuiles[:ol][14][0]}
+  cty15: ${:tuiles[:ol][14][1]}
+  ctx16: ${:tuiles[:ol][15][0]}
+  cty16: ${:tuiles[:ol][15][1]}
+  # ─── numéro écrit dans chaque case, 0 quand elle n’est pas numérotée
+  num0: ${:pav===1?:numeros[:il].indexOf(0)+1:0}
+  num1: ${:pav===1?:numeros[:il].indexOf(1)+1:0}
+  num2: ${:pav===1?:numeros[:il].indexOf(2)+1:0}
+  num3: ${:pav===1?:numeros[:il].indexOf(3)+1:0}
+  num4: ${:pav===1?:numeros[:il].indexOf(4)+1:0}
+  num5: ${:pav===1?:numeros[:il].indexOf(5)+1:0}
+  num6: ${:pav===1?:numeros[:il].indexOf(6)+1:0}
+  num7: ${:pav===1?:numeros[:il].indexOf(7)+1:0}
+  num8: ${:pav===1?:numeros[:il].indexOf(8)+1:0}
+  num9: ${:pav===1?:numeros[:il].indexOf(9)+1:0}
+  num10: ${:pav===1?:numeros[:il].indexOf(10)+1:0}
+  num11: ${:pav===1?:numeros[:il].indexOf(11)+1:0}
+  # ─── cadre : la frise est une bande large et basse, le pavage presque carré.
+  # Les tuiles jointives débordent de leur case, il faut leur laisser la place.
+  mrg: ${:fam===0?0:(:debord+0.05)}
+  bw: ${(:pav===1?4.3:5.2)+:mrg}
+  bh: ${(:pav===1?3.3:1.4)+:mrg}
+options:
+  - name: Frise de motifs séparés
+    vars:
+      pav: 0
+      fam: 0
+  - name: Pavage de motifs séparés
+    vars:
+      pav: 1
+      fam: 0
+  - name: Frise de tuiles jointives, avec ou sans trou
+    vars:
+      pav: 0
+      fam: [1, 2]
+  - name: Pavage de tuiles jointives, avec ou sans trou
+    vars:
+      pav: 1
+      fam: [1, 2]
+question: "${:enonce[:pav]}"
+shortq: "${:court[:pav]}"
+answer: "C’est une <span class='red'>${:transf[:rep]}</span> qui permet de passer de l’un à l’autre.<br>${:pourquoi[:expl]}"
+value:
+  - "${:transf[:rep]}"
+  - "${:rep===0?'symetrie axiale':(:rep===1?'symetrie centrale':'autre')}"
+  - "${:rep===0?'axiale':(:rep===1?'centrale':(:glis?'symétrie glissée':'translation'))}"
+  - "${:rep===0?'axiale':(:rep===1?'centrale':'autre transformation')}"
+figure:
+  type: graph
+  # une case fait 2 unités, soit 80 px : le motif y est franchement lisible, et
+  # la frise entière tient dans la largeur d’une diapositive.
+  scale: 4
+  axis: false
+  grid: false
+  keepAspect: true
+  boundingbox: ["${-:bw}", :bh, :bw, "${-:bh}"]
+  content:
+    # ─── la tuile jointive, puis le motif séparé, puis le numéro de chaque case.
+    # Une seule des deux formes est visible : jointive, la tuile est le motif.
+    # fx retourne la forme de gauche à droite dans sa case, fy de bas en haut :
+    # c’est là que se joue la nature de la frise ou du pavage.
+    - [polygon, [["${:x0+2*:co0+(:fx0?2-:ctx1::ctx1)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty1::cty1)}"], ["${:x0+2*:co0+(:fx0?2-:ctx2::ctx2)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty2::cty2)}"], ["${:x0+2*:co0+(:fx0?2-:ctx3::ctx3)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty3::cty3)}"], ["${:x0+2*:co0+(:fx0?2-:ctx4::ctx4)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty4::cty4)}"], ["${:x0+2*:co0+(:fx0?2-:ctx5::ctx5)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty5::cty5)}"], ["${:x0+2*:co0+(:fx0?2-:ctx6::ctx6)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty6::cty6)}"], ["${:x0+2*:co0+(:fx0?2-:ctx7::ctx7)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty7::cty7)}"], ["${:x0+2*:co0+(:fx0?2-:ctx8::ctx8)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty8::cty8)}"], ["${:x0+2*:co0+(:fx0?2-:ctx9::ctx9)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty9::cty9)}"], ["${:x0+2*:co0+(:fx0?2-:ctx10::ctx10)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty10::cty10)}"], ["${:x0+2*:co0+(:fx0?2-:ctx11::ctx11)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty11::cty11)}"], ["${:x0+2*:co0+(:fx0?2-:ctx12::ctx12)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty12::cty12)}"], ["${:x0+2*:co0+(:fx0?2-:ctx13::ctx13)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty13::cty13)}"], ["${:x0+2*:co0+(:fx0?2-:ctx14::ctx14)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty14::cty14)}"], ["${:x0+2*:co0+(:fx0?2-:ctx15::ctx15)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty15::cty15)}"], ["${:x0+2*:co0+(:fx0?2-:ctx16::ctx16)}", "${:y0-2*(:li0+1)+(:fy0?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&0<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&0<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co1+(:fx1?2-:ctx1::ctx1)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty1::cty1)}"], ["${:x0+2*:co1+(:fx1?2-:ctx2::ctx2)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty2::cty2)}"], ["${:x0+2*:co1+(:fx1?2-:ctx3::ctx3)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty3::cty3)}"], ["${:x0+2*:co1+(:fx1?2-:ctx4::ctx4)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty4::cty4)}"], ["${:x0+2*:co1+(:fx1?2-:ctx5::ctx5)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty5::cty5)}"], ["${:x0+2*:co1+(:fx1?2-:ctx6::ctx6)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty6::cty6)}"], ["${:x0+2*:co1+(:fx1?2-:ctx7::ctx7)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty7::cty7)}"], ["${:x0+2*:co1+(:fx1?2-:ctx8::ctx8)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty8::cty8)}"], ["${:x0+2*:co1+(:fx1?2-:ctx9::ctx9)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty9::cty9)}"], ["${:x0+2*:co1+(:fx1?2-:ctx10::ctx10)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty10::cty10)}"], ["${:x0+2*:co1+(:fx1?2-:ctx11::ctx11)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty11::cty11)}"], ["${:x0+2*:co1+(:fx1?2-:ctx12::ctx12)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty12::cty12)}"], ["${:x0+2*:co1+(:fx1?2-:ctx13::ctx13)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty13::cty13)}"], ["${:x0+2*:co1+(:fx1?2-:ctx14::ctx14)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty14::cty14)}"], ["${:x0+2*:co1+(:fx1?2-:ctx15::ctx15)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty15::cty15)}"], ["${:x0+2*:co1+(:fx1?2-:ctx16::ctx16)}", "${:y0-2*(:li1+1)+(:fy1?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&1<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&1<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co2+(:fx2?2-:ctx1::ctx1)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty1::cty1)}"], ["${:x0+2*:co2+(:fx2?2-:ctx2::ctx2)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty2::cty2)}"], ["${:x0+2*:co2+(:fx2?2-:ctx3::ctx3)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty3::cty3)}"], ["${:x0+2*:co2+(:fx2?2-:ctx4::ctx4)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty4::cty4)}"], ["${:x0+2*:co2+(:fx2?2-:ctx5::ctx5)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty5::cty5)}"], ["${:x0+2*:co2+(:fx2?2-:ctx6::ctx6)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty6::cty6)}"], ["${:x0+2*:co2+(:fx2?2-:ctx7::ctx7)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty7::cty7)}"], ["${:x0+2*:co2+(:fx2?2-:ctx8::ctx8)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty8::cty8)}"], ["${:x0+2*:co2+(:fx2?2-:ctx9::ctx9)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty9::cty9)}"], ["${:x0+2*:co2+(:fx2?2-:ctx10::ctx10)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty10::cty10)}"], ["${:x0+2*:co2+(:fx2?2-:ctx11::ctx11)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty11::cty11)}"], ["${:x0+2*:co2+(:fx2?2-:ctx12::ctx12)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty12::cty12)}"], ["${:x0+2*:co2+(:fx2?2-:ctx13::ctx13)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty13::cty13)}"], ["${:x0+2*:co2+(:fx2?2-:ctx14::ctx14)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty14::cty14)}"], ["${:x0+2*:co2+(:fx2?2-:ctx15::ctx15)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty15::cty15)}"], ["${:x0+2*:co2+(:fx2?2-:ctx16::ctx16)}", "${:y0-2*(:li2+1)+(:fy2?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&2<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&2<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co3+(:fx3?2-:ctx1::ctx1)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty1::cty1)}"], ["${:x0+2*:co3+(:fx3?2-:ctx2::ctx2)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty2::cty2)}"], ["${:x0+2*:co3+(:fx3?2-:ctx3::ctx3)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty3::cty3)}"], ["${:x0+2*:co3+(:fx3?2-:ctx4::ctx4)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty4::cty4)}"], ["${:x0+2*:co3+(:fx3?2-:ctx5::ctx5)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty5::cty5)}"], ["${:x0+2*:co3+(:fx3?2-:ctx6::ctx6)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty6::cty6)}"], ["${:x0+2*:co3+(:fx3?2-:ctx7::ctx7)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty7::cty7)}"], ["${:x0+2*:co3+(:fx3?2-:ctx8::ctx8)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty8::cty8)}"], ["${:x0+2*:co3+(:fx3?2-:ctx9::ctx9)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty9::cty9)}"], ["${:x0+2*:co3+(:fx3?2-:ctx10::ctx10)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty10::cty10)}"], ["${:x0+2*:co3+(:fx3?2-:ctx11::ctx11)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty11::cty11)}"], ["${:x0+2*:co3+(:fx3?2-:ctx12::ctx12)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty12::cty12)}"], ["${:x0+2*:co3+(:fx3?2-:ctx13::ctx13)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty13::cty13)}"], ["${:x0+2*:co3+(:fx3?2-:ctx14::ctx14)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty14::cty14)}"], ["${:x0+2*:co3+(:fx3?2-:ctx15::ctx15)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty15::cty15)}"], ["${:x0+2*:co3+(:fx3?2-:ctx16::ctx16)}", "${:y0-2*(:li3+1)+(:fy3?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&3<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&3<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co4+(:fx4?2-:ctx1::ctx1)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty1::cty1)}"], ["${:x0+2*:co4+(:fx4?2-:ctx2::ctx2)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty2::cty2)}"], ["${:x0+2*:co4+(:fx4?2-:ctx3::ctx3)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty3::cty3)}"], ["${:x0+2*:co4+(:fx4?2-:ctx4::ctx4)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty4::cty4)}"], ["${:x0+2*:co4+(:fx4?2-:ctx5::ctx5)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty5::cty5)}"], ["${:x0+2*:co4+(:fx4?2-:ctx6::ctx6)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty6::cty6)}"], ["${:x0+2*:co4+(:fx4?2-:ctx7::ctx7)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty7::cty7)}"], ["${:x0+2*:co4+(:fx4?2-:ctx8::ctx8)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty8::cty8)}"], ["${:x0+2*:co4+(:fx4?2-:ctx9::ctx9)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty9::cty9)}"], ["${:x0+2*:co4+(:fx4?2-:ctx10::ctx10)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty10::cty10)}"], ["${:x0+2*:co4+(:fx4?2-:ctx11::ctx11)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty11::cty11)}"], ["${:x0+2*:co4+(:fx4?2-:ctx12::ctx12)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty12::cty12)}"], ["${:x0+2*:co4+(:fx4?2-:ctx13::ctx13)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty13::cty13)}"], ["${:x0+2*:co4+(:fx4?2-:ctx14::ctx14)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty14::cty14)}"], ["${:x0+2*:co4+(:fx4?2-:ctx15::ctx15)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty15::cty15)}"], ["${:x0+2*:co4+(:fx4?2-:ctx16::ctx16)}", "${:y0-2*(:li4+1)+(:fy4?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&4<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&4<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co5+(:fx5?2-:ctx1::ctx1)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty1::cty1)}"], ["${:x0+2*:co5+(:fx5?2-:ctx2::ctx2)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty2::cty2)}"], ["${:x0+2*:co5+(:fx5?2-:ctx3::ctx3)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty3::cty3)}"], ["${:x0+2*:co5+(:fx5?2-:ctx4::ctx4)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty4::cty4)}"], ["${:x0+2*:co5+(:fx5?2-:ctx5::ctx5)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty5::cty5)}"], ["${:x0+2*:co5+(:fx5?2-:ctx6::ctx6)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty6::cty6)}"], ["${:x0+2*:co5+(:fx5?2-:ctx7::ctx7)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty7::cty7)}"], ["${:x0+2*:co5+(:fx5?2-:ctx8::ctx8)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty8::cty8)}"], ["${:x0+2*:co5+(:fx5?2-:ctx9::ctx9)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty9::cty9)}"], ["${:x0+2*:co5+(:fx5?2-:ctx10::ctx10)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty10::cty10)}"], ["${:x0+2*:co5+(:fx5?2-:ctx11::ctx11)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty11::cty11)}"], ["${:x0+2*:co5+(:fx5?2-:ctx12::ctx12)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty12::cty12)}"], ["${:x0+2*:co5+(:fx5?2-:ctx13::ctx13)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty13::cty13)}"], ["${:x0+2*:co5+(:fx5?2-:ctx14::ctx14)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty14::cty14)}"], ["${:x0+2*:co5+(:fx5?2-:ctx15::ctx15)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty15::cty15)}"], ["${:x0+2*:co5+(:fx5?2-:ctx16::ctx16)}", "${:y0-2*(:li5+1)+(:fy5?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&5<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&5<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co6+(:fx6?2-:ctx1::ctx1)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty1::cty1)}"], ["${:x0+2*:co6+(:fx6?2-:ctx2::ctx2)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty2::cty2)}"], ["${:x0+2*:co6+(:fx6?2-:ctx3::ctx3)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty3::cty3)}"], ["${:x0+2*:co6+(:fx6?2-:ctx4::ctx4)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty4::cty4)}"], ["${:x0+2*:co6+(:fx6?2-:ctx5::ctx5)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty5::cty5)}"], ["${:x0+2*:co6+(:fx6?2-:ctx6::ctx6)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty6::cty6)}"], ["${:x0+2*:co6+(:fx6?2-:ctx7::ctx7)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty7::cty7)}"], ["${:x0+2*:co6+(:fx6?2-:ctx8::ctx8)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty8::cty8)}"], ["${:x0+2*:co6+(:fx6?2-:ctx9::ctx9)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty9::cty9)}"], ["${:x0+2*:co6+(:fx6?2-:ctx10::ctx10)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty10::cty10)}"], ["${:x0+2*:co6+(:fx6?2-:ctx11::ctx11)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty11::cty11)}"], ["${:x0+2*:co6+(:fx6?2-:ctx12::ctx12)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty12::cty12)}"], ["${:x0+2*:co6+(:fx6?2-:ctx13::ctx13)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty13::cty13)}"], ["${:x0+2*:co6+(:fx6?2-:ctx14::ctx14)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty14::cty14)}"], ["${:x0+2*:co6+(:fx6?2-:ctx15::ctx15)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty15::cty15)}"], ["${:x0+2*:co6+(:fx6?2-:ctx16::ctx16)}", "${:y0-2*(:li6+1)+(:fy6?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&6<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&6<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co7+(:fx7?2-:ctx1::ctx1)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty1::cty1)}"], ["${:x0+2*:co7+(:fx7?2-:ctx2::ctx2)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty2::cty2)}"], ["${:x0+2*:co7+(:fx7?2-:ctx3::ctx3)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty3::cty3)}"], ["${:x0+2*:co7+(:fx7?2-:ctx4::ctx4)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty4::cty4)}"], ["${:x0+2*:co7+(:fx7?2-:ctx5::ctx5)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty5::cty5)}"], ["${:x0+2*:co7+(:fx7?2-:ctx6::ctx6)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty6::cty6)}"], ["${:x0+2*:co7+(:fx7?2-:ctx7::ctx7)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty7::cty7)}"], ["${:x0+2*:co7+(:fx7?2-:ctx8::ctx8)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty8::cty8)}"], ["${:x0+2*:co7+(:fx7?2-:ctx9::ctx9)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty9::cty9)}"], ["${:x0+2*:co7+(:fx7?2-:ctx10::ctx10)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty10::cty10)}"], ["${:x0+2*:co7+(:fx7?2-:ctx11::ctx11)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty11::cty11)}"], ["${:x0+2*:co7+(:fx7?2-:ctx12::ctx12)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty12::cty12)}"], ["${:x0+2*:co7+(:fx7?2-:ctx13::ctx13)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty13::cty13)}"], ["${:x0+2*:co7+(:fx7?2-:ctx14::ctx14)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty14::cty14)}"], ["${:x0+2*:co7+(:fx7?2-:ctx15::ctx15)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty15::cty15)}"], ["${:x0+2*:co7+(:fx7?2-:ctx16::ctx16)}", "${:y0-2*(:li7+1)+(:fy7?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&7<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&7<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co8+(:fx8?2-:ctx1::ctx1)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty1::cty1)}"], ["${:x0+2*:co8+(:fx8?2-:ctx2::ctx2)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty2::cty2)}"], ["${:x0+2*:co8+(:fx8?2-:ctx3::ctx3)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty3::cty3)}"], ["${:x0+2*:co8+(:fx8?2-:ctx4::ctx4)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty4::cty4)}"], ["${:x0+2*:co8+(:fx8?2-:ctx5::ctx5)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty5::cty5)}"], ["${:x0+2*:co8+(:fx8?2-:ctx6::ctx6)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty6::cty6)}"], ["${:x0+2*:co8+(:fx8?2-:ctx7::ctx7)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty7::cty7)}"], ["${:x0+2*:co8+(:fx8?2-:ctx8::ctx8)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty8::cty8)}"], ["${:x0+2*:co8+(:fx8?2-:ctx9::ctx9)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty9::cty9)}"], ["${:x0+2*:co8+(:fx8?2-:ctx10::ctx10)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty10::cty10)}"], ["${:x0+2*:co8+(:fx8?2-:ctx11::ctx11)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty11::cty11)}"], ["${:x0+2*:co8+(:fx8?2-:ctx12::ctx12)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty12::cty12)}"], ["${:x0+2*:co8+(:fx8?2-:ctx13::ctx13)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty13::cty13)}"], ["${:x0+2*:co8+(:fx8?2-:ctx14::ctx14)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty14::cty14)}"], ["${:x0+2*:co8+(:fx8?2-:ctx15::ctx15)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty15::cty15)}"], ["${:x0+2*:co8+(:fx8?2-:ctx16::ctx16)}", "${:y0-2*(:li8+1)+(:fy8?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&8<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&8<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co9+(:fx9?2-:ctx1::ctx1)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty1::cty1)}"], ["${:x0+2*:co9+(:fx9?2-:ctx2::ctx2)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty2::cty2)}"], ["${:x0+2*:co9+(:fx9?2-:ctx3::ctx3)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty3::cty3)}"], ["${:x0+2*:co9+(:fx9?2-:ctx4::ctx4)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty4::cty4)}"], ["${:x0+2*:co9+(:fx9?2-:ctx5::ctx5)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty5::cty5)}"], ["${:x0+2*:co9+(:fx9?2-:ctx6::ctx6)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty6::cty6)}"], ["${:x0+2*:co9+(:fx9?2-:ctx7::ctx7)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty7::cty7)}"], ["${:x0+2*:co9+(:fx9?2-:ctx8::ctx8)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty8::cty8)}"], ["${:x0+2*:co9+(:fx9?2-:ctx9::ctx9)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty9::cty9)}"], ["${:x0+2*:co9+(:fx9?2-:ctx10::ctx10)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty10::cty10)}"], ["${:x0+2*:co9+(:fx9?2-:ctx11::ctx11)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty11::cty11)}"], ["${:x0+2*:co9+(:fx9?2-:ctx12::ctx12)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty12::cty12)}"], ["${:x0+2*:co9+(:fx9?2-:ctx13::ctx13)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty13::cty13)}"], ["${:x0+2*:co9+(:fx9?2-:ctx14::ctx14)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty14::cty14)}"], ["${:x0+2*:co9+(:fx9?2-:ctx15::ctx15)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty15::cty15)}"], ["${:x0+2*:co9+(:fx9?2-:ctx16::ctx16)}", "${:y0-2*(:li9+1)+(:fy9?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&9<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&9<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co10+(:fx10?2-:ctx1::ctx1)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty1::cty1)}"], ["${:x0+2*:co10+(:fx10?2-:ctx2::ctx2)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty2::cty2)}"], ["${:x0+2*:co10+(:fx10?2-:ctx3::ctx3)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty3::cty3)}"], ["${:x0+2*:co10+(:fx10?2-:ctx4::ctx4)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty4::cty4)}"], ["${:x0+2*:co10+(:fx10?2-:ctx5::ctx5)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty5::cty5)}"], ["${:x0+2*:co10+(:fx10?2-:ctx6::ctx6)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty6::cty6)}"], ["${:x0+2*:co10+(:fx10?2-:ctx7::ctx7)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty7::cty7)}"], ["${:x0+2*:co10+(:fx10?2-:ctx8::ctx8)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty8::cty8)}"], ["${:x0+2*:co10+(:fx10?2-:ctx9::ctx9)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty9::cty9)}"], ["${:x0+2*:co10+(:fx10?2-:ctx10::ctx10)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty10::cty10)}"], ["${:x0+2*:co10+(:fx10?2-:ctx11::ctx11)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty11::cty11)}"], ["${:x0+2*:co10+(:fx10?2-:ctx12::ctx12)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty12::cty12)}"], ["${:x0+2*:co10+(:fx10?2-:ctx13::ctx13)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty13::cty13)}"], ["${:x0+2*:co10+(:fx10?2-:ctx14::ctx14)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty14::cty14)}"], ["${:x0+2*:co10+(:fx10?2-:ctx15::ctx15)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty15::cty15)}"], ["${:x0+2*:co10+(:fx10?2-:ctx16::ctx16)}", "${:y0-2*(:li10+1)+(:fy10?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&10<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&10<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co11+(:fx11?2-:ctx1::ctx1)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty1::cty1)}"], ["${:x0+2*:co11+(:fx11?2-:ctx2::ctx2)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty2::cty2)}"], ["${:x0+2*:co11+(:fx11?2-:ctx3::ctx3)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty3::cty3)}"], ["${:x0+2*:co11+(:fx11?2-:ctx4::ctx4)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty4::cty4)}"], ["${:x0+2*:co11+(:fx11?2-:ctx5::ctx5)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty5::cty5)}"], ["${:x0+2*:co11+(:fx11?2-:ctx6::ctx6)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty6::cty6)}"], ["${:x0+2*:co11+(:fx11?2-:ctx7::ctx7)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty7::cty7)}"], ["${:x0+2*:co11+(:fx11?2-:ctx8::ctx8)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty8::cty8)}"], ["${:x0+2*:co11+(:fx11?2-:ctx9::ctx9)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty9::cty9)}"], ["${:x0+2*:co11+(:fx11?2-:ctx10::ctx10)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty10::cty10)}"], ["${:x0+2*:co11+(:fx11?2-:ctx11::ctx11)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty11::cty11)}"], ["${:x0+2*:co11+(:fx11?2-:ctx12::ctx12)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty12::cty12)}"], ["${:x0+2*:co11+(:fx11?2-:ctx13::ctx13)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty13::cty13)}"], ["${:x0+2*:co11+(:fx11?2-:ctx14::ctx14)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty14::cty14)}"], ["${:x0+2*:co11+(:fx11?2-:ctx15::ctx15)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty15::cty15)}"], ["${:x0+2*:co11+(:fx11?2-:ctx16::ctx16)}", "${:y0-2*(:li11+1)+(:fy11?2-:cty16::cty16)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam>0&&11<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam>0&&11<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co0+(:fx0?2-:mx1::mx1)}", "${:y0-2*(:li0+1)+(:fy0?2-:my1::my1)}"], ["${:x0+2*:co0+(:fx0?2-:mx2::mx2)}", "${:y0-2*(:li0+1)+(:fy0?2-:my2::my2)}"], ["${:x0+2*:co0+(:fx0?2-:mx3::mx3)}", "${:y0-2*(:li0+1)+(:fy0?2-:my3::my3)}"], ["${:x0+2*:co0+(:fx0?2-:mx4::mx4)}", "${:y0-2*(:li0+1)+(:fy0?2-:my4::my4)}"], ["${:x0+2*:co0+(:fx0?2-:mx5::mx5)}", "${:y0-2*(:li0+1)+(:fy0?2-:my5::my5)}"], ["${:x0+2*:co0+(:fx0?2-:mx6::mx6)}", "${:y0-2*(:li0+1)+(:fy0?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&0<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&0<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co1+(:fx1?2-:mx1::mx1)}", "${:y0-2*(:li1+1)+(:fy1?2-:my1::my1)}"], ["${:x0+2*:co1+(:fx1?2-:mx2::mx2)}", "${:y0-2*(:li1+1)+(:fy1?2-:my2::my2)}"], ["${:x0+2*:co1+(:fx1?2-:mx3::mx3)}", "${:y0-2*(:li1+1)+(:fy1?2-:my3::my3)}"], ["${:x0+2*:co1+(:fx1?2-:mx4::mx4)}", "${:y0-2*(:li1+1)+(:fy1?2-:my4::my4)}"], ["${:x0+2*:co1+(:fx1?2-:mx5::mx5)}", "${:y0-2*(:li1+1)+(:fy1?2-:my5::my5)}"], ["${:x0+2*:co1+(:fx1?2-:mx6::mx6)}", "${:y0-2*(:li1+1)+(:fy1?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&1<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&1<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co2+(:fx2?2-:mx1::mx1)}", "${:y0-2*(:li2+1)+(:fy2?2-:my1::my1)}"], ["${:x0+2*:co2+(:fx2?2-:mx2::mx2)}", "${:y0-2*(:li2+1)+(:fy2?2-:my2::my2)}"], ["${:x0+2*:co2+(:fx2?2-:mx3::mx3)}", "${:y0-2*(:li2+1)+(:fy2?2-:my3::my3)}"], ["${:x0+2*:co2+(:fx2?2-:mx4::mx4)}", "${:y0-2*(:li2+1)+(:fy2?2-:my4::my4)}"], ["${:x0+2*:co2+(:fx2?2-:mx5::mx5)}", "${:y0-2*(:li2+1)+(:fy2?2-:my5::my5)}"], ["${:x0+2*:co2+(:fx2?2-:mx6::mx6)}", "${:y0-2*(:li2+1)+(:fy2?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&2<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&2<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co3+(:fx3?2-:mx1::mx1)}", "${:y0-2*(:li3+1)+(:fy3?2-:my1::my1)}"], ["${:x0+2*:co3+(:fx3?2-:mx2::mx2)}", "${:y0-2*(:li3+1)+(:fy3?2-:my2::my2)}"], ["${:x0+2*:co3+(:fx3?2-:mx3::mx3)}", "${:y0-2*(:li3+1)+(:fy3?2-:my3::my3)}"], ["${:x0+2*:co3+(:fx3?2-:mx4::mx4)}", "${:y0-2*(:li3+1)+(:fy3?2-:my4::my4)}"], ["${:x0+2*:co3+(:fx3?2-:mx5::mx5)}", "${:y0-2*(:li3+1)+(:fy3?2-:my5::my5)}"], ["${:x0+2*:co3+(:fx3?2-:mx6::mx6)}", "${:y0-2*(:li3+1)+(:fy3?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&3<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&3<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co4+(:fx4?2-:mx1::mx1)}", "${:y0-2*(:li4+1)+(:fy4?2-:my1::my1)}"], ["${:x0+2*:co4+(:fx4?2-:mx2::mx2)}", "${:y0-2*(:li4+1)+(:fy4?2-:my2::my2)}"], ["${:x0+2*:co4+(:fx4?2-:mx3::mx3)}", "${:y0-2*(:li4+1)+(:fy4?2-:my3::my3)}"], ["${:x0+2*:co4+(:fx4?2-:mx4::mx4)}", "${:y0-2*(:li4+1)+(:fy4?2-:my4::my4)}"], ["${:x0+2*:co4+(:fx4?2-:mx5::mx5)}", "${:y0-2*(:li4+1)+(:fy4?2-:my5::my5)}"], ["${:x0+2*:co4+(:fx4?2-:mx6::mx6)}", "${:y0-2*(:li4+1)+(:fy4?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&4<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&4<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co5+(:fx5?2-:mx1::mx1)}", "${:y0-2*(:li5+1)+(:fy5?2-:my1::my1)}"], ["${:x0+2*:co5+(:fx5?2-:mx2::mx2)}", "${:y0-2*(:li5+1)+(:fy5?2-:my2::my2)}"], ["${:x0+2*:co5+(:fx5?2-:mx3::mx3)}", "${:y0-2*(:li5+1)+(:fy5?2-:my3::my3)}"], ["${:x0+2*:co5+(:fx5?2-:mx4::mx4)}", "${:y0-2*(:li5+1)+(:fy5?2-:my4::my4)}"], ["${:x0+2*:co5+(:fx5?2-:mx5::mx5)}", "${:y0-2*(:li5+1)+(:fy5?2-:my5::my5)}"], ["${:x0+2*:co5+(:fx5?2-:mx6::mx6)}", "${:y0-2*(:li5+1)+(:fy5?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&5<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&5<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co6+(:fx6?2-:mx1::mx1)}", "${:y0-2*(:li6+1)+(:fy6?2-:my1::my1)}"], ["${:x0+2*:co6+(:fx6?2-:mx2::mx2)}", "${:y0-2*(:li6+1)+(:fy6?2-:my2::my2)}"], ["${:x0+2*:co6+(:fx6?2-:mx3::mx3)}", "${:y0-2*(:li6+1)+(:fy6?2-:my3::my3)}"], ["${:x0+2*:co6+(:fx6?2-:mx4::mx4)}", "${:y0-2*(:li6+1)+(:fy6?2-:my4::my4)}"], ["${:x0+2*:co6+(:fx6?2-:mx5::mx5)}", "${:y0-2*(:li6+1)+(:fy6?2-:my5::my5)}"], ["${:x0+2*:co6+(:fx6?2-:mx6::mx6)}", "${:y0-2*(:li6+1)+(:fy6?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&6<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&6<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co7+(:fx7?2-:mx1::mx1)}", "${:y0-2*(:li7+1)+(:fy7?2-:my1::my1)}"], ["${:x0+2*:co7+(:fx7?2-:mx2::mx2)}", "${:y0-2*(:li7+1)+(:fy7?2-:my2::my2)}"], ["${:x0+2*:co7+(:fx7?2-:mx3::mx3)}", "${:y0-2*(:li7+1)+(:fy7?2-:my3::my3)}"], ["${:x0+2*:co7+(:fx7?2-:mx4::mx4)}", "${:y0-2*(:li7+1)+(:fy7?2-:my4::my4)}"], ["${:x0+2*:co7+(:fx7?2-:mx5::mx5)}", "${:y0-2*(:li7+1)+(:fy7?2-:my5::my5)}"], ["${:x0+2*:co7+(:fx7?2-:mx6::mx6)}", "${:y0-2*(:li7+1)+(:fy7?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&7<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&7<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co8+(:fx8?2-:mx1::mx1)}", "${:y0-2*(:li8+1)+(:fy8?2-:my1::my1)}"], ["${:x0+2*:co8+(:fx8?2-:mx2::mx2)}", "${:y0-2*(:li8+1)+(:fy8?2-:my2::my2)}"], ["${:x0+2*:co8+(:fx8?2-:mx3::mx3)}", "${:y0-2*(:li8+1)+(:fy8?2-:my3::my3)}"], ["${:x0+2*:co8+(:fx8?2-:mx4::mx4)}", "${:y0-2*(:li8+1)+(:fy8?2-:my4::my4)}"], ["${:x0+2*:co8+(:fx8?2-:mx5::mx5)}", "${:y0-2*(:li8+1)+(:fy8?2-:my5::my5)}"], ["${:x0+2*:co8+(:fx8?2-:mx6::mx6)}", "${:y0-2*(:li8+1)+(:fy8?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&8<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&8<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co9+(:fx9?2-:mx1::mx1)}", "${:y0-2*(:li9+1)+(:fy9?2-:my1::my1)}"], ["${:x0+2*:co9+(:fx9?2-:mx2::mx2)}", "${:y0-2*(:li9+1)+(:fy9?2-:my2::my2)}"], ["${:x0+2*:co9+(:fx9?2-:mx3::mx3)}", "${:y0-2*(:li9+1)+(:fy9?2-:my3::my3)}"], ["${:x0+2*:co9+(:fx9?2-:mx4::mx4)}", "${:y0-2*(:li9+1)+(:fy9?2-:my4::my4)}"], ["${:x0+2*:co9+(:fx9?2-:mx5::mx5)}", "${:y0-2*(:li9+1)+(:fy9?2-:my5::my5)}"], ["${:x0+2*:co9+(:fx9?2-:mx6::mx6)}", "${:y0-2*(:li9+1)+(:fy9?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&9<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&9<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co10+(:fx10?2-:mx1::mx1)}", "${:y0-2*(:li10+1)+(:fy10?2-:my1::my1)}"], ["${:x0+2*:co10+(:fx10?2-:mx2::mx2)}", "${:y0-2*(:li10+1)+(:fy10?2-:my2::my2)}"], ["${:x0+2*:co10+(:fx10?2-:mx3::mx3)}", "${:y0-2*(:li10+1)+(:fy10?2-:my3::my3)}"], ["${:x0+2*:co10+(:fx10?2-:mx4::mx4)}", "${:y0-2*(:li10+1)+(:fy10?2-:my4::my4)}"], ["${:x0+2*:co10+(:fx10?2-:mx5::mx5)}", "${:y0-2*(:li10+1)+(:fy10?2-:my5::my5)}"], ["${:x0+2*:co10+(:fx10?2-:mx6::mx6)}", "${:y0-2*(:li10+1)+(:fy10?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&10<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&10<:nc*:nr}" }]
+    - [polygon, [["${:x0+2*:co11+(:fx11?2-:mx1::mx1)}", "${:y0-2*(:li11+1)+(:fy11?2-:my1::my1)}"], ["${:x0+2*:co11+(:fx11?2-:mx2::mx2)}", "${:y0-2*(:li11+1)+(:fy11?2-:my2::my2)}"], ["${:x0+2*:co11+(:fx11?2-:mx3::mx3)}", "${:y0-2*(:li11+1)+(:fy11?2-:my3::my3)}"], ["${:x0+2*:co11+(:fx11?2-:mx4::mx4)}", "${:y0-2*(:li11+1)+(:fy11?2-:my4::my4)}"], ["${:x0+2*:co11+(:fx11?2-:mx5::mx5)}", "${:y0-2*(:li11+1)+(:fy11?2-:my5::my5)}"], ["${:x0+2*:co11+(:fx11?2-:mx6::mx6)}", "${:y0-2*(:li11+1)+(:fy11?2-:my6::my6)}"]], { fillColor: "#118ab2", fillOpacity: 0.35, borders: { strokeColor: "#0b5f7d", strokeWidth: 2, visible: "${:fam===0&&11<:nc*:nr}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:fam===0&&11<:nc*:nr}" }]
+    - [text, ["${:x0+2*:co0+1}", "${:y0-2*:li0-1}", "${:num0}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num0>0}" }]
+    - [text, ["${:x0+2*:co1+1}", "${:y0-2*:li1-1}", "${:num1}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num1>0}" }]
+    - [text, ["${:x0+2*:co2+1}", "${:y0-2*:li2-1}", "${:num2}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num2>0}" }]
+    - [text, ["${:x0+2*:co3+1}", "${:y0-2*:li3-1}", "${:num3}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num3>0}" }]
+    - [text, ["${:x0+2*:co4+1}", "${:y0-2*:li4-1}", "${:num4}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num4>0}" }]
+    - [text, ["${:x0+2*:co5+1}", "${:y0-2*:li5-1}", "${:num5}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num5>0}" }]
+    - [text, ["${:x0+2*:co6+1}", "${:y0-2*:li6-1}", "${:num6}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num6>0}" }]
+    - [text, ["${:x0+2*:co7+1}", "${:y0-2*:li7-1}", "${:num7}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num7>0}" }]
+    - [text, ["${:x0+2*:co8+1}", "${:y0-2*:li8-1}", "${:num8}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num8>0}" }]
+    - [text, ["${:x0+2*:co9+1}", "${:y0-2*:li9-1}", "${:num9}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num9>0}" }]
+    - [text, ["${:x0+2*:co10+1}", "${:y0-2*:li10-1}", "${:num10}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num10>0}" }]
+    - [text, ["${:x0+2*:co11+1}", "${:y0-2*:li11-1}", "${:num11}"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 26, visible: "${:pav===1&&:num11>0}" }]
+    # ─── bords des cases, seulement pour les motifs séparés : les tuiles
+    # jointives dessinent elles-mêmes le pavage.
+# séparés. Les tuiles jointives dessinent elles-mêmes le pavage.
+    - [segment, [["${:x0+0}", ":y0"], ["${:x0+0}", "${:y0-2*:nr}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:pav===1&&:fam===0&&0<=:nc}" }]
+    - [segment, [["${:x0+2}", ":y0"], ["${:x0+2}", "${:y0-2*:nr}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:pav===1&&:fam===0&&1<=:nc}" }]
+    - [segment, [["${:x0+4}", ":y0"], ["${:x0+4}", "${:y0-2*:nr}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:pav===1&&:fam===0&&2<=:nc}" }]
+    - [segment, [["${:x0+6}", ":y0"], ["${:x0+6}", "${:y0-2*:nr}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:pav===1&&:fam===0&&3<=:nc}" }]
+    - [segment, [["${:x0+8}", ":y0"], ["${:x0+8}", "${:y0-2*:nr}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:pav===1&&:fam===0&&4<=:nc}" }]
+    - [segment, [["${:x0+10}", ":y0"], ["${:x0+10}", "${:y0-2*:nr}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:pav===1&&:fam===0&&5<=:nc}" }]
+    - [segment, [[":x0", "${:y0-0}"], ["${:x0+2*:nc}", "${:y0-0}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:fam===0&&0<=:nr}" }]
+    - [segment, [[":x0", "${:y0-2}"], ["${:x0+2*:nc}", "${:y0-2}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:fam===0&&1<=:nr}" }]
+    - [segment, [[":x0", "${:y0-4}"], ["${:x0+2*:nc}", "${:y0-4}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:fam===0&&2<=:nr}" }]
+    - [segment, [[":x0", "${:y0-6}"], ["${:x0+2*:nc}", "${:y0-6}"]], { strokeColor: "#b9c6d1", strokeWidth: 1, visible: "${:fam===0&&3<=:nr}" }]

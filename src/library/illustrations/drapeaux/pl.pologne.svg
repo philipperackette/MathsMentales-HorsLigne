@@ -1,0 +1,7 @@
+<svg width="12em" height="9em" id="a" version="1.1" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+ <g fill-rule="evenodd">
+  <path d="M640 480H0V0h640z" fill="#fff"/>
+  <path d="M640 480H0V240h640z" fill="#dc143c"/>
+ </g>
+ <path class="correction" d="m320 -20v520" style="fill:none;stroke-dasharray:19.9999, 5;stroke-width:5;stroke:#800000"/>
+</svg>

@@ -1,0 +1,407 @@
+@import url("./knacssextract.css");
+@import url("../js/libs/JSXGraph1.11.1/jsxgraph.css");
+
+/* =============================================
+   RESET AND BASE STYLES
+   ============================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-size: calc(10px + 0.390625vw);
+}
+
+header {
+    height: 64px;
+}
+
+/* =============================================
+   LOGO AND TYPOGRAPHY
+   ============================================= */
+.logo {
+    margin: 0 15px;
+    height: 32px;
+    vertical-align: middle;
+}
+
+.red {
+    color: red;
+    font-weight: bold;
+}
+
+#creator-title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+/* =============================================
+   FIGURES AND CORRECTIONS
+   ============================================= */
+.fig .italic {
+    font-family: "Times New Roman", Times, serif !important;
+    font-style: italic;
+}
+
+.flip-card-inner.rotate .flip-card-front .fig {
+    display: none;
+}
+
+.flip-card-inner:not(.rotate) .flip-card-back .fig {
+    display: none;
+}
+
+.flip-card-inner .fig > * {
+    max-width: 90%;
+    max-height: 80%;
+    margin: auto;
+}
+
+custom-svg svg .correction,
+svg .correction {
+    display: none;
+}
+
+custom-svg.corrige svg .correction,
+.corrige svg .correction {
+    display: initial;
+}
+
+/* =============================================
+   RESPONSIVE DESIGN
+   ============================================= */
+@media only screen and (max-width: 320px) {
+    b {
+        font-size: 12px;
+    }
+}
+
+/* Mobile portrait display */
+@media only screen and (orientation: portrait) {
+    #creator-title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #creator-title img {
+        max-width: 181px;
+    }
+}
+
+/* =============================================
+   LAYOUT AND CONTAINER STYLES
+   ============================================= */
+#flipall {
+    position: absolute;
+    right: 0;
+    font-size: 2em;
+    border-radius: 0 3rem;
+    border-bottom: 1rem solid red;
+    border-left: 1rem solid red;
+    width: 5rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+#creator-content {
+    height: calc(100vh - 114px);
+    width: 98%;
+    margin-left: 1%;
+}
+#creator-content.fullscreen {
+    overflow: hidden;
+}
+
+#creator-content.hasTwoChildren {
+    display: grid;
+    column-gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    font-size: 0.6em;
+}
+
+.wall-section,
+.review-section {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    align-content: stretch;
+    gap: 2rem;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+}
+
+/* =============================================
+   CARD STYLES
+   ============================================= */
+.tuile {
+    font-size: 1.5em;
+    flex: 1 0 15em;
+    position: relative;
+    perspective: 1000px;
+    min-width: 30rem;
+    min-height: 15rem;
+}
+
+.tuile > div > div > div {
+    padding: 0.5rem 5rem 0.5rem 3rem;
+}
+.tuile i::after {
+    display: block;
+    content: "┄";
+}
+/* Fullscreen navigation */
+.tuile.fullscreen .navigation {
+    line-height: 0;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
+.review-section .tuile,
+.bravo {
+    background-color: azure;
+}
+
+.tuile:not(.fullscreen) .navigation {
+    display: none;
+}
+
+.tuile .navigation button {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    margin: 1rem;
+}
+
+.tuile .navigation button.disabled {
+    visibility: hidden;
+    width: 58px;
+}
+
+/* Card number */
+.tuile .numero {
+    border-radius: 0 2rem;
+    border-left: 0.3rem solid white;
+    border-bottom: 0.3rem solid white;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0.5rem;
+    color: darkblue;
+    font-weight: bold;
+    z-index: 5;
+}
+
+/* Fullscreen and exit buttons */
+.tuile .fullscreenbtn,
+.tuile .fullscreenexitbtn {
+    background-size: contain !important;
+    background-origin: padding-box !important;
+    background-repeat: no-repeat;
+    padding: 1rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 2rem 0;
+    border: 0.6rem solid transparent;
+    width: 3rem;
+    height: 3rem;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    z-index: 5;
+}
+
+.tuile .fullscreenbtn {
+    background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M0 0h24v24H0z" fill="none"/><path d="M20 3h2v6h-2V5h-4V3h4zM4 3h4v2H4v4H2V3h2zm16 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"/></g></svg>');
+}
+
+.tuile .fullscreenexitbtn {
+    background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M0 0h24v24H0z" fill="none"/><path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"/></g></svg>');
+}
+
+.tuile .numero,
+.tuile .interrogation {
+    min-width: 5rem;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.tuile .interrogation {
+    padding: 0 0.6rem solid transparent 0.6rem solid transparent 0;
+}
+
+/* Fullscreen card */
+.tuile.fullscreen {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+/* Interrogation button */
+.tuile .interrogation {
+    border-radius: 2rem 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    z-index: 5;
+}
+
+/* Hidden elements */
+.hidden {
+    display: none;
+}
+
+/* =============================================
+   FLIP CARD STYLES
+   ============================================= */
+.flip-card-inner {
+    border-radius: 2rem;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.flip-card-inner.rotate {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    border-radius: 2rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-back {
+    position: absolute;
+    top: 0;
+    border: 0.6rem solid red;
+    transform: rotateY(180deg);
+}
+
+.flip-card-inner.rotate .flip-card-back {
+    z-index: 500;
+}
+
+.review-section .question.flip-card-front {
+    flex-direction: column;
+}
+
+/* ===========================================
+   Confetti
+   =========================================== */
+.confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 999;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* =============================================
+   ZOOM AND UTILITY STYLES
+   ============================================= */
+#zoom button {
+    background: transparent;
+    height: 3em;
+    padding: 0;
+    margin: 0.4rem;
+}
+
+#zoom {
+    position: absolute;
+}
+
+#zoom button img {
+    height: 100%;
+}
+
+/* =============================================
+   TABLE STYLES
+   ============================================= */
+.inline-table {
+    display: inline-table !important;
+    border-collapse: collapse !important;
+    width: auto !important;
+    vertical-align: middle;
+}
+
+.inline-table td,
+.inline-table th {
+    border: 1px solid #5b5b5b;
+    padding: 4px 8px;
+    text-align: center;
+}
+
+/* =============================================
+   CHECK AND NO-CHECK BUTTONS
+   ============================================= */
+.check-btn,
+.no-check-btn {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    left: 50%;
+}
+
+.check-btn {
+    transform: translateX(-100%);
+    background-color: #4caf50;
+    color: white;
+}
+
+.no-check-btn {
+    transform: translateX(100%);
+    background-color: #f44336;
+    color: white;
+}
+
+.tuile.fullscreen .check-btn,
+.tuile.fullscreen .no-check-btn {
+    display: block;
+}

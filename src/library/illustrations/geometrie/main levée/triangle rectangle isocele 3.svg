@@ -1,0 +1,20 @@
+<svg width="15em" height="10em" version="1.1" viewBox="0 0 210 140" xmlns="http://www.w3.org/2000/svg">
+<!-- @3= segment [AB] -->
+<path style="stroke:black;fill:none;" d="M158 22 C158 22 144.0 23.72 138 23.6 C134.01 23.92 122 23.28 118 23.2 C114 23.12 101.97 22.28 98 22.8 C93.97 22.72 82.03 25.48 78 25.4 M78 25.4 C74.03 25.92 62 25.08 58 25 "/>
+<!-- Marqueur : 2 traits -->
+<line x1="112.088161" y1="26.378705" x2="111.908242" y2="20.381403" style="stroke:black;"/>
+<!-- Marqueur : 2 traits -->
+<line x1="108.08996" y1="26.498651" x2="107.91004" y2="20.501349" style="stroke:black;"/>
+<!-- @7= segment [AC] -->
+<path style="stroke:black;fill:none;" d="M158 22 C158 22 159.72 36.0 159.6 42.0 C159.92 45.99 159.28 58.0 159.2 62.0 C159.12 66.0 158.28 78.03 158.8 82.0 C158.72 86.03 161.48 97.97 161.4 102.0 M161.4 102.0 C161.92 105.97 161.08 118.0 161.0 122.0 "/>
+<!-- Marqueur : 2 traits -->
+<line x1="162.378705" y1="67.911839" x2="156.381403" y2="68.091758" style="stroke:black;"/>
+<!-- Marqueur : 2 traits -->
+<line x1="162.498651" y1="71.91004" x2="156.501349" y2="72.08996" style="stroke:black;"/>
+<!-- @8= segment [CB] -->
+<path style="stroke:black;fill:none;" d="M161.0 122.0 C161.0 122.0 146.95 111.2 142.83 106.83 C139.21 103.81 130.0 93.0 126.67 89.67 C123.34 86.13 113.33 75.49 109.5 72.5 C106.24 69.24 94.49 61.69 91.33 58.33 C87.61 55.43 78.4 44.6 75.17 41.17 M75.17 41.17 C71.93 37.73 62.23 27.43 59 24 "/>
+<path d="M 158.89959527317015,51.986509105671004 A 30 30 0 0 1  128.013490894329,22.899595273170135" style="stroke:black;fill:none;"/>
+<text style="stroke:black;" font-size="12" x="158" y="22">A</text>
+<text style="stroke:black;" font-size="12" x="44" y="25">B</text>
+<text style="stroke:black;" font-size="12" x="156" y="137">C</text>
+</svg>

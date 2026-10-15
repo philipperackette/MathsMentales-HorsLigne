@@ -1,0 +1,362 @@
+/* Clavier mathématique — base partagée
+   Importé par mathsmentales.css, diaporama.css et duel.css.
+   Les variantes propres à une appli passent par les variables --kb-* :
+   les redéfinir dans la feuille de l'appli (chargée après cet import). */
+
+/* Cadre escamotable : c'est lui qui est positionné en bas de la diapo,
+   la grille de touches vit dans le flux, sous la poignée. */
+.kb {
+    /* surface du clavier */
+    --kb-bg: rgba(233, 236, 243, 0.88);
+    --kb-blur: 8px;
+    --kb-shadow: 0 -6px 24px rgba(16, 24, 40, 0.18);
+    --kb-radius: 12px;
+    --kb-padding: 10px;
+    --kb-gap: 6px;
+    /* Taille de référence des touches. Les bornes en vh/vw évitent qu'un
+       clavier de 8 rangées déborde d'un écran peu haut ou peu large : les
+       touches du bas resteraient inaccessibles. */
+    --kb-base-size: min(2rem, 4.6vh, 5.5vw);
+    /* réglage manuel (boutons − / + de la barre), mémorisé par keyboard.js */
+    --kb-scale: 1;
+    --kb-font-size: calc(var(--kb-base-size) * var(--kb-scale));
+    /* largeur d'une touche : la colonne étroite vaut le tiers de cette valeur */
+    --kb-unit: 3em;
+    /* touches */
+    --kb-key-bg: #ffffff;
+    --kb-key-color: #1f2430;
+    --kb-key-border: 1px solid rgba(16, 24, 40, 0.1);
+    --kb-key-shadow: 0 1px 2px rgba(16, 24, 40, 0.14);
+    --kb-key-accent: #dbe3ff;
+    --kb-key-action: #e3e7f0;
+    --kb-key-hover: #eef1f8;
+    --kb-key-active: #b9edc8;
+    --kb-key-radius: 8px;
+    /* hauteur de la barre, seule partie visible une fois replié */
+    --kb-handle-h: 1.6rem;
+    /* décalage horizontal, recomposé avec le repli plus bas */
+    --kb-x: -50%;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    z-index: 5;
+    transform: translateX(var(--kb-x));
+    transition: transform 0.18s ease;
+    border-radius: var(--kb-radius) var(--kb-radius) 0 0;
+    box-shadow: var(--kb-shadow);
+}
+/* replié : le clavier glisse sous la diapo, seule la poignée reste visible.
+   La grille est masquée en fin de glissement, pour qu'elle ne réapparaisse pas
+   dans une zone sans débordement caché. */
+.kb[data-state="collapsed"] {
+    transform: translate(var(--kb-x), calc(100% - var(--kb-handle-h)));
+}
+/* Ancrage : glissement latéral sur la barre pour dégager une figure */
+.kb[data-anchor="left"] {
+    left: 0;
+    --kb-x: 0;
+}
+.kb[data-anchor="right"] {
+    left: auto;
+    right: 0;
+    --kb-x: 0;
+}
+.kb[data-state="collapsed"] .numkey-base,
+.kb[data-state="collapsed"] .alphakey-base {
+    visibility: hidden;
+    transition: visibility 0s linear 0.18s;
+}
+@media (prefers-reduced-motion: reduce) {
+    .kb {
+        transition: none;
+    }
+}
+/* la diapo ne doit pas imposer sa mise en page au clavier */
+.slide > .kb,
+.vertical .slide > .kb {
+    margin: 0;
+    width: auto;
+    height: auto;
+    flex-grow: 0;
+}
+/* Barre de contrôle : réduire — replier/déplier — agrandir */
+.kb-bar {
+    display: flex;
+    align-items: center;
+    height: var(--kb-handle-h);
+    background-color: var(--kb-bg);
+    backdrop-filter: blur(var(--kb-blur));
+    -webkit-backdrop-filter: blur(var(--kb-blur));
+    border-radius: var(--kb-radius) var(--kb-radius) 0 0;
+}
+.kb-bar button {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    color: var(--kb-key-color);
+    /* les applis habillent leurs boutons (duel) : on repart du neutre */
+    text-shadow: none;
+    font-family: inherit;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.kb-bar button:hover,
+.kb-bar button:focus-visible {
+    opacity: 1;
+}
+.kb-bar button:focus-visible {
+    outline: 2px solid #3b6bdb;
+    outline-offset: -2px;
+}
+.kb-bar .kb-handle {
+    flex: 1;
+    line-height: 0;
+    font-size: 1.2rem;
+}
+.kb-bar .kb-resize {
+    width: 2.2em;
+    font-size: 0.9rem;
+    font-weight: bold;
+    line-height: 1;
+}
+.kb-handle svg {
+    transition: transform 0.18s ease;
+}
+/* chevron vers le bas quand le clavier est ouvert (= le replier),
+   vers le haut quand il est replié (= le rouvrir) */
+.kb[data-state="collapsed"] .kb-handle svg {
+    transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+    .kb-handle svg {
+        transition: none;
+    }
+}
+
+.numkey-base,
+.alphakey-base,
+.numkey-simple {
+    padding: var(--kb-padding);
+    background-color: var(--kb-bg);
+    backdrop-filter: blur(var(--kb-blur));
+    -webkit-backdrop-filter: blur(var(--kb-blur));
+    border-radius: 0 0 var(--kb-radius) var(--kb-radius);
+    display: grid;
+    /* demi-rangées : une touche ordinaire en occupe deux, ce qui permet à
+       Correction (1,5) et Entrée (2,5) de couvrir des hauteurs intermédiaires */
+    grid-template-rows: repeat(8, 1em);
+    grid-gap: var(--kb-gap);
+    justify-content: center;
+    font-size: var(--kb-font-size);
+    color: var(--kb-key-color);
+    cursor: pointer;
+    grid-auto-columns: 2em;
+    grid-auto-rows: 1em;
+}
+.numkey-base {
+    grid-template-columns:
+        repeat(5, var(--kb-unit)) calc(var(--kb-unit) / 3)
+        var(--kb-unit) var(--kb-unit);
+}
+.alphakey-base {
+    grid-template-columns: repeat(10, var(--kb-unit));
+}
+.numkey-simple {
+    grid-template-columns: repeat(4, var(--kb-unit));
+}
+
+/* Taille de référence selon la place offerte par le slider : le clavier
+   occupe environ 22em de large et 9em de haut, barre comprise. Les bornes
+   vh/vw le maintiennent entièrement visible, quel que soit le découpage. */
+.slider-1 .kb {
+    --kb-base-size: min(2rem, 5vh, 4.4vw);
+}
+.slider-2 .kb {
+    --kb-base-size: min(1.8rem, 5vh, 2.2vw);
+}
+#slideshow.vertical .slider-2 .kb {
+    --kb-base-size: min(1.8rem, 2.5vh, 4.4vw);
+}
+.slider-34 .kb {
+    --kb-base-size: min(1.5rem, 2.5vh, 2.2vw);
+}
+
+/* Pour les smartphones : touches plus étroites, donc contrainte de largeur
+   moins sévère. */
+@media screen and (max-width: 800px) {
+    .kb {
+        --kb-padding: 6px;
+        --kb-gap: 4px;
+        --kb-radius: 8px;
+        --kb-key-radius: 6px;
+        --kb-unit: 2.2em;
+        --kb-handle-h: 1.4rem;
+        --kb-base-size: min(1.5rem, 5vh, 5.5vw);
+    }
+    .slider-1 .kb {
+        --kb-base-size: min(1.5rem, 5vh, 5.5vw);
+    }
+    .slider-2 .kb,
+    .slider-34 .kb {
+        --kb-base-size: min(1.5rem, 2.5vh, 2.7vw);
+    }
+    #slideshow.vertical .slider-2 .kb {
+        --kb-base-size: min(1.5rem, 2.5vh, 5.5vw);
+    }
+    .numkey-base,
+    .alphakey-base,
+    .numkey-simple {
+        font-weight: 550;
+    }
+}
+
+/* Touches : contenu centré par la grille interne, ce qui évite de recaler
+   les pictogrammes à la main quelle que soit la hauteur de la touche. */
+.numkey-base .key,
+.alphakey-base .key,
+.numkey-simple .key {
+    display: grid;
+    place-items: center;
+    /* ce sont des <button> : on repart du neutre, les applis habillant les
+       leurs (duel : dégradé rose, min-height en vh) et les navigateurs ayant
+       chacun leur rendu natif. La touche remplit exactement sa case de grille. */
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    font-family: inherit;
+    font-weight: inherit;
+    text-shadow: none;
+    background-image: none;
+    background-color: var(--kb-key-bg);
+    color: var(--kb-key-color);
+    border: var(--kb-key-border);
+    border-radius: var(--kb-key-radius);
+    box-shadow: var(--kb-key-shadow);
+    font-size: 1em;
+    line-height: 1.1;
+    grid-row: span 2;
+    user-select: none;
+    transition:
+        background-color 0.12s ease,
+        transform 0.06s ease;
+    /* pas de double-tap zoom ni de surbrillance système sur les touches */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.numkey-base .action {
+    background-color: var(--kb-key-action);
+}
+.numkey-base .colored,
+.alphakey-base .colored,
+.numkey-simple .colored {
+    background-color: var(--kb-key-accent);
+}
+.numkey-base .times {
+    font-family: "Times New Roman", Times, serif;
+    font-style: italic;
+}
+/* les cases vides occupent la même hauteur qu'une touche */
+.numkey-base > div:not(.key),
+.alphakey-base > div:not(.key),
+.numkey-simple > div:not(.key) {
+    grid-row: span 2;
+}
+@media (hover: hover) {
+    .numkey-base .key:hover,
+    .alphakey-base .key:hover,
+    .numkey-simple .key:hover {
+        background-color: var(--kb-key-hover);
+    }
+}
+.numkey-base .key:active,
+.numkey-base .key.pressed,
+.alphakey-base .key:active,
+.alphakey-base .key.pressed,
+.numkey-simple .key:active,
+.numkey-simple .key.pressed {
+    background-color: var(--kb-key-active);
+    transform: translateY(1px);
+    box-shadow: none;
+}
+.numkey-base .key:focus-visible,
+.alphakey-base .key:focus-visible,
+.numkey-simple .key:focus-visible {
+    outline: 3px solid #3b6bdb;
+    outline-offset: -1px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .numkey-base .key,
+    .alphakey-base .key,
+   .numkey-simple .key {
+        transition: none;
+    }
+}
+
+/* Touches à cheval sur plusieurs lignes */
+.numkey-base .backspace {
+    grid-row: 1 / 4;
+    grid-column: 5 / 6;
+}
+.numkey-base .enter {
+    grid-row: 4 / 9;
+    grid-column: 5 / 6;
+}
+.numkey-base .zero, .numkey-simple .zero {
+    grid-column: 1 / 3;
+}
+.numkey-simple .backspace {
+    grid-row: 1 / 4;
+    grid-column: 4 / 5;
+}
+.numkey-simple .enter {
+    grid-row: 4 / 9;
+    grid-column: 4 / 5;
+}
+/* Palette sombre.
+   Elle ne suit pas `prefers-color-scheme` toute seule : le site n'a pas de
+   thème sombre, un clavier noir se poserait sur un diaporama ivoire. Elle
+   s'active quand la page déclare son thème sur <html> ou <body> :
+     data-theme="dark" → toujours sombre
+     data-theme="auto" → sombre si le système l'est */
+[data-theme="dark"] .kb {
+    --kb-bg: rgba(28, 32, 42, 0.9);
+    --kb-shadow: 0 -6px 24px rgba(0, 0, 0, 0.45);
+    --kb-key-bg: #2b3040;
+    --kb-key-color: #eef1f8;
+    --kb-key-border: 1px solid rgba(255, 255, 255, 0.12);
+    --kb-key-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --kb-key-accent: #3a4a80;
+    --kb-key-action: #363c4d;
+    --kb-key-hover: #353b4c;
+    --kb-key-active: #2f6b46;
+}
+@media (prefers-color-scheme: dark) {
+    [data-theme="auto"] .kb {
+        --kb-bg: rgba(28, 32, 42, 0.9);
+        --kb-shadow: 0 -6px 24px rgba(0, 0, 0, 0.45);
+        --kb-key-bg: #2b3040;
+        --kb-key-color: #eef1f8;
+        --kb-key-border: 1px solid rgba(255, 255, 255, 0.12);
+        --kb-key-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        --kb-key-accent: #3a4a80;
+        --kb-key-action: #363c4d;
+        --kb-key-hover: #353b4c;
+        --kb-key-active: #2f6b46;
+    }
+}

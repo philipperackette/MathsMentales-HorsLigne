@@ -1,0 +1,249 @@
+.sprite {
+    background-image: url(spritesheetrev.webp);
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sprite-addtocart {
+    width: 48px;
+    height: 48px;
+    background-position: -5px -5px;
+}
+.sprite-facetoface {
+    width: 32px;
+    height: 32px;
+    background-position: -67px -56px;
+}
+.sprite-flame-48px {
+    width: 48px;
+    height: 48px;
+    background-position: -63px -5px;
+}
+
+.sprite-fusee {
+    width: 48px;
+    height: 48px;
+    background-position: -5px -210px;
+}
+
+.sprite-cart1 {
+    width: 48px;
+    height: 39px;
+    background-position: -121px -5px;
+}
+
+.sprite-cart2 {
+    width: 48px;
+    height: 39px;
+    background-position: -179px -5px;
+}
+
+.sprite-cart3 {
+    width: 48px;
+    height: 39px;
+    background-position: -237px -5px;
+}
+
+.sprite-cart4 {
+    width: 48px;
+    height: 39px;
+    background-position: -295px -5px;
+}
+
+.sprite-cartadd {
+    width: 48px;
+    height: 39px;
+    background-position: -121px -54px;
+}
+
+.sprite-clock {
+    width: 32px;
+    height: 32px;
+    background-position: -179px -54px;
+}
+
+.sprite-closebutton {
+    width: 32px;
+    height: 32px;
+    background-position: -221px -54px;
+}
+
+.sprite-closebutton32 {
+    width: 32px;
+    height: 32px;
+    background-position: -263px -54px;
+}
+
+.sprite-docs {
+    width: 32px;
+    height: 32px;
+    background-position: -305px -54px;
+}
+
+.sprite-editcart {
+    width: 32px;
+    height: 32px;
+    background-position: -5px -96px;
+}
+
+.sprite-iconfinder_compose_1055085 {
+    width: 64px;
+    height: 64px;
+    background-position: -47px -96px;
+}
+
+.sprite-iconfinder_copy {
+    width: 32px;
+    height: 32px;
+    background-position: -179px -96px;
+}
+
+.sprite-iconfinder_dice_32px {
+    width: 32px;
+    height: 32px;
+    background-position: -221px -96px;
+}
+
+.sprite-iconfinder_dice_48px {
+    width: 48px;
+    height: 48px;
+    background-position: -121px -105px;
+}
+
+.sprite-iconfinder_document_1055071 {
+    width: 64px;
+    height: 64px;
+    background-position: -263px -96px;
+}
+
+.sprite-burnCart {
+    width: 32px;
+    height: 32px;
+    background-position: -5px -170px;
+}
+
+.sprite-iconfinder_magicwand_1055032 {
+    width: 64px;
+    height: 64px;
+    background-position: -79px -170px;
+}
+
+.sprite-iconfinder_pencil_1055013 {
+    width: 48px;
+    height: 48px;
+    background-position: -153px -170px;
+}
+
+.sprite-iconfinder_pencil_activ {
+    width: 48px;
+    height: 48px;
+    background-position: -211px -170px;
+}
+
+.sprite-iconfinder_pin {
+    width: 48px;
+    height: 48px;
+    background-position: -269px -170px;
+}
+
+.sprite-logo-coopmaths-final {
+    width: 120px;
+    height: 58px;
+    background-position: -153px -228px;
+}
+
+.sprite-logocm160x132 {
+    width: 160px;
+    height: 132px;
+    background-position: -353px -5px;
+}
+
+.sprite-logocm32x32 {
+    width: 32px;
+    height: 32px;
+    background-position: -337px -147px;
+}
+
+.sprite-newsample {
+    width: 48px;
+    height: 48px;
+    background-position: -379px -147px;
+}
+
+.sprite-recyclecart {
+    width: 32px;
+    height: 32px;
+    background-position: -437px -147px;
+}
+
+.sprite-removefromcart {
+    width: 32px;
+    height: 32px;
+    background-position: -4px -58px;
+}
+.sprite-removefromcart48 {
+    width: 48px;
+    height: 48px;
+    background-position: -324px -205px;
+}
+
+.sprite-restart {
+    width: 48px;
+    height: 48px;
+    background-position: -385px -205px;
+}
+
+.sprite-restartsame {
+    width: 48px;
+    height: 48px;
+    background-position: -443px -205px;
+}
+
+.sprite-slide-solution {
+    width: 64px;
+    height: 64px;
+    background-position: -5px -263px;
+}
+
+.sprite-slider-next {
+    width: 48px;
+    height: 48px;
+    background-position: -79px -263px;
+}
+
+.sprite-slider-pause {
+    width: 48px;
+    height: 48px;
+    background-position: -283px -263px;
+}
+
+.sprite-slider-play {
+    width: 48px;
+    height: 48px;
+    background-position: -341px -263px;
+}
+
+.sprite-slider-solution {
+    width: 48px;
+    height: 48px;
+    background-position: -399px -263px;
+}
+
+.sprite-slider-stop {
+    width: 48px;
+    height: 48px;
+    background-position: -457px -263px;
+}
+
+.sprite-target {
+    width: 32px;
+    height: 32px;
+    background-position: -495px -147px;
+}
+
+.sprite-pixelart {
+    width: 44px;
+    height: 40px;
+    background-position: -186px -290px
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/w3.css">
+    <style>
+        @keyframes moveToTop {
+            from {
+                margin-top: 100%;
+                opacity: 0;
+            }
+            to {
+                margin-top: 0;
+                opacity: 1;
+            }
+        }
+        .anime {
+            position: relative;
+            animation-name: moveToTop;
+            animation-duration: 1s;
+        }
+        b {
+            color: blue;
+        }
+        h2{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-weight: bold;
+            text-shadow: 1px 1px rgb(42, 31, 52);
+        }
+        .bloc {
+            margin: 6em;
+        }
+        @media screen and (max-width: 600px) {
+            .bloc {
+                margin: 1rem;
+            }
+        }
+    </style>
+    <title>À propos de MathsMentales</title>
+</head>
+<body>
+<div class="w3-container w3-black w3-top">
+    <a href="index.html" class="w3-button w3-display-right">retour</a>
+    <h2>À propos de MathsMentales</h2>
+</div>
+<div class="w3-row anime bloc">
+    <div class="w3-third w3-right-align"><img src="img/logocm.png" alt="logo MathsMentales" class="w3-image"></div>
+    <div class="w3-twothird w3-container">
+        <h2>Présentation</h2>
+        <p><b>MathsMentales</b> est un site outil libre et gratuit qui permet de travailler les automatismes en Mathématiques.</p>
+        <p>Ce site a été réalisé par Sébastien COGEZ <a href="mailto:contact@mathsmentales.net">contact@mathsmentales.net</a>, professeur de Mathématiques dans les pyrénées orientales.</p>
+        <p>Travailler les automatismes permet aux apprenants de développer une compréhension plus profonde des concepts mathématiques. En apprenant à effectuer des calculs rapidement et avec précision ou à reconnaitre les figures clés rapidement, les apprenants peuvent se concentrer sur la compréhension des concepts mathématiques sous-jacents plutôt que de passer leur temps et leur énergie à effectuer des calculs de base. 
+        </p>
+        <p>MathsMentales est sous <b>licence libre</b>, c'est à dire que vous pouvez l'utiliser, que vous pouvez en <b>étudier le code</b>, que vous pouvez le <b>redistribuer</b> et que vous pouvez le <b>modifier</b> pour en faire profiter la communauté. La licence régissant ce partage est <b>apache 2.0</b>.</p>
+        <button class="w3-button w3-hover-orange w3-white w3-border w3-border-red w3-round-large" id="btn-return1">Voir les tutos sur PeerTube</button>
+    </div>
+</div>
+<div class="w3-row bloc">
+    <div class="w3-twothird w3-container w3-right-align">
+        <h2>Trouver les ressources</h2>
+        <p>MathsMentales comporte <b>plusieurs ceintaines d'activités</b> dans les domaines du calculs, de la géométrie ou de l'étude des données. Ces activités sont organisées par niveau d'étude en France et par concept du programme officiel.</p>
+        <p>Un <b>moteur de recherche</b> permet également de trouver plus rapidement les activités en utilisant les mots clés ou les références des activités.</p>
+        <button class="w3-button w3-hover-orange w3-white w3-border w3-border-red w3-round-large" id="btn-return2">Aller sur MathsMentales</button>
+    </div>
+    <div class="w3-third anime"><img src="img/Online research_Isometric.svg" alt="Chercher des ressources" class="w3-image" style="height:100%;max-height:200px;"></div>
+</div>
+<div class="w3-row bloc">
+    <div class="w3-third w3-right-align anime"><img src="img/Checklist _Monochromatic.svg" alt="logo QCMCam" class="w3-image" style="height:100%;max-height:200px;"></div>
+    <div class="w3-twothird w3-container">
+        <h2>Paramétrer une ressource</h2>
+        <p>Chaque ressource utilisée possède a minima deux paramètres : le <b>temps d'affichage</b> et le <b>nombre de questions</b> posées. Avec un temps nul, l'enseignant maitrise l'avancée du diaporama, alors qu'avec un temps défini, la diapositive ne sera affichée que la durée choisie.
+           </p> 
+        <p>Les données sont tirées de manière <b>aléatoire</b> en suivant des paramètres didactiques choisis avec soin par le concepteur et déclinés en sous-options pour coller au plus près des pratiques de l'enseignant utilisateur.</p>
+        <p>Comme il est important de pouvoir travailler plusieurs notions quotidiennement, les ressources peuvent être combinées dans des <b>paniers de ressources</b> pour obtenir des supports de travail variés.</p>
+        <button class="w3-button w3-hover-orange w3-white w3-border w3-border-red w3-round-large" id="btn-return3">Aller sur MathsMentales</button>
+    </div>
+</div>
+<div class="w3-row bloc">
+    <div class="w3-twothird w3-container w3-right-align">
+        <h2>Plus qu'un simple diaporama</h2>
+        <p>Si vous avez une classe multi niveaux, vous pouvez afficher jusqu'à <b>4 diaporamas indépendants</b> en même temps. Cela vous permet la différenciation ou la prise en compte des difficultés de certains élèves.</p>
+        <p>MathsMentales peut également transformer un panier en <b>fiche d'exercices</b> à imprimer ou afficher sur écran, en <b>feuille d'interrogation</b> avec les emplacements prévus pour répondre, en <b>course aux nombres</b>, en jeu de <b>flash-cards</b>, de <b>puzzles</b>, de <b>dominos</b>, de <b>j'ai/qui a ?</b>, et même en <b>défi sur tablette</b>.</p>
+        <button class="w3-button w3-hover-orange w3-white w3-border w3-border-red w3-round-large" id="btn-return4">Aller sur MathsMentales</button>
+    </div>
+    <div class="w3-third anime"><img src="img/Data and settings_Monochromatic.svg" alt="Chercher des ressources" class="w3-image" style="height:100%;max-height:200px;"></div>
+</div>
+<div class="w3-row bloc">
+    <div class="w3-third anime"><img src="img/Team building _Monochromatic.svg" alt="Travailler en équipe" class="w3-image" style="height:100%;max-height:200px;"></div>
+    <div class="w3-twothird w3-container w3-right-left">
+        <h2>Contribuer à MathsMentales</h2>
+        <p>Vous voulez <b>participer</b> à l'évolution de MathsMentales ? Plusieurs options s'offrent à vous, selon vos capacités et votre disponibilité.</p>
+        <p>Vous pouvez par exemple envoyer un <b>mail</b> à <a href="mailto:contact@mathsmentales.net">contact@mathsmentales.net</a> pour signaler une erreur, proposer une amélioration, demander une activités inexistante, ou simplement dire merci.</p>
+        <p>Si vous vous sentez l'âme d'un <b>créateur</b>, vous pouvez étudier le modèle d'activité pour programmer la vôtre en la proposer à la communauté.</p>
+        <p>Si vous êtes <b>programmeur</b>, vous pouvez apporter votre contribution sur le fonctionnement ou même proposer un autre type d'usage de ressource.</p>
+        <p>Le code source est disponible sur la <b>FORGE des Communs Numériques Éducatifs</b> où il est également possible de <b>créer des tickets</b> de bug pour aider à l'amélioration de l'outil.</p>
+        <button class="w3-button w3-hover-orange w3-white w3-border w3-border-red w3-round-large" id="btn-github">Aller sur LA FORGE des Communs Numériques Éducatifs</button>
+    </div>
+</div>
+<div class="w3-row bloc">
+    <div class="w3-twothird w3-container w3-right-align">
+        <h2>Apprendre MathsMentales</h2>
+        <p>Pour apprendre à vous servir de MathsMentales, vous pouvez lire <b><a href="./docs/MathsMentales documentation.pdf">la documentation</a></b>, suivre des formations auprès de vos animateurs académiques (ERUN ou IAN), ou étudier les vidéos sur la <a href="https://tube-numerique-educatif.apps.education.fr/w/p/sqYv2mWytX53mdwHEexAE7"><b>chaine PeerTube Éducation</b></a> (en cours de production).</p>
+        <button class="w3-button w3-hover-orange w3-white w3-border w3-border-red w3-round-large" id="btn-return4">Retourner sur MathsMentales</button>
+    </div>
+    <div class="w3-third anime"><img src="img/Video tutorial _Isometric.svg" alt="Chercher des ressources" class="w3-image" style="height:100%;max-height:200px;"></div>
+</div>
+</div>
+<script>
+    document.getElementById('btn-return1').onclick=()=>{location.href = 'https://tube-numerique-educatif.apps.education.fr/w/p/sqYv2mWytX53mdwHEexAE7'}
+    document.getElementById('btn-return2').onclick=()=>{location.href = 'https://mathsmentales.net'}
+    document.getElementById('btn-return3').onclick=()=>{location.href = 'https://mathsmentales.net'}
+    document.getElementById('btn-return4').onclick=()=>{location.href = 'https://mathsmentales.net'}
+    document.getElementById('btn-github').onclick=()=>{location.href = 'https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr/-/tree/master'}
+</script>
+</body>
+</html>

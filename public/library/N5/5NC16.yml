@@ -1,0 +1,35 @@
+title: Fraction quotient
+dest:
+  - 5NC
+  - 4NC
+description: >
+  Produit à trou, multiplication
+options:
+  - name: Produit à trou (petits nombres)
+    vars:
+      n1: "2_9"
+      n2: "${(function(){ let n2, tries=0; do { n2 = :n1*MMmath.aleaInt(1,5) + MMmath.aleaInt(1,:n1-1); tries++; } while (MMmath.fractionEstSimplifiable(n2,:n1) && tries<50); return n2; })()}"
+    question: [":n1 \\times \\, ... = :n2", "... \\, \\times \\, :n1 = :n2"]
+    answer: ":n1 \\times \\color{red}{\\dfrac{:n2}{:n1}}"
+    value: "${MMmath.fractionSimplifiee(:n2,:n1)}"
+  - name: Vérifier une égalité produit-quotient
+    vars:
+      n1: "2_9"
+      n2: "${(function(){ let n2, tries=0; do { n2 = :n1*MMmath.aleaInt(1,5) + MMmath.aleaInt(1,:n1-1); tries++; } while (MMmath.fractionEstSimplifiable(n2,:n1) && tries<50); return n2; })()}"
+    question: ":n1 \\times \\dfrac{:n2}{:n1} = ..."
+    answer: ":n1 \\times \\dfrac{:n2}{:n1} = \\color{red}{:n2}"
+    value: ":n2"
+  - name: Écrire un quotient sous forme de fraction
+    vars:
+      n1: "2_9"
+      n2: "${(function(){ let n2, tries=0; do { n2 = :n1*MMmath.aleaInt(1,5) + MMmath.aleaInt(1,:n1-1); tries++; } while (MMmath.fractionEstSimplifiable(n2,:n1) && tries<50); return n2; })()}"
+    question: ":n2 \\div :n1 = ..."
+    answer: ":n2 \\div :n1 = \\color{red}{${MMmath.fractionSimplifiee(:n2,:n1)}}"
+    value: "${MMmath.fractionSimplifiee(:n2,:n1)}"
+  - name: Résoudre
+    vars:
+      n1: "6_15_1_^prime"
+      n2: "${(function(){ let n2, tries=0; do { n2 = :n1*MMmath.aleaInt(2,6) + MMmath.aleaInt(1,:n1-1); tries++; } while (!MMmath.fractionEstSimplifiable(n2,:n1) && tries<50); return n2; })()}"
+    question: \, x \, \times :n1 = :n2
+    answer: "x = \\dfrac{:n2}{:n1} = \\color{red}{${MMmath.fractionSimplifiee(:n2,:n1)}}"
+    value: "${MMmath.fractionSimplifiee(:n2,:n1)}"

@@ -1,0 +1,10 @@
+<?php
+// proxy/webdavhosts.php.exemple — copier en webdavhosts.php sur le serveur.
+//
+// Hôtes WebDAV autorisés EN PLUS des instances Apps Éducation. Noms d'hôte
+// EXACTS, jamais de motif : un motif mal écrit rouvrirait le proxy à tout
+// Internet, ce qui en ferait un relais de scan du réseau interne de
+// l'hébergement. Ajouts à la demande des utilisateurs.
+return [
+    // 'cloud.exemple.fr',
+];

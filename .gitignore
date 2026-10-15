@@ -1,0 +1,65 @@
+attendus fin annee/Exos MMv1 à transposer.ods
+attendus fin annee/.~lock.Exos MMv1 à transposer.ods
+
+# ignorer le dossier de config de visual studio code
+.vscode/
+
+# les dépendances
+node_modules
+# la doc
+documentation
+src/js/modules/doc
+# private files
+public/img/
+
+# files for prod
+public/*.html
+public/js
+public/css
+public/library/test-results
+public/library/illustrations
+dist/
+.cache/
+
+# dev
+src/js/libs
+!src/js/libs/*alllibs.js
+!src/js/libs/*alllibs.min.js
+!public/js/libs/*alllibs.min.js
+!src/js/libs/compute-engine
+!src/js/libs/jsoneditor-9.5.3
+!src/js/libs/JSXGraph1.11.1
+!src/js/libs/mathlive
+!src/js/libs/qr-code-styling
+!src/js/libs/scratchblocks
+!src/js/libs/seedrandom
+!src/js/libs/sortable
+!src/js/libs/vanilla-picker
+
+# la conf privée
+_private
+
+# Liste blanche d'hôtes WebDAV additionnels du proxy nuage : configuration
+# serveur, jamais versionnée. Se créer sur le serveur à partir de
+# public/proxy/webdavhosts.php.exemple.
+public/proxy/webdavhosts.php
+
+# traces MacOS
+.DS_Store
+*.cert
+# fichiers du serveur
+tinyweb-1-94
+*_log
+
+.htaccess
+.zed/tasks.json
+
+# harnais de non-régression (arbre de travail + instantané de référence)
+tools/.tmp
+tools/*.json
+tools/*.mjs
+
+# Claude
+CLAUDE.md
+.claude
+docs/superpowers/plans/2026-08-23-historique-nuage.md

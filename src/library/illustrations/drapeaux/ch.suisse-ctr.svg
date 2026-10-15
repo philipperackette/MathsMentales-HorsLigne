@@ -1,0 +1,51 @@
+<svg
+  width="9em" height="9em"
+   version="1.1"
+   viewBox="0 0 480 480"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <g
+     transform="translate(-80)"
+     fill-rule="evenodd"
+     stroke-width="1pt"
+     id="g4">
+    <path
+       d="m0 0h640v480h-640z"
+       fill="#ff0000"
+       id="path1" />
+    <g
+       fill="#ffffff"
+       id="g3">
+      <path
+         d="m170 195h300v90h-300z"
+         id="path2" />
+      <path
+         d="m275 90h90v300h-90z"
+         id="path3" />
+    </g>
+  </g>
+  <g
+     style="fill:none;stroke-dasharray:19.9999, 5;stroke-width:5;stroke:#800000;stroke-opacity:0.45200893"
+     class="correction"
+     id="g8">
+    <path
+       d="m582.3 240h-684.6" />
+    <path
+       d="m240 582.3v-684.6" />
+    <g
+       transform="rotate(-45,240,240)">
+      <path
+         d="m582.3 240h-684.6" />
+      <path
+         d="m240 582.3v-684.6" />
+    </g>
+  </g>
+  <g style="fill:none;stroke:#008000;stroke-width:6;stroke-dasharray:none" class="correction">
+    <path
+       d="m 230.06799,215.49949 21.13699,48.77767" />
+    <path
+       d="m 264.21236,229.25503 -48.77767,21.13699" />
+  </g>
+</svg>

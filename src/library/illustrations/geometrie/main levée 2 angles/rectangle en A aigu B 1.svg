@@ -1,0 +1,12 @@
+<svg width='211' height='139' version='1.1' viewBox='0 0 211 139' xmlns='http://www.w3.org/2000/svg' class='svg-file'>
+<style>.svg-file path{fill:none;stroke-linecap:round;stroke:#000}.svg-file line{stroke:#000}.svg-file text{font-size:12px;text-align:center;text-anchor:middle}</style><path d='m29 118s16-1.1 22-0.71c4.4-0.15 18 1 22 1.3s18 1.6 22 1.3c4.4 0.25 18-2 22-1.7 4.4-0.34 18 1 22 1.3s18 1.4 22 1.3c4.4 0.26 18-0.57 22-0.71'/>
+<path d='m29 118s-1.1-14-0.74-20c-0.15-4 1-16 1.3-20 0.25-4 1.6-16 1.3-20 0.25-4-1.4-16-1.7-20'/>
+<path d='m30 38s17 7.7 22 11c4.5 2.2 17 10 22 13 4.4 2.5 17 11 22 13 4.1 2.4 18 7.3 22 9.7 4.6 2 17 10 22 13s17 10 22 13c4.2 2.4 17 8.6 22 11'/>
+<path d='m29 104c13-0.06 13 0.062 13 13'/>
+<path d='m152 120a30 30 0 0 1 3.5-14'/>
+<text x='29.064568' y='33.778038'>${:A}</text>
+<text x='191.73663' y='127.21996'>${:B}</text>
+<text x='24.667349' y='128.241'>${:C}</text>
+<text x='153.48213' y='112.78696' style='font-size:10px;text-align:end;text-anchor:end'>${:angB}°</text>
+<text transform='rotate(1.4)' x='106.40751' y='127.87739'>${:BC} ${:u}</text>
+</svg>

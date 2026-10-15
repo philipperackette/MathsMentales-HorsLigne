@@ -1,0 +1,108 @@
+{
+    "ID":"6MC7",
+    "dest":["6MC"],
+    "type":"text",
+    "repeat":2,
+    "title":"Comparer les aires de deux figures",
+    "description":"Comparer des aires, surfaces, découpage, recollage, figures. Non adapté au mode interactif (online/duel).",
+    "question":"Sans calculer, quelle figure a la plus grande aire : la figure 1, la figure 2, ou ont-elles la même aire ?",
+    "options":[
+        {
+            "name":"Même forme, une encoche sur un bord",
+            "vars":{
+                "a":"3_5",
+                "b":"3_5",
+                "nw":"1_${:a-2}",
+                "nh":"1_${:b-1}",
+                "nx1":"1_${:a-1-:nw}",
+                "nx2":"${:nx1+:nw}",
+                "gap":2,
+                "ox2":"${:a+:gap}",
+                "notchFig":"1_2",
+                "otherFig":"${:notchFig==1?2:1}",
+                "nhL":"${:notchFig==1?:nh:0}",
+                "nhR":"${:notchFig==2?:nh:0}",
+                "areaFull":"${:a*:b}",
+                "areaNotch":"${:a*:b-:nw*:nh}"
+            },
+            "figure":{
+                "type":"graph",
+                "axis":false,
+                "grid":true,
+                "boundingbox":[-1,"${:b+2}","${2*:a+:gap+1}",-1.5],
+                "content":[
+                    ["point",[0,0],{"name":"L1","face":"","label":{"visible":false}}],
+                    ["point",["${:a}",0],{"name":"L2","face":"","label":{"visible":false}}],
+                    ["point",["${:a}","${:b}"],{"name":"L3","face":"","label":{"visible":false}}],
+                    ["point",["${:nx2}","${:b}"],{"name":"L4","face":"","label":{"visible":false}}],
+                    ["point",["${:nx2}","${:b-:nhL}"],{"name":"L5","face":"","label":{"visible":false}}],
+                    ["point",["${:nx1}","${:b-:nhL}"],{"name":"L6","face":"","label":{"visible":false}}],
+                    ["point",["${:nx1}","${:b}"],{"name":"L7","face":"","label":{"visible":false}}],
+                    ["point",[0,"${:b}"],{"name":"L8","face":"","label":{"visible":false}}],
+                    ["polygon",["L1","L2","L3","L4","L5","L6","L7","L8"],{"fillColor":"none","strokeWidth":2}],
+                    ["point",["${:ox2}",0],{"name":"R1","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+:a}",0],{"name":"R2","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+:a}","${:b}"],{"name":"R3","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+:nx2}","${:b}"],{"name":"R4","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+:nx2}","${:b-:nhR}"],{"name":"R5","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+:nx1}","${:b-:nhR}"],{"name":"R6","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+:nx1}","${:b}"],{"name":"R7","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2}","${:b}"],{"name":"R8","face":"","label":{"visible":false}}],
+                    ["polygon",["R1","R2","R3","R4","R5","R6","R7","R8"],{"fillColor":"none","strokeWidth":2}],
+                    ["text",["${:a/2}","${:b+1}","Figure 1"],{"anchorX":"middle","fontSize":14}],
+                    ["text",["${:ox2+:a/2}","${:b+1}","Figure 2"],{"anchorX":"middle","fontSize":14}]
+                ]
+            },
+            "answer":"La figure ${:otherFig} est plus grande : elle compte ${:areaFull} carreaux, contre ${:areaNotch} pour la figure ${:notchFig}, qui a une encoche sur un bord.",
+            "value":"Figure ${:otherFig}"
+        },
+        {
+            "name":"Formes différentes, découpage/recollage",
+            "vars":{
+                "hts":"1_6_4_^&",
+                "h0":"${:hts[0]}",
+                "h1":"${:hts[1]}",
+                "h2":"${:hts[2]}",
+                "h3":"${:hts[3]}",
+                "gap":2,
+                "ox2":"${4+:gap}",
+                "maxH":"${Math.max(:h0,:h1,:h2,:h3)}",
+                "areaTot":"${:h0+:h1+:h2+:h3}"
+            },
+            "figure":{
+                "type":"graph",
+                "axis":false,
+                "grid":true,
+                "boundingbox":[-1,"${:maxH+2}","${:ox2+5}",-1.5],
+                "content":[
+                    ["point",[0,0],{"name":"A0","face":"","label":{"visible":false}}],
+                    ["point",[0,"${:h0}"],{"name":"A1","face":"","label":{"visible":false}}],
+                    ["point",[1,"${:h0}"],{"name":"A2","face":"","label":{"visible":false}}],
+                    ["point",[1,"${:h1}"],{"name":"A3","face":"","label":{"visible":false}}],
+                    ["point",[2,"${:h1}"],{"name":"A4","face":"","label":{"visible":false}}],
+                    ["point",[2,"${:h2}"],{"name":"A5","face":"","label":{"visible":false}}],
+                    ["point",[3,"${:h2}"],{"name":"A6","face":"","label":{"visible":false}}],
+                    ["point",[3,"${:h3}"],{"name":"A7","face":"","label":{"visible":false}}],
+                    ["point",[4,"${:h3}"],{"name":"A8","face":"","label":{"visible":false}}],
+                    ["point",[4,0],{"name":"A9","face":"","label":{"visible":false}}],
+                    ["polygon",["A0","A1","A2","A3","A4","A5","A6","A7","A8","A9"],{"fillColor":"none","strokeWidth":2}],
+                    ["point",["${:ox2}",0],{"name":"B0","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2}","${:h1}"],{"name":"B1","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+1}","${:h1}"],{"name":"B2","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+1}","${:h2}"],{"name":"B3","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+2}","${:h2}"],{"name":"B4","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+2}","${:h3}"],{"name":"B5","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+3}","${:h3}"],{"name":"B6","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+3}","${:h0}"],{"name":"B7","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+4}","${:h0}"],{"name":"B8","face":"","label":{"visible":false}}],
+                    ["point",["${:ox2+4}",0],{"name":"B9","face":"","label":{"visible":false}}],
+                    ["polygon",["B0","B1","B2","B3","B4","B5","B6","B7","B8","B9"],{"fillColor":"none","strokeWidth":2}],
+                    ["text",[2,"${:maxH+1}","Figure 1"],{"anchorX":"middle","fontSize":14}],
+                    ["text",["${:ox2+2}","${:maxH+1}","Figure 2"],{"anchorX":"middle","fontSize":14}]
+                ]
+            },
+            "answer":"Les figures ont la même aire (${:areaTot} carreaux chacune) : on obtient la figure 2 en découpant la première colonne de la figure 1 et en la recollant à la fin de la rangée.",
+            "value":"Égales"
+        }
+    ]
+}

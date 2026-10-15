@@ -1,0 +1,87 @@
+title: "Symétrie centrale sur quadrillage : décrire un déplacement"
+description: "symétrie centrale, quadrillage, déplacement, demi-tour, symétrique"
+ID: 5GT9
+type: text
+textSize: medium
+dest:
+  - 5GT
+consigne: "Répondre par un nombre de cases suivi d’une lettre (D, G, H ou B), pour chaque direction utile."
+options:
+  - name: Facile — petits déplacements, trajet A→B tracé
+    vars:
+      maxmag: 3
+      guide: 1
+  - name: Moyen — déplacements plus longs, sans repère
+    vars:
+      maxmag: 4
+      guide: 0
+vars:
+  # ─── valeurs par défaut, écrasées par les options : déclarées ici pour que
+  # l'ordre de résolution les place avant leur première utilisation.
+  maxmag: 4
+  guide: 0
+  # ─── composantes horizontale et verticale du déplacement de A vers B, en
+  # cases. Aucune n’est nulle : chaque tirage fait travailler les deux lettres.
+  dx: "${-:maxmag}_${:maxmag}_^&,0"
+  dy: "${-:maxmag}_${:maxmag}_^&,0"
+  adx: ${Math.abs(:dx)}
+  ady: ${Math.abs(:dy)}
+  # ─── B est le milieu de A et du symétrique cherché : c’est donc le centre du
+  # dessin, et on le pose à l’origine. A occupe un coin, le symétrique — que
+  # l’élève doit pouvoir atteindre en comptant — occupe le coin opposé.
+  # Le dessin couvre ainsi 2·|dx| cases en largeur et 2·|dy| en hauteur.
+  #
+  # La taille d’une case s’ajuste alors pour que ce dessin, marge d’une case
+  # comprise, remplisse toujours le cadre de 15 sur 11 : c’est le seul moyen
+  # d’avoir des cases aussi grandes que le tirage le permet, puisque la figure
+  # s’affiche à la taille de son cadre, quelle que soit l’échelle. Un plafond à
+  # 3 évite des cases démesurées quand le déplacement est minuscule.
+  pasx: ${15/(2*:adx+2)}
+  pasy: ${11/(2*:ady+2)}
+  pas: ${MMmath.round(Math.min(3,:pasx,:pasy),4)}
+  ax: ${MMmath.round(-:dx*:pas,4)}
+  ay: ${MMmath.round(-:dy*:pas,4)}
+  bx: 0
+  by: 0
+  # ─── noms posés à côté de leur croix, vers le haut et la droite. L’écart et
+  # les corps de texte suivent la taille de la case, pour que le dessin garde
+  # le même aspect d’un tirage à l’autre — mais sans descendre sous un plancher
+  # exprimé dans le repère : un grand déplacement donne de petites cases, et
+  # une taille strictement proportionnelle rendrait alors les noms illisibles.
+  # Le cadre étant fixe, ce plancher vaut une taille constante à l’écran.
+  ecx: ${MMmath.round(Math.max(0.75,0.5*:pas),4)}
+  ecy: ${MMmath.round(Math.max(0.5,0.35*:pas),4)}
+  alx: ${MMmath.round(:ax+:ecx,4)}
+  aly: ${MMmath.round(:ay+:ecy,4)}
+  blx: ${:ecx}
+  bly: ${:ecy}
+  psize: ${Math.round(Math.max(10,0.16*:pas*30))}
+  lfont: ${Math.round(Math.max(24,0.48*:pas*30))}
+  # ─── lettres et distances de la réponse, dans l’ordre horizontal puis
+  # vertical, comme dans l’exemple "2D 3B"
+  letH: ${:dx>0?'D':'G'}
+  letV: ${:dy>0?'H':'B'}
+  motH: ${:dx>0?'Droite':'Gauche'}
+  motV: ${:dy>0?'Haut':'Bas'}
+  rep: "${:adx}${:letH} ${:ady}${:letV}"
+question: "Décris, par un nombre de cases et une direction (D, G, H ou B), le déplacement qui va du point B au symétrique du point A par rapport à B."
+shortq: "déplacement de B au symétrique de A ?"
+answer: "Le déplacement cherché est <span class='red'>:rep</span> (:motH puis :motV).<br>B est le milieu du segment reliant A à son symétrique : le déplacement de B vers ce symétrique est donc le même que celui de A vers B, à poursuivre d’autant au-delà de B."
+value: ":rep"
+figure:
+  type: graph
+  scale: 3
+  axis: false
+  # le quadrillage est tracé comme élément, pour que son pas suive la taille de
+  # case calculée plus haut. Ses lignes passent par l’origine, donc par B, et
+  # par tous les multiples du pas, donc par A et par le symétrique cherché.
+  grid: false
+  keepAspect: true
+  boundingbox: [-7.5, 5.5, 7.5, -5.5]
+  content:
+    - [grid, [], { majorStep: ":pas", major: { face: line }, strokeColor: "#9fb3c8", strokeOpacity: 0.9, strokeWidth: 1 }]
+    - [segment, [[":ax", ":ay"], [":bx", ":by"]], { strokeColor: "#c1121f", strokeWidth: 3, dash: 2, visible: "${:guide===1}" }]
+    - [point, [":ax", ":ay"], { name: "", face: x, size: ":psize", strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+    - [point, [":bx", ":by"], { name: "", face: x, size: ":psize", strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+    - [text, [":alx", ":aly", "A"], { anchorX: middle, anchorY: middle, fontSize: ":lfont", strokeColor: "#000000" }]
+    - [text, [":blx", ":bly", "B"], { anchorX: middle, anchorY: middle, fontSize: ":lfont", strokeColor: "#000000" }]

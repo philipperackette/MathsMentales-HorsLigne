@@ -1,0 +1,281 @@
+title: "Symétrie centrale : visualiser l'emplacement du symétrique"
+description: "symétrie centrale, symétrique, demi-tour, visualiser, centre"
+ID: 5GT8
+type: text
+textSize: medium
+dest:
+  - 5GT
+consts:
+  # ─── déplacements utilisables de A vers B, classés du plus court au plus
+  # long. Les 8 premiers avancent d’une case (les seuls du palier facile) ; les
+  # 16 suivants comportent un déplacement de deux cases. max(|dx|,|dy|) ne
+  # dépasse jamais 2 : deux cases de marge entre B et le bord suffisent donc
+  # toujours à contenir A et le symétrique cherché.
+  vecs:
+    - [1, 0]
+    - [-1, 0]
+    - [0, 1]
+    - [0, -1]
+    - [1, 1]
+    - [1, -1]
+    - [-1, 1]
+    - [-1, -1]
+    - [2, 0]
+    - [-2, 0]
+    - [0, 2]
+    - [0, -2]
+    - [2, 1]
+    - [2, -1]
+    - [-2, 1]
+    - [-2, -1]
+    - [1, 2]
+    - [1, -2]
+    - [-1, 2]
+    - [-1, -2]
+    - [2, 2]
+    - [2, -2]
+    - [-2, 2]
+    - [-2, -2]
+
+options:
+  - name: Facile — 16 zones larges, déplacement d’une case, trajet A→B tracé
+    vars:
+      vidx: "0_7"
+      guide: 1
+      nc: 4
+      nr: 4
+      cell: 3.0
+    figure:
+      # 16 zones seulement, et donc des cases larges : le tracé du
+      # déplacement de A vers B y tient sans recouvrir les numéros.
+      type: graph
+      scale: 3
+      axis: false
+      grid: false
+      keepAspect: true
+      boundingbox: [-0.5, 12.5, 12.5, -0.5]
+      content:
+      - [polygon, [[0, 9], [3, 9], [3, 12], [0, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[3, 9], [6, 9], [6, 12], [3, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[6, 9], [9, 9], [9, 12], [6, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9, 9], [12, 9], [12, 12], [9, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0, 6], [3, 6], [3, 9], [0, 9]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[3, 6], [6, 6], [6, 9], [3, 9]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[6, 6], [9, 6], [9, 9], [6, 9]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9, 6], [12, 6], [12, 9], [9, 9]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0, 3], [3, 3], [3, 6], [0, 6]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[3, 3], [6, 3], [6, 6], [3, 6]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[6, 3], [9, 3], [9, 6], [6, 6]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9, 3], [12, 3], [12, 6], [9, 6]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0, 0], [3, 0], [3, 3], [0, 3]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[3, 0], [6, 0], [6, 3], [3, 3]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[6, 0], [9, 0], [9, 3], [6, 3]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9, 0], [12, 0], [12, 3], [9, 3]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [text, [1.5, 11.025, "1"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [4.5, 11.025, "2"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [text, [7.5, 11.025, "3"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [10.5, 11.025, "4"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [text, [1.5, 8.025, "5"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [4.5, 8.025, "6"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [text, [7.5, 8.025, "7"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [10.5, 8.025, "8"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [text, [1.5, 5.025, "9"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [4.5, 5.025, "10"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [text, [7.5, 5.025, "11"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [10.5, 5.025, "12"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [text, [1.5, 2.025, "13"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [4.5, 2.025, "14"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [text, [7.5, 2.025, "15"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#0b3a57" }]
+      - [text, [10.5, 2.025, "16"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#ffffff" }]
+      - [segment, [[":ax", ":ay"], [":bx", ":by"]], { strokeColor: "#c1121f", strokeWidth: 3, dash: 2 }]
+      - [point, [":ax", ":ay"], { name: "", face: x, size: 11, strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+      - [point, [":bx", ":by"], { name: "", face: x, size: 11, strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+      - [text, [":alx", ":aly", "A"], { anchorX: middle, anchorY: middle, fontSize: 29, strokeColor: "#000000" }]
+      - [text, [":blx", ":bly", "B"], { anchorX: middle, anchorY: middle, fontSize: 29, strokeColor: "#000000" }]
+  - name: Moyen — 25 zones, déplacement d’une ou deux cases
+    vars:
+      vidx: "0_23"
+      guide: 0
+      nc: 5
+      nr: 5
+      cell: 2.4
+    figure:
+      # 25 zones, comme le palier précédent mais sans le trait d'aide.
+      type: graph
+      scale: 3
+      axis: false
+      grid: false
+      keepAspect: true
+      boundingbox: [-0.5, 12.5, 12.5, -0.5]
+      content:
+      - [polygon, [[0, 9.6], [2.4, 9.6], [2.4, 12], [0, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.4, 9.6], [4.8, 9.6], [4.8, 12], [2.4, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.8, 9.6], [7.2, 9.6], [7.2, 12], [4.8, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.2, 9.6], [9.6, 9.6], [9.6, 12], [7.2, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.6, 9.6], [12, 9.6], [12, 12], [9.6, 12]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0, 7.2], [2.4, 7.2], [2.4, 9.6], [0, 9.6]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.4, 7.2], [4.8, 7.2], [4.8, 9.6], [2.4, 9.6]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.8, 7.2], [7.2, 7.2], [7.2, 9.6], [4.8, 9.6]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.2, 7.2], [9.6, 7.2], [9.6, 9.6], [7.2, 9.6]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.6, 7.2], [12, 7.2], [12, 9.6], [9.6, 9.6]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0, 4.8], [2.4, 4.8], [2.4, 7.2], [0, 7.2]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.4, 4.8], [4.8, 4.8], [4.8, 7.2], [2.4, 7.2]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.8, 4.8], [7.2, 4.8], [7.2, 7.2], [4.8, 7.2]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.2, 4.8], [9.6, 4.8], [9.6, 7.2], [7.2, 7.2]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.6, 4.8], [12, 4.8], [12, 7.2], [9.6, 7.2]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0, 2.4], [2.4, 2.4], [2.4, 4.8], [0, 4.8]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.4, 2.4], [4.8, 2.4], [4.8, 4.8], [2.4, 4.8]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.8, 2.4], [7.2, 2.4], [7.2, 4.8], [4.8, 4.8]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.2, 2.4], [9.6, 2.4], [9.6, 4.8], [7.2, 4.8]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.6, 2.4], [12, 2.4], [12, 4.8], [9.6, 4.8]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0, 0], [2.4, 0], [2.4, 2.4], [0, 2.4]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.4, 0], [4.8, 0], [4.8, 2.4], [2.4, 2.4]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.8, 0], [7.2, 0], [7.2, 2.4], [4.8, 2.4]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.2, 0], [9.6, 0], [9.6, 2.4], [7.2, 2.4]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.6, 0], [12, 0], [12, 2.4], [9.6, 2.4]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [text, [1.2, 11.22, "1"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 11.22, "2"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 11.22, "3"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 11.22, "4"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 11.22, "5"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 8.82, "6"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 8.82, "7"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 8.82, "8"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 8.82, "9"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 8.82, "10"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 6.42, "11"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 6.42, "12"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 6.42, "13"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 6.42, "14"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 6.42, "15"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 4.02, "16"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 4.02, "17"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 4.02, "18"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 4.02, "19"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 4.02, "20"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 1.62, "21"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 1.62, "22"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 1.62, "23"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 1.62, "24"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 1.62, "25"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [point, [":ax", ":ay"], { name: "", face: x, size: 9, strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+      - [point, [":bx", ":by"], { name: "", face: x, size: 9, strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+      - [text, [":alx", ":aly", "A"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#000000" }]
+      - [text, [":blx", ":bly", "B"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#000000" }]
+  - name: Difficile — 25 zones en taches irrégulières
+    vars:
+      vidx: "8_23"
+      guide: 0
+      nc: 5
+      nr: 5
+      cell: 2.4
+    figure:
+      # Les zones ne sont plus des cases mais des taches irrégulières.
+      # Elles restent construites sur le même quadrillage caché — chaque
+      # tache contient exactement un centre de case — si bien que la
+      # réponse se calcule comme avant, mais ne se lit plus en comptant
+      # des lignes et des colonnes : il faut vraiment reporter la
+      # distance au delà du centre.
+      type: graph
+      scale: 3
+      axis: false
+      grid: false
+      keepAspect: true
+      boundingbox: [-0.997, 12.79, 13.074, -0.722]
+      content:
+      - [polygon, [[0.256, 9.313], [1.243, 9.802], [2.084, 9.206], [2.495, 10.862], [1.833, 12.29], [1.159, 12.129], [0.193, 12.158], [0.152, 10.683]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.084, 9.206], [3.518, 9.797], [4.453, 9.074], [4.744, 10.79], [4.692, 12.188], [3.543, 12.202], [1.833, 12.29], [2.495, 10.862]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.453, 9.074], [6.03, 9.584], [6.886, 9.452], [6.92, 10.857], [7.147, 12.101], [5.716, 11.841], [4.692, 12.188], [4.744, 10.79]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[6.886, 9.452], [8.416, 9.629], [9.275, 9.163], [9.872, 10.549], [9.864, 11.726], [8.313, 11.745], [7.147, 12.101], [6.92, 10.857]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.275, 9.163], [10.796, 9.57], [11.712, 9.926], [11.902, 10.945], [12.574, 12.263], [10.699, 12.147], [9.864, 11.726], [9.872, 10.549]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[-0.103, 7.615], [0.937, 7.096], [2.761, 7.523], [2.126, 8.371], [2.084, 9.206], [1.243, 9.802], [0.256, 9.313], [-0.08, 8.446]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.761, 7.523], [3.389, 7.477], [5.321, 7.251], [4.725, 8.399], [4.453, 9.074], [3.518, 9.797], [2.084, 9.206], [2.126, 8.371]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[5.321, 7.251], [6.136, 7.066], [7.37, 6.736], [7.047, 8.307], [6.886, 9.452], [6.03, 9.584], [4.453, 9.074], [4.725, 8.399]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.37, 6.736], [8.437, 7.102], [9.932, 7.512], [9.499, 8.118], [9.275, 9.163], [8.416, 9.629], [6.886, 9.452], [7.047, 8.307]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.932, 7.512], [11.084, 6.942], [11.57, 6.703], [11.914, 8.635], [11.712, 9.926], [10.796, 9.57], [9.275, 9.163], [9.499, 8.118]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[0.571, 4.648], [1.178, 4.869], [2.812, 5], [2.56, 5.782], [2.761, 7.523], [0.937, 7.096], [-0.103, 7.615], [0.053, 5.836]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.812, 5], [3.453, 4.63], [4.911, 4.82], [4.618, 6.014], [5.321, 7.251], [3.389, 7.477], [2.761, 7.523], [2.56, 5.782]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.911, 4.82], [5.79, 4.727], [6.904, 4.332], [7.285, 6.082], [7.37, 6.736], [6.136, 7.066], [5.321, 7.251], [4.618, 6.014]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[6.904, 4.332], [8.66, 4.763], [9.665, 5.117], [9.785, 6.196], [9.932, 7.512], [8.437, 7.102], [7.37, 6.736], [7.285, 6.082]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.665, 5.117], [10.982, 4.622], [11.595, 4.755], [12.262, 6.243], [11.57, 6.703], [11.084, 6.942], [9.932, 7.512], [9.785, 6.196]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[-0.497, 2.065], [1.25, 2.393], [2.484, 2.265], [2.398, 3.85], [2.812, 5], [1.178, 4.869], [0.571, 4.648], [0.232, 3.444]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.484, 2.265], [3.559, 2.176], [5.027, 1.978], [4.566, 3.67], [4.911, 4.82], [3.453, 4.63], [2.812, 5], [2.398, 3.85]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[5.027, 1.978], [5.829, 2.166], [7.222, 2.482], [7.179, 3.536], [6.904, 4.332], [5.79, 4.727], [4.911, 4.82], [4.566, 3.67]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.222, 2.482], [8.35, 2.13], [9.537, 2.339], [9.353, 3.408], [9.665, 5.117], [8.66, 4.763], [6.904, 4.332], [7.179, 3.536]], { fillColor: "#1c5d8c", fillOpacity: 0.78, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[9.537, 2.339], [10.844, 2.219], [12.315, 2.114], [11.922, 3.521], [11.595, 4.755], [10.982, 4.622], [9.665, 5.117], [9.353, 3.408]], { fillColor: "#1c5d8c", fillOpacity: 0.35, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[-0.236, 0.061], [1.146, -0.152], [2.91, -0.119], [2.425, 0.932], [2.484, 2.265], [1.25, 2.393], [-0.497, 2.065], [0.186, 1.267]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[2.91, -0.119], [3.392, -0.154], [4.804, 0.221], [4.734, 1.334], [5.027, 1.978], [3.559, 2.176], [2.484, 2.265], [2.425, 0.932]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[4.804, 0.221], [6.003, -0.092], [7.293, -0.139], [7.227, 1.128], [7.222, 2.482], [5.829, 2.166], [5.027, 1.978], [4.734, 1.334]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[7.293, -0.139], [8.161, -0.105], [10.092, -0.222], [9.717, 1.128], [9.537, 2.339], [8.35, 2.13], [7.222, 2.482], [7.227, 1.128]], { fillColor: "#1c5d8c", fillOpacity: 0.55, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [polygon, [[10.092, -0.222], [10.792, -0.011], [12.404, -0.028], [11.805, 0.97], [12.315, 2.114], [10.844, 2.219], [9.537, 2.339], [9.717, 1.128]], { fillColor: "#1c5d8c", fillOpacity: 0.15, borders: { strokeColor: "#0b3a57", strokeWidth: 1.4 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+      - [text, [1.2, 11.22, "1"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 11.22, "2"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 11.22, "3"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 11.22, "4"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 11.22, "5"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 8.82, "6"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 8.82, "7"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 8.82, "8"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 8.82, "9"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 8.82, "10"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 6.42, "11"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 6.42, "12"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 6.42, "13"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 6.42, "14"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 6.42, "15"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 4.02, "16"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 4.02, "17"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 4.02, "18"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 4.02, "19"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 4.02, "20"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [1.2, 1.62, "21"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [3.6, 1.62, "22"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [6, 1.62, "23"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [text, [8.4, 1.62, "24"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#ffffff" }]
+      - [text, [10.8, 1.62, "25"], { anchorX: middle, anchorY: middle, fontSize: 19, strokeColor: "#0b3a57" }]
+      - [point, [":ax", ":ay"], { name: "", face: x, size: 9, strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+      - [point, [":bx", ":by"], { name: "", face: x, size: 9, strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+      - [text, [":alx", ":aly", "A"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#000000" }]
+      - [text, [":blx", ":bly", "B"], { anchorX: middle, anchorY: middle, fontSize: 23, strokeColor: "#000000" }]
+vars:
+  # ─── valeurs par défaut, écrasées par chaque option : elles sont déclarées
+  # ici pour que l’ordre de résolution les place avant leur première
+  # utilisation — Object.assign n’ajoute en fin de liste que les clés absentes.
+  vidx: "0_23"
+  guide: 0
+  nc: 5
+  nr: 5
+  cell: 2.4
+  # ─── déplacement de A vers B, tiré parmi vecs selon le palier
+  vx: ${:vecs[:vidx][0]}
+  vy: ${:vecs[:vidx][1]}
+  mdx: ${Math.abs(:vx)}
+  mdy: ${Math.abs(:vy)}
+  # ─── colonne et ligne de B (repère 0 = colonne de gauche, ligne du haut).
+  # La marge mdx/mdy laissée sur les bords garantit que A, placé à l’opposé de
+  # B, et le symétrique cherché, placé au delà, tombent tous deux dans le plan.
+  bcol: "${:mdx}_${:nc-1-:mdx}"
+  brow: "${:mdy}_${:nr-1-:mdy}"
+  acol: ${:bcol-:vx}
+  arow: ${:brow-:vy}
+  # ─── symétrique de A par rapport à B : B prolonge le trajet d’autant au-delà
+  tcol: ${:bcol+:vx}
+  trow: ${:brow+:vy}
+  zoneT: ${:trow*:nc+:tcol+1}
+  # ─── coordonnées du dessin. Le numéro occupe le haut de la zone : A et B
+  # sont posés un peu plus bas que le centre, et leur lettre à côté d’eux, pour
+  # que rien ne se recouvre. Le même écart s’applique aux deux points et à leur
+  # symétrique : B reste donc le milieu de A et de son image, et la figure dit
+  # exactement ce que dit le calcul.
+  ax: ${MMmath.round((:acol+0.5-0.16)*:cell,3)}
+  ay: ${MMmath.round((:nr-0.5-:arow-0.17)*:cell,3)}
+  bx: ${MMmath.round((:bcol+0.5-0.16)*:cell,3)}
+  by: ${MMmath.round((:nr-0.5-:brow-0.17)*:cell,3)}
+  alx: ${MMmath.round((:acol+0.5+0.19)*:cell,3)}
+  aly: ${MMmath.round((:nr-0.5-:arow-0.17)*:cell,3)}
+  blx: ${MMmath.round((:bcol+0.5+0.19)*:cell,3)}
+  bly: ${MMmath.round((:nr-0.5-:brow-0.17)*:cell,3)}
+question: "Sur la figure, A et B sont deux points placés dans des zones numérotées.<br>Dans quelle zone se trouve le symétrique du point A par rapport au point B ?"
+shortq: "symétrique de A par rapport à B : quelle zone ?"
+answer: "Le symétrique de A par rapport à B tombe dans la zone <span class='red'>:zoneT</span>.<br>B est le milieu du segment reliant A à son symétrique : en repartant de B, on prolonge le trajet de A vers B d’autant, dans la même direction."
+value: ":zoneT"

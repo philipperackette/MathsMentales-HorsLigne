@@ -1,0 +1,216 @@
+title: Nommer un polygone dans une figure complexe
+# ───────────────────────────────────────────────────────────────────────────────
+# Une figure complexe est présentée (composée de plusieurs polygones imbriqués),
+# avec des sommets nommmés par des lettres. L'élève doit identifier un polygone parmi ceux de la figure, soit en donnant son nom (la liste de ses sommets dans l'ordre), soit en donnant sa nature (triangle, carré, rectangle, trapèze, parallélogramme, losange, etc.).
+description: "Une figure principale est partagée en polygones à côtés communs ; le codage donne la nature de chacun. Non adapté au mode interactif (online/duel)."
+ID: 5GB11
+type: text
+textSize: medium
+dest:
+  - 5GB
+  - 4GB
+consigne: La figure principale est partagée en polygones qui ont des côtés communs. Nommer le polygone demandé par ses sommets, dans l'ordre où ils se suivent.
+consts:
+  # lettres des sommets. Ni I ni O (confusion avec 1 et 0), ni X, Y, Z (réservés
+  # aux axes et aux inconnues).
+  pool: "ABCDEFGHJKLMNPQRSTUVW"
+  # même nature sans accent : les deux écritures sont acceptées en réponse
+  sansAccent:
+    triangle: triangle
+    triangle rectangle: triangle rectangle
+    carré: carre
+    rectangle: rectangle
+    losange: losange
+    parallélogramme: parallelogramme
+    trapèze: trapeze
+    pentagone: pentagone
+    hexagone: hexagone
+  # comment la nature se lit sur la figure, rappelé dans la correction
+  lect:
+    triangle: C'est un polygone à trois côtés.
+    triangle rectangle: C'est un triangle dont un angle est droit, marqué sur la figure.
+    carré: Ses quatre côtés sont marqués de même longueur et ses angles sont droits.
+    rectangle: Ses quatre angles sont droits.
+    losange: Ses quatre côtés sont marqués de même longueur.
+    parallélogramme: Ses côtés opposés sont parallèles, marqués par les chevrons.
+    trapèze: Deux de ses côtés sont parallèles, marqués par les chevrons.
+    pentagone: C'est un polygone à cinq côtés.
+    hexagone: C'est un polygone à six côtés.
+  # ─── figures : dix tracés par option, produits par tools/figures-5GB11.mjs
+  # plutôt que construits par JSXGraph. Chaque tracé est une figure principale
+  # partagée par un ou plusieurs segments : les polygones ont des côtés communs
+  # entre eux et avec la figure principale — un ou deux polygones inclus
+  # (option 0), deux ou trois (option 1). Tracé exact, sans mesure : la nature
+  # des quadrilatères particuliers se lit sur le codage (traits d'égale
+  # longueur, angles droits, chevrons de parallélisme), celle des autres
+  # polygones au nombre de côtés.
+  #
+  # Quand deux polygones d'un tracé ont la même nature (les deux triangles
+  # rectangles d'un carré coupé par sa diagonale…), chacun porte une
+  # désignation (clue) qui le distingue : « dont un sommet est %i% », « qui
+  # contient le sommet %i% mais pas le sommet %j% »… — sinon « de la figure ».
+  #
+  # Les noms des sommets sont laissés en marques %0%, %1%…, remplacées à la
+  # génération : les figures sont des constantes, que la substitution de
+  # variables ne traverse pas.
+  #
+  # figs[option][numéro] ; polys[option][numéro] décrit les polygones du tracé,
+  # figure principale d'abord : nature, indices des sommets dans l'ordre du
+  # tour de la figure (indices des marques %i%), et désignation.
+  figs:
+    # option 0 — 1 ou 2 polygones inclus
+    -
+      # 0 — rectangle : carré + rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M20 28 L20 36.4 L28.4 36.4 L28.4 28 Z M220 28 L211.6 28 L211.6 36.4 L220 36.4 Z M220 158 L220 149.6 L211.6 149.6 L211.6 158 Z M20 158 L28.4 158 L28.4 149.6 L20 149.6 Z M150 28 L141.6 28 L141.6 36.4 L150 36.4 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 28 L220 28 M220 28 L220 158 M220 158 L20 158 M20 158 L20 28 M150 28 L150 158' stroke='#118ab2' stroke-width='2'/><path d='M85 24.8 L85 31.2 M153.2 93 L146.8 93 M85 161.2 L85 154.8 M16.8 93 L23.2 93' stroke='#7b2cbf' stroke-width='2'/><path d='M20 36.4 L28.4 36.4 L28.4 28 M211.6 28 L211.6 36.4 L220 36.4 M220 149.6 L211.6 149.6 L211.6 158 M28.4 158 L28.4 149.6 L20 149.6 M141.6 28 L141.6 36.4 L150 36.4' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='20' cy='28' r='2.2'/><circle cx='220' cy='28' r='2.2'/><circle cx='220' cy='158' r='2.2'/><circle cx='20' cy='158' r='2.2'/><circle cx='150' cy='28' r='2.2'/><circle cx='150' cy='158' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='12' y='23'>%0%</text><text x='228' y='23'>%1%</text><text x='228' y='163'>%2%</text><text x='12' y='163'>%3%</text><text x='154' y='19'>%4%</text><text x='154' y='167'>%5%</text></g></svg>"
+      # 1 — triangle : triangle rectangle + triangle rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M128 168 L128 159.6 L136.4 159.6 L136.4 168 Z M128 168 L119.6 168 L119.6 159.6 L128 159.6 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M128 20 L20 168 M20 168 L224 168 M224 168 L128 20 M128 20 L128 168' stroke='#118ab2' stroke-width='2'/><path d='M128 159.6 L136.4 159.6 L136.4 168 M119.6 168 L119.6 159.6 L128 159.6' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='128' cy='20' r='2.2'/><circle cx='20' cy='168' r='2.2'/><circle cx='224' cy='168' r='2.2'/><circle cx='128' cy='168' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='128' y='10'>%0%</text><text x='11' y='172'>%1%</text><text x='232' y='172'>%2%</text><text x='129' y='178'>%3%</text></g></svg>"
+      # 2 — carré : triangle rectangle + triangle rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M188 24 L179.6 24 L179.6 32.4 L188 32.4 Z M48 164 L56.4 164 L56.4 155.6 L48 155.6 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M48 24 L188 24 M188 24 L188 164 M188 164 L48 164 M48 164 L48 24 M48 24 L188 164' stroke='#118ab2' stroke-width='2'/><path d='M118 20.8 L118 27.2 M191.2 94 L184.8 94 M118 167.2 L118 160.8 M44.8 94 L51.2 94' stroke='#7b2cbf' stroke-width='2'/><path d='M179.6 24 L179.6 32.4 L188 32.4 M56.4 164 L56.4 155.6 L48 155.6' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='48' cy='24' r='2.2'/><circle cx='188' cy='24' r='2.2'/><circle cx='188' cy='164' r='2.2'/><circle cx='48' cy='164' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='41' y='17'>%0%</text><text x='195' y='17'>%1%</text><text x='195' y='171'>%2%</text><text x='41' y='171'>%3%</text></g></svg>"
+      # 3 — parallélogramme : triangle + triangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 164 L160 164 M160 164 L220 36 M220 36 L80 36 M80 36 L20 164 M160 164 L80 36' stroke='#118ab2' stroke-width='2'/><path d='M93.4 164 L86.6 160 M93.4 164 L86.6 168 M153.4 36 L146.6 32 M153.4 36 L146.6 40 M190.1 99.8 L183.6 104.3 M190.1 99.8 L190.8 107.7 M192.8 94 L186.3 98.5 M192.8 94 L193.5 101.9 M50.1 99.8 L43.6 104.3 M50.1 99.8 L50.8 107.7 M52.8 94 L46.3 98.5 M52.8 94 L53.5 101.9' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='20' cy='164' r='2.2'/><circle cx='160' cy='164' r='2.2'/><circle cx='220' cy='36' r='2.2'/><circle cx='80' cy='36' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='12' y='169'>%0%</text><text x='165' y='172'>%1%</text><text x='228' y='31'>%2%</text><text x='75' y='28'>%3%</text></g></svg>"
+      # 4 — triangle : carré
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M78 168 L78 159.6 L86.4 159.6 L86.4 168 Z M162 168 L153.6 168 L153.6 159.6 L162 159.6 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M120 24 L20 168 M20 168 L220 168 M220 168 L120 24 M162 168 L162 84 M162 84 L78 84 M78 84 L78 168' stroke='#118ab2' stroke-width='2'/><path d='M120 164.8 L120 171.2 M158.8 126 L165.2 126 M120 87.2 L120 80.8 M81.2 126 L74.8 126' stroke='#7b2cbf' stroke-width='2'/><path d='M78 159.6 L86.4 159.6 L86.4 168 M153.6 168 L153.6 159.6 L162 159.6' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='120' cy='24' r='2.2'/><circle cx='20' cy='168' r='2.2'/><circle cx='220' cy='168' r='2.2'/><circle cx='78' cy='168' r='2.2'/><circle cx='162' cy='168' r='2.2'/><circle cx='162' cy='84' r='2.2'/><circle cx='78' cy='84' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='120' y='14'>%0%</text><text x='11' y='172'>%1%</text><text x='229' y='172'>%2%</text><text x='71' y='176'>%3%</text><text x='169' y='176'>%4%</text><text x='170' y='77'>%5%</text><text x='70' y='77'>%6%</text></g></svg>"
+      # 5 — hexagone : trapèze + trapèze
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M16 100 L68 26 M68 26 L172 26 M172 26 L224 100 M224 100 L172 172 M172 172 L68 172 M68 172 L16 100 M16 100 L224 100' stroke='#118ab2' stroke-width='2'/><path d='M123.4 26 L116.6 22 M123.4 26 L116.6 30 M123.4 100 L116.6 96 M123.4 100 L116.6 104 M123.4 172 L116.6 168 M123.4 172 L116.6 176' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='16' cy='100' r='2.2'/><circle cx='68' cy='26' r='2.2'/><circle cx='172' cy='26' r='2.2'/><circle cx='224' cy='100' r='2.2'/><circle cx='172' cy='172' r='2.2'/><circle cx='68' cy='172' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='8' y='100'>%0%</text><text x='62' y='18'>%1%</text><text x='178' y='18'>%2%</text><text x='232' y='100'>%3%</text><text x='178' y='180'>%4%</text><text x='62' y='180'>%5%</text></g></svg>"
+      # 6 — triangle : triangle + trapèze
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M120 20 L24 168 M24 168 L216 168 M216 168 L120 20 M76.8 86.6 L163.2 86.6' stroke='#118ab2' stroke-width='2'/><path d='M123.4 86.6 L116.6 82.6 M123.4 86.6 L116.6 90.6 M123.4 168 L116.6 164 M123.4 168 L116.6 172' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='120' cy='20' r='2.2'/><circle cx='24' cy='168' r='2.2'/><circle cx='216' cy='168' r='2.2'/><circle cx='76.8' cy='86.6' r='2.2'/><circle cx='163.2' cy='86.6' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='120' y='10'>%0%</text><text x='15' y='173'>%1%</text><text x='225' y='173'>%2%</text><text x='69' y='81'>%3%</text><text x='171' y='81'>%4%</text></g></svg>"
+      # 7 — losange : triangle + triangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M120 24 L196 96 M196 96 L120 168 M120 168 L44 96 M44 96 L120 24 M196 96 L44 96' stroke='#118ab2' stroke-width='2'/><path d='M160.2 57.7 L155.8 62.3 M160.2 134.3 L155.8 129.7 M79.8 134.3 L84.2 129.7 M79.8 57.7 L84.2 62.3' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='120' cy='24' r='2.2'/><circle cx='196' cy='96' r='2.2'/><circle cx='120' cy='168' r='2.2'/><circle cx='44' cy='96' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='120' y='14'>%0%</text><text x='206' y='96'>%1%</text><text x='120' y='178'>%2%</text><text x='34' y='96'>%3%</text></g></svg>"
+      # 8 — pentagone : triangle + trapèze
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M32 132 L120 20 M120 20 L212 132 M212 132 L168 176 M168 176 L72 176 M72 176 L32 132 M32 132 L212 132' stroke='#118ab2' stroke-width='2'/><path d='M125.4 132 L118.6 128 M125.4 132 L118.6 136 M123.4 176 L116.6 172 M123.4 176 L116.6 180' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='32' cy='132' r='2.2'/><circle cx='120' cy='20' r='2.2'/><circle cx='212' cy='132' r='2.2'/><circle cx='168' cy='176' r='2.2'/><circle cx='72' cy='176' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='22' y='133'>%0%</text><text x='120' y='10'>%1%</text><text x='222' y='133'>%2%</text><text x='175' y='183'>%3%</text><text x='65' y='183'>%4%</text></g></svg>"
+      # 9 — rectangle : carré + carré
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M30 48 L30 56.4 L38.4 56.4 L38.4 48 Z M210 48 L201.6 48 L201.6 56.4 L210 56.4 Z M120 48 L111.6 48 L111.6 56.4 L120 56.4 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M30 48 L210 48 M210 48 L210 138 M210 138 L30 138 M30 138 L30 48 M120 48 L120 138' stroke='#118ab2' stroke-width='2'/><path d='M75 44.8 L75 51.2 M165 44.8 L165 51.2 M213.2 93 L206.8 93 M165 141.2 L165 134.8 M75 141.2 L75 134.8 M26.8 93 L33.2 93 M123.2 93 L116.8 93' stroke='#7b2cbf' stroke-width='2'/><path d='M30 56.4 L38.4 56.4 L38.4 48 M201.6 48 L201.6 56.4 L210 56.4 M111.6 48 L111.6 56.4 L120 56.4' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='30' cy='48' r='2.2'/><circle cx='210' cy='48' r='2.2'/><circle cx='210' cy='138' r='2.2'/><circle cx='30' cy='138' r='2.2'/><circle cx='120' cy='48' r='2.2'/><circle cx='120' cy='138' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='21' y='44'>%0%</text><text x='219' y='44'>%1%</text><text x='219' y='142'>%2%</text><text x='21' y='142'>%3%</text><text x='120' y='38'>%4%</text><text x='120' y='148'>%5%</text></g></svg>"
+    # option 1 — 2 ou 3 polygones inclus
+    -
+      # 0 — rectangle : carré + triangle rectangle + triangle rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M20 30 L20 38.4 L28.4 38.4 L28.4 30 Z M224 30 L215.6 30 L215.6 38.4 L224 38.4 Z M224 160 L224 151.6 L215.6 151.6 L215.6 160 Z M20 160 L28.4 160 L28.4 151.6 L20 151.6 Z M150 30 L141.6 30 L141.6 38.4 L150 38.4 Z M150 160 L150 151.6 L158.4 151.6 L158.4 160 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 30 L224 30 M224 30 L224 160 M224 160 L20 160 M20 160 L20 30 M150 30 L150 160 M150 30 L224 160' stroke='#118ab2' stroke-width='2'/><path d='M85 26.8 L85 33.2 M153.2 95 L146.8 95 M85 163.2 L85 156.8 M16.8 95 L23.2 95' stroke='#7b2cbf' stroke-width='2'/><path d='M20 38.4 L28.4 38.4 L28.4 30 M215.6 30 L215.6 38.4 L224 38.4 M224 151.6 L215.6 151.6 L215.6 160 M28.4 160 L28.4 151.6 L20 151.6 M141.6 30 L141.6 38.4 L150 38.4 M150 151.6 L158.4 151.6 L158.4 160' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='20' cy='30' r='2.2'/><circle cx='224' cy='30' r='2.2'/><circle cx='224' cy='160' r='2.2'/><circle cx='20' cy='160' r='2.2'/><circle cx='150' cy='30' r='2.2'/><circle cx='150' cy='160' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='12' y='25'>%0%</text><text x='232' y='25'>%1%</text><text x='232' y='165'>%2%</text><text x='12' y='165'>%3%</text><text x='154' y='21'>%4%</text><text x='154' y='169'>%5%</text></g></svg>"
+      # 1 — trapèze : rectangle + triangle rectangle + triangle rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M72 164 L63.6 164 L63.6 155.6 L72 155.6 Z M168 164 L176.4 164 L176.4 155.6 L168 155.6 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M72 44 L168 44 M168 44 L224 164 M224 164 L16 164 M16 164 L72 44 M72 44 L72 164 M168 44 L168 164' stroke='#118ab2' stroke-width='2'/><path d='M123.4 44 L116.6 40 M123.4 44 L116.6 48 M123.4 164 L116.6 160 M123.4 164 L116.6 168' stroke='#7b2cbf' stroke-width='2'/><path d='M63.6 164 L63.6 155.6 L72 155.6 M176.4 164 L176.4 155.6 L168 155.6' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='72' cy='44' r='2.2'/><circle cx='168' cy='44' r='2.2'/><circle cx='224' cy='164' r='2.2'/><circle cx='16' cy='164' r='2.2'/><circle cx='72' cy='164' r='2.2'/><circle cx='168' cy='164' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='66' y='36'>%0%</text><text x='174' y='36'>%1%</text><text x='232' y='169'>%2%</text><text x='8' y='169'>%3%</text><text x='66' y='172'>%4%</text><text x='174' y='172'>%5%</text></g></svg>"
+      # 2 — hexagone : trapèze + triangle + triangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M68 26 L172 26 M172 26 L224 100 M224 100 L172 174 M172 174 L68 174 M68 174 L16 100 M16 100 L68 26 M16 100 L224 100 M16 100 L172 26' stroke='#118ab2' stroke-width='2'/><path d='M123.4 26 L116.6 22 M123.4 26 L116.6 30 M123.4 100 L116.6 96 M123.4 100 L116.6 104 M123.4 174 L116.6 170 M123.4 174 L116.6 178' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='68' cy='26' r='2.2'/><circle cx='172' cy='26' r='2.2'/><circle cx='224' cy='100' r='2.2'/><circle cx='172' cy='174' r='2.2'/><circle cx='68' cy='174' r='2.2'/><circle cx='16' cy='100' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='62' y='18'>%0%</text><text x='178' y='18'>%1%</text><text x='232' y='100'>%2%</text><text x='178' y='182'>%3%</text><text x='62' y='182'>%4%</text><text x='8' y='100'>%5%</text></g></svg>"
+      # 3 — rectangle : triangle + triangle rectangle + triangle rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M20 32 L20 40.4 L28.4 40.4 L28.4 32 Z M220 32 L211.6 32 L211.6 40.4 L220 40.4 Z M220 164 L220 155.6 L211.6 155.6 L211.6 164 Z M20 164 L28.4 164 L28.4 155.6 L20 155.6 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 32 L220 32 M220 32 L220 164 M220 164 L20 164 M20 164 L20 32 M110 32 L20 164 M110 32 L220 164' stroke='#118ab2' stroke-width='2'/><path d='M20 40.4 L28.4 40.4 L28.4 32 M211.6 32 L211.6 40.4 L220 40.4 M220 155.6 L211.6 155.6 L211.6 164 M28.4 164 L28.4 155.6 L20 155.6' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='20' cy='32' r='2.2'/><circle cx='220' cy='32' r='2.2'/><circle cx='220' cy='164' r='2.2'/><circle cx='20' cy='164' r='2.2'/><circle cx='110' cy='32' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='12' y='26'>%0%</text><text x='228' y='26'>%1%</text><text x='228' y='170'>%2%</text><text x='12' y='170'>%3%</text><text x='109' y='22'>%4%</text></g></svg>"
+      # 4 — pentagone : triangle + triangle + triangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M120 20 L24 76 M24 76 L56 172 M56 172 L184 172 M184 172 L216 76 M216 76 L120 20 M120 20 L56 172 M120 20 L184 172' stroke='#118ab2' stroke-width='2'/></g><g fill='#118ab2'><circle cx='120' cy='20' r='2.2'/><circle cx='24' cy='76' r='2.2'/><circle cx='56' cy='172' r='2.2'/><circle cx='184' cy='172' r='2.2'/><circle cx='216' cy='76' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='120' y='10'>%0%</text><text x='14' y='73'>%1%</text><text x='49' y='179'>%2%</text><text x='191' y='179'>%3%</text><text x='226' y='73'>%4%</text></g></svg>"
+      # 5 — triangle : triangle + trapèze + trapèze
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M120 20 L20 170 M20 170 L220 170 M220 170 L120 20 M75 87.4 L165 87.4 M48 128 L192 128' stroke='#118ab2' stroke-width='2'/><path d='M123.4 87.4 L116.6 83.4 M123.4 87.4 L116.6 91.4 M123.4 128 L116.6 124 M123.4 128 L116.6 132 M123.4 170 L116.6 166 M123.4 170 L116.6 174' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='120' cy='20' r='2.2'/><circle cx='20' cy='170' r='2.2'/><circle cx='220' cy='170' r='2.2'/><circle cx='75' cy='87.4' r='2.2'/><circle cx='165' cy='87.4' r='2.2'/><circle cx='48' cy='128' r='2.2'/><circle cx='192' cy='128' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='120' y='10'>%0%</text><text x='11' y='174'>%1%</text><text x='229' y='174'>%2%</text><text x='67' y='82'>%3%</text><text x='173' y='82'>%4%</text><text x='38' y='129'>%5%</text><text x='202' y='129'>%6%</text></g></svg>"
+      # 6 — rectangle : carré + rectangle + rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M16 42 L16 50.4 L24.4 50.4 L24.4 42 Z M224 42 L215.6 42 L215.6 50.4 L224 50.4 Z M68 42 L59.6 42 L59.6 50.4 L68 50.4 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M16 42 L224 42 M224 42 L224 142 M224 142 L16 142 M16 142 L16 42 M68 42 L68 142 M168 42 L168 142' stroke='#118ab2' stroke-width='2'/><path d='M118 38.8 L118 45.2 M171.2 92 L164.8 92 M118 145.2 L118 138.8 M64.8 92 L71.2 92' stroke='#7b2cbf' stroke-width='2'/><path d='M16 50.4 L24.4 50.4 L24.4 42 M215.6 42 L215.6 50.4 L224 50.4 M59.6 42 L59.6 50.4 L68 50.4' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='16' cy='42' r='2.2'/><circle cx='224' cy='42' r='2.2'/><circle cx='224' cy='142' r='2.2'/><circle cx='16' cy='142' r='2.2'/><circle cx='68' cy='42' r='2.2'/><circle cx='168' cy='42' r='2.2'/><circle cx='168' cy='142' r='2.2'/><circle cx='68' cy='142' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='8' y='38'>%0%</text><text x='232' y='38'>%1%</text><text x='232' y='146'>%2%</text><text x='8' y='146'>%3%</text><text x='61' y='35'>%4%</text><text x='175' y='35'>%5%</text><text x='175' y='149'>%6%</text><text x='61' y='149'>%7%</text></g></svg>"
+      # 7 — trapèze : triangle + triangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M56 36 L164 36 M164 36 L224 168 M224 168 L16 168 M16 168 L56 36 M56 36 L224 168' stroke='#118ab2' stroke-width='2'/><path d='M113.4 36 L106.6 32 M113.4 36 L106.6 40 M123.4 168 L116.6 164 M123.4 168 L116.6 172' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='56' cy='36' r='2.2'/><circle cx='164' cy='36' r='2.2'/><circle cx='224' cy='168' r='2.2'/><circle cx='16' cy='168' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='49' y='29'>%0%</text><text x='170' y='28'>%1%</text><text x='232' y='173'>%2%</text><text x='8' y='174'>%3%</text></g></svg>"
+      # 8 — pentagone : triangle + trapèze
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M120 20 L216 88 M216 88 L180 172 M180 172 L60 172 M60 172 L24 88 M24 88 L120 20 M24 88 L216 88' stroke='#118ab2' stroke-width='2'/><path d='M123.4 88 L116.6 84 M123.4 88 L116.6 92 M123.4 172 L116.6 168 M123.4 172 L116.6 176' stroke='#7b2cbf' stroke-width='2'/></g><g fill='#118ab2'><circle cx='120' cy='20' r='2.2'/><circle cx='216' cy='88' r='2.2'/><circle cx='180' cy='172' r='2.2'/><circle cx='60' cy='172' r='2.2'/><circle cx='24' cy='88' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='120' y='10'>%0%</text><text x='226' y='86'>%1%</text><text x='187' y='179'>%2%</text><text x='53' y='179'>%3%</text><text x='14' y='86'>%4%</text></g></svg>"
+      # 9 — triangle rectangle : trapèze + triangle rectangle
+      - "<svg width='14.4em' height='12em' viewBox='0 0 240 200' xmlns='http://www.w3.org/2000/svg'><path d='M20 170 L20 161.6 L28.4 161.6 L28.4 170 Z M138 170 L138 161.6 L146.4 161.6 L146.4 170 Z M138 170 L129.6 170 L129.6 161.6 L138 161.6 Z' fill='#ffd166' fill-opacity='0.7' stroke='none'/><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M20 24 L20 170 M20 170 L224 170 M224 170 L20 24 M138 108.4 L138 170' stroke='#118ab2' stroke-width='2'/><path d='M20 161.6 L28.4 161.6 L28.4 170 M138 161.6 L146.4 161.6 L146.4 170 M129.6 170 L129.6 161.6 L138 161.6' stroke='#c1121f' stroke-width='1.5'/></g><g fill='#118ab2'><circle cx='20' cy='24' r='2.2'/><circle cx='20' cy='170' r='2.2'/><circle cx='224' cy='170' r='2.2'/><circle cx='138' cy='108.4' r='2.2'/><circle cx='138' cy='170' r='2.2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='14' y='16'>%0%</text><text x='12' y='176'>%1%</text><text x='232' y='173'>%2%</text><text x='148' y='106'>%3%</text><text x='145' y='177'>%4%</text></g></svg>"
+  polys:
+    # option 0 — 1 ou 2 polygones inclus
+    -
+      # 0 — rectangle : carré + rectangle
+      - [{ nat: "rectangle", v: [0, 1, 2, 3], clue: "qui contient les sommets %0% et %1%" }, { nat: "carré", v: [0, 4, 5, 3], clue: "de la figure" }, { nat: "rectangle", v: [4, 1, 2, 5], clue: "qui contient le sommet %1% mais pas le sommet %0%" }]
+      # 1 — triangle : triangle rectangle + triangle rectangle
+      - [{ nat: "triangle", v: [0, 1, 2], clue: "qui contient les sommets %1% et %2%" }, { nat: "triangle rectangle", v: [0, 1, 3], clue: "dont un sommet est %1%" }, { nat: "triangle rectangle", v: [0, 3, 2], clue: "dont un sommet est %2%" }]
+      # 2 — carré : triangle rectangle + triangle rectangle
+      - [{ nat: "carré", v: [0, 1, 2, 3], clue: "de la figure" }, { nat: "triangle rectangle", v: [0, 1, 2], clue: "dont un sommet est %1%" }, { nat: "triangle rectangle", v: [0, 2, 3], clue: "dont un sommet est %3%" }]
+      # 3 — parallélogramme : triangle + triangle
+      - [{ nat: "parallélogramme", v: [0, 1, 2, 3], clue: "de la figure" }, { nat: "triangle", v: [0, 1, 3], clue: "dont un sommet est %0%" }, { nat: "triangle", v: [1, 2, 3], clue: "dont un sommet est %2%" }]
+      # 4 — triangle : carré
+      - [{ nat: "triangle", v: [0, 1, 2], clue: "qui contient tous les sommets marqués" }, { nat: "carré", v: [3, 4, 5, 6], clue: "de la figure" }]
+      # 5 — hexagone : trapèze + trapèze
+      - [{ nat: "hexagone", v: [0, 1, 2, 3, 4, 5], clue: "de la figure" }, { nat: "trapèze", v: [0, 1, 2, 3], clue: "dont un sommet est %1%" }, { nat: "trapèze", v: [0, 3, 4, 5], clue: "dont un sommet est %4%" }]
+      # 6 — triangle : triangle + trapèze
+      - [{ nat: "triangle", v: [0, 1, 2], clue: "qui contient tous les sommets marqués" }, { nat: "triangle", v: [0, 3, 4], clue: "qui ne contient ni le sommet %1% ni le sommet %2%" }, { nat: "trapèze", v: [3, 1, 2, 4], clue: "de la figure" }]
+      # 7 — losange : triangle + triangle
+      - [{ nat: "losange", v: [0, 1, 2, 3], clue: "de la figure" }, { nat: "triangle", v: [0, 1, 3], clue: "dont un sommet est %0%" }, { nat: "triangle", v: [1, 2, 3], clue: "dont un sommet est %2%" }]
+      # 8 — pentagone : triangle + trapèze
+      - [{ nat: "pentagone", v: [0, 1, 2, 3, 4], clue: "de la figure" }, { nat: "triangle", v: [0, 1, 2], clue: "de la figure" }, { nat: "trapèze", v: [0, 2, 3, 4], clue: "de la figure" }]
+      # 9 — rectangle : carré + carré
+      - [{ nat: "rectangle", v: [0, 1, 2, 3], clue: "de la figure" }, { nat: "carré", v: [0, 4, 5, 3], clue: "dont un sommet est %0%" }, { nat: "carré", v: [4, 1, 2, 5], clue: "dont un sommet est %1%" }]
+    # option 1 — 2 ou 3 polygones inclus
+    -
+      # 0 — rectangle : carré + triangle rectangle + triangle rectangle
+      - [{ nat: "rectangle", v: [0, 1, 2, 3], clue: "qui contient les sommets %0% et %1%" }, { nat: "carré", v: [0, 4, 5, 3], clue: "de la figure" }, { nat: "triangle rectangle", v: [4, 1, 2], clue: "dont un sommet est %1%" }, { nat: "triangle rectangle", v: [4, 5, 2], clue: "dont un sommet est %5%" }]
+      # 1 — trapèze : rectangle + triangle rectangle + triangle rectangle
+      - [{ nat: "trapèze", v: [0, 1, 2, 3], clue: "qui contient tous les sommets marqués" }, { nat: "rectangle", v: [0, 4, 5, 1], clue: "de la figure" }, { nat: "triangle rectangle", v: [0, 3, 4], clue: "dont un sommet est %3%" }, { nat: "triangle rectangle", v: [1, 5, 2], clue: "dont un sommet est %2%" }]
+      # 2 — hexagone : trapèze + triangle + triangle
+      - [{ nat: "hexagone", v: [0, 1, 2, 3, 4, 5], clue: "de la figure" }, { nat: "trapèze", v: [5, 2, 3, 4], clue: "de la figure" }, { nat: "triangle", v: [5, 0, 1], clue: "qui contient le sommet %0%" }, { nat: "triangle", v: [5, 1, 2], clue: "qui ne contient pas le sommet %0%" }]
+      # 3 — rectangle : triangle + triangle rectangle + triangle rectangle
+      - [{ nat: "rectangle", v: [0, 1, 2, 3], clue: "de la figure" }, { nat: "triangle", v: [4, 3, 2], clue: "qui contient les sommets %3% et %2%" }, { nat: "triangle rectangle", v: [0, 3, 4], clue: "dont un sommet est %0%" }, { nat: "triangle rectangle", v: [4, 1, 2], clue: "dont un sommet est %1%" }]
+      # 4 — pentagone : triangle + triangle + triangle
+      - [{ nat: "pentagone", v: [0, 1, 2, 3, 4], clue: "de la figure" }, { nat: "triangle", v: [0, 1, 2], clue: "qui contient le sommet %1%" }, { nat: "triangle", v: [0, 2, 3], clue: "qui ne contient ni le sommet %1% ni le sommet %4%" }, { nat: "triangle", v: [0, 3, 4], clue: "qui contient le sommet %4%" }]
+      # 5 — triangle : triangle + trapèze + trapèze
+      - [{ nat: "triangle", v: [0, 1, 2], clue: "qui contient tous les sommets marqués" }, { nat: "triangle", v: [0, 3, 4], clue: "qui ne contient ni le sommet %1% ni le sommet %2%" }, { nat: "trapèze", v: [3, 4, 6, 5], clue: "qui contient les sommets %3% et %4%" }, { nat: "trapèze", v: [5, 6, 2, 1], clue: "qui contient les sommets %1% et %2%" }]
+      # 6 — rectangle : carré + rectangle + rectangle
+      - [{ nat: "rectangle", v: [0, 1, 2, 3], clue: "qui contient tous les sommets marqués" }, { nat: "carré", v: [4, 5, 6, 7], clue: "de la figure" }, { nat: "rectangle", v: [0, 4, 7, 3], clue: "dont un sommet est %0%" }, { nat: "rectangle", v: [5, 1, 2, 6], clue: "dont un sommet est %1%" }]
+      # 7 — trapèze : triangle + triangle
+      - [{ nat: "trapèze", v: [0, 1, 2, 3], clue: "de la figure" }, { nat: "triangle", v: [0, 1, 2], clue: "qui contient le sommet %1%" }, { nat: "triangle", v: [0, 2, 3], clue: "qui contient le sommet %3%" }]
+      # 8 — pentagone : triangle + trapèze
+      - [{ nat: "pentagone", v: [0, 1, 2, 3, 4], clue: "de la figure" }, { nat: "triangle", v: [0, 1, 4], clue: "de la figure" }, { nat: "trapèze", v: [4, 1, 2, 3], clue: "de la figure" }]
+      # 9 — triangle rectangle : trapèze + triangle rectangle
+      - [{ nat: "triangle rectangle", v: [0, 1, 2], clue: "qui contient le sommet %0%" }, { nat: "trapèze", v: [0, 1, 4, 3], clue: "de la figure" }, { nat: "triangle rectangle", v: [3, 4, 2], clue: "qui ne contient pas le sommet %0%" }]
+vars:
+  # option 0 : 1 ou 2 figures incluses ; option 1 : 2 ou 3
+  opt: 0
+  numfig: "0_9"
+  npoly: ${:polys[:opt][:numfig].length}
+  # nombre de sommets du tracé, puis lettres consécutives de pool au hasard
+  nl: ${:polys[:opt][:numfig].reduce(function(a,p){return a+p.v.length},0)}
+  lp: "0_${:pool.length-:nl}"
+  # ─── polygone interrogé : n'importe lequel du tracé, la principale comprise
+  tgt: "0_${:npoly-1}"
+  tNat: ${:polys[:opt][:numfig][:tgt].nat}
+  tNatSA: ${:sansAccent[:tNat]}
+  tNom: ${:tNat==='hexagone'?"l'hexagone":'le '+:tNat}
+  tL: ${:polys[:opt][:numfig][:tgt].v.map(function(i){return :pool[:lp+i]}).join('')}
+  # désignation qui distingue le polygone quand un autre a la même nature :
+  # « de la figure », « dont un sommet est A », « qui contient le sommet B
+  # mais pas le sommet A »… — les lettres y remplacent les marques %i%
+  tClue: ${:polys[:opt][:numfig][:tgt].clue.split('%').map(function(t){return t!==''&&t.length<3&&!isNaN(t)?:pool[:lp+Number(t)]:t}).join('')}
+  lecture: ${:lect[:tNat]}
+  # ─── le tracé, où l'on écrit les lettres tirées à la place des marques %i% :
+  # découpé sur les %, un morceau purement numérique est une marque
+  fig: ${:figs[:opt][:numfig].split('%').map(function(t){return t!==''&&t.length<3&&!isNaN(t)?:pool[:lp+Number(t)]:t}).join('')}
+question: "Nomme :tNom :tClue."
+shortq: "nomme :tNom ?"
+answer: "C'est le polygone <span class='red'>$$:tL$$</span>.<br>:lecture"
+# toutes les façons de nommer le polygone : chaque sommet de départ, dans les
+# deux sens de parcours — douze écritures pour un hexagone, avec répétitions
+# pour les polygones plus petits
+value:
+  - "${(function(){var L=:tL,n=L.length,k=0%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=1%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=2%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=3%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=4%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=5%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=6%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=7%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=8%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=9%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=10%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+  - "${(function(){var L=:tL,n=L.length,k=11%(2*n),s='',i;if(k<n){for(i=0;i<n;i++){s+=L[(k+i)%n]}}else{k=k-n;for(i=0;i<n;i++){s+=L[(k+n-i)%n]}}return s})()}"
+figure:
+  type: svg
+  content: ${:fig}
+options:
+  - name: Nommer un polygone — 1 ou 2 figures incluses
+    vars:
+      opt: 0
+  - name: Nommer un polygone — 2 ou 3 figures incluses
+    vars:
+      opt: 1
+  - name: Nature d'un polygone — 1 ou 2 figures incluses
+    consigne: Donner la nature du polygone d'après son codage, sans mesurer.
+    vars:
+      opt: 0
+    question: "Quelle est la nature du polygone $$:tL$$ ?"
+    shortq: "nature de $$:tL$$ ?"
+    answer: "$$:tL$$ est un <span class='red'>:tNat</span>.<br>:lecture"
+    value: [":tNat", ":tNatSA"]
+  - name: Nature d'un polygone — 2 ou 3 figures incluses
+    consigne: Donner la nature du polygone d'après son codage, sans mesurer.
+    vars:
+      opt: 1
+    question: "Quelle est la nature du polygone $$:tL$$ ?"
+    shortq: "nature de $$:tL$$ ?"
+    answer: "$$:tL$$ est un <span class='red'>:tNat</span>.<br>:lecture"
+    value: [":tNat", ":tNatSA"]

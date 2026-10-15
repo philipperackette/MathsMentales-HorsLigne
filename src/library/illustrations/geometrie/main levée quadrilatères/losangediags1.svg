@@ -1,0 +1,31 @@
+<svg width="211" height="141" version="1.1" viewBox="0 0 211 141" xmlns="http://www.w3.org/2000/svg">
+ <path d="m100 24s14.01 5.82 19.25 8.75c4.01 1.82 15.4 8.6 19.25 10.75s15.16 9.1 19.25 10.75c3.62 2.02 15.4 6.2 19.25 7.75" style="fill:none;stroke:black"/>
+ <path d="m177 63s-12.1 10.42-17.25 13.5c-3.53 2.76-15.46 9.11-19.25 11.5-3.7 2.21-14.87 8.82-18.25 11.5-3.94 2.49-14.6 11.6-18.25 14.5" style="fill:none;stroke:black"/>
+ <path d="m104 113s-15.24-6.36-20.5-9.25c-4.26-1.92-16.4-9-20.5-11.25s-16.16-9.5-20.5-11.25c-3.87-2.13-16.4-6.6-20.5-8.25" style="fill:none;stroke:black"/>
+ <path d="m100 24s-13.21 10.16-18.5 13c-3.81 2.68-16.45 8.71-20.5 11-3.95 2.12-15.86 8.39-19.5 11-4.18 2.36-15.6 11.2-19.5 14" style="fill:none;stroke:black"/>
+ <path d="m289.6-22.04a30 30 0 01-29.37-18.72" style="fill:none;stroke:black"/>
+ <path d="m100 24s1.98 15.68 1.97 21.68c.4 4.32-.02 17.34-.02 21.68" style="fill:none;stroke:black"/>
+ <line x1="103.9" x2="97.89" y1="43.55" y2="43.82" style="stroke:black"/>
+ <path d="m102 67.36s12.76-2.06 18.76-2.09c3.73-.42 15.01-.07 18.76-.09 3.76-.02 15.06.52 18.77-.09 3.8-.02 15.01-2.47 18.76-3.09" style="fill:none;stroke:black"/>
+ <line x1="135.3" x2="135.7" y1="62.42" y2="68.41" style="stroke:black"/>
+ <line x1="139.3" x2="139.6" y1="62.18" y2="68.17" style="stroke:black"/>
+ <path d="m102 67.36s2.02 16.82 2.02 22.82c.41 4.55.02 18.26.03 22.82" style="fill:none;stroke:black"/>
+ <line x1="105.9" x2="99.89" y1="88.05" y2="88.32" style="stroke:black"/>
+ <path d="m22 72s13.99-2.11 19.99-2.16c3.97-.43 15.99-.13 19.98-.16 4-.03 16.04.46 19.99-.16 4.05-.03 15.99-2.53 19.99-3.16" style="fill:none;stroke:black"/>
+ <line x1="57.81" x2="58.15" y1="66.92" y2="72.91" style="stroke:black"/>
+ <line x1="61.8" x2="62.15" y1="66.68" y2="72.67" style="stroke:black"/>
+ <path d="m101.9 57.64c11.22-.1875 9.462-2.76 9.707 8.682" style="fill:none;stroke:#000000"/>
+ <circle id="a" cx="100" cy="24" r="2" style="stroke:black"/>
+ <text x="92.21492" y="19.115812" font-size="12px" style="stroke:#000000">A</text>
+ <circle id="b" cx="177" cy="63" r="2" style="stroke:black"/>
+ <text x="182.0412" y="69.528954" font-size="12px" style="stroke:#000000">B</text>
+ <circle id="c" cx="104" cy="113" r="2" style="stroke:black"/>
+ <text x="97" y="130" font-size="12" style="stroke:black">C</text>
+ <circle id="d" cx="22" cy="72" r="2" style="stroke:black"/>
+ <text x="5" y="79" font-size="12" style="stroke:black">D</text>
+ <circle id="e" cx="293" cy="44" r="2" style="stroke:black"/>
+ <text x="296" y="51" font-size="12" style="stroke:black">E</text>
+ <circle id="f" cx="288" cy="-52" r="2" style="stroke:black"/>
+ <text x="291" y="-45" font-size="12" style="stroke:black">F</text>
+ <circle cx="101.9" cy="67.36" r="2" style="stroke:black"/>
+</svg>

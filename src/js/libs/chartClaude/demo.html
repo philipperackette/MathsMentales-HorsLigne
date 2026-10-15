@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démonstration du Module de Graphiques</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+        
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1f2937;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .chart-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+        
+        .controls {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+        
+        .controls h2 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+        }
+        
+        .control-group input,
+        .control-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .control-group input:focus,
+        .control-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .chart-container {
+                padding: 20px;
+            }
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.95);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .info-box h3 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        .info-box code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Module de Graphiques Dynamiques</h1>
+        <p class="subtitle">Créez des graphiques interactifs en barres et circulaires avec animations</p>
+        
+        <div class="info-box">
+            <h3>🎨 Fonctionnalités</h3>
+            <p>
+                Ce module JavaScript permet de créer facilement des graphiques professionnels :
+                <strong>barres verticales</strong>, <strong>barres horizontales</strong>, 
+                <strong>graphiques circulaires</strong> et <strong>semi-circulaires</strong>.
+                Personnalisez les couleurs, affichez les valeurs, activez les grilles et animations.
+            </p>
+        </div>
+        
+        <div class="controls">
+            <h2>⚙️ Contrôles</h2>
+            <div class="control-group">
+                <label for="chartType">Type de graphique :</label>
+                <select id="chartType">
+                    <option value="vertical">Barres verticales</option>
+                    <option value="horizontal">Barres horizontales</option>
+                    <option value="pie">Graphique circulaire</option>
+                    <option value="semi">Graphique semi-circulaire</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="chartTitle">Titre du graphique :</label>
+                <input type="text" id="chartTitle" value="Ventes Mensuelles 2024" placeholder="Titre du graphique">
+            </div>
+            
+            <div class="control-group checkbox-group">
+                <input type="checkbox" id="showValues" checked>
+                <label for="showValues">Afficher les valeurs</label>
+            </div>
+            
+            <div class="control-group checkbox-group">
+                <input type="checkbox" id="showGrid" checked>
+                <label for="showGrid">Afficher la grille (barres uniquement)</label>
+            </div>
+            
+            <div class="control-group checkbox-group">
+                <input type="checkbox" id="showLegend">
+                <label for="showLegend">Afficher la légende</label>
+            </div>
+            
+            <div class="button-group">
+                <button onclick="updateChart()">🔄 Mettre à jour</button>
+                <button onclick="downloadChart()">💾 Télécharger SVG</button>
+                <button onclick="randomizeData()">🎲 Données aléatoires</button>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">Exemple 1 : Labels longs verticaux (rotation automatique)</div>
+                <div class="chart-wrapper" id="chart1"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Exemple 2 : Répartition des Catégories</div>
+                <div class="chart-wrapper" id="chart2"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Exemple 3 : Labels longs (gestion intelligente)</div>
+                <div class="chart-wrapper" id="chart3"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Exemple 4 : Distribution Semi-Circulaire</div>
+                <div class="chart-wrapper" id="chart4"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import {
+            createVerticalBarChart,
+            createHorizontalBarChart,
+            createPieChart,
+            createSemiCircularChart,
+            downloadSVG
+        } from './charts.mjs';
+        
+        // Données d'exemple
+        let data1 = {
+            values: [45000, 52000, 48000, 61000, 55000, 67000, 59000, 71000, 64000, 68000, 72000, 80000],
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc']
+        };
+        
+        let data2 = {
+            values: [35, 25, 20, 15, 5],
+            labels: ['Électronique', 'Vêtements', 'Alimentation', 'Livres', 'Autres']
+        };
+        
+        let data3 = {
+            values: [245000, 289000, 312000, 298000, 267000],
+            labels: ['MacBook Pro 16 pouces M3 Max', 'iPhone 15 Pro Max 1TB', 'iPad Pro 12.9 pouces avec Magic Keyboard', 'AirPods Max Edition Limitée', 'Apple Watch Ultra 2 Titanium']
+        };
+        
+        let data4 = {
+            values: [30, 45, 25],
+            labels: ['Débutant', 'Intermédiaire', 'Avancé']
+        };
+        
+        // Nouveau dataset pour tester les labels longs verticaux
+        let data5 = {
+            values: [85000, 92000, 78000, 88000, 95000, 81000],
+            labels: ['Développement Frontend', 'Développement Backend', 'Base de données', 'DevOps et Cloud', 'Sécurité informatique', 'Intelligence Artificielle']
+        };
+        
+        // Options personnalisées
+        const colors1 = ['#3b82f6', '#60a5fa', '#93c5fd', '#3b82f6', '#60a5fa', '#93c5fd', '#3b82f6', '#60a5fa', '#93c5fd', '#3b82f6', '#60a5fa', '#93c5fd'];
+        const colors2 = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6'];
+        const colors3 = ['#ec4899', '#f472b6', '#fb7185', '#fda4af', '#f9a8d4'];
+        const colors4 = ['#06b6d4', '#0891b2', '#0e7490'];
+        
+        function renderCharts() {
+            // Graphique 1 : Barres verticales avec labels longs (rotation)
+            const chart1 = createVerticalBarChart(data5.values, data5.labels, {
+                colors: colors1,
+                showValues: true,
+                showGrid: true,
+                title: 'Salaires par Domaine IT (Labels longs)',
+                width: 600,
+                height: 400,
+                valueFormat: 'currency',
+                decimalPlaces: 0
+            });
+            document.getElementById('chart1').innerHTML = '';
+            document.getElementById('chart1').appendChild(chart1);
+            
+            // Graphique 2 : Circulaire
+            const chart2 = createPieChart(data2.values, data2.labels, {
+                colors: colors2,
+                showValues: true,
+                title: 'Répartition par Catégorie',
+                width: 600,
+                height: 400,
+                showLegend: true
+            });
+            document.getElementById('chart2').innerHTML = '';
+            document.getElementById('chart2').appendChild(chart2);
+            
+            // Graphique 3 : Barres horizontales avec labels longs
+            const chart3 = createHorizontalBarChart(data3.values, data3.labels, {
+                colors: colors3,
+                showValues: true,
+                showGrid: true,
+                title: 'Top Produits Apple (Labels longs)',
+                width: 600,
+                height: 400,
+                valueFormat: 'currency',
+                decimalPlaces: 0
+            });
+            document.getElementById('chart3').innerHTML = '';
+            document.getElementById('chart3').appendChild(chart3);
+            
+            // Graphique 4 : Semi-circulaire
+            const chart4 = createSemiCircularChart(data4.values, data4.labels, {
+                colors: colors4,
+                showValues: true,
+                title: 'Niveau des Participants',
+                width: 600,
+                height: 400,
+                showLegend: true
+            });
+            document.getElementById('chart4').innerHTML = '';
+            document.getElementById('chart4').appendChild(chart4);
+        }
+        
+        window.updateChart = function() {
+            const chartType = document.getElementById('chartType').value;
+            const title = document.getElementById('chartTitle').value;
+            const showValues = document.getElementById('showValues').checked;
+            const showGrid = document.getElementById('showGrid').checked;
+            const showLegend = document.getElementById('showLegend').checked;
+            
+            let chart;
+            const options = {
+                title: title,
+                showValues: showValues,
+                showGrid: showGrid,
+                showLegend: showLegend,
+                width: 600,
+                height: 400
+            };
+            
+            switch(chartType) {
+                case 'vertical':
+                    chart = createVerticalBarChart(data1.values, data1.labels, {
+                        ...options,
+                        colors: colors1,
+                        valueFormat: 'currency'
+                    });
+                    break;
+                case 'horizontal':
+                    chart = createHorizontalBarChart(data1.values, data1.labels, {
+                        ...options,
+                        colors: colors1,
+                        valueFormat: 'currency'
+                    });
+                    break;
+                case 'pie':
+                    chart = createPieChart(data2.values, data2.labels, {
+                        ...options,
+                        colors: colors2
+                    });
+                    break;
+                case 'semi':
+                    chart = createSemiCircularChart(data2.values, data2.labels, {
+                        ...options,
+                        colors: colors2
+                    });
+                    break;
+            }
+            
+            document.getElementById('chart1').innerHTML = '';
+            document.getElementById('chart1').appendChild(chart);
+            
+            // Mettre à jour le titre de la section
+            document.querySelector('.chart-container .chart-title').textContent = title || 'Graphique Personnalisé';
+        };
+        
+        window.downloadChart = function() {
+            const chart = document.querySelector('#chart1 svg');
+            if (chart) {
+                downloadSVG(chart, 'mon-graphique.svg');
+            }
+        };
+        
+        window.randomizeData = function() {
+            // Générer des données aléatoires
+            data1.values = Array.from({length: 12}, () => Math.floor(Math.random() * 50000) + 30000);
+            data2.values = Array.from({length: 5}, () => Math.floor(Math.random() * 40) + 10);
+            data3.values = Array.from({length: 5}, () => Math.floor(Math.random() * 100000) + 200000);
+            data4.values = Array.from({length: 3}, () => Math.floor(Math.random() * 40) + 20);
+            data5.values = Array.from({length: 6}, () => Math.floor(Math.random() * 40000) + 60000);
+            
+            renderCharts();
+        };
+        
+        // Rendu initial
+        renderCharts();
+    </script>
+</body>
+</html>

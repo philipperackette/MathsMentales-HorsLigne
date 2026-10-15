@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="300"
+   height="180"
+   viewBox="0 0 79.35 47.7"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="CarreCote2.svg"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="7.525"
+     inkscape:cx="99.933555"
+     inkscape:cy="71.295681"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12" />
+  <path
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.265"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     d="M 7.7542007,11.564615 40.932968,3.1379041 49.354495,36.345681 16.17399,44.772391 Z"
+     id="path2"
+     style="stroke-width:0.70666667;stroke-miterlimit:4;stroke-dasharray:none" />
+  <path
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.265"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     d="m 15.597149,42.49791 2.272614,-0.575576 0.576841,2.272743 -2.272614,0.577314 z m 23.064942,-38.782691 2.270877,-0.5773149 0.57684,2.2744814 -2.270876,0.575576 z m 7.84295,30.933295 2.272613,-0.577314 0.576841,2.274481 -2.272614,0.575576 z M 7.7542007,11.564615 10.025077,10.9873 l 0.578578,2.274481 -2.2708761,0.577315 z"
+     id="path4"
+     style="stroke-width:0.70666667;stroke-miterlimit:4;stroke-dasharray:none" />
+  <text
+     style="line-height:1.25;-inkscape-font-specification:Arial"
+     x="49.875374"
+     y="18.747263"
+     font-size="7.36991px"
+     font-family="Arial"
+     letter-spacing="0"
+     word-spacing="0"
+     stroke-width="0.265"
+     id="text8"
+     transform="scale(0.99958927,1.0004109)"><tspan
+       x="49.875374"
+       y="18.747263"
+       id="tspan6"
+       style="stroke-width:0.265">$cote</tspan></text>
+  <path
+     d="M 24.173312,5.5480198 22.677348,9.9404817 M 26.079319,5.1585061 24.583355,9.550968 m 7.170547,28.907477 -1.494226,4.392462 m 3.400233,-4.780237 -1.494226,4.390723 M 12.980516,24.935018 9.6046085,28.111989 m 4.1299705,-1.458938 -3.37417,3.180449 m 35.722426,-13.879902 -3.375908,3.17871 m 4.131708,-1.458937 -3.377646,3.178709"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.265"
+     id="path10"
+     style="stroke-width:0.70666667;stroke-miterlimit:4;stroke-dasharray:none" />
+</svg>

@@ -1,0 +1,81 @@
+# Automatismes en classe de 6e
+
+## Les nombres entiers et décimaux
+
+L’élève restitue de manière automatique les résultats suivants, relatifs aux relations entre 1/1000, 1/100, 1/10 et 1 :
+1 = 10/10 = 100/100 = 1000/1000; 1/10 = 10/100= 100/1000; 1 = 10 x 1/10 = 100 x 1/100; 1/10 = 10 x 1/100
+
+L’élève restitue de manière automatique les équivalences d’écriture suivantes : 1/10 = 0,1; 1/100 = 0,01; 1/1000 = 0,01
+
+L’élève passe de manière automatique d’une écriture sous forme de fraction décimale ou de somme de fractions décimales à une écriture décimale, et inversement.
+Par exemple, il sait que les écritures
+ 4107/1000 ; 4 + 107/1000 ; 4 + 1/10 + 7/1000 ; 4,107, représentent le même nombre.
+
+L’élève applique de manière automatique la procédure de multiplication d’un nombre décimal par 1, par 10, par 100 ou par 1 000, en lien avec la numération.
+
+Il applique de manière automatique la procédure de division d’un nombre décimal par 1, par 10, par 100 ou par 1 000.
+
+## Les fractions
+L’élève sait reconnaître une fraction sur des représentations variées, par exemple : 1/4 dans un carré, un disque, un rectangle, une barre
+
+L’élève connaît des relations entre 1/4, 1/2, 3/4 et 1 et complète de manière automatique des « égalités à trous » du type : 1/2 + 1/2 = ...; 1/4 + 1/4 = ...; 1 - 1/4 = ...: 1/2 + 1/4 = ...; 3/4 + 1/4 = ...; 1/2 - 1/4 = ...; 3/4 - 1/4 = ...
+L’élève sait passer de manière automatique d’une écriture fractionnaire à une écriture décimale, et inversement, dans les cas suivants : 1/4 = 0,25 ; 1/2 = 0,5 ; 3/4 = 0,75 ; 3/2 = 1,5 ; 4/2 = 2 ; 5/2 = 2,5
+
+Les notions de diviseur et de multiple et les tables de multiplication sont réactivées en vue de leur utilisation dans le calcul sur les fractions (simplification, addition et soustraction).
+
+L’élève sait calculer 2/3 de 12 œufs, 3/4 de 10 m.
+
+## Les longueurs
+L’élève connaît les significations des préfixes allant du kilo- au milli-, ainsi que les relations entre le mètre, ses multiples et ses sous-multiples, et fait le lien avec les unités de numération du système décimal.
+
+L’élève connaît les relations entre deux unités successives du système décimal, par exemple : 1 dm = 10 cm et 1 cm = 1/10 dm = 0,1 dm.
+
+L’élève sait convertir en mètre une longueur donnée dans une autre unité, multiple ou sous-multiple du mètre. Inversement, l’élève sait convertir dans une unité donnée une longueur exprimée en mètre.
+
+L’élève sait utiliser le compas comme outil de report de longueurs.
+
+Il sait que le périmètre d’une figure plane est la longueur de son contour. L’élève sait calculer le périmètre d’un carré et d’un rectangle.
+
+## Les aires
+L’élève sait comparer des aires sans avoir recours à la mesure, par superposition ou par découpage et recollement de surfaces.
+
+L’élève sait que 1 cm² est l’aire d’un carré de 1 cm de côté, que 1 m² est l’aire d’un carré de 1 m de côté, que 1 dm² est l’aire d’un carré de 1 dm de côté.
+
+Dans des cas simples, l’élève sait déterminer l’aire d’une surface en s’appuyant sur un quadrillage composé de carreaux dont les côtés mesurent 1 cm.
+
+L’élève sait que : 1 m² = 1 m × 1 m = 10 dm × 10 dm = 10 × 10 dm2 = 100 dm² ; 1 dm² = 1 dm × 1 dm = 10 cm × 10 cm = 10 × 10 cm2 = 100 cm².
+
+L’élève mémorise que 1 cm² est égal à un centième de 1 dm², qu’il écrit 1 cm² = 1/100 dm² ou 1 cm² = 0,01 dm².
+
+L’élève mémorise que 1 dm² est égal à un centième de 1 m², qu’il écrit 1 dm² = 1/100 m² ou 1 dm² = 0,01 m².
+
+## Le repérage dans le temps et les durées
+L’élève lit l’heure sur un cadran à aiguilles ou sur un affichage digital (heures, minutes et secondes).
+
+L’élève place les aiguilles pour qu’une horloge indique une heure donnée.
+
+L’élève connaît les unités de mesure de durées jour, heure, minute et seconde et les relations qui les lient.
+
+L’élève sait combien de jours il y a dans une année (bissextile ou non), combien d’années il y a dans un siècle, et dans un millénaire.
+
+L’élève sait qu’une demi-heure c’est 30 minutes, qu’un quart d’heure c’est 15 minutes, que trois quarts d’heure c’est 45 minutes.
+
+## Configurations planes
+L’élève connaît le lexique et le codage des objets de base de la géométrie plane : angle droit, égalité de longueurs, égalité d’angles.
+
+Il reconnaît un carré, un rectangle, un triangle.
+
+Il reconnaît si une figure possède un ou plusieurs axes de symétrie.
+
+Il sait coder des angles droits et des longueurs égales.
+
+## La vision dans l'espace
+L’élève identifie dans un ensemble de solides lesquels sont des pyramides, des boules, des cubes, des cylindres, des pavés, des cônes ou des prismes droits.
+
+## Organisation et gestion de données
+L’élève sait lire un tableau, un diagramme en barres, un diagramme circulaire ou une courbe dans des cas adaptés à une lecture immédiate.
+
+## Proportionnalité
+L’élève sait repérer des relations multiplicatives simples entre des nombres (double, quadruple, moitié, tiers, quart).
+
+Il associe de manière automatique les expressions du type : « 4 fois plus grand, 4 fois plus petit, 5 fois plus, 5 fois moins » à une multiplication ou à une division.

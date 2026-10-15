@@ -1,0 +1,50 @@
+{
+    "title":"Relations entre deux unités de longueur successives",
+    "ID":"6MA2",
+    "type":"text",
+    "description":"Retrouver le lien (×10, fraction, écriture décimale) entre deux unités de longueur qui se suivent.",
+    "speech":1,
+    "consts":{
+        "unites":["mm","cm","dm","m","dam","hm","km"],
+        "uv":{"mm":"millimètres","cm":"centimètres","dm":"décimètres","m":"mètres","dam":"décamètres","hm":"hectomètres","km":"kilomètres"}
+    },
+    "dest":["6MA","7MA"],
+    "consigne":"Compléter",
+    "options":[{
+        "name":"Vers l'unité inférieure (nombre entier)",
+        "vars":{
+            "i":"0_5",
+            "petit":"${:unites[:i]}",
+            "grand":"${:unites[:i+1]}"
+        },
+        "question":"$$1\\text{ ${:grand}} = ~...~\\text{${:petit}}$$",
+        "shortq":"$$1\\text{ ${:grand}} = \\colorbox{#ECECEC}{\\quad}\\text{ ${:petit}}$$",
+        "audio":"1 ${:uv[:grand]} égale combien de ${:uv[:petit]} ?",
+        "answer":"$$1\\text{ ${:grand}} = \\color{red}{10}\\text{ ${:petit}}$$",
+        "value":"10"
+    },{
+        "name":"Vers l'unité supérieure (fraction)",
+        "vars":{
+            "i":"0_5",
+            "petit":"${:unites[:i]}",
+            "grand":"${:unites[:i+1]}"
+        },
+        "question":"$$1\\text{ ${:petit}} = ~\\dfrac{1}{~...~}~\\text{${:grand}}$$",
+        "shortq":"$$1\\text{ ${:petit}} = \\dfrac{1}{\\colorbox{#ECECEC}{\\quad}}\\text{ ${:grand}}$$",
+        "audio":"1 ${:uv[:petit]} égale un ${:uv[:grand]} divisé par combien ?",
+        "answer":"$$1\\text{ ${:petit}} = \\dfrac{1}{\\color{red}{10}}\\text{ ${:grand}}$$",
+        "value":"10"
+    },{
+        "name":"Vers l'unité supérieure (écriture décimale)",
+        "vars":{
+            "i":"0_5",
+            "petit":"${:unites[:i]}",
+            "grand":"${:unites[:i+1]}"
+        },
+        "question":"$$1\\text{ ${:petit}} = ~...~\\text{${:grand}}$$",
+        "shortq":"$$1\\text{ ${:petit}} = \\colorbox{#ECECEC}{\\quad}\\text{ ${:grand}}$$",
+        "audio":"1 ${:uv[:petit]} égale combien de ${:uv[:grand]}, en écriture décimale ?",
+        "answer":"$$1\\text{ ${:petit}} = \\color{red}{0.1}\\text{ ${:grand}}$$",
+        "value":"0.1"
+    }]
+}

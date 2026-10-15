@@ -1,0 +1,4 @@
+<svg class="i i-star" width="8em" height="8em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m12 1.5 3.1 6.3 6.9 1-5 4.8 1.2 6.9-6.2-3.2-6.2 3.2L7 13.6 2 8.8l6.9-1z"/>
+  <path d="M12 0V24M3 0L21 24M21 0L3 24M0 8.2L24 15.8M0 15.8L24 8.2" fill="none" stroke="red" stroke-width="0.6" stroke-dasharray="4 1" stroke-linecap="butt" class="correction"/>
+</svg>

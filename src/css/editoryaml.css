@@ -1,0 +1,186 @@
+@import url("../js/libs/JSXGraph1.11.1/jsxgraph.css");
+@import url("../js/libs/codemirror/codemirror.css");
+
+body,
+html {
+    padding: 0;
+    height: 100%;
+}
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1em;
+}
+.CodeMirror {
+    height: calc(100% - 100px);
+}
+#result {
+    border: 1px solid black;
+    padding: 5px;
+}
+#param-title-act {
+    font-weight: bold;
+}
+#activityTitle {
+    font-size: bigger !important;
+    font-weight: bold !important;
+}
+#activityDescription {
+    font-size: smaller;
+    font-style: italic;
+}
+#display li {
+    list-style-type: none;
+}
+.tooltip {
+    color: rgb(5, 2, 162);
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid rgb(18, 18, 11);
+}
+.tooltip .tooltiptext {
+    display: block;
+    position: relative;
+    background-color: rgb(249, 255, 226);
+}
+.red,
+.katex-error {
+    font-weight: bold !important;
+    color: red !important;
+}
+#openFileInput {
+    width: 150px;
+}
+.paramsButtons > span {
+    color: #818181;
+    background-color: #eeeeee;
+    padding: 0.2em 1em;
+    margin: 0.2em 0.5em;
+    display: inline-block;
+    border-radius: 0.3em;
+    font-size: smaller;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.paramsButtons > span:hover {
+    cursor: pointer;
+    color: #0f3da1;
+}
+.paramsButtons > span.activ {
+    background-color: #2b79df;
+    color: #d6eaff;
+}
+legend button {
+    margin-left: 0.5em;
+}
+.close {
+    color: red;
+    background-color: white;
+}
+.nom,
+.value {
+    display: inline-block;
+    margin-left: 0.5em;
+}
+.ligne {
+    display: block;
+    width: 100%;
+}
+.valedit {
+    position: relative;
+    padding-right: 0.5em;
+}
+.supprthis {
+    position: absolute;
+    top: -0.2em;
+    right: -0.2em;
+    background-color: red;
+    color: white;
+    border-radius: 0.5em;
+    width: 1em;
+    height: 1em;
+    line-height: 0.8em;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    visibility: hidden;
+}
+blockquote {
+    padding: 0.2em;
+    margin: 0.2em;
+    background-color: #eefffe;
+}
+.valedit:hover .supprthis {
+    visibility: visible;
+}
+fieldset[data-data="consts"] .nom {
+    min-width: 3em;
+    border: 2px solid rgb(249, 228, 132);
+    text-align: center;
+}
+fieldset[data-data="vars"] .nom {
+    min-width: 3em;
+    border: 2px solid rgb(249, 132, 132);
+    text-align: center;
+}
+fieldset .champ {
+    border: 1px lightgray solid;
+    line-height: 1.5em;
+    margin-left: 0.5em;
+}
+.value {
+    min-width: 5em;
+    border: 1px dotted dodgerblue;
+}
+.modal {
+    position: absolute;
+    display: block;
+    z-index: 10;
+    width: 300px;
+    height: 200px;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1em;
+    background-color: burlywood;
+    border: 1pt solid black;
+    border-radius: 1em;
+}
+.modal .fermer {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: red;
+    background-color: white;
+}
+.modal.closed {
+    display: none;
+}
+fieldset {
+    border-radius: 0.5em;
+}
+fieldset legend {
+    font-weight: bold;
+}
+/*
+* Enonces et corriges
+*/
+.inline-table {
+    display: inline-table !important;
+    border-collapse: collapse !important;
+    width: auto !important;
+    vertical-align: middle;
+}
+.inline-table td,
+.inline-table th {
+    border: 1px solid #5b5b5b;
+    padding: 4px 8px;
+    text-align: center;
+}
+
+custom-svg svg .correction,
+svg .correction {
+    display: none;
+}
+custom-svg.corrige svg .correction,
+.corrige svg .correction {
+    display: initial;
+}

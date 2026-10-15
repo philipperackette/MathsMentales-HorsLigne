@@ -1,0 +1,17 @@
+/* Réglages KaTeX propres à MathsMentales.
+   À charger après js/libs/katex/katex.min.css, sur toutes les pages qui
+   affichent des formules. */
+
+/* KaTeX rend à 1.21em pour coller aux proportions de TeX : dans nos gabarits
+   (listes d'énoncés, cartes, diapos) les formules ressortaient trop grosses
+   face au texte. On revient à la taille du texte porteur, les tailles
+   relatives des diaporamas et des cartes restent donc pilotées par leur
+   conteneur. */
+.katex {
+    font-size: 1em;
+}
+
+/* Une formule ne doit jamais déborder de sa cellule ou de sa carte. */
+.mm-math {
+    max-width: 100%;
+}

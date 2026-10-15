@@ -1,0 +1,73 @@
+{
+    "title":"Vocabulaire : jour, année, siècle, millénaire",
+    "description":"jour, année, siècle, millénaire, bissextile, calendrier, durée",
+    "type":"text",
+    "speech":1,
+    "ID":"7MC4",
+    "dest":["7MC","6MB"],
+    "keys":["jr","sm","an","scl","_","_","_","_"],
+    "options":[
+        {
+            "name":"Années bissextiles ou non",
+            "vars":{"bis":[0,1]},
+            "question":["Combien de jours compte une année ${:bis==1?'bissextile':'non bissextile'} ?",
+                "Une année ${:bis==1?'bissextile':'normale (non bissextile)'} compte combien de jours ?",
+                "Tous les combien d'années y a-t-il une année bissextile ?"],
+            "audio":["Combien de jours compte une année ${:bis==1?'bissextile':'non bissextile'} ?",
+                "Une année ${:bis==1?'bissextile':'normale, non bissextile,'} compte combien de jours ?",
+                "Tous les combien d'années y a-t-il une année bissextile ?"],
+            "answer":["Une année ${:bis==1?'bissextile':'non bissextile'} compte <span class='red'>${:bis==1?366:365}</span> jours.",
+                "Une année ${:bis==1?'bissextile':'non bissextile'} compte <span class='red'>${:bis==1?366:365}</span> jours.",
+                "Il y a une année bissextile tous les <span class='red'>4</span> ans (en général)."],
+            "value":["${:bis==1?366:365}","${:bis==1?366:365}","4"]
+        },{
+            "name":"Années dans un siècle",
+            "question":["Combien d'années y a-t-il dans un siècle ?",
+                "Un siècle compte combien d'années ?"],
+            "audio":"Combien d'années y a-t-il dans un siècle ?",
+            "answer":"Un siècle compte <span class='red'>100</span> années.",
+            "value":["100","100 ans","100 années"]
+        },{
+            "name":"Années dans un millénaire",
+            "question":["Combien d'années y a-t-il dans un millénaire ?",
+                "Un millénaire compte combien d'années ?"],
+            "audio":"Combien d'années y a-t-il dans un millénaire ?",
+            "answer":"Un millénaire compte <span class='red'>1000</span> années.",
+            "value":["1000","1000 ans","1000 années", "1000 a"]
+        },{
+            "name":"Siècles dans un millénaire",
+            "question":["Combien de siècles y a-t-il dans un millénaire ?",
+                "Un millénaire compte combien de siècles ?"],
+            "audio":"Combien de siècles y a-t-il dans un millénaire ?",
+            "answer":"Un millénaire compte <span class='red'>10</span> siècles.",
+            "value":["10","10 siècles"]
+        },{
+            "name":"Conversions siècles <=> années",
+            "vars":{"s":"1_20","an":"0_99","totalQ":"${:s*100+:an}","totalR":"${:s*100}"},
+            "question":["Combien de siècles y a-t-il dans ${:totalQ} ans ?",
+                "Combien d'années y a-t-il dans ${:s} siècles ?"],
+            "audio":["Combien y a-t-il de siècles dans ${:totalQ} ans ?",
+                "Combien y a-t-il d'années dans ${:s} siècles ?"],
+            "answer":["Dans ${:totalQ} ans, il y a<span class='red'>${:s}</span> siècles.",
+                "${:s} siècles = <span class='red'>${:totalR}</span> années."],
+            "value":["${:s}","${:totalR}"]
+        },{
+            "name":"Conversions millénaires <=> années",
+            "vars":{"mil":"1_9","an":"0_999","totalQ":"${:mil*1000+:an}","totalR":"${:mil*1000}"},
+            "question":["Combien de millénaires y a-t-il dans ${:totalQ} ans ?",
+                "Combien d'années y a-t-il dans ${:mil} millénaires ?"],
+            "audio":["Combien y a-t-il de millénaires dans ${:totalQ} ans ?",
+                "Combien y a-t-il d'années dans ${:mil} millénaires ?"],
+            "answer":["Dans ${:totalQ} ans, il y a <span class='red'>${:mil}</span> millénaires.",
+                "${:mil} millénaires = <span class='red'>${:totalR}</span> années."],
+            "value":["${:mil}","${:totalR}"]
+        },{
+            "name":"Trouver le siècle d'une année",
+            "vars":{"c":"1_21","an":"1_100","year":"${(:c-1)*100+:an}"},
+            "question":"Quel siècle était-ce en l'an ${:year} ?",
+            "audio":"Quel siècle était-ce en l'an ${:year} ?",
+            "answer":"En l'an ${:year}, c'était le <span class='red'>${:c}</span>e siècle.",
+            "value":["${:c}","${:c}e siècle"]
+        }
+    ]
+}

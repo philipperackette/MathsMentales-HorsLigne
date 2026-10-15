@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0) -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600px" height="600px" viewBox="0 0 600 600">
+  <g fill="none" stroke="#000" stroke-linecap="round">
+    <circle cx="300" cy="300" r="275"/>
+    <path stroke-width="0.75" d="M285,300h30 M300,285v30"/>
+    <g>
+      <path id="deg10" d="M25,300h40 M102,300h180 M318,300h180 M535,300h40 M300,25v40 M300,102v180 M300,318v180 M300,535v40"/>
+      <use xlink:href="#deg10" transform="rotate(10 300 300)"/>
+      <use xlink:href="#deg10" transform="rotate(20 300 300)"/>
+      <use xlink:href="#deg10" transform="rotate(30 300 300)"/>
+      <use xlink:href="#deg10" transform="rotate(40 300 300)"/>
+      <use xlink:href="#deg10" transform="rotate(50 300 300)"/>
+      <use xlink:href="#deg10" transform="rotate(60 300 300)"/>
+      <use xlink:href="#deg10" transform="rotate(70 300 300)"/>
+      <use xlink:href="#deg10" transform="rotate(80 300 300)"/>
+    </g>
+    <g>
+      <path id="deg5" stroke-width="0.75" transform="rotate(5 300 300)" d="M25,300h20 M142,300h20 M438,300h20 M555,300h20 M300,25v20 M300,142v20 M300,438v20 M300,555v20"/>
+      <use xlink:href="#deg5" transform="rotate(10 300 300)"/>
+      <use xlink:href="#deg5" transform="rotate(20 300 300)"/>
+      <use xlink:href="#deg5" transform="rotate(30 300 300)"/>
+      <use xlink:href="#deg5" transform="rotate(40 300 300)"/>
+      <use xlink:href="#deg5" transform="rotate(50 300 300)"/>
+      <use xlink:href="#deg5" transform="rotate(60 300 300)"/>
+      <use xlink:href="#deg5" transform="rotate(70 300 300)"/>
+      <use xlink:href="#deg5" transform="rotate(80 300 300)"/>
+      <g id="gdeg1">
+        <path id="deg1" stroke-width="0.4" transform="rotate(1 300 300)" d="M25,300h10 M147,300h10 M443,300h10 M565,300h10 M300,25v10 M300,147v10 M300,443v10 M300,565v10"/>
+        <use xlink:href="#deg1" transform="rotate(1 300 300)"/>
+        <use xlink:href="#deg1" transform="rotate(2 300 300)"/>
+        <use xlink:href="#deg1" transform="rotate(3 300 300)"/>
+        <use xlink:href="#deg1" transform="rotate(5 300 300)"/>
+        <use xlink:href="#deg1" transform="rotate(6 300 300)"/>
+        <use xlink:href="#deg1" transform="rotate(7 300 300)"/>
+        <use xlink:href="#deg1" transform="rotate(8 300 300)"/>
+      </g>
+      <use xlink:href="#gdeg1" transform="rotate(10 300 300)"/>
+      <use xlink:href="#gdeg1" transform="rotate(20 300 300)"/>
+      <use xlink:href="#gdeg1" transform="rotate(30 300 300)"/>
+      <use xlink:href="#gdeg1" transform="rotate(40 300 300)"/>
+      <use xlink:href="#gdeg1" transform="rotate(50 300 300)"/>
+      <use xlink:href="#gdeg1" transform="rotate(60 300 300)"/>
+      <use xlink:href="#gdeg1" transform="rotate(70 300 300)"/>
+      <use xlink:href="#gdeg1" transform="rotate(80 300 300)"/>
+    </g>
+  </g>
+  <g id="text" font-family="'DejaVu Sans'" font-size="14">
+    <text transform="matrix(1 0 0 1 294.5425 90.5198)">0</text>
+    <text transform="matrix(1 0 0 1 326.793 93.6399)">10</text>
+    <text transform="matrix(1 0 0 1 363.3828 103.2209)">20</text>
+    <text transform="matrix(1 0 0 1 397.4199 119.0012)">30</text>
+    <text transform="matrix(1 0 0 1 428.4355 140.4602)">40</text>
+    <text transform="matrix(1 0 0 1 454.8281 166.9172)">50</text>
+    <text transform="matrix(1 0 0 1 476.5371 197.5813)">60</text>
+    <text transform="matrix(1 0 0 1 492.4297 231.5452)">70</text>
+    <text transform="matrix(1 0 0 1 502.3496 267.7805)">80</text>
+    <text transform="matrix(1 0 0 1 505.7383 305.1663)">90</text>
+    <text transform="matrix(1 0 0 1 497.4414 342.5715)">100</text>
+    <text transform="matrix(1 0 0 1 487.8613 378.8674)">110</text>
+    <text transform="matrix(1 0 0 1 472.082 412.9309)">120</text>
+    <text transform="matrix(1 0 0 1 450.623 443.7258)">130</text>
+    <text transform="matrix(1 0 0 1 424.166 470.3469)">140</text>
+    <text transform="matrix(1 0 0 1 393.5039 491.9963)">150</text>
+    <text transform="matrix(1 0 0 1 359.541 507.9875)">160</text>
+    <text transform="matrix(1 0 0 1 323.3066 517.7952)">170</text>
+    <text transform="matrix(1 0 0 1 285.9224 521.1467)">180</text>
+    <text transform="matrix(1 0 0 1 248.5181 518.0256)">190</text>
+    <text transform="matrix(1 0 0 1 212.5151 508.4436)">200</text>
+    <text transform="matrix(1 0 0 1 178.4526 492.6643)">210</text>
+    <text transform="matrix(1 0 0 1 147.6582 471.2053)">220</text>
+    <text transform="matrix(1 0 0 1 121.0376 444.7463)">230</text>
+    <text transform="matrix(1 0 0 1 99.3882 414.0852)">240</text>
+    <text transform="matrix(1 0 0 1 83.3975 380.1213)">250</text>
+    <text transform="matrix(1 0 0 1 73.5908 343.884)">260</text>
+    <text transform="matrix(1 0 0 1 70.2397 306.4993)">270</text>
+    <text transform="matrix(1 0 0 1 73.3599 269.095)">280</text>
+    <text transform="matrix(1 0 0 1 82.9409 232.7981)">290</text>
+    <text transform="matrix(1 0 0 1 98.6973 198.7346)">300</text>
+    <text transform="matrix(1 0 0 1 120.1563 167.9387)">310</text>
+    <text transform="matrix(1 0 0 1 146.6128 141.3186)">320</text>
+    <text transform="matrix(1 0 0 1 177.2754 119.6692)">330</text>
+    <text transform="matrix(1 0 0 1 211.2378 103.678)">340</text>
+    <text transform="matrix(1 0 0 1 247.4731 93.8694)">350</text>
+  </g>
+</svg>

@@ -1,0 +1,261 @@
+title: "Symétrie centrale : retrouver le centre parmi plusieurs points"
+description: "symétrie centrale, centre de symétrie, retrouver le centre, milieu"
+ID: 5GT10
+type: text
+textSize: medium
+dest:
+  - 5GT
+consts:
+  pool: "ABCDE"
+options:
+  - name: Facile — figures qui ne se croisent pas
+    vars:
+      tier: 0
+      letIdx: "0_2_3_^&"
+  - name: Moyen — figures entrecroisées
+    vars:
+      tier: 1
+      letIdx: "0_3_4_^&"
+  - name: Difficile — croisement variable, deux alignements de points
+    vars:
+      tier: 2
+      letIdx: "0_4_5_^&"
+vars:
+  # ─── défaut écrasé par les options (voir plus haut) : déclaré ici pour que
+  # l'ordre de résolution des variables le place bien avant son usage —
+  # Object.assign ajoute en fin de liste les clés absentes ci-dessous.
+  tier: 0
+  # ─── polygone tiré sur un cercle, avec des arcs bornés (comme 5GT4/5GT5) :
+  # la figure reste convexe et jamais plate, triangle comme quadrilatère. Pour
+  # que O tombe toujours à l'intérieur (voir dc plus bas), aucun arc entre deux
+  # sommets consécutifs ne doit dépasser 180°.
+  # Quadrilatère : quatre demi-arcs dans [30°,60°] (somme 180°) — chaque arc
+  # complet reste dans [60°,120°], largement sous 180°.
+  quad: [true, false]
+  ns: ${:quad?4:3}
+  qc1: "30_60"
+  qc2: "30_60"
+  qc3: "${Math.max(30,120-:qc1-:qc2)}_${Math.min(60,150-:qc1-:qc2)}"
+  qc4: ${180-:qc1-:qc2-:qc3}
+  # Triangle : seuls deux sommets intermédiaires sont placés librement, le
+  # troisième arc "referme" le tour. tc1≥35° et tc2≥95°-tc1 forcent
+  # tc1+tc2≥95°, donc le demi-arc de fermeture tc3=180°-tc1-tc2 reste ≤85° :
+  # son arc complet (le double) reste ≤170°, avec une marge sous 180°.
+  tc1: "35_60"
+  tc2: "${Math.max(30,95-:tc1)}_60"
+  tc3: ${180-:tc1-:tc2}
+  c1: ${:quad?:qc1::tc1}
+  c2: ${:quad?:qc2::tc2}
+  c3: ${:quad?:qc3::tc3}
+  c4: ${:quad?:qc4:0}
+  t0: "0_359"
+  uA: ${:t0}
+  uB: ${:t0+2*:c1}
+  uC: ${:t0+2*(:c1+:c2)}
+  uD: ${:t0+2*(:c1+:c2+:c3)}
+  # ─── rayon du cercle qui porte le polygone. Il est plus grand quand les deux
+  # figures se superposent (dc=0) : le dessin n’occupe alors qu’un seul disque,
+  # qu’on agrandit pour remplir le cadre.
+  rc: ${:tier===1?3.6:2.8}
+  # ─── position du centre du cercle F par rapport à O : dc (distance) règle le
+  # croisement des deux figures, puisque l’image est portée par le cercle
+  # symétrique, à 2·dc du premier.
+  #  · dc > rc sépare les deux cercles (2·dc > 2·rc) : jamais de croisement.
+  #    Le palier facile tire dc dans [3,1 ; 3,6], au dessus de rc=2,8, avec une
+  #    marge suffisante pour que les figures restent tout de même voisines.
+  #  · dc = 0 place le cercle exactement sur O ; comme aucun arc ne dépasse
+  #    180°, O tombe toujours à l’intérieur du polygone, donc aussi de son
+  #    image : croisement garanti.
+  #  · dc tiré sur toute la plage mélange les deux cas.
+  # Le tirage se fait en dixièmes entiers : une borne décimale ("3.1_3.6")
+  # passerait par le tirage entier, qui rendrait 3,1 ou 4,1 — au delà du max.
+  dc0: "${:tier===0?'31_36':(:tier===1?'0_0':'0_36')}"
+  # ─── un quadrilatère inscrit dans un cercle centré pile sur O est presque
+  # centralement symétrique : son image se superposerait à lui, et on ne verrait
+  # plus qu'une seule figure. On écarte donc le cercle de O, mais en restant
+  # sous le rayon du cercle inscrit — la distance de F au plus proche côté, soit
+  # rc·cos(plus grand demi-arc) — car c'est cette condition qui garde O à
+  # l'intérieur du polygone, donc les deux figures forcément entrecroisées.
+  # Le triangle n'a jamais de centre de symétrie : il n'a pas besoin de ce
+  # décalage, et son plus grand demi-arc laisserait de toute façon peu de place.
+  cmax: ${Math.max(:c1,:c2,:c3,:c4)}
+  inr: ${:rc*Math.cos(:cmax*Math.PI/180)}
+  dcmin: ${:quad?0.55*:inr:0}
+  dcraw: ${:dc0/10}
+  dc: ${MMmath.round(Math.max(:dcraw,:dcmin),4)}
+  # ─── direction dans laquelle les deux figures s’écartent : maintenue proche
+  # de l’horizontale (à 35° près), pour que le dessin s’étale dans la largeur
+  # du cadre plutôt que dans sa hauteur, plus courte.
+  psi0: "-35_35"
+  flip: [0, 180]
+  psi: ${:psi0+:flip}
+  ox: 0
+  oy: 0
+  # décalage du cadre, en dixièmes d'unité : sans lui O, centre du dessin,
+  # tomberait pile au milieu du cadre et se laisserait deviner sans réfléchir.
+  jx0: "-4_4"
+  jy0: "-4_4"
+  jx: ${:jx0/10}
+  jy: ${:jy0/10}
+  # ─── écart du centre du cercle à O, avant mise à l'échelle
+  fx0: ${:dc*Math.cos(:psi*Math.PI/180)}
+  fy0: ${:dc*Math.sin(:psi*Math.PI/180)}
+  # ─── le dessin est ensuite agrandi pour remplir le cadre. Sans cela il
+  # flotterait, minuscule, au milieu du vide dès que dc sort petit : le cadre
+  # doit tenir le pire tirage, mais le tirage courant est presque toujours plus
+  # ramassé. rx0 et ry0 mesurent la place réellement occupée — les figures
+  # tiennent dans un disque de rayon rc autour de leur centre, les points
+  # candidats et leurs noms s'écartent au plus de maxS + 1,15 — et k ramène
+  # cette place aux 6,6 sur 5 unités disponibles, la marge restante étant
+  # laissée au décalage de O.
+  maxS: ${:tier===1?3.2:2.6}
+  rx0: ${Math.max(Math.abs(:fx0)+:rc,:maxS+1.15)}
+  ry0: ${Math.max(Math.abs(:fy0)+:rc,:maxS+1.15)}
+  k: ${MMmath.round(Math.min(6.6/:rx0,5/:ry0),4)}
+  bw: ${MMmath.round(:k*:rx0+0.5,3)}
+  bh: ${MMmath.round(:k*:ry0+0.5,3)}
+  rcs: ${MMmath.round(:k*:rc,4)}
+  fx: ${MMmath.round(:ox+:k*:fx0,3)}
+  fy: ${MMmath.round(:oy+:k*:fy0,3)}
+  p1x: ${MMmath.round(:fx+:rcs*Math.cos(:uA*Math.PI/180),3)}
+  p1y: ${MMmath.round(:fy+:rcs*Math.sin(:uA*Math.PI/180),3)}
+  p2x: ${MMmath.round(:fx+:rcs*Math.cos(:uB*Math.PI/180),3)}
+  p2y: ${MMmath.round(:fy+:rcs*Math.sin(:uB*Math.PI/180),3)}
+  p3x: ${MMmath.round(:fx+:rcs*Math.cos(:uC*Math.PI/180),3)}
+  p3y: ${MMmath.round(:fy+:rcs*Math.sin(:uC*Math.PI/180),3)}
+  p4x: ${MMmath.round(:fx+:rcs*Math.cos(:uD*Math.PI/180),3)}
+  p4y: ${MMmath.round(:fy+:rcs*Math.sin(:uD*Math.PI/180),3)}
+  # ─── image par symétrie de centre O
+  q1x: ${MMmath.round(2*:ox-:p1x,3)}
+  q1y: ${MMmath.round(2*:oy-:p1y,3)}
+  q2x: ${MMmath.round(2*:ox-:p2x,3)}
+  q2y: ${MMmath.round(2*:oy-:p2y,3)}
+  q3x: ${MMmath.round(2*:ox-:p3x,3)}
+  q3y: ${MMmath.round(2*:oy-:p3y,3)}
+  q4x: ${MMmath.round(2*:ox-:p4x,3)}
+  q4y: ${MMmath.round(2*:oy-:p4y,3)}
+  # ─── directions de deux côtés consécutifs du polygone (P1P2 et P2P3),
+  # toujours définis, triangle comme quadrilatère : c’est le long de ces
+  # directions, en passant par O, que sont alignés les points pièges. L’angle
+  # entre ces deux droites reste entre 60° et 90° (il vaut l’angle extérieur en
+  # P2, borné par le tirage des arcs) : les deux alignements ne se confondent
+  # jamais, et leurs points ne se rapprochent jamais.
+  sd1x: ${:p2x-:p1x}
+  sd1y: ${:p2y-:p1y}
+  len1: ${Math.sqrt(:sd1x*:sd1x+:sd1y*:sd1y)}
+  u1x: ${:sd1x/:len1}
+  u1y: ${:sd1y/:len1}
+  sd2x: ${:p3x-:p2x}
+  sd2y: ${:p3y-:p2y}
+  len2: ${Math.sqrt(:sd2x*:sd2x+:sd2y*:sd2y)}
+  u2x: ${:sd2x/:len2}
+  u2y: ${:sd2y/:len2}
+  # ─── normales aux deux alignements : c’est de ce côté que sont écrits les
+  # noms des points, la seule direction que l’alignement laisse libre.
+  n1x: ${-:u1y}
+  n1y: ${:u1x}
+  n2x: ${-:u2y}
+  n2y: ${:u2x}
+  # ─── points pièges, à 1,6 unité de O le long du premier alignement (3,2 pour
+  # le troisième, présent au seul palier moyen) et 2,6 le long du second. Ces
+  # écarts sont réglés pour le pire angle possible entre les deux alignements
+  # (60°, voir plus haut) : deux noms y restent à 1,12 unité l’un de l’autre,
+  # pour une hauteur de nom de 0,91 unité, et un nom reste à 1,4 unité de toute
+  # croix qui n’est pas la sienne. Les pièges restent aussi à 2,6 unités de O
+  # au plus, contre 2,8 pour le rayon du polygone : ils voisinent la figure au
+  # lieu de flotter loin à l’extérieur, où ils se repèreraient d’un coup d’œil.
+  l1ax: ${MMmath.round(:ox-1.6*:k*:u1x,3)}
+  l1ay: ${MMmath.round(:oy-1.6*:k*:u1y,3)}
+  l1bx: ${MMmath.round(:ox+1.6*:k*:u1x,3)}
+  l1by: ${MMmath.round(:oy+1.6*:k*:u1y,3)}
+  l1cx: ${MMmath.round(:ox+3.2*:k*:u1x,3)}
+  l1cy: ${MMmath.round(:oy+3.2*:k*:u1y,3)}
+  l2ax: ${MMmath.round(:ox-2.6*:k*:u2x,3)}
+  l2ay: ${MMmath.round(:oy-2.6*:k*:u2y,3)}
+  l2bx: ${MMmath.round(:ox+2.6*:k*:u2x,3)}
+  l2by: ${MMmath.round(:oy+2.6*:k*:u2y,3)}
+  # ─── noms écartés de 0,8 unité perpendiculairement à leur alignement, tous
+  # du même côté : ils forment une ligne parallèle à l’alignement, sans jamais
+  # recouvrir ni les croix ni les noms voisins.
+  lab: ${MMmath.round(0.8*:k,4)}
+  tox: ${MMmath.round(:ox+:lab*:n1x,3)}
+  toy: ${MMmath.round(:oy+:lab*:n1y,3)}
+  t1ax: ${MMmath.round(:l1ax+:lab*:n1x,3)}
+  t1ay: ${MMmath.round(:l1ay+:lab*:n1y,3)}
+  t1bx: ${MMmath.round(:l1bx+:lab*:n1x,3)}
+  t1by: ${MMmath.round(:l1by+:lab*:n1y,3)}
+  t1cx: ${MMmath.round(:l1cx+:lab*:n1x,3)}
+  t1cy: ${MMmath.round(:l1cy+:lab*:n1y,3)}
+  t2ax: ${MMmath.round(:l2ax+:lab*:n2x,3)}
+  t2ay: ${MMmath.round(:l2ay+:lab*:n2y,3)}
+  t2bx: ${MMmath.round(:l2bx+:lab*:n2x,3)}
+  t2by: ${MMmath.round(:l2by+:lab*:n2y,3)}
+  # ─── défaut écrasé par les options : déclaré ici pour l'ordre de résolution
+  letIdx: "0_2_3_^&"
+  # ─── lettres attribuées dans un ordre tiré au hasard : la lettre ne doit
+  # rien trahir sur le rôle du point.
+  letO: ${:pool[:letIdx[0]]}
+  letL1a: ${:pool[:letIdx[1]]}
+  letL1b: ${:pool[:letIdx[2]]}
+  letL1c: ${:tier===1?:pool[:letIdx[3]]:""}
+  letL2a: ${:tier===2?:pool[:letIdx[3]]:""}
+  letL2b: ${:tier===2?:pool[:letIdx[4]]:""}
+  lettres: "${:letO}, ${:letL1a}, ${:letL1b}${:tier===1?', '+:letL1c:''}${:tier===2?', '+:letL2a+', '+:letL2b:''}"
+question: "Voici un polygone et son image par une symétrie centrale.<br>Quel est le centre de symétrie ?"
+shortq: "quel point est le centre de symétrie ?"
+answer: "Le centre de symétrie est le point <span class='red'>:letO</span>.<br>C’est l’unique point qui est à la fois le milieu de chaque sommet et de son image."
+value: ":letO"
+figure:
+  type: graph
+  # 22 px par unité : un nom de 20 px occupe alors 0,9 unité de haut, presque
+  # un vingtième de la largeur du cadre — lisible jusque dans la vignette des
+  # questions types, et bien plus gros que les écarts entre points ne le
+  # laisseraient croire.
+  scale: 2.2
+  axis: false
+  grid: false
+  keepAspect: true
+  # le cadre épouse le dessin, agrandi au maximum que lui laissent 6,6 sur 5
+  # unités : deux figures écartées donnent un cadre large, deux figures
+  # superposées un cadre presque carré. Dans les deux cas le dessin le remplit,
+  # au lieu de flotter au milieu du vide.
+  boundingbox: ["${-:bw+:jx}", "${:bh+:jy}", "${:bw+:jx}", "${-:bh+:jy}"]
+  content:
+    - [polygon, [[":p1x", ":p1y"], [":p2x", ":p2y"], [":p3x", ":p3y"]], { fillColor: "#e07a5f", fillOpacity: 0.25, borders: { strokeColor: "#b5482f", strokeWidth: 2, visible: "${!:quad}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${!:quad}" }]
+    - [polygon, [[":p1x", ":p1y"], [":p2x", ":p2y"], [":p3x", ":p3y"], [":p4x", ":p4y"]], { fillColor: "#e07a5f", fillOpacity: 0.25, borders: { strokeColor: "#b5482f", strokeWidth: 2, visible: "${:quad}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:quad}" }]
+    - [polygon, [[":q1x", ":q1y"], [":q2x", ":q2y"], [":q3x", ":q3y"]], { fillColor: "#3d5a80", fillOpacity: 0.25, borders: { strokeColor: "#293e5c", strokeWidth: 2, visible: "${!:quad}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${!:quad}" }]
+    - [polygon, [[":q1x", ":q1y"], [":q2x", ":q2y"], [":q3x", ":q3y"], [":q4x", ":q4y"]], { fillColor: "#3d5a80", fillOpacity: 0.25, borders: { strokeColor: "#293e5c", strokeWidth: 2, visible: "${:quad}" }, withLines: true, hasInnerPoints: false, vertices: { visible: false }, visible: "${:quad}" }]
+    - [point, [":p1x", ":p1y"], { name: "", face: o, size: 2, strokeColor: "#b5482f", fillColor: "#b5482f", withLabel: false }]
+    - [point, [":p2x", ":p2y"], { name: "", face: o, size: 2, strokeColor: "#b5482f", fillColor: "#b5482f", withLabel: false }]
+    - [point, [":p3x", ":p3y"], { name: "", face: o, size: 2, strokeColor: "#b5482f", fillColor: "#b5482f", withLabel: false }]
+    - [point, [":p4x", ":p4y"], { name: "", face: o, size: 2, strokeColor: "#b5482f", fillColor: "#b5482f", withLabel: false, visible: "${:quad}" }]
+    - [point, [":q1x", ":q1y"], { name: "", face: o, size: 2, strokeColor: "#293e5c", fillColor: "#293e5c", withLabel: false }]
+    - [point, [":q2x", ":q2y"], { name: "", face: o, size: 2, strokeColor: "#293e5c", fillColor: "#293e5c", withLabel: false }]
+    - [point, [":q3x", ":q3y"], { name: "", face: o, size: 2, strokeColor: "#293e5c", fillColor: "#293e5c", withLabel: false }]
+    - [point, [":q4x", ":q4y"], { name: "", face: o, size: 2, strokeColor: "#293e5c", fillColor: "#293e5c", withLabel: false, visible: "${:quad}" }]
+    # ─── points candidats : tous portent la même croix noire, rien ne distingue
+    # le vrai centre des pièges.
+    - [point, [":ox", ":oy"], { name: "", face: x, size: 4, strokeWidth: 2, strokeColor: "#000000", withLabel: false }]
+    - [point, [":l1ax", ":l1ay"], { name: "", face: x, size: 4, strokeWidth: 2, strokeColor: "#000000", withLabel: false }]
+    - [point, [":l1bx", ":l1by"], { name: "", face: x, size: 4, strokeWidth: 2, strokeColor: "#000000", withLabel: false }]
+    - [point, [":l1cx", ":l1cy"], { name: "", face: x, size: 4, strokeWidth: 2, strokeColor: "#000000", withLabel: false, visible: "${:tier===1}" }]
+    - [point, [":l2ax", ":l2ay"], { name: "", face: x, size: 4, strokeWidth: 2, strokeColor: "#000000", withLabel: false, visible: "${:tier===2}" }]
+    - [point, [":l2bx", ":l2by"], { name: "", face: x, size: 4, strokeWidth: 2, strokeColor: "#000000", withLabel: false, visible: "${:tier===2}" }]
+    # ─── noms placés à la main, et non par les étiquettes de JSXGraph, qui ne
+    # savent pas s’écarter des tracés ni des points voisins.
+    # ─── pastille blanche glissée sous chaque nom. Les points candidats sont
+    # posés au milieu du dessin, là où passent justement les côtés des deux
+    # figures : sans elle, un nom tombant sur une arête devient illisible.
+    # Elle est translucide, pour estomper le tracé sans le trouer.
+    - [point, [":tox", ":toy"], { name: "", face: o, size: 13, strokeColor: "#ffffff", strokeOpacity: 0.85, fillColor: "#ffffff", fillOpacity: 0.85, withLabel: false }]
+    - [point, [":t1ax", ":t1ay"], { name: "", face: o, size: 13, strokeColor: "#ffffff", strokeOpacity: 0.85, fillColor: "#ffffff", fillOpacity: 0.85, withLabel: false }]
+    - [point, [":t1bx", ":t1by"], { name: "", face: o, size: 13, strokeColor: "#ffffff", strokeOpacity: 0.85, fillColor: "#ffffff", fillOpacity: 0.85, withLabel: false }]
+    - [point, [":t1cx", ":t1cy"], { name: "", face: o, size: 13, strokeColor: "#ffffff", strokeOpacity: 0.85, fillColor: "#ffffff", fillOpacity: 0.85, withLabel: false, visible: "${:tier===1}" }]
+    - [point, [":t2ax", ":t2ay"], { name: "", face: o, size: 13, strokeColor: "#ffffff", strokeOpacity: 0.85, fillColor: "#ffffff", fillOpacity: 0.85, withLabel: false, visible: "${:tier===2}" }]
+    - [point, [":t2bx", ":t2by"], { name: "", face: o, size: 13, strokeColor: "#ffffff", strokeOpacity: 0.85, fillColor: "#ffffff", fillOpacity: 0.85, withLabel: false, visible: "${:tier===2}" }]
+    - [text, [":tox", ":toy", ":letO"], { anchorX: middle, anchorY: middle, fontSize: 20, strokeColor: "#000000" }]
+    - [text, [":t1ax", ":t1ay", ":letL1a"], { anchorX: middle, anchorY: middle, fontSize: 20, strokeColor: "#000000" }]
+    - [text, [":t1bx", ":t1by", ":letL1b"], { anchorX: middle, anchorY: middle, fontSize: 20, strokeColor: "#000000" }]
+    - [text, [":t1cx", ":t1cy", ":letL1c"], { anchorX: middle, anchorY: middle, fontSize: 20, strokeColor: "#000000", visible: "${:tier===1}" }]
+    - [text, [":t2ax", ":t2ay", ":letL2a"], { anchorX: middle, anchorY: middle, fontSize: 20, strokeColor: "#000000", visible: "${:tier===2}" }]
+    - [text, [":t2bx", ":t2by", ":letL2b"], { anchorX: middle, anchorY: middle, fontSize: 20, strokeColor: "#000000", visible: "${:tier===2}" }]

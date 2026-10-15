@@ -1,0 +1,12 @@
+<svg width="218" height="140" version="1.1" viewBox="0 0 218 140" xmlns="http://www.w3.org/2000/svg" class="svg-file">
+<style>.svg-file path{fill:none;stroke-linecap:round;stroke:#000}.svg-file text{text-align:center;text-anchor:middle;font-size:12px;}</style>
+ <path d="m32 118s15-2.1 21-2.1c4.3-0.43 17-0.12 21-0.15 4.3-0.02 17 0.48 21-0.14 4.3-0.03 17-3.1 21-3.1 4.2-0.62 17-0.12 21-0.14 4.3-0.03 17 0.28 21-0.15m0 0c4.3-0.03 17-1.7 21-2.1"/>
+ <path d="m182 110s-15-9.3-20-13c-3.9-2.6-14-12-18-15-3.6-3.1-15-13-19-15-3.6-2.9-16-9.2-20-12-4-2.4-14-12-18-15m0 0c-3.5-3-14-12-18-15"/>
+ <path d="m71 24s-4.9 14-7.5 19c-1.4 3.9-6.9 15-8.6 19s-7.4 15-8.6 19c-1.6 3.5-4 15-5.6 19m0 0c-1.2 3.9-6.9 15-8.6 19"/>
+ <text x="24.088577" y="127.71269">A</text>
+ <text x="188.78688" y="117.97327">B</text>
+ <text x="70.293449" y="20.285078">C</text>
+ <text transform="rotate(-65)" x="-42.92556" y="69.857925">${:CA} ${:u}</text>
+ <text transform="rotate(34)" x="142.81081" y="-20.467461">${:BC} ${:u}</text>
+ <text transform="rotate(-3.7)" x="92.98539" y="133.47635">${:AB} ${:u}</text>
+</svg>

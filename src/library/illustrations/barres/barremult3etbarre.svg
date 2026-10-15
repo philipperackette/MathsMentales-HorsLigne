@@ -1,0 +1,24 @@
+<svg width="15em" height="5em" version="1.1" viewBox="0 0 63.5 21.17" xmlns="http://www.w3.org/2000/svg">
+ <rect x="49.19" y="3.29" width="12.67" height="4.529" style="fill:#536c67;stroke-width:.529;stroke:#164450"/>
+ <g transform="translate(-6)">
+  <g id="a" transform="matrix(0 .1207 -.3635 0 68.17 8.731)" style="stroke-width:.9394">
+   <g id="c" style="stroke-width:1.264">
+    <path d="m19.8 25.8c0-14.6-4.2-23.6-19.8-25.4l.4-.4c22.6.4 28.8 7.2 28.8 29v30.2c0 13.4 1.4 19.8 16 23.4v.4c-14.4 3.6-16 10-16 23.2v32.2c0 21-7.8 27-28.8 27.6l-.4-.399c16-2.4 19.8-10.4 19.8-25.6v-32.2c0-13.6 1.8-21.4 16.8-24.8v-.4c-15.2-3.6-16.8-12-16.8-25.6z" style="stroke-width:1.264"/>
+   </g>
+  </g>
+  <text x="38.089558" y="17.898863" style="font-family:Arial;font-size:4.233px;letter-spacing:0px;line-height:1.25;stroke-width:.2646;text-align:center;text-anchor:middle;word-spacing:0px" xml:space="preserve"><tspan x="38.089558" y="17.898863" style="stroke-width:.2646">${:total}</tspan></text>
+  <g transform="matrix(3.287,0,0,1,-18.04,0)" style="fill:#b7c4c8;stroke-width:.2918;stroke:#164450">
+   <rect x="7.937" y="3.175" width="4.762" height="4.762" style="stroke-width:.2918"/>
+   <rect x="17.46" y="3.175" width="4.762" height="4.762" style="stroke-width:.2918"/>
+  </g>
+  <g transform="matrix(3.25,0,0,1,-17.47,0)" style="fill:#dbe2e3;stroke-width:.2935;stroke:#164450">
+   <rect x="12.7" y="3.175" width="4.762" height="4.762" style="stroke-width:.2935"/>
+  </g>
+  <g style="font-family:Arial;font-size:3.213px;letter-spacing:0px;line-height:1.25;stroke-width:.2646;text-align:center;text-anchor:middle;word-spacing:0px">
+   <text x="15.532158" y="6.3205433">${:n}</text>
+   <text x="31.349255" y="6.3205433">${:n}</text>
+   <text x="47.490978" y="6.3205433">${:n}</text>
+   <text x="61.490978" y="6.3205433" style="fill:#dbe3e2">${:p}</text>
+  </g>
+ </g>
+</svg>

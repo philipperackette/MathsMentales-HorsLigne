@@ -1,0 +1,85 @@
+{
+    "ID":"5GB1",
+    "dest":["5GB","4GB","3GB","2G2"],
+    "title":"Trouver la mesure d'un 3e angle, en degrés.",
+    "description":"Déterminer la mesure d'un angle en degré dans un triangle quelconque",
+    "repeat":true,
+    "textSize":"small",
+    "type":"text",
+    "keys":["_","_","_","°","_","_","_","_"],
+    "consts":{"points":"ABCDEFGHJKLMNPRST"},
+    "vars":{"pts":"0_16_3_^&","A":"${:points[:pts[0]]}","B":"${:points[:pts[1]]}","C":"${:points[:pts[2]]}","xa":"d-4_-2_1","a":"","b":"","ya":"d-4_-2_1", "xb":"d2_4_1","yb":"d-4_-1_1","xc":"d-4_4_1","yc":"1_4","AB2":"${(:xb-:xa)*(:xb-:xa)+(:yb-:ya)*(:yb-:ya)}", "BC2":"${(:xb-:xc)*(:xb-:xc)+(:yb-:yc)*(:yb-:yc)}","AC2":"${(:xc-:xa)*(:xc-:xa)+(:yc-:ya)*(:yc-:ya)}", "CAB":"${MMmath.round(Math.acos((:AC2+:AB2-:BC2)/(2*Math.sqrt(:AC2)*Math.sqrt(:AB2)))/Math.PI*180)}","ABC":"${MMmath.round(Math.acos((:BC2+:AB2-:AC2)/(2*Math.sqrt(:BC2)*Math.sqrt(:AB2)))/Math.PI*180)}", "BCA":"${180-:CAB-:ABC}",
+        "mnx":"${Math.min(:xa,:xb,:xc)}","mxx":"${Math.max(:xa,:xb,:xc)}","mny":"${Math.min(:ya,:yb,:yc)}","mxy":"${Math.max(:ya,:yb,:yc)}",
+        "ctx":"${(:mnx+:mxx)/2}","cty":"${(:mny+:mxy)/2}",
+        "zf":"${Math.round(1000*Math.min(7/Math.max(:mxx-:mnx,0.5),7/Math.max(:mxy-:mny,0.5)))/1000}",
+        "fxa":"${Math.round(100*(:xa-:ctx)*:zf)/100}","fya":"${Math.round(100*(:ya-:cty)*:zf)/100}",
+        "fxb":"${Math.round(100*(:xb-:ctx)*:zf)/100}","fyb":"${Math.round(100*(:yb-:cty)*:zf)/100}",
+        "fxc":"${Math.round(100*(:xc-:ctx)*:zf)/100}","fyc":"${Math.round(100*(:yc-:cty)*:zf)/100}",
+        "frad":"${Math.round(100*Math.min(0.9,0.3*:zf*Math.sqrt(Math.min(:AB2,:BC2,:AC2))))/100}"},
+    "options":[
+        {
+            "name":"Avec figure",
+            "figure":{
+                "type":"graph",
+                "boundingbox":[-5,5,5,-5],
+                "axis":false,
+                "grid":false,
+                "content" :[
+                        ["point",["${:fxa}","${:fya}"],{"name":"${:A}","size":3, "face":"x", "label":{"offset":[-12,-12]}}],
+                        ["point",["${:fxb}","${:fyb}"],{"name":"${:B}","size":3, "face":"x"}],
+                        ["point",["${:fxc}","${:fyc}"],{"name":"${:C}","size":3, "face":"x"}],
+                        ["polygon",["${:A}","${:C}", "${:B}"]],
+                        ["angle", ["${:B}", "${:A}", "${:C}"],{"radius":"${:frad}", "orthoSensitivity":0.5,"name":"${:CAB}°"}],
+                        ["angle", ["${:C}", "${:B}", "${:A}"],{"radius":"${:frad}", "orthoSensitivity":0.5,"name":"${:ABC}°"}]
+                    ]
+                },
+            "question":"Quelle est la mesure de l'angle $$\\widehat{${:B+:C+:A}}$$ sachant que $$\\widehat{${:C+:A+:B}}=${:CAB}°$$ et $$\\widehat{${:A+:B+:C}}=${:ABC}°$$ ?",
+            "answer":"L'angle $$\\widehat{${:B+:C+:A}}$$ mesure $$180°-(${:CAB}°+${:ABC}°)=\\color{red}{${:BCA}°}$$"
+        },{
+            "name":"Version courte",
+            "question":"$$\\widehat{${:A}}=${:CAB}°$$, $$\\widehat{${:B}}=${:ABC}°$$, $$\\widehat{${:C}}$$ = ?",
+            "answer":"$$\\widehat{${:C}} = \\color{red}{${:BCA}°}$$"
+        },{
+            "name":"Version courte, multiples de 5",
+            "vars":{"pts":"0_16_3_^&","A":"${:points[:pts[0]]}","B":"${:points[:pts[1]]}","C":"${:points[:pts[2]]}","xa":"d-4_-2_1", "ya":"d-4_-2_1", "xb":"d2_4_1","yb":"d-3_-2_1", "a":"1_34","b":"1_${35-:a}", "CAB":"${:a*5}","ABC":"${:b*5}", "BCA":"${180-:CAB-:ABC}"},
+            "question":"$$\\widehat{${:A}}=${:CAB}°$$, $$\\widehat{${:B}}=${:ABC}°$$, $$\\widehat{${:C}}$$ = ?",
+            "answer":"$$\\widehat{${:C}} = \\color{red}{${:BCA}°}$$"
+        },{
+            "name":"Avec figure, multiples de 5",
+            "vars":{"pts":"0_16_3_^&","A":"${:points[:pts[0]]}","B":"${:points[:pts[1]]}","C":"${:points[:pts[2]]}","xa":"d-2_-0.5_1", "ya":"d-4_-2_1", "xb":"d2_4_1","yb":"d-4_-1_1","xc":"d-4_4_1","yc":"1_4", "a":"1_34","b":"1_${35-:a}", "CAB":"${:a*5}","ABC":"${:b*5}", "BCA":"${180-:CAB-:ABC}",
+                "ra":"${Math.round(100*Math.PI*:CAB/180)/100}","rb":"${Math.round(100*Math.PI*:ABC/180)/100}",
+                "dAB":"${Math.sqrt((:xb-:xa)*(:xb-:xa)+(:yb-:ya)*(:yb-:ya))}","tAB":"${Math.atan2(:yb-:ya,:xb-:xa)}",
+                "dAC":"${:dAB*Math.sin(:rb)/Math.sin(:ra+:rb)}","dBC":"${:dAB*Math.sin(:ra)/Math.sin(:ra+:rb)}",
+                "gxc":"${:xa+:dAC*Math.cos(:tAB+:ra)}","gyc":"${:ya+:dAC*Math.sin(:tAB+:ra)}",
+                "gmnx":"${Math.min(:xa,:xb,:gxc)}","gmxx":"${Math.max(:xa,:xb,:gxc)}","gmny":"${Math.min(:ya,:yb,:gyc)}","gmxy":"${Math.max(:ya,:yb,:gyc)}",
+                "gctx":"${(:gmnx+:gmxx)/2}","gcty":"${(:gmny+:gmxy)/2}",
+                "gzf":"${Math.round(1000*Math.min(7/Math.max(:gmxx-:gmnx,0.5),7/Math.max(:gmxy-:gmny,0.5)))/1000}",
+                "gxa":"${Math.round(100*(:xa-:gctx)*:gzf)/100}","gya":"${Math.round(100*(:ya-:gcty)*:gzf)/100}",
+                "gxb":"${Math.round(100*(:xb-:gctx)*:gzf)/100}","gyb":"${Math.round(100*(:yb-:gcty)*:gzf)/100}",
+                "grad":"${Math.round(100*Math.min(0.9,0.3*:gzf*Math.min(:dAB,:dAC,:dBC)))/100}"},
+            "figure":{
+                "type":"graph",
+                "boundingbox":[-5,5,5,-5],
+                "axis":false,
+                "grid":false,
+                "content" :[
+                        ["point",["${:gxa}","${:gya}"],{"name":"${:A}","size":3, "face":"x", "label":{"offset":[-12,-12]}}],
+                        ["point",["${:gxb}","${:gyb}"],{"name":"${:B}","size":3, "face":"x"}],
+                        ["transform",["${:ra}","ref0"],{"type":"rotate"},"ref"],
+                        ["point",["ref1","ref2"],{"name":"W","visible":false},"ref"],
+                        ["line",["ref0","ref3"],{"visible":false},"ref"],
+                        ["transform",["${-:rb}","ref1"],{"type":"rotate"},"ref"],
+                        ["point",["ref0","ref5"],{"name":"Y","visible":false},"ref"],
+                        ["line",["ref1","ref6"],{"visible":false},"ref"],
+                        ["intersection",["ref4","ref7"],{"name":"${:C}","size":3, "face":"x"},"ref"],
+                        ["polygon",["${:A}","${:C}", "${:B}"]],
+                        ["angle", ["${:B}", "${:A}", "${:C}"],{"radius":"${:grad}", "orthoSensitivity":0.5,"name":"${:CAB}°"}],
+                        ["angle", ["${:C}", "${:B}", "${:A}"],{"radius":"${:grad}", "orthoSensitivity":0.5,"name":"${:ABC}°"}]
+                    ]
+                },
+            "question":"Quelle est la mesure de l'angle $$\\widehat{${:B+:C+:A}}$$ sachant que $$\\widehat{${:C+:A+:B}}=${:CAB}°$$ et $$\\widehat{${:A+:B+:C}}=${:ABC}°$$ ?",
+            "answer":"L'angle $$\\widehat{${:B+:C+:A}}$$ mesure $$180°-(${:CAB}°+${:ABC}°)=\\color{red}{${:BCA}°}$$"
+        }
+    ],
+    "value":["${:BCA}°","${:BCA}"]
+}

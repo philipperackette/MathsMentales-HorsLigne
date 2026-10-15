@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Test Activities</title>
+        <link rel="stylesheet" href="js/libs/katex/katex.min.css" />
+        <link rel="stylesheet" href="css/mm-katex.css" />
+        <script type="module">
+            import { utils, _ } from "../../src/js/mods/utils.js";
+            import Activity from "../../src/js/mods/activity.js";
+            import library from "../../src/js/mods/library.js";
+            import activitiesURL from "../../src/js/mods/activitiesurl.js";
+            import seedrandom from "../../src/js/libs/seedrandom/seedrandom.esm.js";
+
+            utils.alea = new seedrandom();
+
+            /**
+             * Vérifie que le rendu KaTeX d'une chaîne (question, answer, value)
+             * ne produit pas de span.katex-error (katexRender ne throw jamais,
+             * throwOnError:false, l'échec se voit seulement dans le markup).
+             * @returns {string|null} message d'erreur, ou null si ok
+             */
+            function checkKatexRender(fieldName, str) {
+                if (typeof str !== "string" || str.indexOf("$$") === -1) {
+                    return null;
+                }
+                const holder = document.createElement("div");
+                holder.innerHTML = str;
+                utils.renderKatexInElement(holder, "serif");
+                const errorEl = holder.querySelector(".katex-error");
+                if (errorEl) {
+                    return `${fieldName}: ${errorEl.title || errorEl.textContent}`;
+                }
+                return null;
+            }
+
+            async function testActivity(activityID) {
+                const activityName = activityID;
+                const logStream = document.createElement("div");
+                logStream.textContent = `Testing activity: ${activityName}`;
+                document.body.appendChild(logStream);
+                try {
+                    // Charger les données de l'activité
+                    const [activityData, id] = await library.load(activityID);
+                    // Créer une instance d'activité
+                    const activity = new Activity(activityData);
+                    // Générer les questions
+                    if (activity.options !== undefined) {
+                        for (let i = 0; i < activity.options.length; i++) {
+                            activity.generate(1, i, false);
+                        }
+                    } else {
+                        activity.generate(1, undefined, false);
+                    }
+                    // Vérifie le rendu KaTeX de question/answer/value
+                    const katexErrors = [];
+                    for (let i = 0; i < activity.questions.length; i++) {
+                        [
+                            ["question", activity.questions[i]],
+                            ["answer", activity.answers[i]],
+                            ["value", activity.values[i]],
+                        ].forEach(([fieldName, str]) => {
+                            const err = checkKatexRender(fieldName, str);
+                            if (err) katexErrors.push(err);
+                        });
+                    }
+                    if (katexErrors.length > 0) {
+                        throw new Error(
+                            `Erreur de rendu KaTeX : ${katexErrors.join(" | ")}`,
+                        );
+                    }
+                    logStream.textContent = `[SUCCESS] ${activityName}: No errors detected.`;
+                    logStream.style.color = "green";
+                } catch (error) {
+                    console.log(activityName, error);
+                    logStream.textContent = `[ERROR] ${activityName}: ${error.message}`;
+                    logStream.style.color = "red";
+                }
+            }
+
+            async function testAllActivities() {
+                const filesToTest = [];
+                for (const url in activitiesURL) {
+                    filesToTest.push(url);
+                }
+                if (filesToTest.length === 0) {
+                    console.log(
+                        "No JSON or YAML activities found in the directory.",
+                    );
+                    return;
+                }
+
+                console.log(`Found ${filesToTest.length} activities to test.`);
+
+                // Tester les activités en parallèle
+                await Promise.all(
+                    filesToTest.map((file) => testActivity(file)),
+                );
+            }
+
+            testAllActivities();
+        </script>
+    </head>
+    <body></body>
+</html>

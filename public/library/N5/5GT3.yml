@@ -1,0 +1,451 @@
+title: Reconnaitre une transformation du plan (2)
+dest:
+  - 5GT
+  - 4GT
+  - 3GT
+type: text
+repeat: 3
+textSize: medium
+description: "Deux figures étant données, choisir le type de transformation qui permet de passer de l’une à l’autre : symétrie axiale, symétrie centrale, rotation, translation."
+consts:
+  figures:
+    {
+      svgrepo:
+        [
+          "banana-svgrepo-com",
+          "bear-left-svgrepo-com",
+          "bear-right-svgrepo-com",
+          "calculator-svgrepo-com",
+          "camera-svgrepo-com",
+          "dashboard-svgrepo-com",
+          "hammer-svgrepo-com",
+          "initiative-svgrepo-com",
+          "key-svgrepo-com",
+          "light-rain-svgrepo-com",
+          "locator-svgrepo-com",
+          "music-note-svgrepo-com",
+          "paint-bucket-svgrepo-com",
+          "pen-svgrepo-com",
+          "puzzle-piece-svgrepo-com",
+          "running-svgrepo-com",
+        ],
+      noms:
+        [
+          "e des bananes",
+          "e des flèches",
+          "e des flèches",
+          "e des calculatrices",
+          " des appareils photo",
+          " des cadrans",
+          " des marteaux",
+          " des drapeaux",
+          "e des clés",
+          " des nuages",
+          "e des maisons",
+          "e des notes",
+          " des pots de peinture",
+          " des stylos",
+          "e des pièces de puzzle",
+          " des bonhommes",
+        ],
+    }
+  transf5: ["symétrie axiale", "symétrie centrale", "autre transformation"]
+  transf4: ["symétrie axiale", "symétrie centrale", "rotation", "translation"]
+vars:
+options:
+  - name: Transformations de 5e
+    vars:
+      yA: "-3_0"
+      xB: "-3_0"
+      xC: "-4_-1"
+      yC: "1_3"
+      a: "-13_13_^0,9"
+      angle: "${:a*10*Math.PI/180}"
+      tX: "2_5"
+      tY: "-${5-:yC}_${5-:yC}"
+      niv: "5"
+      tr: "0_3"
+      as: ["${Math.PI/2}", "${Math.PI}"]
+    params:
+      tr:
+        0: Sym axiale
+        1: Sym centrale
+        2: Rotation
+        3: Translation
+    question: Quelle transformation permet de passer de l’un des triangles à l’autre ?<br />(symétrie axiale, symétrie centrale ou autre transformation)
+    answer: C’est une <span class='red'>${:transf5[(:tr<2?:tr:2)]}</span> qui permet de passer de l’un à l’autre.
+    value: ${:transf5[(:tr<2?:tr:2)]}
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-5, 6, 6, -6]
+      keepAspect: false
+      axis: false
+      grid: false
+      content:
+        - [
+            point,
+            [-5, :yA],
+            { name: A, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            [:xB, -3],
+            { name: B, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            [:xC, :yC],
+            { name: C, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            polygon,
+            [A, B, C],
+            { name: ABC, color: "#3e95cd", fill: true, opacity: 0.8 },
+          ]
+        - [
+            point,
+            [0, 0],
+            { name: O, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            ["${Math.cos(:as)}", "${Math.sin(:as)}"],
+            { name: E, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            [7, 0],
+            { name: T, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [transform, [:angle, O], { type: rotate }, "ref"]
+        - [transform, [:tX, :tY], { type: translate }, "ref"]
+        - [transform, [O, E], { type: reflect }, "ref"]
+        - [transform, [3.1415, O], { type: rotate }, "ref"]
+        - [
+            point,
+            [A, "ref7"],
+            { name: Ar, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [B, "ref7"],
+            { name: Br, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [C, "ref7"],
+            { name: Cr, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            polygon,
+            [Ar, Br, Cr],
+            {
+              name: ABCr,
+              color: "#8e5ea2",
+              fill: true,
+              opacity: 0.8,
+              visible: "${:tr==2?true:false}",
+            },
+          ]
+        - [
+            point,
+            [A, "ref8"],
+            { name: At, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [B, "ref8"],
+            { name: Bt, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [C, "ref8"],
+            { name: Ct, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            polygon,
+            [At, Bt, Ct],
+            {
+              name: ABCt,
+              color: "#3cba9f",
+              fill: true,
+              opacity: 0.8,
+              visible: "${:tr==3?true:false}",
+            },
+          ]
+        - [
+            point,
+            [A, "ref9"],
+            { name: Asa, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [B, "ref9"],
+            { name: Bsa, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [C, "ref9"],
+            { name: Csa, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            polygon,
+            [Asa, Bsa, Csa],
+            {
+              name: ABCsa,
+              color: "#e8c3b9",
+              fill: true,
+              opacity: 0.8,
+              visible: "${:tr==0?true:false}",
+            },
+          ]
+        - [
+            point,
+            [A, "ref10"],
+            { name: Asc, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [B, "ref10"],
+            { name: Bsc, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            point,
+            [C, "ref10"],
+            { name: Csc, size: 3, visible: false, label: { visible: false } },
+            "ref",
+          ]
+        - [
+            polygon,
+            [Asc, Bsc, Csc],
+            {
+              name: ABCsc,
+              color: "#e8c3b9",
+              fill: true,
+              opacity: 0.8,
+              visible: "${:tr==1?true:false}",
+            },
+          ]
+  - name: Image niveau 5e (symétries ou autre)
+    vars:
+      yA: "-4_-1"
+      xB: "-3_0"
+      image: "0_${:figures.svgrepo.length-1}"
+      sI: "5_7"
+      a: "-13_13_^0,1,9"
+      angle: "${:a*10*Math.PI/180}"
+      tX: "2_5"
+      tY: "${-4-:yA}_${1-:yA}"
+      tr: "0_3"
+      niv: "5"
+      as: ["${Math.PI/2}", "${Math.PI}"]
+    question: Quelle transformation permet de passer de l’un${:figures.noms[:image]} à l’autre ?<br />(symétrie axiale, symétrie centrale ou autre transformation)
+    answer: C’est une <span class='red'>${:transf5[(:tr<2?:tr:2)]}</span> qui permet de passer de l’un à l’autre.
+    value: ${:transf5[(:tr<2?:tr:2)]}
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-5, 6, 6, -6]
+      keepAspect: false
+      axis: false
+      grid: false
+      content:
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            {},
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==0?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==1?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==2?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==3?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            point,
+            [0, 0],
+            { name: O, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            ["${Math.cos(:as)}", "${Math.sin(:as)}"],
+            { name: E, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            [7, 0],
+            { name: T, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [transform, [O, E], { type: reflect }, "ref"]
+        - [transform, [3.1415, O], { type: rotate }, "ref"]
+        - [transform, [:angle, O], { type: rotate }, "ref"]
+        - [transform, [:tX, :tY], { type: translate }, "ref"]
+        - [bindTo, ["ref8", "ref1"]]
+        - [bindTo, ["ref9", "ref2"]]
+        - [bindTo, ["ref10", "ref3"]]
+        - [bindTo, ["ref11", "ref4"]]
+
+  - name: Niveau 4e, 3e (toutes les transformations)
+    vars:
+      yA: "-3_0"
+      xB: "-3_0"
+      xC: "-4_-1"
+      yC: "1_3"
+      a: "-13_13_^0,9"
+      angle: "${:a*10*Math.PI/180}"
+      tX: "2_5"
+      tY: "-${5-:yC}_${5-:yC}"
+      tr: "0_3"
+      niv: "4"
+      as: "${MMmath.aleaFloat(0,3*Math.PI/2,5)-Math.PI/2}"
+    question: Quelle transformation permet de passer de l’un des triangles à l’autre ?<br />(symétrie axiale, symétrie centrale, rotation, translation ou autre transformation)
+    answer: C’est une <span class='red'>${:transf4[:tr]}</span> qui permet de passer de l’un à l’autre.
+    value: ${:transf4[:tr]}
+  - name: Image niveau 4e (symétries ou autre)
+    vars:
+      yA: "-4_-1"
+      xB: "-3_0"
+      image: "0_${:figures.svgrepo.length-1}"
+      sI: "5_7"
+      a: "-13_13_^0,1,9"
+      angle: "${:a*10*Math.PI/180}"
+      tX: "2_5"
+      tY: "${-4-:yA}_${-1-:yA}"
+      tr: "0_3"
+      niv: "5"
+      as: ["${Math.PI/2}", "${Math.PI}"]
+    question: Quelle transformation permet de passer de l’un${:figures.noms[:image]} à l’autre ?<br />(symétrie axiale, symétrie centrale ou translation)
+    answer: C’est une <span class='red'>${:transf4[:tr]}</span> qui permet de passer de l’un à l’autre.
+    value: ${:transf4[:tr]}
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-5, 6, 6, -6]
+      keepAspect: false
+      axis: false
+      grid: false
+      content:
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            {},
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==0?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==1?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==2?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            image,
+            [
+              "library/illustrations/svgrepo/${:figures.svgrepo[:image]}.svg",
+              [-5, :yA],
+              [:sI, :sI],
+            ],
+            { visible: "${:tr==3?true:false}", cssClass: "orange" },
+            "ref",
+          ]
+        - [
+            point,
+            [0, 0],
+            { name: O, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            ["${Math.cos(:as)}", "${Math.sin(:as)}"],
+            { name: E, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [
+            point,
+            [7, 0],
+            { name: T, size: 3, visible: false, label: { visible: false } },
+          ]
+        - [transform, [O, E], { type: reflect }, "ref"]
+        - [transform, [3.1415, O], { type: rotate }, "ref"]
+        - [transform, [:angle, O], { type: rotate }, "ref"]
+        - [transform, [:tX, :tY], { type: translate }, "ref"]
+        - [bindTo, ["ref8", "ref1"]]
+        - [bindTo, ["ref9", "ref2"]]
+        - [bindTo, ["ref10", "ref3"]]
+        - [bindTo, ["ref11", "ref4"]]

@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="211" height="139" version="1.1" viewBox="0 0 211 139" xmlns="http://www.w3.org/2000/svg">
+<!-- @3= segment [AB] -->
+<path style="stroke:black;fill:none;" d="M144 122 C144 122 125.45 121.54 119.5 120.75 C114.56 120.5 99.9 118.15 95 117.5 C90.1 116.85 75.44 114.3 70.5 114.25 M70.5 114.25 C65.64 113.61 50.9 114.05 46 114 "/>
+<!-- Marqueur : 2 traits -->
+<line x1="98.708882" y1="120.853236" x2="99.257594" y2="114.878379" style="stroke:black;"/>
+<!-- Marqueur : 2 traits -->
+<line x1="94.725644" y1="120.487428" x2="95.274356" y2="114.512572" style="stroke:black;"/>
+<!-- @7= segment [AC] -->
+<path style="stroke:black;fill:none;" d="M144 122 C144 122 144.46 103.45 145.25 97.5 C145.5 92.56 147.85 77.9 148.5 73.0 C149.15 68.1 151.7 53.44 151.75 48.5 M151.75 48.5 C152.39 43.64 151.95 28.9 152.0 24.0 "/>
+<!-- Marqueur : 2 traits -->
+<line x1="145.146764" y1="76.708882" x2="151.121621" y2="77.257594" style="stroke:black;"/>
+<!-- Marqueur : 2 traits -->
+<line x1="145.512572" y1="72.725644" x2="151.487428" y2="73.274356" style="stroke:black;"/>
+<!-- @8= segment [CB] -->
+<path style="stroke:black;fill:none;" d="M153.0 24.0 C153.0 24.0 141.0 36.28 136.17 39.83 C132.76 43.04 121.03 50.8 117.33 53.67 C113.7 56.34 102.69 64.31 99.5 67.5 C95.74 70.42 86.5 81.51 82.67 84.33 C79.36 87.64 67.6 95.4 63.83 98.17 M63.83 98.17 C60.07 100.93 48.77 109.23 45 112 "/>
+<path d="M 114.1257151343955,119.25644322662815 A 30 30 0 0 1  146.74355677337184,92.1257151343955" style="stroke:black;fill:none;"/>
+<circle id="Point_A" cx="144" cy="122" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="140" y="138">A</text>
+<circle id="Point_B" cx="46" cy="113" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="30" y="123">B</text>
+<circle id="Point_C" cx="153.0" cy="24.0" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="152" y="24">C</text>
+<circle id="Point_D" cx="0" cy="2" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="3" y="9">D</text>
+<circle id="Point_E" cx="-1" cy="139" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="2" y="146">E</text>
+<circle id="Point_F" cx="211" cy="138" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="214" y="145">F</text>
+</svg>

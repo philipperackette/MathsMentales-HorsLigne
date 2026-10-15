@@ -1,0 +1,21 @@
+<svg width='218' height='140' version='1.1' viewBox='0 0 218 140' xmlns='http://www.w3.org/2000/svg' class='svg-file'>
+<style>.svg-file path{fill:none;stroke-linecap:round;stroke:#000}.svg-file line{stroke:#000}.svg-file text{font-size:12px;text-align:center;text-anchor:middle}</style>
+<path d='m44 114s-1.6-17-1.5-23c-0.3-4.5 0.4-18 0.5-23s1-18 0.5-23m0 0c0.1-4.6-2-18-2.5-23'/>
+<line x1='40' x2='46' y1='73' y2='72'/>
+<line x1='40' x2='46' y1='69' y2='68'/>
+<path d='m44 114s17-1.6 23-1.5c4.5-0.3 18 0.4 23 0.5s18 1 23 0.5m0 0c4.6 0.1 18-2 23-2.5'/>
+<line x1='85' x2='86' y1='110' y2='116'/>
+<line x1='89' x2='90' y1='110' y2='116'/>
+<path d='m136 111s-13-9.2-17-14c-3.3-2.7-12-13-15-16-3-3.2-12-13-16-16-3-2.9-14-9.5-17-13-3.4-2.6-12-12-15-16m0 0c-2.9-3.1-12-12-15-16'/>
+<path d='m43 101c13-0.22 13-0.18 13 11'/>
+<text x='33.827999' y='123.47884'>${:A}</text>
+<text x='35.305805' y='18.739422'>${:B}</text>
+<text x='143.15091' y='120.93319'>${:C}</text>
+<text transform='rotate(44)' x='111.25642' y='-19.369061'>${:BC} ${:u}</text>
+<path d='m119 113a17 16 0 0 1 3.9-12'/>
+<path transform='rotate(217)' d='m-64 5.8a17 16 0 0 1 3.9-12'/>
+<path d='m48 36 3.6 5'/>
+<path d='m117 106 5.5 1.3'/>
+<text x='107.6832' y='107.44766'>45°</text>
+<text x='54.988319' y='53.661472'>45°</text>
+</svg>

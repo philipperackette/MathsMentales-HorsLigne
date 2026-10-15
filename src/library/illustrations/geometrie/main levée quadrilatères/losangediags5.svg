@@ -1,0 +1,26 @@
+<svg width="211" height="141" version="1.1" viewBox="0 0 211 141" xmlns="http://www.w3.org/2000/svg">
+ <path d="m22 31s17.15-2.53 23.14-2.71c4.6-.54 18.52-.58 23.15-.72 4.62-.14 18.57.02 23.14-.71 4.68-.15 18.46-3.57 23.14-3.72 4.57-.73 18.52-.57 23.14-.71 4.63-.14 18.55-.18 23.15-.72 4.66-.14 18.51-2.17 23.14-2.71" style="fill:none;stroke:black"/>
+ <path d="m184 19s-.39 14.08-1.4 20c-.28 4.05-2.72 16-3.4 20s-3.32 15.94-3.4 20c-.67 3.94.27 16.06-.4 20-.08 4.06-2.72 16-3.4 20" style="fill:none;stroke:black"/>
+ <path d="m172 119s-15.59-.66-21.5-1.67c-4.35-.33-17.2-2.93-21.5-3.66-4.3-.74-17.14-3.53-21.5-3.67-4.24-.72-17.26.06-21.5-.67-4.36-.13-17.2-2.93-21.5-3.66-4.3-.74-17.2-2.94-21.5-3.67" style="fill:none;stroke:black"/>
+ <path d="m22 31s4.87 12.16 6.25 18c1.21 3.49 3.4 14.4 4.25 18s2.87 14.57 4.25 18c.89 3.78 5.8 14.4 7.25 18" style="fill:none;stroke:black"/>
+ <path d="m22 31s12.82 6.24 17.87 9.48c3.75 1.99 14.29 9.19 17.87 11.49 3.57 2.29 14.03 9.66 17.86 11.48 3.33 2.14 14.3 6.78 17.87 8.48" style="fill:none;stroke:black"/>
+ <line x1="57.53" x2="54.49" y1="48.37" y2="53.54" style="stroke:black"/>
+ <path d="m93.47 72.93s12.83-8.93 18.11-11.79c3.45-2.24 14.48-7.82 18.1-9.78s14.75-7.41 18.11-9.79c3.9-2.11 14.2-10.68 18.1-12.78 3.37-2.38 14.49-7.83 18.11-9.79" style="fill:none;stroke:black"/>
+ <line x1="133.8" x2="136.8" y1="45.44" y2="50.59" style="stroke:black"/>
+ <line x1="137.2" x2="140.3" y1="43.39" y2="48.54" style="stroke:black"/>
+ <path d="m93.47 72.93s14.58 7.29 19.63 10.52c4.11 2.2 15.71 10.01 19.64 12.52 3.92 2.5 15.44 10.48 19.63 12.51 3.68 2.35 15.7 7.62 19.63 9.52" style="fill:none;stroke:black"/>
+ <line x1="132.5" x2="129.5" y1="92.37" y2="97.54" style="stroke:black"/>
+ <path d="m43 103s11.54-8.19 16.82-11.02c3.2-2.1 13.46-7.22 16.83-9.03 3.36-1.8 13.46-7.21 16.82-9.02" style="fill:none;stroke:black"/>
+ <line x1="63.26" x2="66.34" y1="87.44" y2="92.59" style="stroke:black"/>
+ <line x1="66.7" x2="69.77" y1="85.39" y2="90.54" style="stroke:black"/>
+ <path d="m84.75 67c10.47-8.369 8.993-8.914 19.59-1.79" style="fill:none;stroke:#000000"/>
+ <circle id="a" cx="22" cy="31" r="2" style="stroke:black"/>
+ <text x="8" y="31" font-size="12" style="stroke:black">A</text>
+ <circle id="b" cx="184" cy="19" r="2" style="stroke:black"/>
+ <text x="187.50171" y="15.40851" font-size="12px" style="stroke:#000000">B</text>
+ <circle id="c" cx="172" cy="119" r="2" style="stroke:black"/>
+ <text x="178.77448" y="129.88213" font-size="12px" style="stroke:#000000">C</text>
+ <circle id="d" cx="43" cy="103" r="2" style="stroke:black"/>
+ <text x="29" y="117" font-size="12" style="stroke:black">D</text>
+ <circle cx="93.47" cy="72.93" r="2" style="stroke:black"/>
+</svg>

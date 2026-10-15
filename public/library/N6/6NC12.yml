@@ -1,0 +1,57 @@
+title: Arrondir un nombre décimal 2
+description: choix possible du nombre de chiffres affichés
+dest: ["6NC", "5NA", "4NA", "3NA"]
+consigne: Arrondir le nombre
+options:
+  - name: À l’unité
+    vars:
+      multiple: [10, 100, 1000, 1000]
+      entier: "0_${:multiple}"
+      d: "1_9_4"
+      nombre: ${:entier+0.1*:d[0]+0.01*:d[1]+0.001*:d[2]+0.0001*:d[3]}
+    question:
+      - ${MMmath.round(:nombre,1)}\text{ à l’unité près}
+      - ${MMmath.round(:nombre,2)}\text{ à l’unité près}
+      - ${MMmath.round(:nombre,3)}\text{ à l’unité près}
+      - ${MMmath.round(:nombre,4)}\text{ à l’unité près}
+    answer: :question \approx ${MMmath.round(:nombre,0)}\text{ à l’unité près}
+    value: ${MMmath.round(:nombre,0)}
+  - name: Au dixième
+    vars:
+      multiple: [10, 100, 1000, 1000]
+      entier: "0_${:multiple}"
+      d: "1_9_5"
+      nombre: ${:entier+0.1*:d[0]+0.01*:d[1]+0.001*:d[2]+0.0001*:d[3]+0.00001*:d[4]}
+    question:
+      - ${MMmath.round(:nombre,2)}\text{ au dixième près}
+      - ${MMmath.round(:nombre,3)}\text{ au dixième près}
+      - ${MMmath.round(:nombre,4)}\text{ au dixième près}
+      - ${MMmath.round(:nombre,5)}\text{ au dixième près}
+    answer: :question \approx ${MMmath.round(:nombre,1)}\text{ au dixième près}
+    value: ${MMmath.round(:nombre,1)}
+  - name: Au centième
+    vars:
+      multiple: [10, 100, 1000]
+      entier: "0_${:multiple}"
+      d: "1_9_6"
+      nombre: ${:entier+0.1*:d[0]+0.01*:d[1]+0.001*:d[2]+0.0001*:d[3]+0.00001*:d[4]+0.000001*:d[5]}
+    question:
+      - ${MMmath.round(:nombre,3)}\text{ au centième près}
+      - ${MMmath.round(:nombre,4)}\text{ au centième près}
+      - ${MMmath.round(:nombre,5)}\text{ au centième près}
+      - ${MMmath.round(:nombre,6)}\text{ au centième près}
+    answer: :question \approx ${MMmath.round(:nombre,2)}\text{ au centième près}
+    value: ${MMmath.round(:nombre,2)}
+  - name: Au millième
+    vars:
+      multiple: [10, 1000]
+      entier: "0_${:multiple}"
+      d: "1_9_7"
+      nombre: ${:entier+0.1*:d[0]+0.01*:d[1]+0.001*:d[2]+0.0001*:d[3]+0.00001*:d[4]+0.000001*:d[5]+0.0000001*:d[6]}
+    question:
+      - ${MMmath.round(:nombre,4)}\text{ au millième près}
+      - ${MMmath.round(:nombre,5)}\text{ au millième près}
+      - ${MMmath.round(:nombre,6)}\text{ au millième près}
+      - ${MMmath.round(:nombre,7)}\text{ au millième près}
+    answer: :question \approx ${MMmath.round(:nombre,3)}\text{ au millième près}
+    value: ${MMmath.round(:nombre,3)}

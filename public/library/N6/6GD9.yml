@@ -1,0 +1,382 @@
+title: "Symétrie axiale : trouver le symétrique d’un point, d’un segment, d’un angle"
+description: "symétrie axiale, symétrique, axe, image, point, segment, angle"
+ID: 6GD9
+type: text
+textSize: medium
+# l’énoncé ne change qu’à travers les lettres tirées : repeat:true tolère qu’un
+# énoncé revienne, mais pas dans les cinq dernières questions. Sans lui, la
+# déduplication stricte bloquerait le tirage sur les options les plus étroites.
+repeat: true
+dest:
+  - 6GD
+  - 5GT
+consts:
+  # lettres des points. Ni I ni O (confusion avec 1 et 0), ni X, Y, Z (réservés
+  # aux axes et aux inconnues).
+  pool: "ABCDEFGHJKLMNPQRSTUVW"
+  # [0] point, [1] segment, [2] angle, [3] figure entière
+  quest:
+    - "Quel est le symétrique du point $$:eA$$ par rapport à la droite $$(d)$$ ?"
+    - "Quel est le symétrique du segment $$[:sA]$$ par rapport à la droite $$(d)$$ ?"
+    - "Quel est le symétrique de l’angle $$\\widehat{:aA}$$ par rapport à la droite $$(d)$$ ?"
+    - "Quel est le symétrique :dAskPre $$:dAskNom$$ par rapport à la droite $$(d)$$ ?"
+  courte:
+    - "symétrique de $$:eA$$ ?"
+    - "symétrique de $$[:sA]$$ ?"
+    - "symétrique de $$\\widehat{:aA}$$ ?"
+    - "symétrique :dAskPre $$:dAskNom$$ ?"
+  rep:
+    - "Le symétrique du point $$:eA$$ est le point <span class='red'>$$:eB$$</span>.<br>La droite $$(d)$$ est la médiatrice du segment $$[:eA:eB]$$ : les deux points sont sur une même perpendiculaire à $$(d)$$, à la même distance de $$(d)$$."
+    - "Le symétrique du segment $$[:sA]$$ est le segment <span class='red'>$$[:sB]$$</span>.<br>Le symétrique de $$:s1A$$ est $$:s1B$$, celui de $$:s2A$$ est $$:s2B$$. La symétrie axiale conserve les longueurs : $$:sA=:sB$$."
+    - "Le symétrique de l’angle $$\\widehat{:aA}$$ est l’angle <span class='red'>$$\\widehat{:aB}$$</span>.<br>Le symétrique de $$:pA$$ est $$:pB$$, celui de $$:e1A$$ est $$:e1B$$ et celui de $$:nA$$ est $$:nB$$. La symétrie axiale conserve les mesures des angles."
+    - "Le symétrique :dAskPre $$:dAskNom$$ est <span class='red'>:dRepPre $$:dRepNom$$</span>.<br>Les deux figures se superposent par pliage le long de $$(d)$$."
+vars:
+  # ─── forme tirée
+  # 0 triangle, 1 quadrilatère quelconque, 2 rectangle, 3 carré,
+  # 4 trapèze isocèle, 5 cercle portant des points
+  forme: [0, 1, 2, 3, 4, 5]
+  circ: ${:forme===5}
+  # nombre de points marqués sur le cercle
+  np: [3, 4]
+  ns: ${:circ?:np:(:forme===0?3:4)}
+  # lettres nécessaires par figure : le centre du cercle en réclame une de plus
+  nl: ${:circ?:ns+1::ns}
+  # ─── demi-arcs interceptés par les côtés, de somme 180°. Tous les points sont
+  # posés sur un même cercle : le polygone est alors toujours convexe, et les
+  # points du cercle toujours bien séparés. Un demi-arc entre 30° et 60° évite
+  # aussi bien les sommets écrasés que les côtés minuscules.
+  a1: "30_60"
+  a2: "30_60"
+  a3: "${Math.max(30,120-:a1-:a2)}_${Math.min(60,150-:a1-:a2)}"
+  # rectangle : deux demi-arcs complémentaires, répétés — les sommets sont alors
+  # diamétralement opposés deux à deux, ce qui est exactement le rectangle. Le
+  # tirage saute la plage 43°-47°, où le rectangle serait un carré ou presque :
+  # 32-42 reste en place, 43-53 est décalé sur 48-58.
+  arect0: "32_53"
+  arect: ${:arect0<43?:arect0::arect0+5}
+  # trapèze isocèle : les deux côtés obliques interceptent le même arc. Les
+  # bornes laissent au moins 12° d’écart entre les deux autres demi-arcs, sans
+  # quoi le trapèze se refermerait en rectangle.
+  atrb: "38_54"
+  atr1: "${Math.max(28,96-:atrb)}_${Math.min(64,152-2*:atrb)}"
+  c1: ${:forme===2?:arect:(:forme===3?45:(:forme===4?:atr1::a1))}
+  c2: ${:forme===2?90-:arect:(:forme===3?45:(:forme===4?:atrb::a2))}
+  c3: ${:forme===2?:arect:(:forme===3?45:(:forme===4?180-2*:atrb-:atr1::a3))}
+  c4: ${180-:c1-:c2-:c3}
+  # ─── direction de l’axe : 0 horizontal, 1 vertical, 2 oblique
+  dir: [0, 1, 2]
+  obl: "20_70"
+  sgo: [1, -1]
+  th: ${:dir===0?0:(:dir===1?90::sgo*:obl)}
+  ct: ${MMmath.round(Math.cos(:th*Math.PI/180),6)}
+  st: ${MMmath.round(Math.sin(:th*Math.PI/180),6)}
+  # cos et sin du double de l’inclinaison : la symétrie par rapport à une droite
+  # passant par l’origine et inclinée de th s’écrit
+  # (x, y) ↦ (x·cos2th + y·sin2th, x·sin2th − y·cos2th).
+  c2t: ${MMmath.round(Math.cos(2*:th*Math.PI/180),6)}
+  s2t: ${MMmath.round(Math.sin(2*:th*Math.PI/180),6)}
+  # ─── taille de la figure. mg est la place prise par les noms des points autour
+  # du cercle qui les porte, gp l’écart laissé entre la figure et l’axe. La
+  # figure et son image occupent 2·rc+gp+mg perpendiculairement à l’axe et
+  # rc+mg le long de l’axe : on prend le plus grand rayon qui tienne dans le
+  # cadre, quelle que soit l’inclinaison tirée.
+  mg: 1.15
+  # gp est mesuré depuis le point le plus proche de l’axe ; comme son nom est
+  # écarté de ec vers l’extérieur du cercle, donc vers l’axe, il faut gp > ec
+  # pour que ce nom ne tombe ni sur l’axe ni sur celui de son symétrique.
+  gp: 1.4
+  rlv: ${(6.6-:mg*Math.abs(:st)-(:gp+:mg)*Math.abs(:ct))/(Math.abs(:st)+2*Math.abs(:ct))}
+  rlh: ${(6.9-:mg*Math.abs(:ct)-(:gp+:mg)*Math.abs(:st))/(Math.abs(:ct)+2*Math.abs(:st))}
+  rc: ${MMmath.round(Math.min(2.3,:rlv,:rlh),3)}
+  # distance de l’axe au centre de la figure : la figure entière reste du même
+  # côté de l’axe, à gp au moins de lui
+  cv: ${MMmath.round(:rc+:gp,3)}
+  # ─── orientation de la figure sur son cercle. Aucune contrainte : la figure
+  # tient dans son disque, qui ne rencontre jamais l’axe.
+  t0: "0_359"
+  uA: ${:t0}
+  uB: ${:t0+2*:c1}
+  uC: ${:t0+2*(:c1+:c2)}
+  uD: ${:t0+2*(:c1+:c2+:c3)}
+  nxA: ${Math.cos(:uA*Math.PI/180)}
+  nyA: ${Math.sin(:uA*Math.PI/180)}
+  nxB: ${Math.cos(:uB*Math.PI/180)}
+  nyB: ${Math.sin(:uB*Math.PI/180)}
+  nxC: ${Math.cos(:uC*Math.PI/180)}
+  nyC: ${Math.sin(:uC*Math.PI/180)}
+  nxD: ${Math.cos(:uD*Math.PI/180)}
+  nyD: ${Math.sin(:uD*Math.PI/180)}
+  # coordonnées dans le repère de l’axe : u le long de l’axe, v perpendiculaire.
+  # La figure de départ est centrée en (0, cv). Passage au repère du dessin :
+  # x = u·ct − v·st, y = u·st + v·ct.
+  xA: ${MMmath.round(:rc*:nxA*:ct-(:cv+:rc*:nyA)*:st,4)}
+  yA: ${MMmath.round(:rc*:nxA*:st+(:cv+:rc*:nyA)*:ct,4)}
+  xB: ${MMmath.round(:rc*:nxB*:ct-(:cv+:rc*:nyB)*:st,4)}
+  yB: ${MMmath.round(:rc*:nxB*:st+(:cv+:rc*:nyB)*:ct,4)}
+  xC: ${MMmath.round(:rc*:nxC*:ct-(:cv+:rc*:nyC)*:st,4)}
+  yC: ${MMmath.round(:rc*:nxC*:st+(:cv+:rc*:nyC)*:ct,4)}
+  xD: ${MMmath.round(:rc*:nxD*:ct-(:cv+:rc*:nyD)*:st,4)}
+  yD: ${MMmath.round(:rc*:nxD*:st+(:cv+:rc*:nyD)*:ct,4)}
+  # l’image : symétrique de chaque point par rapport à l’axe
+  xAi: ${MMmath.round(:xA*:c2t+:yA*:s2t,4)}
+  yAi: ${MMmath.round(:xA*:s2t-:yA*:c2t,4)}
+  xBi: ${MMmath.round(:xB*:c2t+:yB*:s2t,4)}
+  yBi: ${MMmath.round(:xB*:s2t-:yB*:c2t,4)}
+  xCi: ${MMmath.round(:xC*:c2t+:yC*:s2t,4)}
+  yCi: ${MMmath.round(:xC*:s2t-:yC*:c2t,4)}
+  xDi: ${MMmath.round(:xD*:c2t+:yD*:s2t,4)}
+  yDi: ${MMmath.round(:xD*:s2t-:yD*:c2t,4)}
+  # noms des points, posés sur le rayon au delà du point, assez loin de la croix
+  # pour ne recouvrir ni elle ni les côtés qui en partent
+  ec: 0.65
+  txA: ${MMmath.round((:rc+:ec)*:nxA*:ct-(:cv+(:rc+:ec)*:nyA)*:st,4)}
+  tyA: ${MMmath.round((:rc+:ec)*:nxA*:st+(:cv+(:rc+:ec)*:nyA)*:ct,4)}
+  txB: ${MMmath.round((:rc+:ec)*:nxB*:ct-(:cv+(:rc+:ec)*:nyB)*:st,4)}
+  tyB: ${MMmath.round((:rc+:ec)*:nxB*:st+(:cv+(:rc+:ec)*:nyB)*:ct,4)}
+  txC: ${MMmath.round((:rc+:ec)*:nxC*:ct-(:cv+(:rc+:ec)*:nyC)*:st,4)}
+  tyC: ${MMmath.round((:rc+:ec)*:nxC*:st+(:cv+(:rc+:ec)*:nyC)*:ct,4)}
+  txD: ${MMmath.round((:rc+:ec)*:nxD*:ct-(:cv+(:rc+:ec)*:nyD)*:st,4)}
+  tyD: ${MMmath.round((:rc+:ec)*:nxD*:st+(:cv+(:rc+:ec)*:nyD)*:ct,4)}
+  txAi: ${MMmath.round(:txA*:c2t+:tyA*:s2t,4)}
+  tyAi: ${MMmath.round(:txA*:s2t-:tyA*:c2t,4)}
+  txBi: ${MMmath.round(:txB*:c2t+:tyB*:s2t,4)}
+  tyBi: ${MMmath.round(:txB*:s2t-:tyB*:c2t,4)}
+  txCi: ${MMmath.round(:txC*:c2t+:tyC*:s2t,4)}
+  tyCi: ${MMmath.round(:txC*:s2t-:tyC*:c2t,4)}
+  txDi: ${MMmath.round(:txD*:c2t+:tyD*:s2t,4)}
+  tyDi: ${MMmath.round(:txD*:s2t-:tyD*:c2t,4)}
+  # ─── centre du cercle, et son nom écrit à l’opposé du premier point marqué :
+  # cette direction là est toujours libre, aucune corde n’y passe
+  ox: ${MMmath.round(-:cv*:st,4)}
+  oy: ${MMmath.round(:cv*:ct,4)}
+  oxi: ${MMmath.round(:ox*:c2t+:oy*:s2t,4)}
+  oyi: ${MMmath.round(:ox*:s2t-:oy*:c2t,4)}
+  tox: ${MMmath.round(-0.55*:nxA*:ct-(:cv-0.55*:nyA)*:st,4)}
+  toy: ${MMmath.round(-0.55*:nxA*:st+(:cv-0.55*:nyA)*:ct,4)}
+  toxi: ${MMmath.round(:tox*:c2t+:toy*:s2t,4)}
+  toyi: ${MMmath.round(:tox*:s2t-:toy*:c2t,4)}
+  # ─── nom de l’axe, écrit près du bord du cadre, du côté des u positifs, à
+  # l’écart des figures qui restent à moins de rc+mg du centre.
+  # dlu est la plus grande abscisse le long de l’axe qui laisse l’étiquette, une
+  # fois écartée de 0,5 sur le côté, à 0,5 du bord vertical et à 0,4 du bord
+  # horizontal du cadre. L’inclinaison tirée garde toujours ct positif.
+  dlu: ${Math.min(:ct<0.000001?99:(6.4+0.5*:st)/:ct,Math.abs(:st)<0.000001?99:(6.2-0.5*:ct*(:st>0?1:-1))/Math.abs(:st))}
+  dlx: ${MMmath.round(:dlu*:ct-0.5*:st,4)}
+  dly: ${MMmath.round(:dlu*:st+0.5*:ct,4)}
+  # ─── lettres : deux séries prises dans pool, l’une pour la figure de départ,
+  # l’autre pour son image, toujours dans l’ordre de l’alphabet. Les bornes de
+  # lp1 et gap garantissent qu’elles ne se recouvrent pas.
+  lp1: "0_${20-2*:nl}"
+  gap: "0_${20-2*:nl-:lp1}"
+  lp2: ${:lp1+:nl+:gap}
+  # décalage et sens de lecture des lettres de l’image : sans eux, le point de
+  # rang k d’une figure aurait pour symétrique le point de rang k de l’autre, et
+  # la réponse se lirait sans jamais regarder la figure.
+  rot: "0_${:ns-1}"
+  rev: [0, 1]
+  m0: ${:rot}
+  m1: ${((:rev===1?:ns-1:1)+:rot)%:ns}
+  m2: ${((:rev===1?:ns-2:2)+:rot)%:ns}
+  m3: ${((:rev===1?:ns-3:3)+:rot)%:ns}
+  ltA: ${:pool[:lp1]}
+  ltB: ${:pool[:lp1+1]}
+  ltC: ${:pool[:lp1+2]}
+  ltD: ${:pool[:lp1+3]}
+  liA: ${:pool[:lp2+:m0]}
+  liB: ${:pool[:lp2+:m1]}
+  liC: ${:pool[:lp2+:m2]}
+  liD: ${:pool[:lp2+:m3]}
+  # noms des centres des deux cercles
+  ctr: ${:pool[:lp1+:ns]}
+  ctri: ${:pool[:lp2+:ns]}
+  # noms des deux polygones : les lettres de l’image commencent au point dont
+  # l’indice décalé vaut 0, donc les deux noms sont bien des lettres
+  # consécutives lues en tournant.
+  fig: ${:ltA+:ltB+:ltC+(:ns===4?:ltD:'')}
+  figi: ${:pool[:lp2]+:pool[:lp2+1]+:pool[:lp2+2]+(:ns===4?:pool[:lp2+3]:'')}
+  # ─── question tirée : 0 point, 1 segment, 2 angle, 3 figure entière
+  k: [0, 1, 2, 3]
+  # figure interrogée : 0 = celle de départ, 1 = son image
+  face: [0, 1]
+  # indice du point sur lequel porte la question, et ses deux voisins
+  j0: "0_${:ns-1}"
+  jp: ${(:j0+:ns-1)%:ns}
+  jn: ${(:j0+1)%:ns}
+  # indices correspondants sur l’image
+  mj: ${((:rev===1?(:ns-:j0)%:ns::j0)+:rot)%:ns}
+  mjp: ${((:rev===1?(:ns-:jp)%:ns::jp)+:rot)%:ns}
+  mjn: ${((:rev===1?(:ns-:jn)%:ns::jn)+:rot)%:ns}
+  # lettres de l’élément demandé (A) et de son symétrique (B)
+  e1A: ${:face===0?:pool[:lp1+:j0]::pool[:lp2+:mj]}
+  e1B: ${:face===0?:pool[:lp2+:mj]::pool[:lp1+:j0]}
+  pA: ${:face===0?:pool[:lp1+:jp]::pool[:lp2+:mjp]}
+  pB: ${:face===0?:pool[:lp2+:mjp]::pool[:lp1+:jp]}
+  nA: ${:face===0?:pool[:lp1+:jn]::pool[:lp2+:mjn]}
+  nB: ${:face===0?:pool[:lp2+:mjn]::pool[:lp1+:jn]}
+  cA: ${:face===0?:ctr::ctri}
+  cB: ${:face===0?:ctri::ctr}
+  # sur un cercle, la question sur un point peut porter sur le centre, et celle
+  # sur un segment sur un rayon plutôt que sur une corde
+  ctrq: [0, 1]
+  ptq: ${:circ&&:ctrq===1}
+  rayq: [0, 1]
+  segray: ${:circ&&:rayq===1}
+  eA: ${:ptq?:cA::e1A}
+  eB: ${:ptq?:cB::e1B}
+  s1A: ${:segray?:cA::e1A}
+  s2A: ${:segray?:e1A::nA}
+  s1B: ${:segray?:cB::e1B}
+  s2B: ${:segray?:e1B::nB}
+  sA: ${:s1A+:s2A}
+  sB: ${:s1B+:s2B}
+  aA: ${:pA+:e1A+:nA}
+  aB: ${:pB+:e1B+:nB}
+  # l’angle s’écrit aussi bien dans l’autre sens
+  aBr: ${:nB+:e1B+:pB}
+  # ─── désignation de la figure entière
+  nat: ${:forme===0?'triangle':(:forme===1?'quadrilatère':(:forme===2?'rectangle':(:forme===3?'carré':(:forme===4?'trapèze':'cercle'))))}
+  figA: ${:face===0?:fig::figi}
+  figB: ${:face===0?:figi::fig}
+  dAskPre: ${:circ?'du cercle de centre':'du '+:nat}
+  dRepPre: ${:circ?'le cercle de centre':'le '+:nat}
+  dAskNom: ${:circ?:cA::figA}
+  dRepNom: ${:circ?:cB::figB}
+  # ─── position, sur la figure interrogée, de l’élément repassé en rouge.
+  # Tout se calcule sur la figure de départ, puis on prend le symétrique quand
+  # c’est l’image qui est interrogée.
+  cj: ${:j0===0?0:(:j0===1?:c1:(:j0===2?:c1+:c2::c1+:c2+:c3))}
+  cjp: ${:jp===0?0:(:jp===1?:c1:(:jp===2?:c1+:c2::c1+:c2+:c3))}
+  cjn: ${:jn===0?0:(:jn===1?:c1:(:jn===2?:c1+:c2::c1+:c2+:c3))}
+  wj: ${(:t0+2*:cj)*Math.PI/180}
+  wjp: ${(:t0+2*:cjp)*Math.PI/180}
+  wjn: ${(:t0+2*:cjn)*Math.PI/180}
+  gx: ${:rc*Math.cos(:wj)*:ct-(:cv+:rc*Math.sin(:wj))*:st}
+  gy: ${:rc*Math.cos(:wj)*:st+(:cv+:rc*Math.sin(:wj))*:ct}
+  gpx: ${:rc*Math.cos(:wjp)*:ct-(:cv+:rc*Math.sin(:wjp))*:st}
+  gpy: ${:rc*Math.cos(:wjp)*:st+(:cv+:rc*Math.sin(:wjp))*:ct}
+  gnx: ${:rc*Math.cos(:wjn)*:ct-(:cv+:rc*Math.sin(:wjn))*:st}
+  gny: ${:rc*Math.cos(:wjn)*:st+(:cv+:rc*Math.sin(:wjn))*:ct}
+  hx: ${MMmath.round(:face===0?:gx::gx*:c2t+:gy*:s2t,4)}
+  hy: ${MMmath.round(:face===0?:gy::gx*:s2t-:gy*:c2t,4)}
+  hpx: ${MMmath.round(:face===0?:gpx::gpx*:c2t+:gpy*:s2t,4)}
+  hpy: ${MMmath.round(:face===0?:gpy::gpx*:s2t-:gpy*:c2t,4)}
+  hnx: ${MMmath.round(:face===0?:gnx::gnx*:c2t+:gny*:s2t,4)}
+  hny: ${MMmath.round(:face===0?:gny::gnx*:s2t-:gny*:c2t,4)}
+  hox: ${:face===0?:ox::oxi}
+  hoy: ${:face===0?:oy::oyi}
+  # point demandé : le centre du cercle le cas échéant
+  pqx: ${:ptq?:hox::hx}
+  pqy: ${:ptq?:hoy::hy}
+  # extrémités du segment demandé : un rayon part du centre
+  sq1x: ${:segray?:hox::hx}
+  sq1y: ${:segray?:hoy::hy}
+  sq2x: ${:segray?:hx::hnx}
+  sq2y: ${:segray?:hy::hny}
+options:
+  - name: Triangles et quadrilatères, symétrique d’un point
+    vars:
+      forme: [0, 1, 2, 3, 4]
+      k: 0
+  - name: Triangles et quadrilatères, symétrique d’un segment
+    vars:
+      forme: [0, 1, 2, 3, 4]
+      k: 1
+  - name: Triangles et quadrilatères, symétrique d’un angle
+    vars:
+      forme: [0, 1, 2, 3, 4]
+      k: 2
+  - name: Cercles, symétrique d’un point
+    vars:
+      forme: 5
+      k: 0
+  - name: Cercles, symétrique d’un segment
+    vars:
+      forme: 5
+      k: 1
+  - name: Cercles, symétrique d’un angle
+    vars:
+      forme: 5
+      k: 2
+  - name: Symétrique de la figure entière
+    vars:
+      k: 3
+  - name: Axe horizontal ou vertical, tout mélangé
+    vars:
+      dir: [0, 1]
+  - name: Axe oblique, tout mélangé
+    vars:
+      dir: 2
+question: "${:quest[:k]}"
+shortq: "${:courte[:k]}"
+answer: "${:rep[:k]}"
+value:
+  - "${:k===0?:eB:(:k===1?'['+:s1B+:s2B+']':(:k===2?:aB::dRepNom))}"
+  - "${:k===0?:eB:(:k===1?:s1B+:s2B:(:k===2?:aBr::dRepNom))}"
+  - "${:k===0?:eB:(:k===1?'['+:s2B+:s1B+']':(:k===2?:aB::dRepNom))}"
+  - "${:k===0?:eB:(:k===1?:s2B+:s1B:(:k===2?:aBr::dRepNom))}"
+figure:
+  type: graph
+  # taille nominale du dessin : 10 × scale pixels par unité. C’est elle, et non
+  # la taille à l’écran, qui fixe le rapport entre le dessin et le texte : à
+  # 20 px l’unité, un texte de 14 px occupe 0,7 unité de haut, lisible jusque
+  # dans la vignette des questions types.
+  scale: 2
+  axis: false
+  grid: false
+  keepAspect: true
+  boundingbox: [-6.9, 6.6, 6.9, -6.6]
+  content:
+    # ─── l’axe, tracé d’un bord à l’autre du cadre
+    - [point, ["${MMmath.round(-12*:ct,4)}", "${MMmath.round(-12*:st,4)}"], { name: zD1, visible: false, withLabel: false }]
+    - [point, ["${MMmath.round(12*:ct,4)}", "${MMmath.round(12*:st,4)}"], { name: zD2, visible: false, withLabel: false }]
+    - [line, [zD1, zD2], { strokeColor: "#333333", strokeWidth: 2, fixed: true }]
+    # ─── points de la figure de départ, puis de son image, marqués par une
+    # croix. Les noms sont écrits par des textes placés à la main (voir plus
+    # bas), pas par les étiquettes de JSXGraph, qui ne savent pas éviter les
+    # tracés.
+    - [point, [:xA, :yA], { name: A, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false }]
+    - [point, [:xB, :yB], { name: B, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false }]
+    - [point, [:xC, :yC], { name: C, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false }]
+    - [point, [:xD, :yD], { name: D, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false, visible: "${:ns===4}" }]
+    - [point, [:xAi, :yAi], { name: Ai, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false }]
+    - [point, [:xBi, :yBi], { name: Bi, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false }]
+    - [point, [:xCi, :yCi], { name: Ci, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false }]
+    - [point, [:xDi, :yDi], { name: Di, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false, visible: "${:ns===4}" }]
+    # centres des deux cercles
+    - [point, [:ox, :oy], { name: zO1, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false, visible: "${:circ}" }]
+    - [point, [:oxi, :oyi], { name: zO2, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false, visible: "${:circ}" }]
+    # ─── les deux figures : polygone à 3 ou 4 côtés, ou cercle
+    - [polygon, [A, B, C], { fillColor: "#118ab2", fillOpacity: 0.18, borders: { strokeColor: "#118ab2", strokeWidth: 2, visible: "${!:circ&&:ns===3}" }, withLines: true, visible: "${!:circ&&:ns===3}" }]
+    - [polygon, [A, B, C, D], { fillColor: "#118ab2", fillOpacity: 0.18, borders: { strokeColor: "#118ab2", strokeWidth: 2, visible: "${!:circ&&:ns===4}" }, withLines: true, visible: "${!:circ&&:ns===4}" }]
+    - [polygon, [Ai, Bi, Ci], { fillColor: "#06915c", fillOpacity: 0.18, borders: { strokeColor: "#06915c", strokeWidth: 2, visible: "${!:circ&&:ns===3}" }, withLines: true, visible: "${!:circ&&:ns===3}" }]
+    - [polygon, [Ai, Bi, Ci, Di], { fillColor: "#06915c", fillOpacity: 0.18, borders: { strokeColor: "#06915c", strokeWidth: 2, visible: "${!:circ&&:ns===4}" }, withLines: true, visible: "${!:circ&&:ns===4}" }]
+    - [circle, [zO1, :rc], { strokeColor: "#118ab2", strokeWidth: 2, fillColor: "#118ab2", fillOpacity: 0.1, visible: "${:circ}" }]
+    - [circle, [zO2, :rc], { strokeColor: "#06915c", strokeWidth: 2, fillColor: "#06915c", fillOpacity: 0.1, visible: "${:circ}" }]
+    # ─── l’élément sur lequel porte la question, repassé en rouge sur la figure
+    # interrogée. Son symétrique, lui, n’est pas marqué : c’est la réponse.
+    - [point, [:sq1x, :sq1y], { name: zS1, visible: false, withLabel: false }]
+    - [point, [:sq2x, :sq2y], { name: zS2, visible: false, withLabel: false }]
+    - [segment, [zS1, zS2], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:k===1}" }]
+    - [point, [:hpx, :hpy], { name: zV1, visible: false, withLabel: false }]
+    - [point, [:hx, :hy], { name: zV2, visible: false, withLabel: false }]
+    - [point, [:hnx, :hny], { name: zV3, visible: false, withLabel: false }]
+    # les deux côtés de l’angle : ils redoublent des côtés du polygone, mais sur
+    # un cercle, ce sont les seules cordes tracées
+    - [segment, [zV1, zV2], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:k===2}" }]
+    - [segment, [zV2, zV3], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:k===2}" }]
+    # selection: minor force l’angle saillant, le seul qui soit intérieur ici
+    - [angle, [zV3, zV2, zV1], { radius: 0.65, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:k===2}" }]
+    # le point demandé, marqué par-dessus la croix de sa figure
+    - [point, [:pqx, :pqy], { name: zP, face: x, size: 4, strokeWidth: 3, strokeColor: "#c1121f", withLabel: false, visible: "${:k===0}" }]
+    # ─── noms de l’axe, des points, des centres
+    - [text, [:dlx, :dly, "(d)"], { anchorX: middle, anchorY: middle, strokeColor: "#333333", fontSize: 14 }]
+    - [text, [:txA, :tyA, ":ltA"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14 }]
+    - [text, [:txB, :tyB, ":ltB"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14 }]
+    - [text, [:txC, :tyC, ":ltC"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14 }]
+    - [text, [:txD, :tyD, ":ltD"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14, visible: "${:ns===4}" }]
+    - [text, [:txAi, :tyAi, ":liA"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14 }]
+    - [text, [:txBi, :tyBi, ":liB"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14 }]
+    - [text, [:txCi, :tyCi, ":liC"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14 }]
+    - [text, [:txDi, :tyDi, ":liD"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14, visible: "${:ns===4}" }]
+    - [text, [:tox, :toy, ":ctr"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14, visible: "${:circ}" }]
+    - [text, [:toxi, :toyi, ":ctri"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14, visible: "${:circ}" }]

@@ -1,0 +1,21 @@
+{
+    "title":"Conversions classiques de base",
+    "description":"conversion, km, m, kilomètre, mètre, longueur",
+    "type":"latex",
+    "ID":"9MA1",
+    "dest":["9MA","8MA","7MA"],
+    "keys":["_","_","km","mt","_","_","_","_"],
+    "options":[{
+        "name":"Lien entre kilomètres et mètres",
+        "vars":{"b":[1,10,100,1000],"c":"1_${:b}"},
+        "question": "${:c}\\text{ km}=...\\text{ m}",
+        "answer":"${:c}\\text{ km}=\\color{red}{${:c*1000}}\\text{ m}",
+        "value":["${:c*1000}","${:c*1000} m"]
+    },{
+        "name":"Lien entre mètres et kilomètres",
+        "vars":{"b":[1,10,100,1000],"c":"1_${:b}"},
+        "question": "${:c*1000}\\text{ m}=...\\text{ km}",
+        "answer":"${:c*1000}\\text{ m}=\\color{red}{${:c}}\\text{ km}",
+        "value":["${:c}","${:c} km"]
+    }]
+}

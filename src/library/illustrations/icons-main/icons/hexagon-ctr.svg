@@ -1,0 +1,8 @@
+<svg class="i i-hexagon" width="8em" height="8em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m12 1 9.5 5.5v11L12 23l-9.5-5.5v-11Z"/>
+  <path d="M12 0V24M0 12H24M0 5L24 19M0 19L24 5M5 0L19 24M19 0L5 24" fill="none" stroke="red" stroke-width="0.6" stroke-dasharray="4 1" stroke-linecap="butt" class="correction"/>
+  <g transform="translate(0.04918,0.114754)" style="fill:none;stroke:#00ff00;stroke-width:1;stroke-dasharray:none" class="correction">
+    <path d="m 10.360656,10.42623 3.180328,2.918032" />
+    <path d="m 13.540984,10.42623 -3.180328,2.918032" />
+  </g>
+</svg>

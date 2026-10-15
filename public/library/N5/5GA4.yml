@@ -1,0 +1,101 @@
+title: Reconnaître un solide sur une photo
+description: Identifier cube, pavé droit, cylindre, cône, prisme droit à base triangulaire, pentagonale ou hexagonale, pyramide à base triangulaire ou carrée, boule ou sphère sur une photo ou une illustration.
+type: text
+ID: 5GA4
+repeat: 2
+dest:
+  - 5GA
+  - 4GA
+  - 3GA
+consts:
+  photosCubePave:
+    - ["cube-rubiks.webp", "un cube"]
+    - ["cube-dice.webp", "un cube"]
+    - ["cube-building.webp", "un cube"]
+    - ["cube-illustration.webp", "un cube"]
+    - ["pave-brique.webp", "un pavé droit"]
+    - ["pave-carton.webp", "un pavé droit"]
+    - ["pave-immeuble.webp", "un pavé droit"]
+    - ["pave-illustration.webp", "un pavé droit"]
+  photosCylindrePrisme:
+    - ["cylindre-canette.webp", "un cylindre"]
+    - ["cylindre-tuyau.webp", "un cylindre"]
+    - ["cylindre-silo.webp", "un cylindre"]
+    - ["cylindre-illustration.webp", "un cylindre"]
+    - ["prismetri-toblerone.webp", "un prisme droit à base triangulaire"]
+    - ["prismetri-tente.webp", "un prisme droit à base triangulaire"]
+    - ["prismetri-toit.webp", "un prisme droit à base triangulaire"]
+    - ["prismetri-illustration.webp", "un prisme droit à base triangulaire"]
+    - ["prismepenta-pentagon.webp", "un prisme droit à base pentagonale"]
+    - ["prismepenta-kiosque.webp", "un prisme droit à base pentagonale"]
+    - ["prismehexa-ecrou.webp", "un prisme droit à base hexagonale"]
+    - ["prismehexa-kiosque.webp", "un prisme droit à base hexagonale"]
+  photosPyramideCone:
+    - ["pyramidetri-tetrapak.webp", "une pyramide à base triangulaire"]
+    - ["pyramidetri-sculpture.webp", "une pyramide à base triangulaire"]
+    - ["pyramidetri-illustration.webp", "une pyramide à base triangulaire"]
+    - ["pyramidecarree-gizeh.webp", "une pyramide à base carrée"]
+    - ["pyramidecarree-louvre.webp", "une pyramide à base carrée"]
+    - ["pyramidecarree-encens.webp", "une pyramide à base carrée"]
+    - ["pyramidecarree-illustration.webp", "une pyramide à base carrée"]
+    - ["cone-signalisation.webp", "un cône"]
+    - ["cone-glace.webp", "un cône"]
+    - ["cone-tipi.webp", "un cône"]
+    - ["cone-illustration.webp", "un cône"]
+  photosBouleSphere:
+    - ["boule-petanque.webp", "une boule", "le solide est plein"]
+    - ["boule-bille.webp", "une boule", "le solide est plein"]
+    - ["boule-illustration.webp", "une boule", "le solide est plein"]
+    - ["sphere-ballon.webp", "une sphère", "seule la surface compte, l'intérieur est creux"]
+    - ["sphere-noel.webp", "une sphère", "seule la surface compte, l'intérieur est creux"]
+    - ["sphere-illustration.webp", "une sphère", "seule la surface compte, l'intérieur est creux"]
+options:
+  - name: Cube ou pavé droit
+    vars:
+      idx: "0_${:photosCubePave.length-1}"
+      fichier: "library/illustrations/5GA4/${:photosCubePave[:idx][0]}"
+      rep: ${:photosCubePave[:idx][1]}
+    question: Quel solide modélise cette image ?
+    shortq: Quel solide ?
+    figure:
+      type: img
+      content: <img src="${:fichier}" alt="" style="max-width:100%;max-height:14em;border-radius:0.3em;">
+    answer: C'est <span class="red">${:rep}</span>.
+    value: ${:rep}
+  - name: Cylindre ou prisme droit
+    vars:
+      idx: "0_${:photosCylindrePrisme.length-1}"
+      fichier: "library/illustrations/5GA4/${:photosCylindrePrisme[:idx][0]}"
+      rep: ${:photosCylindrePrisme[:idx][1]}
+    question: Quel solide modélise cette image ?
+    shortq: Quel solide ?
+    figure:
+      type: img
+      content: <img src="${:fichier}" alt="" style="max-width:100%;max-height:14em;border-radius:0.3em;">
+    answer: C'est <span class="red">${:rep}</span>.
+    value: ${:rep}
+  - name: Pyramide ou cône
+    vars:
+      idx: "0_${:photosPyramideCone.length-1}"
+      fichier: "library/illustrations/5GA4/${:photosPyramideCone[:idx][0]}"
+      rep: ${:photosPyramideCone[:idx][1]}
+    question: Quel solide modélise cette image ?
+    shortq: Quel solide ?
+    figure:
+      type: img
+      content: <img src="${:fichier}" alt="" style="max-width:100%;max-height:14em;border-radius:0.3em;">
+    answer: C'est <span class="red">${:rep}</span>.
+    value: ${:rep}
+  - name: Boule ou sphère
+    vars:
+      idx: "0_${:photosBouleSphere.length-1}"
+      fichier: "library/illustrations/5GA4/${:photosBouleSphere[:idx][0]}"
+      rep: ${:photosBouleSphere[:idx][1]}
+      precision: ${:photosBouleSphere[:idx][2]}
+    question: Quel solide modélise cette image ?
+    shortq: Quel solide ?
+    figure:
+      type: img
+      content: <img src="${:fichier}" alt="" style="max-width:100%;max-height:14em;border-radius:0.3em;">
+    answer: "C'est <span class=\"red\">${:rep}</span> : ${:precision}."
+    value: ${:rep}

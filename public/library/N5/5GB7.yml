@@ -1,0 +1,327 @@
+title: Déterminer si des points sont alignés à l’aide des angles
+description: Adjacents, supplémentaires
+dest:
+  - 5GB
+  - 4GB
+  - 3GB
+type: text
+repeat: 2
+consts:
+  quelc: [[1, 3], [1, 5], [1, 6], [1, 8], [2, 7], [2, 6]]
+  colors: [
+      black,
+      blue,
+      red,
+      green,
+      purple,
+      orange,
+      brown,
+      grey,
+      chocolate,
+      coral,
+      darkblue,
+      darkcyan,
+      indigo,
+      olive,
+      violet,
+      navy
+      orangered,
+      teal,
+      tomato,
+      turquoise,
+    ]
+  noms: "ABCDEFGHJKLMNPQRSTVW"
+vars:
+  prop: [true, false]
+  cc: "0_${:colors.length-1}_3_^&"
+options:
+  - name: Deux angles adjacents
+    vars:
+      pts: "0_${:noms.length-1}_4_^&"
+      A: ${:noms[:pts[0]]}
+      B: ${:noms[:pts[1]]}
+      C: ${:noms[:pts[2]]}
+      O: ${:noms[:pts[3]]}
+      angd1: "-40_40"
+      ang2ad1: "45_125"
+      angd2: ${:ang2ad1 + :angd1}
+      mes1: :ang2ad1
+      delta: "${:prop?0:'-5_5_^0'}"
+      mes2: "${180+:delta-:ang2ad1}"
+
+    question: Les points :A, :O et :C sont-ils alignés ?
+    answer: $$:mes1° + :mes2° = ${:mes1+:mes2}° $$ donc les points <span class="red">${:prop?'sont':' ne sont pas '} alignés</span>.
+    value: ${:prop?'Oui':'Non'}
+    figure:
+      type: graph
+      boundingbox: [-5, 5, 5, -5]
+      axis: false
+      grid: false
+      content:
+        - [
+            point,
+            [0, 0],
+            {
+              name: :O,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd1-90)*Math.PI/180)*10}",
+                      "${Math.sin((:angd1-90)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [
+            point,
+            [
+              "${Math.cos(:angd1*Math.PI/180)*3.5}",
+              "${Math.sin(:angd1*Math.PI/180)*3.5}",
+            ],
+            {
+              name: :A,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd1-90)*Math.PI/180)*10}",
+                      "${Math.sin((:angd1-90)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [
+            point,
+            [
+              "${Math.cos(:angd2*Math.PI/180)*3.5}",
+              "${Math.sin(:angd2*Math.PI/180)*3.5}",
+            ],
+            {
+              name: :B,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd2-45)*Math.PI/180)*10}",
+                      "${Math.sin((:angd2-45)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [
+            point,
+            [
+              "${-Math.cos(:angd1*Math.PI/180)*3.5}",
+              "${-Math.sin(:angd1*Math.PI/180)*3.5}",
+            ],
+            {
+              name: :C,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd1-90)*Math.PI/180)*10}",
+                      "${Math.sin((:angd1-90)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [line, [:O, :A], { strokeWidth: 2, name: d1 }]
+        - [line, [:O, :B], { strokeWidth: 2, name: d3, straightFirst: false }]
+        - [
+            angle,
+            [:A, :O, :B],
+            {
+              name: :mes1°,
+              radius: 1.5,
+              label: { anchorX: middle, anchorY: middle },
+              color: "${:colors[:cc[0]]}",
+              orthoSensitivity: 0.5,
+              visible: true,
+            },
+          ]
+        - [
+            angle,
+            [:B, :O, :C],
+            {
+              name: :mes2°,
+              radius: 1.6,
+              label: { anchorX: middle, anchorY: middle },
+              color: "${:colors[:cc[1]]}",
+              orthoSensitivity: 0.5,
+              visible: true,
+            },
+          ]
+  - name: Trois angles adjacents
+    vars:
+      pts: "0_${:noms.length-1}_5_^&"
+      A: ${:noms[:pts[0]]}
+      B: ${:noms[:pts[1]]}
+      C: ${:noms[:pts[2]]}
+      D: ${:noms[:pts[3]]}
+      O: ${:noms[:pts[4]]}
+      angd1: "-40_40"
+      ang2ad1: "35_105"
+      angd2: ${:ang2ad1 + :angd1}
+      mes1: :ang2ad1
+      ang3ad2: "45_${180-:ang2ad1-40}"
+      angd3: ${:ang3ad2 + :angd2}
+      mes2: :ang3ad2
+      ang4ad3: "${180-:ang2ad1-:ang3ad2}"
+      delta: "${:prop?0:'-5_5_^0'}"
+      mes3: "${:ang4ad3+:delta}"
+
+    question: Les points :A, :O et :D sont-ils alignés ?
+    answer: $$:mes1° + :mes2° + :mes3° = ${:mes1+:mes2+:mes3}° $$ donc les points <span class="red">${:prop?'sont':' ne sont pas '} alignés</span>.
+    value: ${:prop?'Oui':'Non'}
+    figure:
+      type: graph
+      boundingbox: [-5, 6, 5, -4]
+      axis: false
+      grid: false
+      content:
+        - [
+            point,
+            [0, 0],
+            {
+              name: :O,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd1-90)*Math.PI/180)*10}",
+                      "${Math.sin((:angd1-90)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [
+            point,
+            [
+              "${Math.cos(:angd1*Math.PI/180)*3.5}",
+              "${Math.sin(:angd1*Math.PI/180)*3.5}",
+            ],
+            {
+              name: :A,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd1-90)*Math.PI/180)*10}",
+                      "${Math.sin((:angd1-90)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [
+            point,
+            [
+              "${Math.cos(:angd2*Math.PI/180)*3.5}",
+              "${Math.sin(:angd2*Math.PI/180)*3.5}",
+            ],
+            {
+              name: :B,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd2-45)*Math.PI/180)*10}",
+                      "${Math.sin((:angd2-45)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [
+            point,
+            [
+              "${Math.cos(:angd3*Math.PI/180)*4.5}",
+              "${Math.sin(:angd3*Math.PI/180)*4.5}",
+            ],
+            {
+              name: :C,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd2-45)*Math.PI/180)*10}",
+                      "${Math.sin((:angd2-45)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [
+            point,
+            [
+              "${-Math.cos(:angd1*Math.PI/180)*3.5}",
+              "${-Math.sin(:angd1*Math.PI/180)*3.5}",
+            ],
+            {
+              name: :D,
+              visible: true,
+              face: x,
+              label:
+                {
+                  offset:
+                    [
+                      "${Math.cos((:angd1-90)*Math.PI/180)*10}",
+                      "${Math.sin((:angd1-90)*Math.PI/180)*10}",
+                    ],
+                },
+            },
+          ]
+        - [line, [:O, :A], { strokeWidth: 2, name: d1 }]
+        - [line, [:O, :B], { strokeWidth: 2, name: d2 }]
+        - [line, [:O, :C], { strokeWidth: 2, name: d3 }]
+        - [
+            angle,
+            [:A, :O, :B],
+            {
+              name: :mes1°,
+              radius: 1.5,
+              label: { anchorX: middle, anchorY: middle },
+              color: "${:colors[:cc[0]]}",
+              orthoSensitivity: 0.5,
+              visible: true,
+            },
+          ]
+        - [
+            angle,
+            [:B, :O, :C],
+            {
+              name: :mes2°,
+              radius: 1.6,
+              label: { anchorX: middle, anchorY: middle },
+              color: "${:colors[:cc[1]]}",
+              orthoSensitivity: 0.5,
+              visible: true,
+            },
+          ]
+        - [
+            angle,
+            [:C, :O, :D],
+            {
+              name: :mes3°,
+              radius: 1.4,
+              label: { anchorX: middle, anchorY: middle },
+              color: "${:colors[:cc[2]]}",
+              orthoSensitivity: 0.5,
+              visible: true,
+            },
+          ]

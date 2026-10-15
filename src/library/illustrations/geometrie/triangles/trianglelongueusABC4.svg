@@ -1,0 +1,9 @@
+<svg width="15em" height="9em" version="1.1" viewBox="0 0 79.35 47.7" xmlns="http://www.w3.org/2000/svg">
+ <text x="61.230656" y="7.7861004" style="font-family:Arial;font-size:8.102px;letter-spacing:0;line-height:1.25;stroke-width:.2643;word-spacing:0"><tspan x="61.230656" y="7.7861004" style="stroke-width:.2643">${:B}</tspan></text>
+ <text x="2.9582951" y="40.881599" style="font-family:Arial;font-size:8.102px;letter-spacing:0;line-height:1.25;stroke-width:.2643;word-spacing:0"><tspan x="2.9582951" y="40.881599" style="stroke-width:.2643">${:A}</tspan></text>
+ <text x="65.740234" y="43.209831" style="font-family:Arial;font-size:8.102px;letter-spacing:0;line-height:1.25;stroke-width:.2643;word-spacing:0"><tspan x="65.740234" y="43.209831" style="stroke-width:.2643">${:C}</tspan></text>
+ <path d="m65.39 9.983v27.01h-52.1z" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".53"/>
+ <text x="52.127785" y="42.773407" font-family="Arial" font-size="6.422px" letter-spacing="0" stroke-width=".265" word-spacing="0" style="font-size:6px;line-height:1.25;text-align:center;text-anchor:middle"><tspan x="40.668213" y="42.773407" style="font-size:6px;text-align:center;text-anchor:middle">${:b} cm</tspan></text>
+ <text transform="rotate(-27.11)" x="34.329628" y="36.581234" font-family="Arial" font-size="6.315px" letter-spacing="0" stroke-width=".265" word-spacing="0" style="font-size:6px;line-height:1.25;text-align:center;text-anchor:middle"><tspan x="23.238295" y="36.581234" style="font-size:6px;text-align:center;text-anchor:middle">${:c} cm</tspan></text>
+ <text transform="rotate(-90)" x="-13.461127" y="70.447449" font-family="Arial" font-size="5.837px" letter-spacing="0" stroke-width=".265" word-spacing="0" style="font-size:6px;line-height:1.25;text-align:center;text-anchor:middle"><tspan x="-23.87681" y="70.447449" style="font-size:6px;text-align:center;text-anchor:middle">${:a} cm</tspan></text>
+</svg>

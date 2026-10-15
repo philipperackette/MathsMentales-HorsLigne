@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="211" height="141" version="1.1" viewBox="0 0 211 141" xmlns="http://www.w3.org/2000/svg">
+<!-- @3= segment [AB] -->
+<path style="stroke:black;fill:none;" d="M32 35 C32 35 47.57 33.31 53.57 33.43 C57.88 33.12 70.83 33.77 75.14 33.86 C79.46 33.94 92.43 34.8 96.71 34.29 C101.06 34.37 113.94 31.63 118.29 31.71 C122.57 31.2 135.54 32.06 139.86 32.14 C144.17 32.23 157.12 32.88 161.43 32.57 M161.43 32.57 C165.75 32.66 178.69 31.31 183 31 "/>
+<!-- @5= segment [BC] -->
+<path style="stroke:black;fill:none;" d="M183 31 C183 31 185.18 46.5 185.25 52.5 C185.7 56.78 185.45 69.7 185.5 74 C185.55 78.3 185.11 91.25 185.75 95.5 M185.75 95.5 C185.8 99.85 188.35 112.7 189 117 "/>
+<!-- @7= segment [CD] -->
+<path style="stroke:black;fill:none;" d="M188 117 C188 117 172.0 118.38 166 118.14 C161.6 118.37 148.4 117.46 144 117.29 C139.6 117.11 126.38 116.0 122 116.43 C117.58 116.26 104.42 118.74 100 118.57 C95.62 119.0 82.4 117.89 78 117.71 C73.6 117.54 60.4 116.63 56 116.86 M56 116.86 C51.6 116.69 38.4 117.77 34 118 "/>
+<!-- @8= segment [AD] -->
+<path style="stroke:black;fill:none;" d="M32 35 C32 35 33.64 49.75 33.5 55.75 C33.8 59.89 33.1 72.35 33 76.5 C32.9 80.65 32.0 93.13 32.5 97.25 M32.5 97.25 C32.4 101.43 34.5 113.85 35 118 "/>
+<path d="M 289.5603850256962,-22.04060750663353 A 30 30 0 0 1  259.59546530682053,-42.34689641286478" style="stroke:black;fill:none;"/>
+<!-- @15= segment [A@14] -->
+<path style="stroke:black;fill:none;" d="M32 35 C32 35 45.77 40.96 50.96 43.97 C54.93 45.84 66.14 52.74 69.93 54.94 C73.72 57.13 84.85 64.21 88.89 65.91 M88.89 65.91 C92.46 67.97 104.07 72.28 107.86 73.87 "/>
+<!-- Marqueur : 1 trait -->
+<line x1="69.55486" y1="51.351174" x2="66.763188" y2="56.662159" style="stroke:black;"/>
+<!-- @16= segment [@14B] -->
+<path style="stroke:black;fill:none;" d="M107.86 74.87 C107.86 74.87 121.34 65.72 126.64 62.91 C130.23 60.62 141.67 54.93 145.43 52.94 C149.19 50.94 160.71 45.39 164.21 42.97 M164.21 42.97 C168.25 40.83 179.24 32.59 183 30 "/>
+<!-- Marqueur : 2 traits -->
+<line x1="140.462384" y1="52.363443" x2="143.487772" y2="57.544855" style="stroke:black;"/>
+<!-- Marqueur : 2 traits -->
+<line x1="143.916658" y1="50.346518" x2="146.942046" y2="55.52793" style="stroke:black;"/>
+<!-- @17= segment [@14C] -->
+<path style="stroke:black;fill:none;" d="M107.86 74.87 C107.86 74.87 122.69 81.41 127.89 84.41 C132.07 86.39 143.92 93.63 147.93 95.94 C151.94 98.24 163.71 105.66 167.96 107.47 M167.96 107.47 C171.74 109.64 183.99 114.29 188 116 "/>
+<!-- Marqueur : 1 trait -->
+<line x1="147.55486" y1="92.351174" x2="144.763188" y2="97.662159" style="stroke:black;"/>
+<!-- @18= segment [D@14] -->
+<path style="stroke:black;fill:none;" d="M34 118 C34 118 47.16 109.03 52.46 106.22 C55.99 103.97 67.24 98.39 70.93 96.44 C74.62 94.48 85.96 89.03 89.39 86.66 M89.39 86.66 C93.36 84.55 104.17 76.43 107.86 73.87 "/>
+<!-- Marqueur : 2 traits -->
+<line x1="65.962384" y1="95.863443" x2="68.987772" y2="101.044855" style="stroke:black;"/>
+<!-- Marqueur : 2 traits -->
+<line x1="69.416658" y1="93.846518" x2="72.442046" y2="99.02793" style="stroke:black;"/>
+<circle id="Point_A" cx="32" cy="35" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="18" y="35">A</text>
+<circle id="Point_B" cx="183" cy="31" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="183" y="31">B</text>
+<circle id="Point_C" cx="188" cy="117" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="188" y="131">C</text>
+<circle id="Point_D" cx="34" cy="118" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="20" y="132">D</text>
+<circle id="Point_E" cx="293" cy="44" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="296" y="51">E</text>
+<circle id="Point_F" cx="288" cy="-52" r="2" style="stroke:black;"/>
+<text style="stroke:black;" font-size="12" x="291" y="-45">F</text>
+<circle cx="107.858705" cy="74.874447" r="2" style="stroke:black;"/>
+</svg>

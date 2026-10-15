@@ -1,0 +1,28 @@
+<svg width="15em" height="5em" version="1.1" viewBox="0 0 63.5 21.17" xmlns="http://www.w3.org/2000/svg">
+ <rect x="49.19" y="3.246" width="12.67" height="4.617" style="fill:#536c67;stroke-width:.529;stroke:#164450"/>
+ <g transform="translate(-6)">
+  <g id="a" transform="matrix(0 .1011 -.3628 0 68.04 8.731)" style="stroke-width:1.027">
+   <g id="c" style="stroke-width:1.382">
+    <path d="m19.8 25.8c0-14.6-4.2-23.6-19.8-25.4l.4-.4c22.6.4 28.8 7.2 28.8 29v30.2c0 13.4 1.4 19.8 16 23.4v.4c-14.4 3.6-16 10-16 23.2v32.2c0 21-7.8 27-28.8 27.6l-.4-.399c16-2.4 19.8-10.4 19.8-25.6v-32.2c0-13.6 1.8-21.4 16.8-24.8v-.4c-15.2-3.6-16.8-12-16.8-25.6z" style="stroke-width:1.382"/>
+   </g>
+  </g>
+  <text x="37.995018" y="16.858912" style="font-family:Arial;font-size:4.233px;letter-spacing:0px;line-height:1.25;stroke-width:.2646;text-align:center;text-anchor:middle;word-spacing:0px" xml:space="preserve"><tspan x="37.995018" y="16.858912" style="stroke-width:.2646">${:total}</tspan></text>
+  <g transform="matrix(1.983,0,0,1,-7.768,0)" style="fill:#b7c4c8;stroke-width:.3757;stroke:#164450">
+   <rect x="7.937" y="3.175" width="4.762" height="4.762" style="stroke-width:.3757"/>
+   <rect x="17.46" y="3.175" width="4.762" height="4.762" style="stroke-width:.3757"/>
+   <rect x="26.99" y="3.175" width="4.762" height="4.762" style="stroke-width:.3757"/>
+  </g>
+  <g transform="matrix(1.976,0,0,1,-7.662,0)" style="fill:#dbe2e3;stroke-width:.3765;stroke:#164450">
+   <rect x="12.7" y="3.175" width="4.762" height="4.762" style="stroke-width:.3765"/>
+   <rect x="22.22" y="3.175" width="4.762" height="4.762" style="stroke-width:.3765"/>
+  </g>
+  <g style="font-family:Arial;font-size:3.213px;letter-spacing:0px;line-height:1.25;stroke-width:.2646;text-align:center;text-anchor:middle;word-spacing:0px">
+   <text x="12.649788" y="6.3205433">${:n}</text>
+   <text x="22.214779" y="6.3205433">${:n}</text>
+   <text x="31.58552" y="6.3205433">${:n}</text>
+   <text x="40.874241" y="6.3205433">${:n}</text>
+   <text x="50.482445" y="6.3205433">${:n}</text>
+   <text x="61.568562" y="6.3205433" style="fill:#dbe3e2">${:p}</text>
+  </g>
+ </g>
+</svg>

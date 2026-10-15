@@ -1,0 +1,214 @@
+title: "Symétrie centrale : repérer le point mal placé"
+description: "symétrie centrale, symétrique, point mal placé, erreur, centre"
+ID: 5GT11
+type: text
+textSize: medium
+dest:
+  - 5GT
+consts:
+  lettres: ["A", "B", "C"]
+options:
+  - name: Facile — figures séparées, décalage franc
+    vars:
+      tier: 0
+  - name: Moyen — figures entrecroisées, décalage franc
+    vars:
+      tier: 1
+  - name: Difficile — croisement variable, décalage discret
+    vars:
+      tier: 2
+vars:
+  # ─── défaut écrasé par les options : déclaré ici pour que l’ordre de
+  # résolution le place avant son usage.
+  tier: 0
+  # ─── triangle tiré sur un cercle, comme 5GT10. Les angles du triangle valent
+  # exactement les trois demi-arcs, et le tirage les garde tous entre 30° et
+  # 85° : le triangle n’est donc jamais plat, ni du côté du départ ni du côté
+  # de l’image, qui lui est superposable. tc1≥35° et tc2≥95°−tc1 forcent
+  # tc1+tc2≥95°, donc le demi-arc de fermeture tc3 reste sous 85°.
+  tc1: "35_60"
+  tc2: "${Math.max(30,95-:tc1)}_60"
+  tc3: ${180-:tc1-:tc2}
+  t0: "0_359"
+  uA: ${:t0}
+  uB: ${:t0+2*:tc1}
+  uC: ${:t0+2*(:tc1+:tc2)}
+  rc: 2.8
+  # ─── écart du cercle au centre de symétrie, qui règle le croisement.
+  #  · dc > rc sépare les deux cercles : les figures ne se croisent jamais.
+  #  · dc = 0 place O au centre du cercle ; les trois angles étant tous aigus,
+  #    O tombe alors à l’intérieur du triangle, donc aussi de son image :
+  #    croisement garanti. Un triangle n’ayant jamais de centre de symétrie,
+  #    les deux figures restent bien distinctes malgré ce cercle commun.
+  #  · au dernier palier dc balaie toute la plage : les figures se croisent ou
+  #    non selon le tirage, et l’élève ne peut plus s’attendre à l’un des cas.
+  # Le tirage se fait en dixièmes entiers : une borne décimale passerait par le
+  # tirage entier et rendrait des valeurs hors plage.
+  # Le dernier palier tire dans l'une ou l'autre bande, à parts égales : soit
+  # les figures se chevauchent franchement, soit elles sont franchement
+  # séparées. La bande intermédiaire est écartée à dessein — c'est là qu'un
+  # sommet de l'image passe à un cheveu de O, et que leurs deux noms n'ont plus
+  # la place de tenir côte à côte.
+  bande: [0, 1]
+  dcbas: "0_14"
+  dchaut: "48_56"
+  dc0: "${:tier===0?'48_56':(:tier===1?'0_0':(:bande?:dchaut::dcbas))}"
+  dc: ${:dc0/10}
+  # ─── direction d’écartement, tenue près de l’horizontale pour que le dessin
+  # s’étale dans la largeur du cadre plutôt que dans sa hauteur.
+  psi0: "-35_35"
+  flip: [0, 180]
+  psi: ${:psi0+:flip}
+  ox: 0
+  oy: 0
+  # ─── le sommet fautif et son décalage. L’amplitude est prise en fraction du
+  # rayon : elle suit la taille de la figure au lieu d’être un nombre d’unités
+  # qui paraîtrait énorme sur un petit dessin et invisible sur un grand.
+  wrongIdx: "0_2"
+  offAmp: ${(:tier===2?0.17:0.36)*:rc}
+  # ─── agrandissement : le dessin remplit toujours son cadre, au lieu de
+  # flotter au milieu du vide quand dc sort petit. Hx et Hy mesurent la place
+  # occupée : le disque des figures, le sommet décalé au delà, puis son nom
+  # écarté encore de 0,9, et enfin la demi-largeur de ce nom.
+  fx0: ${:dc*Math.cos(:psi*Math.PI/180)}
+  fy0: ${:dc*Math.sin(:psi*Math.PI/180)}
+  Hx: ${Math.abs(:fx0)+:rc+:offAmp+1.35}
+  Hy: ${Math.abs(:fy0)+:rc+:offAmp+1.35}
+  k: ${MMmath.round(Math.min(6.6/:Hx,5/:Hy),4)}
+  # +0,8 : 0,4 de marge propre, plus les 0,4 dont le cadre peut être décalé
+  # ci-dessous — sans quoi un nom placé au bord sort du côté du décalage.
+  bw: ${MMmath.round(:k*:Hx+0.8,3)}
+  bh: ${MMmath.round(:k*:Hy+0.8,3)}
+  rcs: ${MMmath.round(:k*:rc,4)}
+  fx: ${MMmath.round(:k*:fx0,4)}
+  fy: ${MMmath.round(:k*:fy0,4)}
+  # ─── décalage du cadre : sans lui O, centre du dessin, tomberait pile au
+  # milieu et se laisserait deviner sans réfléchir.
+  jx0: "-4_4"
+  jy0: "-4_4"
+  jx: ${:jx0/10}
+  jy: ${:jy0/10}
+  # ─── triangle de départ
+  p1x: ${MMmath.round(:fx+:rcs*Math.cos(:uA*Math.PI/180),3)}
+  p1y: ${MMmath.round(:fy+:rcs*Math.sin(:uA*Math.PI/180),3)}
+  p2x: ${MMmath.round(:fx+:rcs*Math.cos(:uB*Math.PI/180),3)}
+  p2y: ${MMmath.round(:fy+:rcs*Math.sin(:uB*Math.PI/180),3)}
+  p3x: ${MMmath.round(:fx+:rcs*Math.cos(:uC*Math.PI/180),3)}
+  p3y: ${MMmath.round(:fy+:rcs*Math.sin(:uC*Math.PI/180),3)}
+  # ─── vrai symétrique de chaque sommet
+  q1x: ${MMmath.round(-:p1x,3)}
+  q1y: ${MMmath.round(-:p1y,3)}
+  q2x: ${MMmath.round(-:p2x,3)}
+  q2y: ${MMmath.round(-:p2y,3)}
+  q3x: ${MMmath.round(-:p3x,3)}
+  q3y: ${MMmath.round(-:p3y,3)}
+  # Le décalage est orienté vers l'extérieur, à 80° près de la direction qui
+  # va de O au sommet : sinon il pouvait pousser ce sommet droit sur le centre,
+  # où il se confondait avec lui. Sa composante vers O reste ainsi toujours
+  # nulle ou négative, et le sommet fautif ne se rapproche jamais de O.
+  qwx: ${:wrongIdx===0?:q1x:(:wrongIdx===1?:q2x::q3x)}
+  qwy: ${:wrongIdx===0?:q1y:(:wrongIdx===1?:q2y::q3y)}
+  ra: ${Math.atan2(:qwy,:qwx)*180/Math.PI}
+  oang1: "-80_80"
+  oang: ${:ra+:oang1}
+  offx: ${MMmath.round(:offAmp*Math.cos(:oang*Math.PI/180),4)}
+  offy: ${MMmath.round(:offAmp*Math.sin(:oang*Math.PI/180),4)}
+  # ─── image réellement dessinée : le sommet fautif porte le décalage, mis à
+  # l’échelle comme le reste du dessin.
+  r1x: ${MMmath.round(:wrongIdx===0?:q1x+:k*:offx::q1x,3)}
+  r1y: ${MMmath.round(:wrongIdx===0?:q1y+:k*:offy::q1y,3)}
+  r2x: ${MMmath.round(:wrongIdx===1?:q2x+:k*:offx::q2x,3)}
+  r2y: ${MMmath.round(:wrongIdx===1?:q2y+:k*:offy::q2y,3)}
+  r3x: ${MMmath.round(:wrongIdx===2?:q3x+:k*:offx::q3x,3)}
+  r3y: ${MMmath.round(:wrongIdx===2?:q3y+:k*:offy::q3y,3)}
+  # ─── noms des sommets de l’image, écartés vers l’extérieur du triangle
+  # dessiné : c’est la direction que ses côtés laissent libre.
+  gx: ${(:r1x+:r2x+:r3x)/3}
+  gy: ${(:r1y+:r2y+:r3y)/3}
+  e1: ${Math.max(0.001,Math.hypot(:r1x-:gx,:r1y-:gy))}
+  e2: ${Math.max(0.001,Math.hypot(:r2x-:gx,:r2y-:gy))}
+  e3: ${Math.max(0.001,Math.hypot(:r3x-:gx,:r3y-:gy))}
+  n1x: ${(:r1x-:gx)/:e1}
+  n1y: ${(:r1y-:gy)/:e1}
+  n2x: ${(:r2x-:gx)/:e2}
+  n2y: ${(:r2y-:gy)/:e2}
+  n3x: ${(:r3x-:gx)/:e3}
+  n3y: ${(:r3y-:gy)/:e3}
+  # Quand les deux figures sont écartées, le sommet le plus proche de O l'est
+  # de très peu, et cette direction « vers l'extérieur du triangle » pointe
+  # alors droit sur O : le nom viendrait se poser sur le centre. On la fait
+  # dans ce cas pivoter d'un quart de tour, ce qui la range le long du côté,
+  # toujours hors du triangle mais dégagée du centre.
+  s1: ${:n1x*(0-:r1x)+:n1y*(0-:r1y)>0?1:0}
+  s2: ${:n2x*(0-:r2x)+:n2y*(0-:r2y)>0?1:0}
+  s3: ${:n3x*(0-:r3x)+:n3y*(0-:r3y)>0?1:0}
+  # La perpendiculaire à l'écartement est la seule direction libre autour de O,
+  # et le nom de O l'occupe déjà : y ranger aussi celui du sommet ne ferait que
+  # déplacer la collision. On envoie donc ce nom à l'opposé de O, du côté du
+  # corps du triangle, où la pastille blanche le garde lisible par-dessus le
+  # remplissage.
+  m1: ${Math.max(0.001,Math.hypot(:r1x,:r1y))}
+  m2: ${Math.max(0.001,Math.hypot(:r2x,:r2y))}
+  m3: ${Math.max(0.001,Math.hypot(:r3x,:r3y))}
+  d1x: ${:s1?:r1x/:m1::n1x}
+  d1y: ${:s1?:r1y/:m1::n1y}
+  d2x: ${:s2?:r2x/:m2::n2x}
+  d2y: ${:s2?:r2y/:m2::n2y}
+  d3x: ${:s3?:r3x/:m3::n3x}
+  d3y: ${:s3?:r3y/:m3::n3y}
+  la1x: ${MMmath.round(:r1x+0.9*:d1x,3)}
+  la1y: ${MMmath.round(:r1y+0.9*:d1y,3)}
+  la2x: ${MMmath.round(:r2x+0.9*:d2x,3)}
+  la2y: ${MMmath.round(:r2y+0.9*:d2y,3)}
+  la3x: ${MMmath.round(:r3x+0.9*:d3x,3)}
+  la3y: ${MMmath.round(:r3y+0.9*:d3y,3)}
+  # ─── nom du centre. Les deux figures s'éloignent le long de psi : la
+  # direction libre autour de O est la perpendiculaire. Reste à choisir de quel
+  # côté — un sommet de l'image passe parfois tout près de O, et son nom occupe
+  # alors l'un des deux. On garde donc celui des deux qui laisse le plus de
+  # place aux trois noms déjà posés, au lieu d'un côté fixe qu'il faudrait
+  # ensuite disputer.
+  ux: ${-Math.sin(:psi*Math.PI/180)}
+  uy: ${Math.cos(:psi*Math.PI/180)}
+  oc1x: ${1.15*:ux}
+  oc1y: ${1.15*:uy}
+  oc2x: ${-1.15*:ux}
+  oc2y: ${-1.15*:uy}
+  dd1: ${Math.min(Math.hypot(:oc1x-:la1x,:oc1y-:la1y),Math.hypot(:oc1x-:la2x,:oc1y-:la2y),Math.hypot(:oc1x-:la3x,:oc1y-:la3y))}
+  dd2: ${Math.min(Math.hypot(:oc2x-:la1x,:oc2y-:la1y),Math.hypot(:oc2x-:la2x,:oc2y-:la2y),Math.hypot(:oc2x-:la3x,:oc2y-:la3y))}
+  olx: ${MMmath.round(:dd1>=:dd2?:oc1x::oc2x,3)}
+  oly: ${MMmath.round(:dd1>=:dd2?:oc1y::oc2y,3)}
+  lettreFausse: ${:lettres[:wrongIdx]}
+question: "Le triangle ABC devrait être le symétrique de l'autre triangle par rapport à O.<br>Quel sommet pose problème ?"
+shortq: "quel sommet de l’image est mal placé ?"
+answer: "Le point mal placé est <span class='red'>:lettreFausse</span>.<br>Pour chaque sommet correct, O est bien le milieu entre le sommet et son image. Ce n’est pas le cas pour :lettreFausse : le segment qui le relie à son sommet d’origine ne passe pas par O, ou O n’en est pas le milieu."
+value: ":lettreFausse"
+figure:
+  type: graph
+  # 22 px par unité : un nom de 22 px occupe alors une unité de haut, soit près
+  # d’un douzième de la largeur du cadre.
+  scale: 2.2
+  axis: false
+  grid: false
+  keepAspect: true
+  # le cadre épouse le dessin, agrandi au maximum que lui laissent 6,6 sur 5
+  # unités : figures écartées, cadre large ; figures superposées, cadre presque
+  # carré. Dans les deux cas le dessin le remplit.
+  boundingbox: ["${-:bw+:jx}", "${:bh+:jy}", "${:bw+:jx}", "${-:bh+:jy}"]
+  content:
+    - [polygon, [[":p1x", ":p1y"], [":p2x", ":p2y"], [":p3x", ":p3y"]], { fillColor: "#e07a5f", fillOpacity: 0.25, borders: { strokeColor: "#b5482f", strokeWidth: 2 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+    - [polygon, [[":r1x", ":r1y"], [":r2x", ":r2y"], [":r3x", ":r3y"]], { fillColor: "#3d5a80", fillOpacity: 0.25, borders: { strokeColor: "#293e5c", strokeWidth: 2 }, withLines: true, hasInnerPoints: false, vertices: { visible: false } }]
+    - [point, [":p1x", ":p1y"], { name: "", face: o, size: 3, strokeColor: "#b5482f", fillColor: "#b5482f", withLabel: false }]
+    - [point, [":p2x", ":p2y"], { name: "", face: o, size: 3, strokeColor: "#b5482f", fillColor: "#b5482f", withLabel: false }]
+    - [point, [":p3x", ":p3y"], { name: "", face: o, size: 3, strokeColor: "#b5482f", fillColor: "#b5482f", withLabel: false }]
+    - [point, [":ox", ":oy"], { name: "", face: x, size: 6, strokeWidth: 3, strokeColor: "#000000", withLabel: false }]
+    - [point, [":r1x", ":r1y"], { name: "", face: x, size: 6, strokeWidth: 3, strokeColor: "#293e5c", withLabel: false }]
+    - [point, [":r2x", ":r2y"], { name: "", face: x, size: 6, strokeWidth: 3, strokeColor: "#293e5c", withLabel: false }]
+    - [point, [":r3x", ":r3y"], { name: "", face: x, size: 6, strokeWidth: 3, strokeColor: "#293e5c", withLabel: false }]
+    # ─── pastille blanche translucide sous chaque nom : les figures se
+    # chevauchent souvent, et un nom posé sur une arête deviendrait illisible.
+    - [point, [":olx", ":oly"], { name: "", face: o, size: 14, strokeColor: "#ffffff", strokeOpacity: 0.45, fillColor: "#ffffff", fillOpacity: 0.85, withLabel: false }]
+    - [text, [":olx", ":oly", "O"], { anchorX: middle, anchorY: middle, fontSize: 22, strokeColor: "#000000" }]
+    - [text, [":la1x", ":la1y", "A"], { anchorX: middle, anchorY: middle, fontSize: 22, strokeColor: "#293e5c" }]
+    - [text, [":la2x", ":la2y", "B"], { anchorX: middle, anchorY: middle, fontSize: 22, strokeColor: "#293e5c" }]
+    - [text, [":la3x", ":la3y", "C"], { anchorX: middle, anchorY: middle, fontSize: 22, strokeColor: "#293e5c" }]

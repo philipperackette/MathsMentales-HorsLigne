@@ -1,0 +1,194 @@
+title: Perpendicularité et parallélisme, les trois propriétés
+description: "Appliquer les trois relations entre droites perpendiculaires et parallèles, puis reconnaitre celle qui est en jeu sur une figure codée. Non adapté au mode interactif (online/duel)."
+ID: 6GD8
+type: text
+# l’énoncé des options illustrées est constant : c’est la figure qui varie.
+# repeat:1 lève la déduplication question+valeur, qui n’en laisserait passer
+# qu’une seule. La variété vient de l’historique des variables : ij parcourt
+# les 8 jeux de noms avant d’en réutiliser un.
+repeat: 1
+dest:
+  - 6GD
+  - 5GB
+consts:
+  p1: Si deux droites sont parallèles à une même droite, alors elles sont parallèles entre elles.
+  p2: Si deux droites sont perpendiculaires à une même droite, alors elles sont parallèles entre elles.
+  p3: Si deux droites sont parallèles, alors toute droite perpendiculaire à l’une est perpendiculaire à l’autre.
+  v1: parallèles à une même droite
+  v2: perpendiculaires à une même droite
+  v3: perpendiculaire à l’une de deux parallèles
+  choix: "<br><b>①</b> Si deux droites sont parallèles à une même droite, alors elles sont parallèles entre elles.<br><b>②</b> Si deux droites sont perpendiculaires à une même droite, alors elles sont parallèles entre elles.<br><b>③</b> Si deux droites sont parallèles, alors toute droite perpendiculaire à l’une est perpendiculaire à l’autre."
+  # attention : pas d’underscore dans ces noms. Une variable dont la valeur
+  # contient « _ » est relue comme un intervalle par le moteur de variables,
+  # et « d… » comme un intervalle décimal. « d_1 » ferait planter le tirage.
+  jeux:
+    - ["d", "d'", "d''"]
+    - ["a", "b", "c"]
+    - ["x", "y", "z"]
+    - ["AB", "CD", "EF"]
+    - ["u", "v", "w"]
+    - ["m", "n", "p"]
+    - ["GH", "IJ", "KL"]
+    - ["r", "s", "t"]
+  # jeux notés (AB) : la figure doit alors porter les points, pas le nom
+  jeuxPoints: [false, false, false, true, false, false, true, false]
+vars:
+  ij: "0_7"
+  n1: ${:jeux[:ij][0]}
+  n2: ${:jeux[:ij][1]}
+  n3: ${:jeux[:ij][2]}
+  pts: ${:jeuxPoints[:ij]}
+  # inclinaison réduite à ±18° : au-delà, les étiquettes des droites sortent du cadre
+  th: "-18_18"
+  ux: ${MMmath.round(Math.cos(:th*Math.PI/180),4)}
+  uy: ${MMmath.round(Math.sin(:th*Math.PI/180),4)}
+  vx: ${-:uy}
+  vy: ${:ux}
+  t1: "-4_-2"
+  t2: "2_4"
+  config: 0
+  # Les droites sont tracées comme des segments bornés en hauteur : la bande
+  # sous y = -3.9 reste libre pour y écrire le codage, ce qu'une droite
+  # infinie ne permettrait pas puisqu'elle traverse tout le cadre.
+  yhaut: 4.5
+  ybas: -3.9
+  sA1: ${MMmath.round((:ybas-:t1*:uy)/:vy,4)}
+  sA2: ${MMmath.round((:yhaut-:t1*:uy)/:vy,4)}
+  sB1: ${MMmath.round((:ybas-:t2*:uy)/:vy,4)}
+  sB2: ${MMmath.round((:yhaut-:t2*:uy)/:vy,4)}
+  sC1: ${MMmath.round(:ybas/:vy,4)}
+  sC2: ${MMmath.round(:yhaut/:vy,4)}
+  # codage écrit du parallélisme, en remplacement des chevrons
+  codage: "${:config===1?'('+:n1+') // ('+:n2+')':(:config===2?'('+:n1+') // ('+:n3+')     et     ('+:n2+') // ('+:n3+')':'')}"
+options:
+  # ───────────────── application des propriétés, énoncé en toutes lettres
+  - name: Deux perpendiculaires à une même droite
+    question: Les droites $$(:n1)$$ et $$(:n2)$$ sont perpendiculaires à la droite $$(:n3)$$.<br>Que peut-on dire des droites $$(:n1)$$ et $$(:n2)$$ ?
+    answer: Elles sont <span class='red'>parallèles</span>.<br><i>:p2</i>
+    value: ["parallèles", "paralleles", "parallèle", "parallele"]
+  - name: Perpendiculaire à l’une de deux parallèles
+    question: Les droites $$(:n1)$$ et $$(:n2)$$ sont parallèles, et la droite $$(:n3)$$ est perpendiculaire à $$(:n1)$$.<br>Que peut-on dire des droites $$(:n3)$$ et $$(:n2)$$ ?
+    answer: Elles sont <span class='red'>perpendiculaires</span>.<br><i>:p3</i>
+    value: ["perpendiculaires", "perpendiculaire"]
+  - name: Deux parallèles à une même droite
+    question: Les droites $$(:n1)$$ et $$(:n2)$$ sont parallèles à la droite $$(:n3)$$.<br>Que peut-on dire des droites $$(:n1)$$ et $$(:n2)$$ ?
+    answer: Elles sont <span class='red'>parallèles</span>.<br><i>:p1</i>
+    value: ["parallèles", "paralleles", "parallèle", "parallele"]
+  - name: Les trois propriétés mélangées
+    vars:
+      cas: [0, 1, 2]
+      concl: "${:cas===1?'perpendiculaires':'parallèles'}"
+      prop: ${:cas===0?:p2:(:cas===1?:p3::p1)}
+    question: "${:cas===0?'Les droites $$('+:n1+')$$ et $$('+:n2+')$$ sont perpendiculaires à la droite $$('+:n3+')$$.<br>Que peut-on dire des droites $$('+:n1+')$$ et $$('+:n2+')$$ ?':(:cas===1?'Les droites $$('+:n1+')$$ et $$('+:n2+')$$ sont parallèles, et la droite $$('+:n3+')$$ est perpendiculaire à $$('+:n1+')$$.<br>Que peut-on dire des droites $$('+:n3+')$$ et $$('+:n2+')$$ ?':'Les droites $$('+:n1+')$$ et $$('+:n2+')$$ sont parallèles à la droite $$('+:n3+')$$.<br>Que peut-on dire des droites $$('+:n1+')$$ et $$('+:n2+')$$ ?')}"
+    answer: Elles sont <span class='red'>:concl</span>.<br><i>:prop</i>
+    value: ["${:concl}", "${:cas===1?'perpendiculaire':'paralleles'}"]
+  # ───────────────── reconnaissance de la propriété sur une figure codée
+  - name: Figure codée, deux perpendiculaires à une même droite
+    vars:
+      config: 0
+    question: Selon les informations de la figure, quelle propriété peut-on utiliser ?
+    answer: <span class='red'>:p2</span>
+    value: [":v2", "perpendiculaires a une meme droite"]
+    figure: &figurecodee
+      type: graph
+      axis: false
+      grid: false
+      keepAspect: true
+      boundingbox: [-8.6, 5.6, 8.6, -5.4]
+      content:
+        # Les points de service sont préfixés z : les points nommés A, B, C...
+        # affichés pour les droites notées (AB) porteraient sinon le même nom.
+        - [point, ["${MMmath.round(:t1*:ux,4)}", "${MMmath.round(:t1*:uy,4)}"], { name: zA, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:t2*:ux,4)}", "${MMmath.round(:t2*:uy,4)}"], { name: zB, visible: false, withLabel: false }]
+        # points unitaires servant au codage de l'angle droit
+        - [point, ["${MMmath.round(:t1*:ux+:vx,4)}", "${MMmath.round(:t1*:uy+:vy,4)}"], { name: zA2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:t2*:ux+:vx,4)}", "${MMmath.round(:t2*:uy+:vy,4)}"], { name: zB2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:t1*:ux+:ux,4)}", "${MMmath.round(:t1*:uy+:uy,4)}"], { name: zAu, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:t2*:ux+:ux,4)}", "${MMmath.round(:t2*:uy+:uy,4)}"], { name: zBu, visible: false, withLabel: false }]
+        # extrémités des tracés, bornées entre ybas et yhaut
+        - [point, ["${MMmath.round(:t1*:ux+:sA1*:vx,4)}", "${:ybas}"], { name: zA3, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:t1*:ux+:sA2*:vx,4)}", "${:yhaut}"], { name: zA4, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:t2*:ux+:sB1*:vx,4)}", "${:ybas}"], { name: zB3, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:t2*:ux+:sB2*:vx,4)}", "${:yhaut}"], { name: zB4, visible: false, withLabel: false }]
+        # (d_3) : portée par u, sauf en configuration 2 où elle est parallèle aux deux autres
+        - [point, ["${MMmath.round(:config===2?:sC1*:vx:-6.8*:ux,4)}", "${MMmath.round(:config===2?:ybas:-6.8*:uy,4)}"], { name: zC, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:config===2?:sC2*:vx:6.8*:ux,4)}", "${MMmath.round(:config===2?:yhaut:6.8*:uy,4)}"], { name: zC2, visible: false, withLabel: false }]
+        - [segment, [zA3, zA4], { strokeColor: "#118ab2", strokeWidth: 2 }]
+        - [segment, [zB3, zB4], { strokeColor: "#06d6a0", strokeWidth: 2 }]
+        - [segment, [zC, zC2], { strokeColor: "#333333", strokeWidth: 2 }]
+        # nom de la droite, pour les jeux notés (d), (a)... Placé ici et non
+        # laissé à JSXGraph, qui l'envoyait hors du cadre. Décalé sur le côté
+        # du tracé et non dans son prolongement, sinon il le chevauche :
+        # (d_1) vers la gauche, (d_2) vers la droite, chacun s'écartant du centre.
+        - [text, ["${MMmath.round(:t1*:ux+:sA2*:vx-0.8,4)}", "${:yhaut-0.2}", "(${:n1})"], { anchorX: middle, strokeColor: "#118ab2", visible: "${!:pts}" }]
+        - [text, ["${MMmath.round(:t2*:ux+:sB2*:vx+0.8,4)}", "${:yhaut-0.2}", "(${:n2})"], { anchorX: middle, strokeColor: "#06d6a0", visible: "${!:pts}" }]
+        # (d_3) quasi horizontale en configurations 0 et 1 : le nom se pose dans
+        # son prolongement, à 7,5 alors que le tracé s'arrête à 6,8
+        - [text, ["${MMmath.round(:config===2?:sC2*:vx+0.8:7.5*:ux,4)}", "${MMmath.round(:config===2?:yhaut-0.2:7.5*:uy,4)}", "(${:n3})"], { anchorX: middle, strokeColor: "#333333", visible: "${!:pts}" }]
+        # pour les jeux notés (AB), ce sont les deux points qui sont placés
+        - [point, ["${MMmath.round(:t1*:ux+(:sA1+(:sA2-:sA1)*0.28)*:vx,4)}", "${MMmath.round(:ybas+(:yhaut-:ybas)*0.28,4)}"], { name: "${:pts?:n1[0]:''}", visible: "${:pts}", face: x, size: 2, strokeColor: "#118ab2", label: { offset: [-10, -7] } }]
+        - [point, ["${MMmath.round(:t1*:ux+(:sA1+(:sA2-:sA1)*0.72)*:vx,4)}", "${MMmath.round(:ybas+(:yhaut-:ybas)*0.72,4)}"], { name: "${:pts?:n1[1]:''}", visible: "${:pts}", face: x, size: 2, strokeColor: "#118ab2", label: { offset: [-10, 7] } }]
+        - [point, ["${MMmath.round(:t2*:ux+(:sB1+(:sB2-:sB1)*0.28)*:vx,4)}", "${MMmath.round(:ybas+(:yhaut-:ybas)*0.28,4)}"], { name: "${:pts?:n2[0]:''}", visible: "${:pts}", face: x, size: 2, strokeColor: "#06d6a0", label: { offset: [10, -7] } }]
+        - [point, ["${MMmath.round(:t2*:ux+(:sB1+(:sB2-:sB1)*0.72)*:vx,4)}", "${MMmath.round(:ybas+(:yhaut-:ybas)*0.72,4)}"], { name: "${:pts?:n2[1]:''}", visible: "${:pts}", face: x, size: 2, strokeColor: "#06d6a0", label: { offset: [10, 7] } }]
+        # sur (d_3) : le long de u en configurations 0 et 1, à l'écart des intersections
+        - [point, ["${MMmath.round(:config===2?(:sC1+(:sC2-:sC1)*0.28)*:vx:-5.4*:ux,4)}", "${MMmath.round(:config===2?:ybas+(:yhaut-:ybas)*0.28:-5.4*:uy,4)}"], { name: "${:pts?:n3[0]:''}", visible: "${:pts}", face: x, size: 2, strokeColor: "#333333", label: { offset: ["${:config===2?-10:-8}", "${:config===2?7:12}"] } }]
+        - [point, ["${MMmath.round(:config===2?(:sC1+(:sC2-:sC1)*0.72)*:vx:5.4*:ux,4)}", "${MMmath.round(:config===2?:ybas+(:yhaut-:ybas)*0.72:5.4*:uy,4)}"], { name: "${:pts?:n3[1]:''}", visible: "${:pts}", face: x, size: 2, strokeColor: "#333333", label: { offset: ["${:config===2?10:8}", "${:config===2?7:12}"] } }]
+        # codage des angles droits : les deux en configuration 0, celui de zA seul en configuration 1
+        - [angle, [zAu, zA, zA2], { radius: 0.55, label: { visible: false }, fillColor: "#ff6b6b", visible: "${:config!==2}" }]
+        - [angle, [zBu, zB, zB2], { radius: 0.55, label: { visible: false }, fillColor: "#ff6b6b", visible: "${:config===0}" }]
+        # codage du parallélisme, écrit dans la bande libre sous les tracés
+        - [text, [0, -4.7, ":codage"], { anchorX: middle, strokeColor: "#7b2cbf", visible: "${:config!==0}" }]
+  - name: Figure codée, perpendiculaire à l’une de deux parallèles
+    vars:
+      config: 1
+    question: Selon les informations de la figure, quelle propriété peut-on utiliser ?
+    answer: <span class='red'>:p3</span>
+    value: [":v3", "perpendiculaire a l'une de deux paralleles"]
+    figure: *figurecodee
+  - name: Figure codée, deux parallèles à une même droite
+    vars:
+      config: 2
+    question: Selon les informations de la figure, quelle propriété peut-on utiliser ?
+    answer: <span class='red'>:p1</span>
+    value: [":v1", "paralleles a une meme droite"]
+    figure: *figurecodee
+  - name: Figures codées mélangées
+    vars:
+      config: [0, 1, 2]
+      prop: ${:config===0?:p2:(:config===1?:p3::p1)}
+      court: ${:config===0?:v2:(:config===1?:v3::v1)}
+    question: Selon les informations de la figure, quelle propriété peut-on utiliser ?
+    answer: <span class='red'>:prop</span>
+    value: [":court"]
+    figure: *figurecodee
+  # ───────────────── mêmes figures, mais c'est la conclusion qui est demandée
+  - name: Déduction sur la figure, deux perpendiculaires à une même droite
+    vars:
+      config: 0
+    question: Selon les informations de la figure, que peut-on en déduire pour $$(:n1)$$ et $$(:n2)$$ ?
+    answer: Elles sont <span class='red'>parallèles</span>.<br><i>:p2</i>
+    value: ["parallèles", "paralleles", "parallèle", "parallele"]
+    figure: *figurecodee
+  - name: Déduction sur la figure, perpendiculaire à l’une de deux parallèles
+    vars:
+      config: 1
+    question: Selon les informations de la figure, que peut-on en déduire pour $$(:n3)$$ et $$(:n2)$$ ?
+    answer: Elles sont <span class='red'>perpendiculaires</span>.<br><i>:p3</i>
+    value: ["perpendiculaires", "perpendiculaire"]
+    figure: *figurecodee
+  - name: Déduction sur la figure, deux parallèles à une même droite
+    vars:
+      config: 2
+    question: Selon les informations de la figure, que peut-on en déduire pour $$(:n1)$$ et $$(:n2)$$ ?
+    answer: Elles sont <span class='red'>parallèles</span>.<br><i>:p1</i>
+    value: ["parallèles", "paralleles", "parallèle", "parallele"]
+    figure: *figurecodee
+  - name: Déduction sur la figure, les trois configurations mélangées
+    vars:
+      config: [0, 1, 2]
+      prop: ${:config===0?:p2:(:config===1?:p3::p1)}
+      concl: "${:config===1?'perpendiculaires':'parallèles'}"
+    question: "Selon les informations de la figure, que peut-on en déduire pour ${:config===1?'$$('+:n3+')$$':'$$('+:n1+')$$'} et $$(:n2)$$ ?"
+    answer: Elles sont <span class='red'>:concl</span>.<br><i>:prop</i>
+    value: ["${:concl}", "${:config===1?'perpendiculaire':'paralleles'}"]
+    figure: *figurecodee

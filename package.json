@@ -1,0 +1,35 @@
+{
+  "name": "mathsmentales",
+  "version": "2.4.11",
+  "description": "Outil pour travailler les automatismes et le calcul mental en mathématiques",
+  "main": "index.html",
+  "type": "commonjs",
+  "scripts": {
+    "build": "gulp",
+    "test": "node --test src/js/mods/*.test.mjs public/parkour/*.test.mjs"
+  },
+  "keywords": [
+    "javascript",
+    "calcul mental"
+  ],
+  "author": "Sébastien COGEZ <contact@mathsmentales.net",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/stream": "^3.0.1",
+    "gulp": "^5.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-cli": "^3.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.2",
+    "js-yaml": "^4.1.0",
+    "rollup": "^4.17.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "underscore": "^1.13.7"
+  }
+}

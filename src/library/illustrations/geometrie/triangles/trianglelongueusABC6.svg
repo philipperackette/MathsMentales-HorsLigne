@@ -1,0 +1,11 @@
+<svg width="15em" height="9em" version="1.1" viewBox="0 0 79.35 47.7" xmlns="http://www.w3.org/2000/svg">
+ <g font-family="Arial" font-size="4.23" letter-spacing="0" stroke-width=".143" word-spacing="0">
+  <text transform="translate(-9.11 1.122) scale(1.853)" x="42.153" y="20.415" style="line-height:1.25"><tspan x="42.153" y="20.415">${:A}</tspan></text>
+  <text transform="translate(-9.11 1.122) scale(1.853)" x="7.54" y="21.431" style="line-height:1.25"><tspan x="7.54" y="21.431">${:B}</tspan></text>
+  <text transform="translate(-9.11 1.122) scale(1.853)" x="14.697" y="5.027" style="line-height:1.25"><tspan x="14.697" y="5.027">${:C}</tspan></text>
+ </g>
+ <path d="m11.08 35.63 12.05-23.18 44.71 23.24z" fill="none" stroke="#000" stroke-linejoin="round" stroke-width=".53"/>
+ <text x="51.641403" y="41.227234" font-family="Arial" font-size="5.945px" letter-spacing="0" stroke-width=".265" word-spacing="0" style="font-size:6px;line-height:1.25;text-align:center;text-anchor:middle"><tspan x="41.199913" y="41.227234" style="font-size:6px;text-align:center;text-anchor:middle">${:c} cm</tspan></text>
+ <text transform="rotate(-64.75)" x="-4.2471948" y="23.932707" font-family="Arial" font-size="5.945px" letter-spacing="0" stroke-width=".265" word-spacing="0" style="font-size:6px;line-height:1.25;text-align:center;text-anchor:middle"><tspan x="-14.855596" y="23.932707" style="font-size:6px;text-align:center;text-anchor:middle">${:a} cm</tspan></text>
+ <text transform="rotate(26.56)" x="62.867271" y="-0.58990037" font-family="Arial" font-size="5.945px" letter-spacing="0" stroke-width=".265" word-spacing="0" style="font-size:6px;line-height:1.25;text-align:center;text-anchor:middle"><tspan x="52.258873" y="-0.58990037" style="font-size:6px;text-align:center;text-anchor:middle">${:b} cm</tspan></text>
+</svg>

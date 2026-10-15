@@ -1,0 +1,28 @@
+<svg width="211" height="141" version="1.1" viewBox="0 0 211 141" xmlns="http://www.w3.org/2000/svg">
+ <path d="m49 39s18.46-4.57 24.4-5.4c4.81-1.06 19.52-2.72 24.4-3.4s19.63-2.15 24.4-3.4c5-.7 19.4-5.7 24.4-6.4 4.77-1.25 19.52-2.72 24.4-3.4" style="fill:none;stroke:black"/>
+ <path d="m171 17s3.87 17.53 4.5 23.5c.89 4.64 2 18.8 2.5 23.5s1.42 18.9 2.5 23.5c.51 4.8 4.4 18.8 5.5 23.5" style="fill:none;stroke:black"/>
+ <path d="m185 111s-17 2-23 2c-4.58.4-18.4 0-23 0s-18.44-.59-23 0c-4.64 0-18.36 3-23 3-4.56.59-18.4 0-23 0s-18.42-.4-23 0c-4.62 0-18.4 1.6-23 2" style="fill:none;stroke:black"/>
+ <path d="m49 39s-3.18 14.12-5.25 19.75c-1.08 4.07-5.8 15.8-7.25 19.75s-6.36 15.64-7.25 19.75c-1.39 3.79-3.4 15.8-4.25 19.75" style="fill:none;stroke:black"/>
+ <path d="m49 39s11.77 4.93 16.94 7.97c3.56 1.67 13.55 7.97 16.94 9.97 3.39 1.99 13.55 7.97 16.94 9.97" style="fill:none;stroke:black"/>
+ <line x1="72.28" x2="69.47" y1="47.93" y2="53.23" style="stroke:black"/>
+ <line x1="75.81" x2="73.01" y1="49.8" y2="55.1" style="stroke:black"/>
+ <path d="m99.82 65.91s11.64-10.15 16.8-13.23c3.44-2.71 15.09-8.89 18.79-11.23 3.61-2.16 14.51-8.6 17.8-11.22 3.85-2.43 14.23-11.38 17.79-14.23" style="fill:none;stroke:black"/>
+ <line x1="130.4" x2="133.8" y1="41.25" y2="46.19" style="stroke:black"/>
+ <line x1="133.7" x2="137.1" y1="38.98" y2="43.93" style="stroke:black"/>
+ <path d="m99.82 65.91s16.1 7.27 21.3 10.27c4.42 2.13 17.03 9.82 21.29 12.27 4.26 2.46 16.79 10.31 21.3 12.28 4.02 2.32 17.03 7.42 21.29 9.27" style="fill:none;stroke:black"/>
+ <line x1="140.3" x2="137.5" y1="83.93" y2="89.23" style="stroke:black"/>
+ <line x1="143.8" x2="141" y1="85.8" y2="91.1" style="stroke:black"/>
+ <path d="m24 118s12.82-10.93 17.96-14.02c3.67-2.87 16.02-9.53 19.95-12.03 3.85-2.31 15.44-9.23 18.96-12.02 4.08-2.59 15.16-12.02 18.95-15.02" style="fill:none;stroke:black"/>
+ <line x1="56.91" x2="60.31" y1="91.75" y2="96.69" style="stroke:black"/>
+ <line x1="60.21" x2="63.61" y1="89.48" y2="94.43" style="stroke:black"/>
+ <path d="m91.29 61.45c7.564-6.811 5.894-9.205 15.83-1.931" style="fill:none;stroke:#000000"/>
+ <circle id="a" cx="49" cy="39" r="2" style="stroke:black"/>
+ <text x="38.371937" y="34.487751" font-size="12px" style="stroke:#000000">A</text>
+ <circle id="b" cx="171" cy="17" r="2" style="stroke:black"/>
+ <text x="175.00391" y="15.037305" font-size="12px" style="stroke:#000000">B</text>
+ <circle id="c" cx="185" cy="111" r="2" style="stroke:black"/>
+ <text x="187.27673" y="124.37194" font-size="12px" style="stroke:#000000">C</text>
+ <circle id="d" cx="24" cy="118" r="2" style="stroke:black"/>
+ <text x="10" y="132" font-size="12" style="stroke:black">D</text>
+ <circle cx="99.82" cy="65.91" r="2" style="stroke:black"/>
+</svg>

@@ -1,0 +1,51 @@
+{
+  "title": "Équations avec quotient",
+  "description": "équation, quotient, fraction, résoudre, inconnue au dénominateur",
+  "type": "latex",
+  "keys":["_","/","_","_","_","_","_","_"],
+  "dest": [
+    "3ND","4NE"
+  ],
+  "auteur":"Dominique PORRONE",
+  "consigne": "Résoudre",
+  "options": [
+    {
+      "name": "$$\\dfrac{x}{b}=a$$",
+      "vars": {
+        "a": "2_10",
+        "b": "2_10"
+      },
+      "question": [
+        "\\dfrac{x}{:b}=:a",
+        ":a=\\dfrac{x}{:b}"
+      ],
+      "answer": [
+        "\\dfrac{x}{:b}=\\dfrac{:a}{1} \\text{ donc } x=\\dfrac{{:a}\\times{:b}}{1}=\\color{red}{${:a*:b}}",
+        "\\dfrac{:a}{1}=\\dfrac{x}{:b} \\text{ donc } x=\\dfrac{{:a}\\times{:b}}{1}=\\color{red}{${:a*:b}}"
+        ],
+        "value": [
+          "${:a*:b}",
+          "${:a*:b}"
+        ]
+    },
+    {
+      "name": "$$\\dfrac{b}{x}=a$$",
+      "vars": {
+        "a": "2_10",
+        "b": "2_10"
+      },
+      "question": [
+        "\\dfrac{:b}{x}=:a",
+        ":a=\\dfrac{:b}{x}"
+      ],
+      "answer": [
+        "\\dfrac{:b}{x}=\\dfrac{:a}{1} \\text{ donc } x=\\dfrac{{:b}\\times{1}}{:a}=\\color{red}{${MMmath.calc(:b+'/'+:a)}}",
+        "\\dfrac{:a}{1}=\\dfrac{:b}{x} \\text{ donc } x=\\dfrac{{:b}\\times{1}}{:a}=\\color{red}{${MMmath.calc(:b+'/'+:a)}}"
+        ],
+        "value": [
+          "${MMmath.calc(:b+'/'+:a)}",
+          "${MMmath.calc(:b+'/'+:a)}"
+        ]
+    }
+  ]
+}

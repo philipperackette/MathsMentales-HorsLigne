@@ -1,0 +1,14 @@
+<svg width="720.504" height="1038.806" viewBox="0 0 190.633 274.851" xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        <g fill="#fff" stroke="#1a1a1a" stroke-width=".706" stroke-linecap="round" stroke-linejoin="round"><path d="M40.496 27.786h109.64v109.64H40.496zM40.496 137.426h109.64v109.64H40.496z"/>
+        </g>
+     <foreignObject x="55" y="115" width="80" height="20"><div>${P[0][0]}</div></foreignObject>
+     <foreignObject x="43" y="-62.5" width="80" height="20" transform="rotate(90)"><div>${P[0][1]}</div></foreignObject>
+     <foreignObject x="-122" y="128.5" width="80" height="20" transform="rotate(-90)"><div>${P[0][2]}</div></foreignObject>
+     <foreignObject x="-135" y="-50" width="80" height="20" transform="scale(-1)"><div>${P[0][3]}</div></foreignObject>
+     <g transform="translate(0 109.5)">
+        <foreignObject x="55" y="115" width="80" height="20"><div>${P[1][0]}</div></foreignObject>
+        <foreignObject x="43" y="-62.5" width="80" height="20" transform="rotate(90)"><div>${P[1][1]}</div></foreignObject>
+        <foreignObject x="-122" y="128.5" width="80" height="20" transform="rotate(-90)"><div>${P[1][2]}</div></foreignObject>
+        <foreignObject x="-135" y="-50" width="80" height="20" transform="scale(-1)"><div>${P[1][3]}</div></foreignObject>
+        </g>
+        </svg>

@@ -1,0 +1,74 @@
+title: Varier les tables d’addition par familles
+dest: ["11ND", "10ND", "9ND", "8ND"]
+description: progressivité de la mémorisation, tirage pyramidal
+speech: 1
+vars:
+  c: [true, false]
+consts:
+  n: ${:c?:a::b}
+  m: ${:c?:b::a}
+  s: ${:a+:b}
+options:
+  - name: Calculs en + 1
+    vars:
+      a: "2_8"
+      b: 1
+  - name: Calculs en + 10
+    vars:
+      a: 10
+      b: "1_9"
+  - name: Doubles
+    vars:
+      a: "1_10"
+      b: ${:a}
+  - name: Compléments à 10
+    vars:
+      a: "6_4"
+      b: ${10-:a}
+  - name: Presque-doubles
+    vars:
+      a: "2_8"
+      b: ${:a+1}
+  - name: Sommes inférieures à 10
+    vars:
+      a: "2_3"
+      b: ${:a==2?'4_7':'5_6'}
+  - name: Passage par 10
+    vars:
+      b: "7_9"
+      a: ${:b==7?'4_5'::b==8?'3_6':'2_7'}
+question:
+  - :n + :m= ...
+  - ... + :n = ${:s}
+  - ${:s} - :n = ...
+  - ${:s}\text{ c'est } :n \text{ plus ...}
+  - \text{À }${:s} \text{ j´enlève } :n \text{. Combien reste-t-il ?}
+  - \text{Combien manque-t-il à } :n \text{ pour faire } ${:s}\text{ ?}
+shortq:
+  - :n + :m = \colorbox{#ECECEC}{\quad}
+  - \colorbox{#ECECEC}{\quad} + :n = ${:s}
+  - ${:s} - :n = \colorbox{#ECECEC}{\quad}
+  - ${:s} = :n + \colorbox{#ECECEC}{\quad}
+  - ${:s} - :n = \colorbox{#ECECEC}{\quad}
+  - :n + \colorbox{#ECECEC}{\quad} = ${:s}
+audio:
+  - Combien font :n pluss :m ?
+  - Combien ajouter à :n pour avoir ${:s} ?
+  - ${:s} moins :n est égal à combien ?
+  - ${:s} c'est :n plus combien ?
+  - À ${:s} j'enlève :n. Combien reste-t-il ?
+  - Combien manque-t-il à :n pour faire ${:n + :m} ?
+answer:
+  - :n + :m = \color{red}{${:s}}
+  - \color{red}{:m} + :n = ${:s}
+  - ${:s} - :n = \color{red}{:m}
+  - ${:s}\text{ c'est } :n\text{ plus }\color{red}{:m}
+  - \text{Il reste }\color{red}{:m}
+  - \text{Il manque }\color{red}{:m}
+value:
+  - ${:s}
+  - :m
+  - :m
+  - :m
+  - :m
+  - :m

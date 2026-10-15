@@ -1,0 +1,12 @@
+<svg width="15em" height="10em" version="1.1" viewBox="0 0 210 140" xmlns="http://www.w3.org/2000/svg">
+<!-- @3= segment [AB] -->
+<path style="stroke:black;fill:none;" d="M183 28 C183 28 164.5 29.24 158.5 29 C153.6 29.2 138.9 28.2 134 28 C129.1 27.8 114.39 26.6 109.5 27 C104.59 26.8 89.91 29.2 85 29 C80.11 29.4 65.39 28.4 60.5 28 M60.5 28 C55.59 27.8 40.9 26.4 36 26 "/>
+<!-- @6= segment [CB] -->
+<path style="stroke:black;fill:none;" d="M183 101.98 C183 101.98 167.26 95.31 162 92.41 C157.64 90.42 145.2 83.16 141 80.84 C136.8 78.53 124.44 71.09 120 69.28 C116.03 67.09 102.97 62.9 99 60.71 C94.56 58.89 82.2 51.45 78 49.14 C73.8 46.82 61.36 39.56 57 37.57 M57 37.57 C52.96 35.34 40.2 29.91 36 28 "/>
+<!-- @7= segment [AC] -->
+<path style="stroke:black;fill:none;" d="M183 28 C183 28 184.24 46.67 184 52.66 C184.2 57.59 183.2 72.39 183 77.32 M183 77.32 C182.8 82.25 182.2 97.05 182 101.98 "/>
+<path d="M 183.0,58.0 A 30 30 0 0 1  153.0,28.000000000000004" style="stroke:black;fill:none;"/>
+<text style="stroke:black;" font-size="12" x="183" y="28">A</text>
+<text style="stroke:black;" font-size="12" x="20" y="32">B</text>
+<text style="stroke:black;" font-size="12" x="183" y="115">C</text>
+</svg>

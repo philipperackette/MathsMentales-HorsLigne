@@ -1,0 +1,38 @@
+{
+    "title":"Compléter un calcul de pourcentage",
+    "description":"Retrouver le résultat, le pourcentage ou la quantité totale manquant dans un calcul de pourcentage, sous forme usuelle ou fractionnaire.",
+    "ID":"4DC3",
+    "dest":["4DC","3DC"],
+    "vars":{
+        "p":[1,5,10,20,25,30,40,50,75,100],
+        "b":"1_25",
+        "n":"${:b*20}",
+        "r":"${Math.round(:p*:n/100)}"
+    },
+    "options":[{
+        "name":"Trouver le résultat (pourcentages usuels)",
+        "question":"${:p}\\%\\text{ de }${:n} = \\, ?",
+        "answer":"\\dfrac{${:p}}{100}\\times${:n}=\\color{red}{${:r}}",
+        "value":"${:r}"
+    },{
+        "name":"Trouver le pourcentage",
+        "question":"?\\,\\%\\text{ de }${:n} = ${:r}",
+        "answer":":question\\\\\\dfrac{${:r}\\times100}{${:n}}=\\color{red}{${:p}}",
+        "value":"${:p}"
+    },{
+        "name":"Trouver la quantité totale",
+        "question":"${:p}\\%\\text{ de }\\, ? = ${:r}",
+        "answer":":question\\\\\\dfrac{${:r}\\times100}{${:p}}=\\color{red}{${:n}}",
+        "value":"${:n}"
+    },{
+        "name":"Écriture fractionnaire : trouver le pourcentage",
+        "question":"${:r} = \\dfrac{?}{100}\\times${:n}",
+        "answer":":question\\\\${:r}=\\dfrac{${:p}}{100}\\times${:n}\\text{, donc }?=\\color{red}{${:p}}",
+        "value":"${:p}"
+    },{
+        "name":"Écriture fractionnaire : trouver la quantité totale",
+        "question":"${:r} = \\dfrac{${:p}}{100}\\times \\, ?",
+        "answer":"${:r}=\\dfrac{${:p}}{100}\\times${:n}\\\\\\text{donc }?=\\color{red}{${:n}}",
+        "value":"${:n}"
+    }]
+}

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lecteur Marp avec Audio</title>
+        <link rel="stylesheet" href="js/libs/katex/katex.min.css" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                color: #333;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .presentation-container {
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 100px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                max-width: 800px;
+                width: 90%;
+                text-align: center;
+            }
+            .slide {
+                min-height: 400px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            h1 {
+                color: #2c3e50;
+            }
+            h3 {
+                color: #7f8c8d;
+            }
+            p,
+            li {
+                color: #34495e;
+                line-height: 1.6;
+            }
+            .navigation {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+            }
+            button {
+                padding: 10px 20px;
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:disabled {
+                background-color: #bdc3c7;
+                cursor: not-allowed;
+            }
+            img {
+                max-width: 100px;
+                height: auto;
+            }
+            .sound-btn {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 24px;
+                z-index: 1000;
+                color: #333;
+            }
+
+            .sound-btn.muted .sound-icon::before {
+                content: "🔇";
+            }
+        </style>
+    </head>
+    <body>
+        <button id="toggle-sound" class="sound-btn">
+            <span class="sound-icon">🔊</span>
+        </button>
+
+        <div class="presentation-container">
+            <div class="slide" id="slide">
+                <!-- Le contenu des diapositives sera inséré ici par JavaScript -->
+            </div>
+            <div class="navigation">
+                <button id="prevBtn">Précédent</button>
+                <span id="slideCounter">1 / 1</span>
+                <button id="nextBtn">Suivant</button>
+            </div>
+        </div>
+        <script src="js/libs/katex/katex.min.js"></script>
+        <script src="js/libs/katex/contrib/auto-render.min.js"></script>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const marpFileUrl = urlParams.get("url");
+
+            let slides = [];
+            let currentSlide = 0;
+            let currentAudio = null;
+            const slideElement = document.getElementById("slide");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            const slideCounter = document.getElementById("slideCounter");
+
+            function parseMarpContent(content) {
+                // Split the content into front matter and slides
+                const frontMatterMatch = content.match(/^---[\s\S]*?---\s*/);
+                let frontMatter = {};
+                let slideContent = content;
+                if (frontMatterMatch) {
+                    // Extract front matter
+                    const frontMatterText = frontMatterMatch[0];
+                    slideContent = content.slice(frontMatterMatch[0].length);
+
+                    // Parse front matter (simple YAML parsing)
+                    const frontMatterLines = frontMatterText
+                        .split("\n")
+                        .slice(1, -1);
+                    frontMatterLines.forEach((line) => {
+                        const [key, value] = line
+                            .split(":")
+                            .map((item) => item.trim());
+                        if (key && value) {
+                            frontMatter[key] = value;
+                        }
+                    });
+                }
+                const slideBlocks = slideContent.split("---");
+                slides = slideBlocks
+                    .map((block) => block.trim())
+                    .filter((block) => block.length > 0)
+                    .map((block) => {
+                        const lines = block
+                            .split("\n")
+                            .filter((line) => line.trim().length > 0);
+                        let title = lines[0].replace(/^#\s+/, "");
+                        let subtitle = "";
+                        let contentLines = [];
+                        let audioUrl = "";
+
+                        if (lines.length > 1 && lines[1].startsWith("###")) {
+                            subtitle = lines[1].replace(/^###\s+/, "");
+                            contentLines = lines.slice(2);
+                        } else {
+                            contentLines = lines.slice(1);
+                        }
+
+                        const audioMatch = block.match(
+                            /<!-- audio:\s*(.*?)\s*-->/i,
+                        );
+                        let chemin = "";
+                        if (location.href.indexOf("127.0.0.1") > -1) {
+                            chemin = "/public/";
+                        }
+                        if (audioMatch) {
+                            audioUrl =
+                                chemin +
+                                "library/explique/audio/" +
+                                audioMatch[1];
+                        }
+
+                        const content = contentLines.join("\n");
+                        return { title, subtitle, content, audioUrl };
+                    });
+            }
+
+            function updateSlide() {
+                if (slides.length === 0) {
+                    slideElement.innerHTML =
+                        "<p>Chargement des diapositives...</p>";
+                    return;
+                }
+
+                const slide = slides[currentSlide];
+
+                // Process content to convert Markdown to HTML
+                let processedContent = slide.content;
+
+                // Convert **text** to <strong>text</strong>
+                processedContent = processedContent.replace(
+                    /\*\*(.*?)\*\*/g,
+                    "<strong>$1</strong>",
+                );
+
+                // Convert images from ![alt](src) to <img src="src" alt="alt">
+                processedContent = processedContent.replace(
+                    /!\[(.*?)\]\((.*?)\)/g,
+                    '<img src="$2" alt="$1" style="max-width: 200px; height: auto;">',
+                );
+
+                slideElement.innerHTML = `
+                <h1>${slide.title}</h1>
+                ${slide.subtitle ? `<h3>${slide.subtitle}</h3>` : ""}
+                <div>${processedContent.replace(/\n/g, "<br>")}</div>
+            `;
+                // Rendre le contenu LaTeX
+                renderMathInElement(slideElement, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                    ],
+                    throwOnError: false,
+                });
+
+                // Arrêter l'audio actuel s'il y en a un
+                if (currentAudio) {
+                    currentAudio.pause();
+                }
+
+                // Démarrer le nouvel audio s'il existe
+                if (slide.audioUrl) {
+                    currentAudio = new Audio(slide.audioUrl);
+                    currentAudio
+                        .play()
+                        .catch((e) =>
+                            console.error("Erreur de lecture audio:", e),
+                        );
+                }
+
+                slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+
+            if (marpFileUrl) {
+                // Attendre que tous les scripts soient chargés
+                document.addEventListener("DOMContentLoaded", () => {
+                    fetch(marpFileUrl)
+                        .then((response) => response.text())
+                        .then((content) => {
+                            parseMarpContent(content);
+                            updateSlide();
+                        })
+                        .catch((error) => {
+                            console.error(
+                                "Erreur lors du chargement du fichier Marp:",
+                                error,
+                            );
+                            slideElement.innerHTML =
+                                "<p>Erreur lors du chargement du fichier Marp.</p>";
+                        });
+                });
+            } else {
+                slideElement.innerHTML =
+                    "<p>Veuillez fournir une URL de fichier Marp en paramètre (ex: ?url=votre_url_ici).</p>";
+            }
+
+            prevBtn.addEventListener("click", () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            nextBtn.addEventListener("click", () => {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+            // Variable pour suivre l'état du son
+            let isSoundMuted = false;
+
+            // Fonction pour basculer le son
+            function toggleSound() {
+                isSoundMuted = !isSoundMuted;
+                const soundBtn = document.getElementById("toggle-sound");
+
+                if (isSoundMuted) {
+                    soundBtn.classList.add("muted");
+                    // Arrêter l'audio actuel s'il y en a un
+                    if (currentAudio) {
+                        currentAudio.pause();
+                    }
+                } else {
+                    soundBtn.classList.remove("muted");
+                    // Arrêter l'audio actuel s'il y en a un
+                    if (currentAudio) {
+                        currentAudio.play();
+                    }
+                }
+            }
+
+            // Ajouter un écouteur d'événement au bouton
+            document.addEventListener("DOMContentLoaded", () => {
+                const soundBtn = document.getElementById("toggle-sound");
+                if (soundBtn) {
+                    soundBtn.addEventListener("click", toggleSound);
+                }
+            });
+        </script>
+    </body>
+</html>

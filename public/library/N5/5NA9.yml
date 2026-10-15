@@ -1,0 +1,125 @@
+title: Comparer des entiers relatifs
+description: "comparer, ranger, relatifs, négatifs, positifs, plus petit, plus grand, <, >"
+dest:
+  - 5NA
+  - 4NA
+  - 3NA
+type: text
+repeat: 2
+keys: ["_", "_", "<", ">", "=", "_", "_", "_"]
+consts:
+  voc: ["petit", "grand"]
+  dist: ["proche", "éloigné"]
+options:
+  - name: Signes contraires
+    vars:
+      siga: [-1, 1]
+      sigb: "${:siga*(-1)}"
+      vaa: "1_20"
+      vab: "1_20"
+      a: "${:siga*(:vaa)}"
+      b: "${:sigb*(:vab)}"
+    question: Comparer les nombres $$:a$$ et $$:b$$.
+    answer: $$:a\color{red}{${:a<:b?'<':'>'}}:b$$
+    value:
+      - ${:a<:b?'<':'>'}
+      - ${:a<:b?'\lt':'\gt'}
+  - name: Signes identiques
+    vars:
+      siga: [-1, 1]
+      vaa: "1_20"
+      vab: "1_20"
+      a: "${:siga*(:vaa)}"
+      b: "${:siga*(:vab)}"
+    question: Comparer les nombres $$:a$$ et $$:b$$.
+    answer: $$:a\color{red}{${:a<:b?'<'::a==:b?'=':'>'}}:b$$
+    value:
+      - ${:a<:b?'<'::a==:b?'=':'>'}
+      - ${:a<:b?'\lt'::a==:b?'=':'\gt'}
+  - name: Comparer à zéro
+    vars:
+      siga: [-1, 1]
+      vaa: "1_20"
+      n: "${:siga*(:vaa)}"
+      cote: [0, 1]
+      a: "${:cote?0::n}"
+      b: "${:cote?:n:0}"
+    question: Comparer les nombres $$:a$$ et $$:b$$.
+    answer: $$:a\color{red}{${:a<:b?'<':'>'}}:b$$
+    value:
+      - ${:a<:b?'<':'>'}
+      - ${:a<:b?'\lt':'\gt'}
+  - name: Nombres négatifs
+    vars:
+      vaa: "1_20"
+      vab: "1_20"
+      a: "${-:vaa}"
+      b: "${-:vab}"
+    question: Comparer les nombres $$:a$$ et $$:b$$.
+    answer: $$:a\color{red}{${:a<:b?'<'::a==:b?'=':'>'}}:b$$
+    value:
+      - ${:a<:b?'<'::a==:b?'=':'>'}
+      - ${:a<:b?'\lt'::a==:b?'=':'\gt'}
+  - name: Nombres opposés
+    vars:
+      siga: [-1, 1]
+      vaa: "1_20"
+      a: "${:siga*(:vaa)}"
+      b: "${-:siga*(:vaa)}"
+    question: Comparer les nombres $$:a$$ et $$:b$$.
+    answer: $$:a\color{red}{${:a<:b?'<':'>'}}:b$$
+    value:
+      - ${:a<:b?'<':'>'}
+      - ${:a<:b?'\lt':'\gt'}
+  - name: Écritures à simplifier
+    vars:
+      s1a: [-1, 1]
+      s2a: [-1, 1]
+      s1b: [-1, 1]
+      s2b: [-1, 1]
+      vaa: "1_20"
+      vab: "1_20"
+      a: "${:s1a*:s2a*:vaa}"
+      b: "${:s1b*:s2b*:vab}"
+      eca: "${(:s1a<0?'-':'+')+'('+(:s2a<0?'-':'+')+:vaa+')'}"
+      ecb: "${(:s1b<0?'-':'+')+'('+(:s2b<0?'-':'+')+:vab+')'}"
+    question: Comparer les nombres $$:eca$$ et $$:ecb$$.
+    answer: $$:eca\color{red}{${:a<:b?'<'::a==:b?'=':'>'}}:ecb$$ car $$:eca=:a$$ et $$:ecb=:b$$.
+    value:
+      - ${:a<:b?'<'::a==:b?'=':'>'}
+      - ${:a<:b?'\lt'::a==:b?'=':'\gt'}
+  - name: "Vrai ou faux"
+    vars:
+      siga: [-1, 1]
+      sigb: [-1, 1]
+      vaa: "1_20"
+      vab: "1_20"
+      a: "${:siga*(:vaa)}"
+      b: "${:sigb*(:vab)}"
+      sens: [0, 1]
+      symb: "${:sens?'>':'<'}"
+      juste: "${:sens?:a>:b::a<:b}"
+    question: Cette affirmation est-elle vraie ? $$:a :symb :b$$
+    answer: L’affirmation $$:a :symb :b$$ est <b>${:juste?'VRAIE':'FAUSSE'}</b>.
+    value: ${:juste?'VRAI':'FAUX'}
+  - name: Comparer des distances à zéro
+    vars:
+      siga: [-1, 1]
+      sigb: [-1, 1]
+      vaa: "1_20"
+      vab: "1_20_^${:vaa}"
+      a: "${:siga*(:vaa)}"
+      b: "${:sigb*(:vab)}"
+      cv: "0_1"
+    question: Lequel des nombres $$:a$$ et $$:b$$ est le plus ${:dist[:cv]} de zéro ?
+    answer: Le plus ${:dist[:cv]} de zéro est $$\color{red}{${(:cv?:vaa>:vab::vaa<:vab)?:a::b}}$$.
+    value: ${(:cv?:vaa>:vab::vaa<:vab)?:a::b}
+  - name: Le plus petit/grand de trois
+    vars:
+      a: "-20_20"
+      b: "-20_20_^${:a}"
+      c: "-20_20_^${:a},${:b}"
+      cv: "0_1"
+    question: Quel est le plus ${:voc[:cv]} des nombres $$:a$$, $$:b$$ et $$:c$$ ?
+    answer: Le plus ${:voc[:cv]} des nombres $$:a$$, $$:b$$ et $$:c$$ est $$\color{red}{${:cv?Math.max(:a,:b,:c):Math.min(:a,:b,:c)}}$$.
+    value: ${:cv?Math.max(:a,:b,:c):Math.min(:a,:b,:c)}

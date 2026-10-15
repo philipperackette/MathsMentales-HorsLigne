@@ -1,0 +1,194 @@
+{
+    "ID": "7NF1",
+    "title": "Vocabulaire multiplicatif : « fois plus », « fois moins »",
+    "description": "fois plus, fois moins, fois plus petit, comparaison multiplicative, vocabulaire",
+    "type": "text",
+    "textSize": "small",
+    "dest": ["7NF", "6NF"],
+    "consts": {
+        "prenoms": [
+            "Alexandre", "Pierre", "Jean", "Paul", "Théo",
+            "Luc", "Guillaume", "Hugo", "Clément", "Jules",
+            "Marie", "Anne", "Sophie", "Alice", "Chloé",
+            "Émilie", "Léa", "Manon", "Sarah", "Camille",
+            "Lina", "Fatima", "Amina", "Amira", "Samira",
+            "Rayan", "Aaron", "Leo", "Liam",
+            "Ava", "Emma", "Mia"
+        ],
+        "contextes": [
+            [
+                "${:paul} a ${:a} billes. ${:pierre} en a ${:n} fois plus.",
+                "le nombre de billes que possède ${:pierre}",
+                "billes",
+                "\\times",
+                "${:a*:n}",
+                "${:n}\\times${:a}",
+                "« ${:n} fois plus », on multiplie par ${:n}."
+            ],
+            [
+                "Un livre coûte ${:a} €. Une BD coûte ${:n} fois plus cher.",
+                "le prix de la BD",
+                "€",
+                "\\times",
+                "${:a*:n}",
+                "${:n}\\times${:a}",
+                "« ${:n} fois plus cher », on multiplie par ${:n}."
+            ],
+            [
+                "Un ruban bleu mesure ${:a} cm. Un ruban rouge est ${:n} fois plus long.",
+                "la longueur du ruban rouge",
+                "cm",
+                "\\times",
+                "${:a*:n}",
+                "${:n}\\times${:a}",
+                "« ${:n} fois plus long », on multiplie par ${:n}."
+            ],
+            [
+                "Un colis pèse ${:a} kg. Un second colis est ${:n} fois plus lourd.",
+                "la masse du second colis",
+                "kg",
+                "\\times",
+                "${:a*:n}",
+                "${:n}\\times${:a}",
+                "« ${:n} fois plus lourd », on multiplie par ${:n}."
+            ],
+            [
+                "${:paul} a lu ${:a} pages. ${:pierre} en a lu ${:n} fois plus.",
+                "le nombre de pages lues par ${:pierre}",
+                "pages",
+                "\\times",
+                "${:a*:n}",
+                "${:n}\\times${:a}",
+                "« ${:n} fois plus », on multiplie par ${:n}."
+            ],
+            [
+                "${:paul} a ${:a} autocollants, c'est ${:n} fois moins que son voisin.",
+                "le nombre d'autocollants du voisin",
+                "autocollants",
+                "\\times",
+                "${:a*:n}",
+                "${:n}\\times${:a}",
+                "Attention : ${:paul} en a ${:n} fois moins, donc son voisin en a ${:n} fois plus : on multiplie par ${:n}."
+            ],
+            [
+                "${:paul} a ${:a} billes. ${:pierre} en a ${:n} fois moins.",
+                "le nombre de billes que possède ${:pierre}",
+                "billes",
+                "\\div",
+                "${:a/:n}",
+                "\\frac{${:a}}{${:n}}",
+                "« ${:n} fois moins », on divise par ${:n}."
+            ],
+            [
+                "Un jeu coûte ${:a} €. Un porte-clés coûte ${:n} fois moins cher.",
+                "le prix du porte-clés",
+                "€",
+                "\\div",
+                "${:a/:n}",
+                "\\frac{${:a}}{${:n}}",
+                "« ${:n} fois moins cher », on divise par ${:n}."
+            ],
+            [
+                "Une corde mesure ${:a} m. Une ficelle est ${:n} fois plus courte.",
+                "la longueur de la ficelle",
+                "m",
+                "\\div",
+                "${:a/:n}",
+                "\\frac{${:a}}{${:n}}",
+                "« ${:n} fois plus courte », on divise par ${:n}."
+            ],
+            [
+                "Un carton pèse ${:a} g. Une boite est ${:n} fois plus légère.",
+                "la masse de la boite",
+                "g",
+                "\\div",
+                "${:a/:n}",
+                "\\frac{${:a}}{${:n}}",
+                "« ${:n} fois plus légère », on divise par ${:n}."
+            ],
+            [
+                "Le nombre ${:a} est ${:n} fois plus grand qu'un autre nombre.",
+                "cet autre nombre",
+                "",
+                "\\div",
+                "${:a/:n}",
+                "\\frac{${:a}}{${:n}}",
+                "L'autre nombre est ${:n} fois plus petit : on divise par ${:n}."
+            ],
+            [
+                "${:paul} a ${:a} cartes, c'est ${:n} fois plus que sa cousine.",
+                "le nombre de cartes de la cousine",
+                "cartes",
+                "\\div",
+                "${:a/:n}",
+                "\\frac{${:a}}{${:n}}",
+                "Attention : ${:paul} en a ${:n} fois plus, donc sa cousine en a ${:n} fois moins : on divise par ${:n}."
+            ]
+        ]
+    },
+    "options": [
+        {
+            "name": "Quelle opération ? — « ... fois plus »",
+            "keys": ["×", "÷", "_", "_"],
+            "vars": {
+                "pren": "0_${:prenoms.length-1}_2_^&",
+                "paul": "${:prenoms[:pren[0]]}",
+                "pierre": "${:prenoms[:pren[1]]}",
+                "n": "2_10",
+                "a": "2_50",
+                "situation": "0_5"
+            },
+            "question": "${:contextes[:situation][0]}<br>Quel calcul permet de trouver ${:contextes[:situation][1]} ?",
+            "answer": "${:contextes[:situation][6]}<br>$$\\color{red}{${:a}${:contextes[:situation][3]}${:n}}$$",
+            "value": ["${:a}${:contextes[:situation][3]}${:n}", "${:contextes[:situation][5]}"]
+        },
+        {
+            "name": "Quelle opération ? — « ... fois moins », « ... fois plus petit »",
+            "keys": ["×", "÷", "_", "_"],
+            "vars": {
+                "pren": "0_${:prenoms.length-1}_2_^&",
+                "paul": "${:prenoms[:pren[0]]}",
+                "pierre": "${:prenoms[:pren[1]]}",
+                "n": "2_10",
+                "q": "2_12",
+                "a": "${:q*:n}",
+                "situation": "6_11"
+            },
+            "question": "${:contextes[:situation][0]}<br>Quel calcul permet de trouver ${:contextes[:situation][1]} ?",
+            "answer": "${:contextes[:situation][6]}<br>$$\\color{red}{${:a}${:contextes[:situation][3]}${:n}}$$",
+            "value": ["${:a}${:contextes[:situation][3]}${:n}", "${:contextes[:situation][5]}"]
+        },
+        {
+            "name": "Trouver le résultat — « ... fois plus »",
+            "vars": {
+                "pren": "0_${:prenoms.length-1}_2_^&",
+                "paul": "${:prenoms[:pren[0]]}",
+                "pierre": "${:prenoms[:pren[1]]}",
+                "n": "2_10",
+                "a": "2_20",
+                "situation": "0_5"
+            },
+            "question": "${:contextes[:situation][0]}<br>Calcule ${:contextes[:situation][1]}.",
+            "answer": "${:contextes[:situation][6]}<br>$$${:a}${:contextes[:situation][3]}${:n}=\\color{red}{${:contextes[:situation][4]}}$$ ${:contextes[:situation][2]}",
+            "value": "${:contextes[:situation][4]}"
+        },
+        {
+            "name": "Trouver le résultat — « ... fois moins », « ... fois plus petit »",
+            "vars": {
+                "pren": "0_${:prenoms.length-1}_2_^&",
+                "paul": "${:prenoms[:pren[0]]}",
+                "pierre": "${:prenoms[:pren[1]]}",
+                "n": "2_10",
+                "q": "2_12",
+                "a": "${:q*:n}",
+                "situation": "6_11"
+            },
+            "question": "${:contextes[:situation][0]}<br>Calcule ${:contextes[:situation][1]}.",
+            "answer": "${:contextes[:situation][6]}<br>$$${:a}${:contextes[:situation][3]}${:n}=\\color{red}{${:contextes[:situation][4]}}$$ ${:contextes[:situation][2]}",
+            "value": "${:contextes[:situation][4]}"
+        }
+    ],
+    "question": "${:contextes[:situation][0]}<br>Calcule ${:contextes[:situation][1]}.",
+    "answer": "${:contextes[:situation][6]}<br>$$${:a}${:contextes[:situation][3]}${:n}=\\color{red}{${:contextes[:situation][4]}}$$ ${:contextes[:situation][2]}",
+    "value": "${:contextes[:situation][4]}"
+}

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Générateur de carte parkour</title>
+<style>
+  :root{
+    --asphalt-dark:#2b2b33;
+    --asphalt:#3d3d47;
+    --asphalt-light:#57575f;
+    --concrete:#8d8d95;
+    --rust:#d9622e;
+    --rust-dark:#a3441c;
+    --rust-light:#f2924f;
+    --sky-top:#26314f;
+    --sky-mid:#5a4066;
+    --sky-bottom:#e07a3f;
+    --panel-bg:#1c1e26;
+    --panel-border:#33353f;
+    --text-light:#f2f0ea;
+    --text-dim:#a8a6a0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    padding:32px 16px;
+    background:#12131a;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    color:var(--text-light);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:24px;
+  }
+  h1{
+    font-size:20px;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.5px;
+  }
+  .panel{
+    width:100%;
+    max-width:640px;
+    background:var(--panel-bg);
+    border:1px solid var(--panel-border);
+    border-radius:14px;
+    padding:20px 22px;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:14px;
+  }
+  .row:last-child{margin-bottom:0;}
+  .row label{
+    font-size:13px;
+    color:var(--text-dim);
+    flex-shrink:0;
+    width:120px;
+  }
+  input[type=range]{
+    flex:1;
+    accent-color:var(--rust);
+  }
+  .val{
+    font-size:14px;
+    font-weight:600;
+    min-width:28px;
+    text-align:right;
+    color:var(--rust-light);
+  }
+  select{
+    flex:1;
+    padding:8px 10px;
+    background:var(--asphalt-dark);
+    color:var(--text-light);
+    border:1px solid var(--panel-border);
+    border-radius:8px;
+    font-size:13px;
+  }
+  .buttons{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+  }
+  button{
+    flex:1;
+    padding:10px 14px;
+    border:none;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:transform .1s ease, opacity .15s ease;
+  }
+  button:active{transform:scale(0.97);}
+  .btn-primary{
+    background:var(--rust);
+    color:#1c0f08;
+  }
+  .btn-primary:hover{background:var(--rust-light);}
+  .btn-secondary{
+    background:transparent;
+    color:var(--text-light);
+    border:1px solid var(--panel-border);
+  }
+  .btn-secondary:hover{background:var(--asphalt-dark);}
+  .map-wrap{
+    width:100%;
+    max-width:640px;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--panel-border);
+    box-shadow:0 12px 30px rgba(0,0,0,0.4);
+  }
+  svg{display:block;width:100%;height:auto;}
+</style>
+</head>
+<body>
+
+<h1>Générateur de carte parkour</h1>
+
+<div class="panel">
+  <div class="row">
+    <label>Nombre d'étapes</label>
+    <input type="range" id="steps" min="3" max="20" value="8">
+    <span class="val" id="stepsVal">8</span>
+  </div>
+  <div class="row">
+    <label>Ambiance</label>
+    <select id="mood">
+      <option value="dusk" selected>Crépuscule urbain</option>
+      <option value="day">Ciel de jour</option>
+      <option value="night">Nuit néon</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Sens du tracé</label>
+    <select id="dir">
+      <option value="up" selected>Bas → Haut (départ en bas)</option>
+      <option value="down">Haut → Bas (départ en haut)</option>
+    </select>
+  </div>
+  <div class="buttons">
+    <button class="btn-secondary" id="regen">Nouveau tracé</button>
+    <button class="btn-primary" id="download">Télécharger le SVG</button>
+  </div>
+</div>
+
+<div class="map-wrap" id="mapWrap"></div>
+
+<script>
+const WIDTH = 640;
+const STEP_SPACING = 150;
+const TOP_PAD = 110;
+const BOTTOM_PAD = 90;
+
+const moods = {
+  dusk:  { sky1:"#26314f", sky2:"#5a4066", sky3:"#e07a3f", sun:"#ffb15e", buildingA:"#2c2b3a", buildingB:"#3a3448", stars:false },
+  day:   { sky1:"#7ec1e8", sky2:"#aee0e8", sky3:"#e9f5e1", sun:"#fff6c8", buildingA:"#57616e", buildingB:"#6b7684", stars:false },
+  night: { sky1:"#0c0e1a", sky2:"#151a2e", sky3:"#1f1440", sun:"#e6e6ff", buildingA:"#14151f", buildingB:"#1c1e2c", stars:true }
+};
+
+let seedState = 42;
+function rand(){
+  seedState = (seedState * 9301 + 49297) % 233280;
+  return seedState / 233280;
+}
+function randRange(a,b){ return a + rand()*(b-a); }
+function pick(arr){ return arr[Math.floor(rand()*arr.length)]; }
+
+function buildMap(steps, moodKey, dir){
+  const m = moods[moodKey];
+  const height = TOP_PAD + BOTTOM_PAD + (steps-1) * STEP_SPACING;
+  seedState = 1000 + steps*7 + (moodKey.length*13) + (dir==="up"?1:2);
+
+  // checkpoints, x oscillates left/right in a smooth S pattern
+  const checkpoints = [];
+  const margin = 90;
+  for(let i=0;i<steps;i++){
+    const t = i/(steps-1 || 1);
+    const wave = Math.sin(i*1.35 + 0.4) * (WIDTH/2 - margin - 20);
+    let x = WIDTH/2 + wave;
+    x = Math.max(margin, Math.min(WIDTH-margin, x));
+    let y = TOP_PAD + i*STEP_SPACING;
+    if(dir==="up"){ y = height - y; }
+    checkpoints.push({x:Math.round(x), y:Math.round(y)});
+  }
+
+  // path through checkpoints (smooth quadratic)
+  let pathD = `M ${checkpoints[0].x} ${checkpoints[0].y}`;
+  for(let i=1;i<checkpoints.length;i++){
+    const prev = checkpoints[i-1];
+    const curr = checkpoints[i];
+    const midX = (prev.x+curr.x)/2;
+    const midY = (prev.y+curr.y)/2;
+    pathD += ` Q ${prev.x} ${midY} ${midX} ${midY} Q ${curr.x} ${midY} ${curr.x} ${curr.y}`;
+  }
+
+  // skyline buildings, fixed width band
+  let buildings = "";
+  let bx = -20;
+  const rowY = 0;
+  while(bx < WIDTH+20){
+    const bw = randRange(40,80);
+    const bh = randRange(60,150);
+    const colorA = rand()>0.5 ? m.buildingA : m.buildingB;
+    buildings += `<rect x="${bx.toFixed(1)}" y="${(rowY - bh + 40).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="${colorA}" opacity="0.55"/>`;
+    // windows
+    const winCols = Math.max(1, Math.floor(bw/16));
+    const winRows = Math.max(1, Math.floor(bh/20));
+    for(let wr=0; wr<winRows; wr++){
+      for(let wc=0; wc<winCols; wc++){
+        if(rand() > 0.4) continue;
+        const wx = bx + 6 + wc*16;
+        const wy = (rowY - bh + 40) + 8 + wr*20;
+        buildings += `<rect x="${wx.toFixed(1)}" y="${wy.toFixed(1)}" width="6" height="8" fill="${m.sun}" opacity="0.3"/>`;
+      }
+    }
+    bx += bw + randRange(4,14);
+  }
+
+  // stars
+  let stars = "";
+  if(m.stars){
+    for(let i=0;i<40;i++){
+      stars += `<circle cx="${randRange(0,WIDTH).toFixed(1)}" cy="${randRange(10,150).toFixed(1)}" r="${randRange(0.5,1.6).toFixed(1)}" fill="#ffffff" opacity="${randRange(0.3,0.9).toFixed(2)}"/>`;
+    }
+  }
+
+  // parkour decor scattered along the path (walls, rails, rooftops, cones, ramps)
+  let decor = "";
+  const decorTypes = ["wall","rail","ramp","cone","pipe","crate"];
+  for(let i=0;i<checkpoints.length-1;i++){
+    const from = checkpoints[i], to = checkpoints[i+1];
+    const count = 1 + Math.floor(rand()*2);
+    for(let k=0;k<count;k++){
+      const t = randRange(0.2,0.8);
+      const px = from.x + (to.x-from.x)*t + randRange(-70,70);
+      const py = from.y + (to.y-from.y)*t + randRange(-40,40);
+      const cx = Math.max(30, Math.min(WIDTH-30, px));
+      const type = pick(decorTypes);
+      decor += drawDecor(type, cx, py, m);
+    }
+  }
+
+  // checkpoint badges
+  let badges = "";
+  checkpoints.forEach((cp, idx)=>{
+    const isStart = idx===0;
+    const isEnd = idx===checkpoints.length-1;
+    const fill = isStart ? "#5fbf6a" : isEnd ? "#d9622e" : "#e8a13a";
+    const stroke = isStart ? "#3d8a45" : isEnd ? "#a3441c" : "#b3781f";
+    const r = isStart||isEnd ? 22 : 18;
+    badges += `
+      <g>
+        <circle cx="${cp.x}" cy="${cp.y}" r="${r+4}" fill="#1c1e26" opacity="0.35"/>
+        <circle cx="${cp.x}" cy="${cp.y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="3"/>
+        <text x="${cp.x}" y="${cp.y+5}" text-anchor="middle" font-size="15" font-weight="700" fill="#1c1210" font-family="Arial,sans-serif">${idx+1}</text>
+      </g>`;
+  });
+
+  const startLabel = checkpoints[0];
+  const endLabel = checkpoints[checkpoints.length-1];
+
+  const svg = `
+<svg width="100%" viewBox="0 0 ${WIDTH} ${Math.round(height)}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${m.sky1}"/>
+      <stop offset="55%" stop-color="${m.sky2}"/>
+      <stop offset="100%" stop-color="${m.sky3}"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${'#4a4a54'}"/>
+      <stop offset="100%" stop-color="${'#2b2b33'}"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${m.sun}" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="${m.sun}" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="${WIDTH}" height="${Math.round(height)}" fill="url(#sky)"/>
+  <circle cx="${WIDTH*0.78}" cy="${Math.round(height)*0.12}" r="90" fill="url(#sunGlow)"/>
+  <circle cx="${WIDTH*0.78}" cy="${Math.round(height)*0.12}" r="26" fill="${m.sun}"/>
+  ${stars}
+  <g>${buildings}</g>
+  <rect x="0" y="0" width="${WIDTH}" height="${Math.round(height)}" fill="#000000" opacity="0.08"/>
+
+  <path d="${pathD}" stroke="url(#road)" stroke-width="34" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+  <path d="${pathD}" stroke="#8d8d95" stroke-width="34" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.08"/>
+  <path d="${pathD}" stroke="#f2924f" stroke-width="4" stroke-dasharray="2 14" fill="none" stroke-linecap="round" opacity="0.85"/>
+
+  ${decor}
+  ${badges}
+
+  <text x="${startLabel.x}" y="${startLabel.y + (startLabel.y > endLabel.y ? 46 : -34)}" text-anchor="middle" font-size="13" font-weight="700" fill="#5fbf6a" font-family="Arial,sans-serif">DEPART</text>
+  <text x="${endLabel.x}" y="${endLabel.y + (endLabel.y > startLabel.y ? 46 : -34)}" text-anchor="middle" font-size="13" font-weight="700" fill="#f2924f" font-family="Arial,sans-serif">ARRIVEE</text>
+</svg>`;
+
+  return svg;
+}
+
+function drawDecor(type, x, y, m){
+  const wall = `#5d5d66`, wallDark=`#454550`, rust=`#c9601f`, rustLight=`#e88a44`;
+  switch(type){
+    case "wall":
+      return `<rect x="${x-16}" y="${y-30}" width="32" height="30" fill="${wall}" opacity="0.9" rx="2"/>
+              <rect x="${x-16}" y="${y-30}" width="32" height="6" fill="${wallDark}" opacity="0.9"/>`;
+    case "rail":
+      return `<line x1="${x-26}" y1="${y}" x2="${x+26}" y2="${y}" stroke="${rustLight}" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+              <line x1="${x-24}" y1="${y}" x2="${x-24}" y2="${y+16}" stroke="${wallDark}" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+              <line x1="${x+24}" y1="${y}" x2="${x+24}" y2="${y+16}" stroke="${wallDark}" stroke-width="4" stroke-linecap="round" opacity="0.9"/>`;
+    case "ramp":
+      return `<polygon points="${x-24},${y+18} ${x+24},${y+18} ${x+24},${y-16}" fill="${wall}" opacity="0.9"/>`;
+    case "cone":
+      return `<polygon points="${x},${y-20} ${x-10},${y} ${x+10},${y}" fill="${rust}" opacity="0.95"/>
+              <rect x="${x-12}" y="${y}" width="24" height="4" fill="${rustLight}" opacity="0.9" rx="1"/>`;
+    case "pipe":
+      return `<rect x="${x-22}" y="${y-8}" width="44" height="14" rx="7" fill="${wallDark}" opacity="0.9"/>
+              <circle cx="${x-22}" cy="${y-1}" r="7" fill="${wall}" opacity="0.9"/>`;
+    case "crate":
+      return `<rect x="${x-14}" y="${y-14}" width="28" height="28" fill="${rust}" opacity="0.85" rx="2"/>
+              <line x1="${x-14}" y1="${y}" x2="${x+14}" y2="${y}" stroke="${rustLight}" stroke-width="2" opacity="0.6"/>
+              <line x1="${x}" y1="${y-14}" x2="${x}" y2="${y+14}" stroke="${rustLight}" stroke-width="2" opacity="0.6"/>`;
+    default:
+      return "";
+  }
+}
+
+function render(){
+  const steps = parseInt(document.getElementById('steps').value, 10);
+  const mood = document.getElementById('mood').value;
+  const dir = document.getElementById('dir').value;
+  document.getElementById('stepsVal').textContent = steps;
+  const svg = buildMap(steps, mood, dir);
+  document.getElementById('mapWrap').innerHTML = svg;
+}
+
+document.getElementById('steps').addEventListener('input', render);
+document.getElementById('mood').addEventListener('change', render);
+document.getElementById('dir').addEventListener('change', render);
+document.getElementById('regen').addEventListener('click', ()=>{
+  seedState = Math.floor(Math.random()*100000);
+  render();
+});
+document.getElementById('download').addEventListener('click', ()=>{
+  const svgEl = document.querySelector('#mapWrap svg');
+  const data = new XMLSerializer().serializeToString(svgEl);
+  const blob = new Blob([data], {type:"image/svg+xml"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `carte-parkour-${document.getElementById('steps').value}-etapes.svg`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+render();
+</script>
+</body>
+</html>

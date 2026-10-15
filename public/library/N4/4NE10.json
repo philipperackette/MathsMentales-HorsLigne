@@ -1,0 +1,44 @@
+{
+    "title":"Exprimer une transformation à l'aide de n",
+    "type":"text",
+    "ID":"4NE10",
+    "description":"Traduire par une expression littérale : double, triple, moitié, prédécesseur, successeur, carré d'un nombre noté n.",
+    "dest":["4NE","3ND","2N3"],
+    "keys":["+","-","x²","/","_","_","_","_"],
+    "consts":{
+        "multNoms":["double","triple","quadruple"],
+        "multExpr":["2n","3n"],
+        "divNoms":["la moitié","le tiers","le quart"],
+        "divExpr":["\\dfrac{n}{2}","\\dfrac{n}{3}", "\\dfrac{n}{4}"],
+        "suiteNoms":["prédécesseur de","successeur de", "nombre suivant", "nombre précédent"],
+        "suiteExpr":["n-1","n+1", "n+1", "n-1"],
+        "puissNoms":["carré", "cube"],
+        "puissExpr":["n^2", "n^3"]
+    },
+    "options":[{
+        "name":"Multiple (double, triple, quadruple)",
+        "vars":{"i":"0_2"},
+        "question":"Exprimer à l'aide de $$n$$ : « le ${:multNoms[:i]} de $$n$$ ».",
+        "answer":"$$\\color{red}{${:multExpr[:i]}}$$",
+        "value":"${:multExpr[:i]}"
+    },{
+        "name":"Fraction (moitié, tiers, quart)",
+        "vars":{"i":"0_2"},
+        "question":"Exprimer à l'aide de $$n$$ : « ${:divNoms[:i]} de $$n$$ ».",
+        "answer":"$$\\color{red}{${:divExpr[:i]}}$$",
+        "value":"${:divExpr[:i]}"
+    },{
+        "name":"Suite (prédécesseur, successeur)",
+        "vars":{"i":"0_1"},
+        "question":"Exprimer à l'aide de $$n$$ : « le ${:suiteNoms[:i]} $$n$$ ».",
+        "answer":"$$\\color{red}{${:suiteExpr[:i]}}$$",
+        "value":"${:suiteExpr[:i]}"
+    },{
+        "name":"Puissance (carré, cube)",
+        "vars":{"i":"0_1"},
+        "question":"Exprimer à l'aide de $$n$$ : « le ${:puissNoms[:i]} de $$n$$ ».",
+        "answer":"$$\\color{red}{${:puissExpr[:i]}}$$",
+        "value":"${:puissExpr[:i]}"
+    }
+    ]
+}

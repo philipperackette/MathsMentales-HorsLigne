@@ -1,0 +1,12 @@
+<svg width="15em" height="10em" version="1.1" viewBox="0 0 210 140" xmlns="http://www.w3.org/2000/svg">
+<!-- @3= segment [AB] -->
+<line x1="44" y1="108" x2="172" y2="111" style="stroke:black;"/>
+<!-- @6= segment [CB] -->
+<path style="stroke:black;fill:none;" d="M45.87 28.03 C45.87 28.03 60.1 35.27 64.89 38.88 C68.6 41.0 78.44 49.26 81.91 51.74 C85.44 54.4 96.04 62.46 99.93 64.59 C103.27 66.97 114.6 72.06 117.95 74.44 C121.83 76.57 132.43 84.63 135.96 87.29 C139.44 89.77 149.28 98.03 152.98 100.15 M152.98 100.15 C156.48 102.79 168.2 108.83 172 111 "/>
+<!-- @7= segment [AC] -->
+<path style="stroke:black;fill:none;" d="M44 108 C44 108 43.03 93.99 43.47 88.01 C43.36 84.0 44.64 72.01 44.94 68.01 C45.23 64.02 46.71 52.02 46.41 48.02 M46.41 48.02 C46.7 44.02 45.18 32.03 44.87 28.03 "/>
+<path d="M 44.70293196047711,78.00823635297618 A 30 30 0 0 1  73.99176364702382,108.70293196047712" style="stroke:black;fill:none;"/>
+<text style="stroke:black;" font-size="12" x="30" y="122">A</text>
+<text style="stroke:black;" font-size="12" x="174" y="121">B</text>
+<text style="stroke:black;" font-size="12" x="35" y="26">C</text>
+</svg>

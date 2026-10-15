@@ -1,0 +1,267 @@
+title: Déterminer si des droites sont parallèles
+description: Usage des angles supplémentaires, opposés par le sommet, correspondants, alternes-internes
+dest:
+  - 5GB
+  - 4GB
+  - 3GB
+type: text
+repeat: 2
+consts:
+  colors: [
+      black,
+      blue,
+      red,
+      green,
+      purple,
+      orange,
+      brown,
+      grey,
+      chocolate,
+      coral,
+      darkblue,
+      darkcyan,
+      indigo,
+      olive,
+      violet,
+      navy
+      orangered,
+      teal,
+      tomato,
+      turquoise,
+    ]
+vars:
+  prop: [true, false]
+  cc: "0_${:colors.length-1}_8_^&"
+  sizes: "10_25_8"
+  paral: [true, false]
+
+options:
+  - name: À l’aide des angles correspondants
+    consts:
+      corr: [[1, 5], [2, 6], [3, 7], [4, 8]]
+    vars:
+      paire: "0_${:corr.length-1}"
+      a1: "${:corr[:paire][0]}"
+      a2: "${:corr[:paire][1]}"
+      ang1: "40_120"
+      delta: "-4_4_^0"
+      ang2: "${:ang1+:delta}"
+      mesA1: :ang1
+      mesA2: ${:paral?:ang1::ang2}
+    question: Les droites sont-elles parallèles ?
+    answer: ${:paral?"Oui":"Non"}, les droites <span class="red">${:paral?'sont':'ne sont pas'} parallèles</span>.
+    value: ['${:paral?"Oui":"Non"}', '${:paral?"O":"N"}']
+  - name: À l’aide des angles alternes-internes
+    consts:
+      alt: [[2, 8], [3, 5]]
+    vars:
+      paire: "0_${:alt.length-1}"
+      a1: "${:alt[:paire][0]}"
+      a2: "${:alt[:paire][1]}"
+      ang1: "50_110"
+      delta: "-4_4_^0"
+      ang2: "${:ang1+:delta}"
+      mesA1: :ang1
+      mesA2: ${:paral?:ang1::ang2}
+    question: Les droites sont-elles parallèles ?
+    answer: ${:paral?"Oui":"Non"}, les droites <span class="red">${:paral?'sont':'ne sont pas'} parallèles</span>.
+    value: ['${:paral?"Oui":"Non"}', '${:paral?"O":"N"}']
+  - name: À l’aide des angles supplémentaires
+    consts:
+      supp: [[1, 6], [1, 8], [2, 5], [2, 7], [3, 6], [3, 8], [4, 5], [4, 7]]
+    vars:
+      paire: "0_${:supp.length-1}"
+      a1: "${:supp[:paire][0]}"
+      a2: "${:supp[:paire][1]}"
+      ang1: "50_110"
+      delta: "-4_4_^0"
+      ang2: "${:ang1+:delta}"
+      mesA1: :ang1
+      mesA2: ${:paral?:ang1::ang2}
+    question: Les droites sont-elles parallèles ?
+    answer: ${:paral?"Oui":"Non"}, les droites <span class="red">${:paral?'sont':'ne sont pas'} parallèles</span>.
+    value: ['${:paral?"Oui":"Non"}', '${:paral?"O":"N"}']
+  - name: Mélange, avec des pièges d'indétermination
+    consts:
+      poss:
+        [
+          [1, 6],
+          [1, 8],
+          [2, 5],
+          [2, 7],
+          [3, 6],
+          [3, 8],
+          [4, 5],
+          [4, 7],
+          [2, 8],
+          [3, 5],
+          [1, 5],
+          [2, 6],
+          [3, 7],
+          [4, 8],
+        ]
+      imposs:
+        [
+          [1, 3],
+          [2, 4],
+          [5, 7],
+          [6, 8],
+          [1, 2],
+          [2, 3],
+          [3, 4],
+          [5, 6],
+          [6, 7],
+          [7, 8],
+        ]
+    vars:
+      possible: [true, false]
+      paire: "0_${:possible?:poss.length-1::imposs.length-1}"
+      a1: "${:possible?:poss[:paire][0]::imposs[:paire][0]}"
+      a2: "${:possible?:poss[:paire][1]::imposs[:paire][1]}"
+      ang1: "50_110"
+      delta: "-4_4_^0"
+      ang2: "${:ang1+:delta}"
+      mesA1: :ang1
+      mesA2: ${:paral?:ang1::ang2}
+    question: Les droites sont-elles parallèles ?
+    answer: <span class="red">${:possible?(:paral?"Oui":"Non"):"On ne peut pas savoir si "}</span> les droites ${!:possible?'sont'::paral?'sont':'ne sont pas'} parallèles.
+    value:
+      [
+        '${!:possible?"On ne peut pas savoir"::paral?"Oui":"Non"}',
+        '${!:possible?"NSP"::paral?"O":"N"}',
+      ]
+
+figure:
+  type: graph
+  boundingbox: [-5, 5, 10, -5]
+  axis: false
+  grid: false
+  content:
+    - [point, [0, 0], { name: O, visible: false, label: { visible: false } }]
+    - [point, [5, 0], { name: O2, visible: false, label: { visible: false } }]
+    - [point, [7, 0], { name: A, visible: false, label: { visible: false } }]
+    - [
+        point,
+        [
+          "${Math.cos(:ang1*Math.PI/180)*2+5}",
+          "${Math.sin(:ang1*Math.PI/180)*2}",
+        ],
+        { name: B, visible: false, label: { visible: false } },
+      ]
+    - [
+        point,
+        [
+          "${-Math.cos(:ang1*Math.PI/180)*2+5}",
+          "${-Math.sin(:ang1*Math.PI/180)*2}",
+        ],
+        { name: C, visible: false, label: { visible: false } },
+      ]
+    - [point, [2, 0], { name: D, visible: false, label: { visible: false } }]
+    - [
+        point,
+        [
+          "${Math.cos(:ang2*Math.PI/180)*2}",
+          "${Math.sin(:ang2*Math.PI/180)*2}",
+        ],
+        { name: E, visible: false, label: { visible: false } },
+      ]
+    - [point, [-2, 0], { name: F, visible: false, label: { visible: false } }]
+    - [
+        point,
+        [
+          "${-Math.cos(:ang2*Math.PI/180)*2}",
+          "${-Math.sin(:ang2*Math.PI/180)*2}",
+        ],
+        { name: G, visible: false, label: { visible: false } },
+      ]
+    - [line, [F, A]]
+    - [line, [B, C]]
+    - [line, [E, G]]
+    - [
+        angle,
+        [A, O2, B],
+        {
+          visible: "${[:a1,:a2].includes(1)?1:0}",
+          name: "${:mesA1}°",
+          radius: "${:sizes[0]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(1)?1:0}" },
+          color: "${:colors[:cc[0]]}",
+        },
+      ]
+    - [
+        angle,
+        [B, O2, D],
+        {
+          visible: "${[:a1,:a2].includes(2)?1:0}",
+          name: "${180-:mesA1}°",
+          radius: "${:sizes[1]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(2)?1:0}" },
+          color: "${:colors[:cc[1]]}",
+        },
+      ]
+    - [
+        angle,
+        [D, O2, C],
+        {
+          visible: "${[:a1,:a2].includes(3)?1:0}",
+          name: "${:mesA1}°",
+          radius: "${:sizes[2]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(3)?1:0}" },
+          color: "${:colors[:cc[2]]}",
+        },
+      ]
+    - [
+        angle,
+        [C, O2, A],
+        {
+          visible: "${[:a1,:a2].includes(4)?1:0}",
+          name: "${180-:mesA1}°",
+          radius: "${:sizes[3]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(4)?1:0}" },
+          color: "${:colors[:cc[3]]}",
+        },
+      ]
+    - [
+        angle,
+        [D, O, E],
+        {
+          visible: "${[:a1,:a2].includes(5)?1:0}",
+          name: "${:mesA2}°",
+          radius: "${:sizes[4]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(5)?1:0}" },
+          color: "${:colors[:cc[4]]}",
+        },
+      ]
+    - [
+        angle,
+        [E, O, F],
+        {
+          visible: "${[:a1,:a2].includes(6)?1:0}",
+          name: "${180-:mesA2}°",
+          radius: "${:sizes[5]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(6)?1:0}" },
+          color: "${:colors[:cc[5]]}",
+        },
+      ]
+    - [
+        angle,
+        [F, O, G],
+        {
+          visible: "${[:a1,:a2].includes(7)?1:0}",
+          name: "${:mesA2}°",
+          radius: "${:sizes[6]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(7)?1:0}" },
+          color: "${:colors[:cc[6]]}",
+        },
+      ]
+    - [
+        angle,
+        [G, O, D],
+        {
+          visible: "${[:a1,:a2].includes(8)?1:0}",
+          name: "${180-:mesA2}°",
+          radius: "${:sizes[7]*0.1}",
+          label: { visible: "${[:a1,:a2].includes(8)?1:0}" },
+          color: "${:colors[:cc[7]]}",
+        },
+      ]

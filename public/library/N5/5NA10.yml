@@ -1,0 +1,939 @@
+title: Placer un point d’abscisse donnée sur une droite graduée
+description: "Placer un point sur axe gradué, droite graduée, abscisse relative, repérer. Non adapté au mode interactif (online/duel)."
+dest:
+  - 5NA
+  - 4NA
+  - 3NA
+type: text
+consts:
+  nomspts: "ABCDEFGHJKLMNPQRSTVW"
+options:
+  - name: Placer des entiers successifs
+    vars:
+      absc: "-50_20"
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      ticksperlabel: "2_5"
+      index: ${Math.floor((:absc*2-10)/20)}
+      borneinf: ${:index*20+10-1}
+      bornesup: ${:borneinf+22}
+    figure:
+      type: graph
+      boundingbox: ["${:borneinf}", 2, "${:bornesup}", -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [l1],
+            {
+              minorTicks: 0,
+              anchor: left,
+              drawLabels: true,
+              scale: 2,
+              majorHeight: 10,
+              ticksPerLabel: :ticksperlabel,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: ["${:borneinf}", 2, "${:bornesup}", -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [l1],
+            {
+              minorTicks: 0,
+              anchor: left,
+              drawLabels: true,
+              scale: 2,
+              majorHeight: 10,
+              ticksPerLabel: :ticksperlabel,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+            },
+          ]
+        - [
+            point,
+            ["${:absc*2}", 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des entiers entre deux dizaines consécutives
+    vars:
+      dizaine: "-5_1"
+      borneinf: ${:dizaine*10}
+      bornesup: ${:borneinf+10}
+      k: "1_9"
+      absc: ${:borneinf+:k}
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionPtSurAxe: ${MMmath.round(2+1.8*:k,3)}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [3.8, 5.6, 7.4, 9.2, 11, 12.8, 14.6, 16.4, 18.2],
+            ],
+            { minorTicks: 0, drawLabels: false, majorHeight: 8 },
+          ]
+        - [
+            ticks,
+            [l1, [2, 20]],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 16,
+              label: { anchorX: middle, offset: [0, -13] },
+              labels: ["${:borneinf}", "${:bornesup}"],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [3.8, 5.6, 7.4, 9.2, 11, 12.8, 14.6, 16.4, 18.2],
+            ],
+            { minorTicks: 0, drawLabels: false, majorHeight: 8 },
+          ]
+        - [
+            ticks,
+            [l1, [2, 20]],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 16,
+              label: { anchorX: middle, offset: [0, -13] },
+              labels: ["${:borneinf}", "${:bornesup}"],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des entiers, écart entre graduations variable
+    vars:
+      nbgrad: [6, 7, 8, 9, 10]
+      ecart: ${MMmath.round(22/(:nbgrad+1),3)}
+      ticksperlabel: "2_3"
+      pas: [1, 2, 5, 10]
+      minmax: "-${Math.floor(50/:pas)}_${Math.floor(20/:pas)}"
+      absc: ${:minmax*:pas}
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionSurTicks: ${MMmath.aleaInt(1,:nbgrad)}
+      offsetlbl: ${(:positionSurTicks+MMmath.aleaInt(1,:ticksperlabel-1))%:ticksperlabel}
+      positionPtSurAxe: ${MMmath.round(:ecart*:positionSurTicks,3)}
+      borneinf: ${:absc-(:positionSurTicks-1)*:pas}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [
+                "${MMmath.round(:ecart*1,3)}",
+                "${MMmath.round(:ecart*2,3)}",
+                "${MMmath.round(:ecart*3,3)}",
+                "${MMmath.round(:ecart*4,3)}",
+                "${MMmath.round(:ecart*5,3)}",
+                "${MMmath.round(:ecart*6,3)}",
+                "${7<=:nbgrad?MMmath.round(:ecart*7,3):-5}",
+                "${8<=:nbgrad?MMmath.round(:ecart*8,3):-5}",
+                "${9<=:nbgrad?MMmath.round(:ecart*9,3):-5}",
+                "${10<=:nbgrad?MMmath.round(:ecart*10,3):-5}",
+              ],
+            ],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?:borneinf:''}",
+                  "${2%:ticksperlabel===:offsetlbl?:borneinf+:pas:''}",
+                  "${3%:ticksperlabel===:offsetlbl?:borneinf+:pas*2:''}",
+                  "${4%:ticksperlabel===:offsetlbl?:borneinf+:pas*3:''}",
+                  "${5%:ticksperlabel===:offsetlbl?:borneinf+:pas*4:''}",
+                  "${6%:ticksperlabel===:offsetlbl?:borneinf+:pas*5:''}",
+                  "${7%:ticksperlabel===:offsetlbl?:borneinf+:pas*6:''}",
+                  "${8%:ticksperlabel===:offsetlbl?:borneinf+:pas*7:''}",
+                  "${9%:ticksperlabel===:offsetlbl?:borneinf+:pas*8:''}",
+                  "${10%:ticksperlabel===:offsetlbl?:borneinf+:pas*9:''}",
+                ],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [
+                "${MMmath.round(:ecart*1,3)}",
+                "${MMmath.round(:ecart*2,3)}",
+                "${MMmath.round(:ecart*3,3)}",
+                "${MMmath.round(:ecart*4,3)}",
+                "${MMmath.round(:ecart*5,3)}",
+                "${MMmath.round(:ecart*6,3)}",
+                "${7<=:nbgrad?MMmath.round(:ecart*7,3):-5}",
+                "${8<=:nbgrad?MMmath.round(:ecart*8,3):-5}",
+                "${9<=:nbgrad?MMmath.round(:ecart*9,3):-5}",
+                "${10<=:nbgrad?MMmath.round(:ecart*10,3):-5}",
+              ],
+            ],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?:borneinf:''}",
+                  "${2%:ticksperlabel===:offsetlbl?:borneinf+:pas:''}",
+                  "${3%:ticksperlabel===:offsetlbl?:borneinf+:pas*2:''}",
+                  "${4%:ticksperlabel===:offsetlbl?:borneinf+:pas*3:''}",
+                  "${5%:ticksperlabel===:offsetlbl?:borneinf+:pas*4:''}",
+                  "${6%:ticksperlabel===:offsetlbl?:borneinf+:pas*5:''}",
+                  "${7%:ticksperlabel===:offsetlbl?:borneinf+:pas*6:''}",
+                  "${8%:ticksperlabel===:offsetlbl?:borneinf+:pas*7:''}",
+                  "${9%:ticksperlabel===:offsetlbl?:borneinf+:pas*8:''}",
+                  "${10%:ticksperlabel===:offsetlbl?:borneinf+:pas*9:''}",
+                ],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des décimaux
+    vars:
+      pas: 0.1
+      minmax: "-${Math.floor(50/:pas)}_${Math.floor(20/:pas)}"
+      absc: ${MMmath.round(:minmax*:pas,1)}
+      indexSurAxe: "1_23"
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionSurTicks: ${MMmath.aleaInt(1,9)}
+      positionPtSurAxe: ${:positionSurTicks*2}
+      ticksperlabel: "2_4"
+      offsetlbl: ${(:positionSurTicks+MMmath.aleaInt(1,:ticksperlabel-1))%:ticksperlabel}
+      borneinf: ${MMmath.round(:absc-(:positionSurTicks-1)*:pas,1)}
+      lb1: ${:borneinf}
+      lb2: ${MMmath.round(:borneinf+:pas,1)}
+      lb3: ${MMmath.round(:borneinf+:pas*2,1)}
+      lb4: ${MMmath.round(:borneinf+:pas*3,1)}
+      lb5: ${MMmath.round(:borneinf+:pas*4,1)}
+      lb6: ${MMmath.round(:borneinf+:pas*5,1)}
+      lb7: ${MMmath.round(:borneinf+:pas*6,1)}
+      lb8: ${MMmath.round(:borneinf+:pas*7,1)}
+      lb9: ${MMmath.round(:borneinf+:pas*8,1)}
+      lb10: ${MMmath.round(:borneinf+:pas*9,1)}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [l1, [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]],
+            {
+              minorTicks: 0,
+              anchor: left,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [l1, [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]],
+            {
+              minorTicks: 0,
+              anchor: left,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des dixièmes entre deux unités consécutives
+    vars:
+      borneinf: "-50_19"
+      bornesup: ${:borneinf+1}
+      k: "1_9"
+      absc: ${MMmath.round(:borneinf+:k/10,1)}
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionPtSurAxe: ${MMmath.round(2+1.8*:k,3)}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [3.8, 5.6, 7.4, 9.2, 11, 12.8, 14.6, 16.4, 18.2],
+            ],
+            { minorTicks: 0, drawLabels: false, majorHeight: 8 },
+          ]
+        - [
+            ticks,
+            [l1, [2, 20]],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 16,
+              label: { anchorX: middle, offset: [0, -13] },
+              labels: ["${:borneinf}", "${:bornesup}"],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [3.8, 5.6, 7.4, 9.2, 11, 12.8, 14.6, 16.4, 18.2],
+            ],
+            { minorTicks: 0, drawLabels: false, majorHeight: 8 },
+          ]
+        - [
+            ticks,
+            [l1, [2, 20]],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 16,
+              label: { anchorX: middle, offset: [0, -13] },
+              labels: ["${:borneinf}", "${:bornesup}"],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des décimaux, écart entre graduations variable
+    vars:
+      nbgrad: [6, 7, 8, 9, 10]
+      ecart: ${MMmath.round(22/(:nbgrad+1),3)}
+      ticksperlabel: "2_3"
+      pas: [0.1, 0.2, 0.5]
+      minmax: "-${Math.floor(50/:pas)}_${Math.floor(20/:pas)}"
+      absc: ${MMmath.round(:minmax*:pas,1)}
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionSurTicks: ${MMmath.aleaInt(1,:nbgrad)}
+      offsetlbl: ${(:positionSurTicks+MMmath.aleaInt(1,:ticksperlabel-1))%:ticksperlabel}
+      positionPtSurAxe: ${MMmath.round(:ecart*:positionSurTicks,3)}
+      borneinf: ${MMmath.round(:absc-(:positionSurTicks-1)*:pas,1)}
+      lb1: ${:borneinf}
+      lb2: ${MMmath.round(:borneinf+:pas,1)}
+      lb3: ${MMmath.round(:borneinf+:pas*2,1)}
+      lb4: ${MMmath.round(:borneinf+:pas*3,1)}
+      lb5: ${MMmath.round(:borneinf+:pas*4,1)}
+      lb6: ${MMmath.round(:borneinf+:pas*5,1)}
+      lb7: ${MMmath.round(:borneinf+:pas*6,1)}
+      lb8: ${MMmath.round(:borneinf+:pas*7,1)}
+      lb9: ${MMmath.round(:borneinf+:pas*8,1)}
+      lb10: ${MMmath.round(:borneinf+:pas*9,1)}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [
+                "${MMmath.round(:ecart*1,3)}",
+                "${MMmath.round(:ecart*2,3)}",
+                "${MMmath.round(:ecart*3,3)}",
+                "${MMmath.round(:ecart*4,3)}",
+                "${MMmath.round(:ecart*5,3)}",
+                "${MMmath.round(:ecart*6,3)}",
+                "${7<=:nbgrad?MMmath.round(:ecart*7,3):-5}",
+                "${8<=:nbgrad?MMmath.round(:ecart*8,3):-5}",
+                "${9<=:nbgrad?MMmath.round(:ecart*9,3):-5}",
+                "${10<=:nbgrad?MMmath.round(:ecart*10,3):-5}",
+              ],
+            ],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [
+                "${MMmath.round(:ecart*1,3)}",
+                "${MMmath.round(:ecart*2,3)}",
+                "${MMmath.round(:ecart*3,3)}",
+                "${MMmath.round(:ecart*4,3)}",
+                "${MMmath.round(:ecart*5,3)}",
+                "${MMmath.round(:ecart*6,3)}",
+                "${7<=:nbgrad?MMmath.round(:ecart*7,3):-5}",
+                "${8<=:nbgrad?MMmath.round(:ecart*8,3):-5}",
+                "${9<=:nbgrad?MMmath.round(:ecart*9,3):-5}",
+                "${10<=:nbgrad?MMmath.round(:ecart*10,3):-5}",
+              ],
+            ],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des centièmes
+    vars:
+      pas: 0.01
+      minmax: "-${Math.floor(50/:pas)}_${Math.floor(20/:pas)}"
+      absc: ${MMmath.round(:minmax*:pas,2)}
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionSurTicks: ${MMmath.aleaInt(1,9)}
+      positionPtSurAxe: ${:positionSurTicks*2}
+      ticksperlabel: "2_4"
+      offsetlbl: ${(:positionSurTicks+MMmath.aleaInt(1,:ticksperlabel-1))%:ticksperlabel}
+      borneinf: ${MMmath.round(:absc-(:positionSurTicks-1)*:pas,2)}
+      lb1: ${:borneinf}
+      lb2: ${MMmath.round(:borneinf+:pas,2)}
+      lb3: ${MMmath.round(:borneinf+:pas*2,2)}
+      lb4: ${MMmath.round(:borneinf+:pas*3,2)}
+      lb5: ${MMmath.round(:borneinf+:pas*4,2)}
+      lb6: ${MMmath.round(:borneinf+:pas*5,2)}
+      lb7: ${MMmath.round(:borneinf+:pas*6,2)}
+      lb8: ${MMmath.round(:borneinf+:pas*7,2)}
+      lb9: ${MMmath.round(:borneinf+:pas*8,2)}
+      lb10: ${MMmath.round(:borneinf+:pas*9,2)}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [l1, [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]],
+            {
+              minorTicks: 0,
+              anchor: left,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [l1, [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]],
+            {
+              minorTicks: 0,
+              anchor: left,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des centièmes entre deux dixièmes consécutifs
+    vars:
+      dixieme: "-500_199"
+      borneinf: ${MMmath.round(:dixieme/10,1)}
+      bornesup: ${MMmath.round(:borneinf+0.1,1)}
+      k: "1_9"
+      absc: ${MMmath.round(:borneinf+:k/100,2)}
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionPtSurAxe: ${MMmath.round(2+1.8*:k,3)}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [3.8, 5.6, 7.4, 9.2, 11, 12.8, 14.6, 16.4, 18.2],
+            ],
+            { minorTicks: 0, drawLabels: false, majorHeight: 8 },
+          ]
+        - [
+            ticks,
+            [l1, [2, 20]],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 16,
+              label: { anchorX: middle, offset: [0, -13] },
+              labels:
+                [
+                  "${String(:borneinf).replace('.',',')}",
+                  "${String(:bornesup).replace('.',',')}",
+                ],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [3.8, 5.6, 7.4, 9.2, 11, 12.8, 14.6, 16.4, 18.2],
+            ],
+            { minorTicks: 0, drawLabels: false, majorHeight: 8 },
+          ]
+        - [
+            ticks,
+            [l1, [2, 20]],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 16,
+              label: { anchorX: middle, offset: [0, -13] },
+              labels:
+                [
+                  "${String(:borneinf).replace('.',',')}",
+                  "${String(:bornesup).replace('.',',')}",
+                ],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]
+  - name: Placer des centièmes, écart entre graduations variable
+    vars:
+      nbgrad: [6, 7, 8, 9, 10]
+      ecart: ${MMmath.round(22/(:nbgrad+1),3)}
+      ticksperlabel: "2_3"
+      pas: [0.01, 0.02, 0.05]
+      minmax: "-${Math.floor(50/:pas)}_${Math.floor(20/:pas)}"
+      absc: ${MMmath.round(:minmax*:pas,2)}
+      ptid: "0_${:nomspts.length-1}"
+      pt: ${:nomspts[:ptid]}
+      positionSurTicks: ${MMmath.aleaInt(1,:nbgrad)}
+      offsetlbl: ${(:positionSurTicks+MMmath.aleaInt(1,:ticksperlabel-1))%:ticksperlabel}
+      positionPtSurAxe: ${MMmath.round(:ecart*:positionSurTicks,3)}
+      borneinf: ${MMmath.round(:absc-(:positionSurTicks-1)*:pas,2)}
+      lb1: ${:borneinf}
+      lb2: ${MMmath.round(:borneinf+:pas,2)}
+      lb3: ${MMmath.round(:borneinf+:pas*2,2)}
+      lb4: ${MMmath.round(:borneinf+:pas*3,2)}
+      lb5: ${MMmath.round(:borneinf+:pas*4,2)}
+      lb6: ${MMmath.round(:borneinf+:pas*5,2)}
+      lb7: ${MMmath.round(:borneinf+:pas*6,2)}
+      lb8: ${MMmath.round(:borneinf+:pas*7,2)}
+      lb9: ${MMmath.round(:borneinf+:pas*8,2)}
+      lb10: ${MMmath.round(:borneinf+:pas*9,2)}
+    figure:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [
+                "${MMmath.round(:ecart*1,3)}",
+                "${MMmath.round(:ecart*2,3)}",
+                "${MMmath.round(:ecart*3,3)}",
+                "${MMmath.round(:ecart*4,3)}",
+                "${MMmath.round(:ecart*5,3)}",
+                "${MMmath.round(:ecart*6,3)}",
+                "${7<=:nbgrad?MMmath.round(:ecart*7,3):-5}",
+                "${8<=:nbgrad?MMmath.round(:ecart*8,3):-5}",
+                "${9<=:nbgrad?MMmath.round(:ecart*9,3):-5}",
+                "${10<=:nbgrad?MMmath.round(:ecart*10,3):-5}",
+              ],
+            ],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+    question: Placer le point :pt d’abscisse :absc.
+    answer: ""
+    figureCorrection:
+      type: graph
+      boundingbox: [0, 2, 22, -2]
+      axis: false
+      grid: false
+      content:
+        - [
+            line,
+            [[0, 0], [1, 0]],
+            { name: l1, lastArrow: { type: 1, size: 5 } },
+          ]
+        - [
+            ticks,
+            [
+              l1,
+              [
+                "${MMmath.round(:ecart*1,3)}",
+                "${MMmath.round(:ecart*2,3)}",
+                "${MMmath.round(:ecart*3,3)}",
+                "${MMmath.round(:ecart*4,3)}",
+                "${MMmath.round(:ecart*5,3)}",
+                "${MMmath.round(:ecart*6,3)}",
+                "${7<=:nbgrad?MMmath.round(:ecart*7,3):-5}",
+                "${8<=:nbgrad?MMmath.round(:ecart*8,3):-5}",
+                "${9<=:nbgrad?MMmath.round(:ecart*9,3):-5}",
+                "${10<=:nbgrad?MMmath.round(:ecart*10,3):-5}",
+              ],
+            ],
+            {
+              minorTicks: 0,
+              drawLabels: true,
+              majorHeight: 10,
+              drawZero: true,
+              label: { anchorX: middle, offset: [0, -12] },
+              labels:
+                [
+                  "${1%:ticksperlabel===:offsetlbl?String(:lb1).replace('.',','):''}",
+                  "${2%:ticksperlabel===:offsetlbl?String(:lb2).replace('.',','):''}",
+                  "${3%:ticksperlabel===:offsetlbl?String(:lb3).replace('.',','):''}",
+                  "${4%:ticksperlabel===:offsetlbl?String(:lb4).replace('.',','):''}",
+                  "${5%:ticksperlabel===:offsetlbl?String(:lb5).replace('.',','):''}",
+                  "${6%:ticksperlabel===:offsetlbl?String(:lb6).replace('.',','):''}",
+                  "${7%:ticksperlabel===:offsetlbl?String(:lb7).replace('.',','):''}",
+                  "${8%:ticksperlabel===:offsetlbl?String(:lb8).replace('.',','):''}",
+                  "${9%:ticksperlabel===:offsetlbl?String(:lb9).replace('.',','):''}",
+                  "${10%:ticksperlabel===:offsetlbl?String(:lb10).replace('.',','):''}",
+                ],
+            },
+          ]
+        - [
+            point,
+            [:positionPtSurAxe, 0],
+            {
+              name: :pt,
+              visible: true,
+              face: x,
+              label: { offset: [0, 13], anchorX: middle },
+            },
+          ]

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Automatismes en classe de 5e</title>
+        <style>
+            :root {
+                --accent: #2c6e9e;
+                --accent-light: #eaf3fa;
+                --border: #dde3e8;
+                --text: #23303a;
+                --muted: #8a97a1;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                margin: 0;
+                padding: 0 20px 40px;
+                color: var(--text);
+                background: #f7f9fb;
+            }
+            header {
+                padding: 30px 0 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+                margin: 0 0 4px;
+                color: var(--accent);
+            }
+            .subtitle {
+                color: var(--muted);
+                margin: 0 0 20px;
+                font-size: 0.95em;
+            }
+            .sommaire {
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 16px 24px;
+                margin-bottom: 24px;
+            }
+            .sommaire h2 {
+                font-size: 1.05em;
+                margin: 0 0 8px;
+            }
+            .sommaire ul {
+                columns: 3;
+                margin: 0;
+                padding-left: 18px;
+            }
+            .sommaire a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+            .sommaire a:hover {
+                text-decoration: underline;
+            }
+            .container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+                gap: 20px;
+            }
+            .tile {
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 16px 20px 18px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                transition: box-shadow 0.15s ease;
+            }
+            .tile:hover {
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            }
+            .tile h2 {
+                font-weight: bold;
+                margin: 0 0 10px;
+                font-size: 1.15em;
+                color: var(--accent);
+                border-bottom: 2px solid var(--accent-light);
+                padding-bottom: 8px;
+            }
+            .tile ul {
+                margin: 0;
+                padding-left: 0;
+                list-style: none;
+            }
+            .tile li {
+                padding: 7px 0;
+                border-bottom: 1px dashed var(--border);
+                line-height: 1.35;
+            }
+            .tile li:last-child {
+                border-bottom: none;
+            }
+            .tile a {
+                color: var(--text);
+                text-decoration: none;
+            }
+            .tile ul a::before {
+                content: "→ ";
+                color: var(--accent);
+                font-weight: bold;
+            }
+            .tile a:hover {
+                color: var(--accent);
+                text-decoration: underline;
+            }
+            .tile li.soon {
+                color: var(--muted);
+            }
+            .badge {
+                display: inline-block;
+                font-size: 0.72em;
+                color: var(--muted);
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                padding: 1px 8px;
+                margin-left: 4px;
+                vertical-align: middle;
+            }
+            footer {
+                margin-top: 30px;
+                color: var(--muted);
+                font-size: 0.85em;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Automatismes en classe de 5e</h1>
+            <p class="subtitle">
+                D'après le programme de mathématiques du cycle 4 (BO du 5 mars 2026).
+            </p>
+        </header>
+        <div class="sommaire">
+            <h2>Sommaire des thèmes</h2>
+            <ul>
+                <li><a href="#operations">Opérations</a></li>
+                <li><a href="#relatifs">Nombres relatifs</a></li>
+                <li><a href="#rationnels">Nombres rationnels (fractions, pourcentages)</a></li>
+                <li><a href="#puissances">Puissances et calcul littéral</a></li>
+                <li><a href="#reperage">Repérage sur une droite</a></li>
+                <li><a href="#espace">Représentation de l'espace</a></li>
+                <li><a href="#transformations">Transformations</a></li>
+                <li><a href="#angles">Angles</a></li>
+                <li><a href="#triangles">Triangles</a></li>
+                <li><a href="#quadrilateres">Parallélogrammes et polygones</a></li>
+                <li><a href="#probabilites">Probabilités</a></li>
+                <li><a href="#proportions">Proportionnalité</a></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="tile">
+                <a name="operations"></a>
+                <h2>Opérations</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Op%C3%A9rations%20-%20Crit%C3%A8res%20de%20divisibilit%C3%A9%20par%202%2C%205%20et%2010&amp;p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Crit%C3%A8res%20de%20divisibilit%C3%A9%20par%202%2C%205%20et%2010~c=1~o=true~d=normal~at=10_i=5ND2~o=0,2,4~q=0.-2.-4.~p=~t=8~n=6" target="_blank" rel="noopener">Critères de divisibilité par 2, 5 et 10</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Op%C3%A9rations%20-%20Quotient%20et%20reste%20d'une%20division%20euclidienne&amp;p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Quotient%20et%20reste%20d'une%20division%20euclidienne~c=1~o=true~d=normal~at=10_i=6ND10~o=2,3~q=2.-3.~p=~t=8~n=6" target="_blank" rel="noopener">Quotient et reste d'une division euclidienne</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=&p=0~t=Diapo%201~c=1~o=true~d=normal~at=10~sl=0_i=6ND28~o=3,4,5,6,7,8~q=3.0-4.0-5.0-6.0-7.0-8.0~t=8~n=4_i=6ND28~o=3,4,5,6,7,8~q=0.-2.-3.1-4.1-5.1-6.1-7.1-8.1~t=8~n=4_i=5NC15~o=2~q=2.0,1~t=8~n=2" target="_blank" rel="noopener">Factoriser un nombre entier à l'aide des tables de multiplication</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Op%C3%A9rations%20-%20Calculer%20un%20produit%20d%C3%A9riv%C3%A9%20des%20tables%20(0%2C6%20%C3%97%207%20%3B%2040%20%C3%97%200%2C03)&amp;p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Calculer%20un%20produit%20d%C3%A9riv%C3%A9%20des%20tables%20(0%2C6%20%C3%97%207%20%3B%2040%20%C3%97%200%2C03)~c=1~o=true~d=normal~at=10_i=6NE5~o=0,2,4~q=0.-2.-4.~p=~t=8~n=6" target="_blank" rel="noopener">Calculer un produit dérivé des tables (0,6 × 7 ; 40 × 0,03)</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Op%C3%A9rations%20-%20Multiplier%20un%20nombre%20d%C3%A9cimal%20par%2010%2C%20100%20ou%201000&amp;p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Multiplier%20un%20nombre%20d%C3%A9cimal%20par%2010%2C%20100%20ou%201000~c=1~o=true~d=normal~at=10_i=8NE2~o=~q=~p=~t=8~n=8" target="_blank" rel="noopener">Multiplier un nombre décimal par 10, 100 ou 1000</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Op%C3%A9rations%20-%20Diviser%20un%20nombre%20d%C3%A9cimal%20par%2010%2C%20100%20ou%201000&amp;p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Diviser%20un%20nombre%20d%C3%A9cimal%20par%2010%2C%20100%20ou%201000~c=1~o=true~d=normal~at=10_i=8NE3~o=~q=~p=~t=8~n=8" target="_blank" rel="noopener">Diviser un nombre décimal par 10, 100 ou 1000</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Op%C3%A9rations%20-%20Additionner%20des%20nombres%20d%C3%A9cimaux&amp;p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Additionner%20des%20nombres%20d%C3%A9cimaux~c=1~o=true~d=normal~at=10_i=8NE8~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Additionner des nombres décimaux</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Op%C3%A9rations%20-%20Soustraire%20des%20nombres%20d%C3%A9cimaux&amp;p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Soustraire%20des%20nombres%20d%C3%A9cimaux~c=1~o=true~d=normal~at=10_i=6NC11~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Soustraire des nombres décimaux</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20%2d%20Op%C3%A9rations%20%2d%20Entretenir%20les%20tables%20de%20multiplication&p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Entretenir%20les%20tables%20de%20multiplication~c=1~o=true~d=normal~at=10_i=6ND28~q=0.-1.-2.-3.-4.-5.-6.-7.-8.~t=8~n=10" target="_blank" rel="noopener">Entretenir les tables de multiplication</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="relatifs"></a>
+                <h2>Nombres relatifs</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20relatifs%20-%20Additionner%20et%20soustraire%20des%20nombres%20relatifs%20(entiers%20et%20d%C3%A9cimaux)&amp;p=0~t=5e%202026%20-%20Nombres%20relatifs%20-%20Additionner%20et%20soustraire%20des%20nombres%20relatifs%20(entiers%20et%20d%C3%A9cimaux)~c=1~o=true~d=normal~at=10_i=5NC1~o=~q=~p=~t=8~n=4_i=5NC2~o=~q=~p=~t=8~n=4_i=5NC14~o=~q=~p=~t=8~n=4" target="_blank" rel="noopener">Additionner et soustraire des nombres relatifs (entiers et décimaux)</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20relatifs%20-%20Multiplier%20des%20nombres%20relatifs&amp;p=0~t=5e%202026%20-%20Nombres%20relatifs%20-%20Multiplier%20des%20nombres%20relatifs~c=1~o=true~d=normal~at=10_i=5NC5~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Multiplier des nombres relatifs</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20%2d%20Nombres%20relatifs%20%2d%20Compl%C3%A9ter%20une%20addition%20%C3%A0%20trou%20%C3%A0%20l'aide%20de%20la%20soustraction&p=0~t=5e%202026%20-%20Nombres%20relatifs%20-%20Compl%C3%A9ter%20une%20addition%20%C3%A0%20trou%20%C3%A0%20l'aide%20de%20la%20soustraction~c=1~o=true~d=normal~at=10_i=5NC15~o=0~q=0.0,1-1.~t=8~n=6_i=5NC15~o=1~q=1.0,1~t=8~n=4" target="_blank" rel="noopener">Compléter une addition à trou à l'aide de la soustraction</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="rationnels"></a>
+                <h2>Nombres rationnels (fractions, pourcentages)</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20%C3%89criture%20d%C3%A9cimale%20de%20fractions%20simples&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20%C3%89criture%20d%C3%A9cimale%20de%20fractions%20simples~c=1~o=true~d=normal~at=10_i=6NB1~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Écriture décimale de fractions simples</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Utiliser%20la%20notion%20de%20nombre%20quotient%20dans%20une%20multiplication%20%C3%A0%20trou&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Utiliser%20la%20notion%20de%20nombre%20quotient%20dans%20une%20multiplication%20%C3%A0%20trou~c=1~o=true~d=normal~at=10_i=5NC15~o=2~q=2.~p=~t=8~n=6" target="_blank" rel="noopener">Utiliser la notion de nombre quotient dans une multiplication à trou</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Lire%20l'abscisse%20d'un%20point%20sur%20une%20droite%20gradu%C3%A9e%20(demis%2C%20tiers%2C%20quarts)&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Lire%20l'abscisse%20d'un%20point%20sur%20une%20droite%20gradu%C3%A9e%20(demis%2C%20tiers%2C%20quarts)~c=1~o=true~d=normal~at=10_i=6NB10~o=0,1,2~q=0.-1.-2.~p=~t=8~n=6" target="_blank" rel="noopener">Lire l'abscisse d'un point sur une droite graduée (demis, tiers, quarts)</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Reconna%C3%AEtre%20des%20fractions%20%C3%A9gales&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Reconna%C3%AEtre%20des%20fractions%20%C3%A9gales~c=1~o=true~d=normal~at=10_i=6NB6~o=~q=~p=~t=8~n=4_i=6NB8~o=~q=~p=~t=8~n=4" target="_blank" rel="noopener">Reconnaître des fractions égales</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Comparer%20deux%20fractions&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Comparer%20deux%20fractions~c=1~o=true~d=normal~at=10_i=6NB3~o=~q=~p=~t=8~n=8" target="_blank" rel="noopener">Comparer deux fractions</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20%C3%89crire%20une%20fraction%20sous%20la%20forme%20entier%20%2B%20fraction%20inf%C3%A9rieure%20%C3%A0%201&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20%C3%89crire%20une%20fraction%20sous%20la%20forme%20entier%20%2B%20fraction%20inf%C3%A9rieure%20%C3%A0%201~c=1~o=true~d=normal~at=10_i=5NA6~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Écrire une fraction sous la forme entier + fraction inférieure à 1</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Additionner%20et%20soustraire%20des%20fractions%20simples&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Additionner%20et%20soustraire%20des%20fractions%20simples~c=1~o=true~d=normal~at=10_i=5NC7~o=0,1,2,9~q=0.-1.-2.-9.~p=~t=8~n=4_i=5NC8~o=0,1,2,3~q=0.-1.-2.-3.~p=~t=8~n=4" target="_blank" rel="noopener">Additionner et soustraire des fractions simples</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Prendre%20une%20fraction%20simple%20d'un%20nombre&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Prendre%20une%20fraction%20simple%20d'un%20nombre~c=1~o=true~d=normal~at=10_i=7NB1~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Prendre une fraction simple d'un nombre</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Calculer%201%20%25%2C%2010%20%25%20ou%2050%20%25%20d%E2%80%99un%20nombre&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20Calculer%201%20%25%2C%2010%20%25%20ou%2050%20%25%20d%E2%80%99un%20nombre~c=1~o=true~d=normal~at=10_i=5NC10~o=0,2,3~q=0.-2.-3.~p=~t=8~n=6" target="_blank" rel="noopener">Calculer 1 %, 10 % ou 50 % d’un nombre</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20%C3%89crire%20un%20nombre%20sous%20diff%C3%A9rentes%20formes%20(d%C3%A9cimale%2C%20fractionnaire%2C%20pourcentage)&amp;p=0~t=5e%202026%20-%20Nombres%20rationnels%20(fractions%2C%20pourcentages)%20-%20%C3%89crire%20un%20nombre%20sous%20diff%C3%A9rentes%20formes%20(d%C3%A9cimale%2C%20fractionnaire%2C%20pourcentage)~c=1~o=true~d=normal~at=10_i=5NA5~o=~q=~p=~t=8~n=4_i=5NA7~o=~q=~p=~t=8~n=4" target="_blank" rel="noopener">Écrire un nombre sous différentes formes (décimale, fractionnaire, pourcentage)</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="puissances"></a>
+                <h2>Puissances et calcul littéral</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20%2d%20Op%C3%A9rations%20%2d%20Entretenir%20les%20tables%20de%20multiplication&p=0~t=5e%202026%20-%20Op%C3%A9rations%20-%20Entretenir%20les%20tables%20de%20multiplication~c=1~o=true~d=normal~at=10_i=6ND28~q=0.-1.-2.-3.-4.-5.-6.-7.-8.~t=8~n=10" target="_blank" rel="noopener">Entretenir les tables de multiplication</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Puissances%20et%20calcul%20litt%C3%A9ral%20-%20Conna%C3%AEtre%20les%20carr%C3%A9s%20des%20nombres%20entiers&amp;p=0~t=5e%202026%20-%20Puissances%20et%20calcul%20litt%C3%A9ral%20-%20Conna%C3%AEtre%20les%20carr%C3%A9s%20des%20nombres%20entiers~c=1~o=true~d=normal~at=10_i=6ND13~o=0~q=0.~p=~t=8~n=8" target="_blank" rel="noopener">Connaître les carrés des nombres entiers</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%20%2d%20Suite%20de%20motifs&p=0~t=5e%20-%20suite%20de%20motifs~c=1~o=true~d=normal~at=10_i=5NE12~o=0,4,8~q=0.-4.-8.~t=8~n=3_i=5NE12~o=1,5,9~q=0.-1.-4.-5.-8.-9.~t=8~n=3_i=5NE12~o=2,6,10~q=0.-1.-2.-4.-5.-6.-8.-9.-10.~t=8~n=3_i=5NE12~o=3,7,11~q=0.-1.-2.-3.-4.-5.-6.-7.-8.-9.-10.-11.~t=8~n=1" target="_blank" rel="noopener">Identifier et poursuivre une suite de motifs évolutive</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="reperage"></a>
+                <h2>Repérage sur une droite et dans le plan</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Rep%C3%A9rage%20sur%20une%20droite%20-%20Rep%C3%A9rer%20un%20nombre%20d%C3%A9cimal%20sur%20une%20demi-droite%20gradu%C3%A9e&amp;p=0~t=5e%202026%20-%20Rep%C3%A9rage%20sur%20une%20droite%20-%20Rep%C3%A9rer%20un%20nombre%20d%C3%A9cimal%20sur%20une%20demi-droite%20gradu%C3%A9e~c=1~o=true~d=normal~at=10_i=6NA4~o=1~q=1.~p=~t=8~n=6" target="_blank" rel="noopener">Repérer un nombre décimal sur une demi-droite graduée</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20%2d%20Rep%C3%A9rage%20dans%20le%20plan&p=0~t=5e%202026%20-%20Rep%C3%A9rage%20dans%20le%20plan~c=1~o=true~d=normal~at=10_i=5GR1~q=0.-1.~t=8~n=6" target="_blank" rel="noopener">Lire les coordonnées d'un point dans le plan</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="espace"></a>
+                <h2>Représentation de l'espace</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%20%2d%20Vues%20d'un%20solide&p=0~t=5e%20-%20Vues%20d'un%20solide~c=1~o=true~d=normal~at=10_i=5GA3~o=0,4~q=0.-4.~t=8~n=2_i=5GA3~o=1,5~q=0.-1.-4.-5.~t=8~n=2_i=5GA3~o=2,6~q=0.-1.-2.-4.-5.-6.~t=8~n=2_i=5GA3~o=3,7~q=0.-1.-2.-3.-4.-5.-6.-7.~t=8~n=2" target="_blank" rel="noopener">Reconnaître des vues d'empilements de cubes</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Repr%C3%A9sentation%20de%20l'espace%20-%20D%C3%A9nombrer%20des%20cubes%20dans%20un%20empilement&amp;p=0~t=5e%202026%20-%20Repr%C3%A9sentation%20de%20l'espace%20-%20D%C3%A9nombrer%20des%20cubes%20dans%20un%20empilement~c=1~o=true~d=normal~at=10_i=6MD1~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Dénombrer des cubes dans un empilement</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%20%2d%20Reconnaitre%20un%20solide&p=0~t=5e%20-%20Reconnaitre%20un%20solide~c=1~o=true~d=normal~at=10_i=5GA2~q=0.-1.-2.~t=8~n=6" target="_blank" rel="noopener">Reconnaître un cube ou un pavé en perspective cavalière</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%20%2d%20Patrons%20du%20cube&p=0~t=5e%20-%20Patrons%20du%20cube~c=1~o=true~d=normal~at=10_i=5GA1~o=0~q=0.~t=8~n=2_i=5GA1~o=1~q=0.-1.~t=8~n=2_i=5GA1~o=2~q=0.-1.-2.~t=8~n=2" target="_blank" rel="noopener">Reconnaître un patron de cube</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="transformations"></a>
+                <h2>Transformations</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20%2d%20Transformations%20%2d%20Sym%C3%A9trie%20axiale%20%3A%20reconna%C3%AEtre%20le%20sym%C3%A9trique%20d'une%20figure%20par%20rapport%20%C3%A0%20un%20axe&p=0~t=5e%202026%20-%20Transformations%20-%20Sym%C3%A9trie%20axiale%20:%20reconna%C3%AEtre%20le%20sym%C3%A9trique%20rapport%20%C3%A0%20un%20axe~c=1~o=true~d=normal~at=10_i=5LG1~o=0~q=0.0,3,4~t=8~n=2_i=6GD9~o=0,1,2,3,6,4~q=0.-1.-2.-3.-4.-5.-6.-7.-8.-.~t=8~n=3_i=5GT2~o=0,1~q=0.-1.~t=8~n=3_i=8GC5~o=5,3,2,0~q=0.-2.-3.-5.~t=8~n=3" target="_blank" rel="noopener">Symétrie axiale : reconnaître et construire le symétrique d'une figure par rapport à un axe</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="angles"></a>
+                <h2>Angles</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Angles%20-%20Reconna%C3%AEtre%20et%20nommer%20les%20angles%20(plein%2C%20plat%2C%20nul%2C%20droit%2C%20adjacents%2C%20oppos%C3%A9s%2C%20suppl%C3%A9mentaires%2C%20aigu%2C%20obtus)&amp;p=0~t=5e%202026%20-%20Angles%20-%20Reconna%C3%AEtre%20et%20nommer%20les%20angles%20(plein%2C%20plat%2C%20nul%2C%20droit%2C%20adjacents%2C%20oppos%C3%A9s%2C%20suppl%C3%A9mentaires%2C%20aigu%2C%20obtus)~c=1~o=true~d=normal~at=10_i=8ME1~o=~q=~p=~t=8~n=6_i=6ME5~o=0,3~q=0.-3.~p=~t=8~n=4" target="_blank" rel="noopener">Reconnaître et nommer les angles (plein, plat, nul, droit, adjacents, opposés, supplémentaires, aigu, obtus)</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Angles%20-%20Reconna%C3%AEtre%20une%20bissectrice&amp;p=0~t=5e%202026%20-%20Angles%20-%20Reconna%C3%AEtre%20une%20bissectrice~c=1~o=true~d=normal~at=10_i=6GC13~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Reconnaître une bissectrice</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="triangles"></a>
+                <h2>Triangles</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Triangles%20-%20Reconna%C3%AEtre%20un%20triangle%20isoc%C3%A8le%2C%20%C3%A9quilat%C3%A9ral%20ou%20rectangle%20%C3%A0%20partir%20d%E2%80%99un%20sch%C3%A9ma%20cod%C3%A9&amp;p=0~t=5e%202026%20-%20Triangles%20-%20Reconna%C3%AEtre%20un%20triangle%20isoc%C3%A8le%2C%20%C3%A9quilat%C3%A9ral%20ou%20rectangle%20%C3%A0%20partir%20d%E2%80%99un%20sch%C3%A9ma%20cod%C3%A9~c=1~o=true~d=normal~at=10_i=6GC11~o=1,2,3~q=1.-2.-3.~p=~t=8~n=4_i=6GC12~o=1,2,3~q=1.-2.-3.~p=~t=8~n=4" target="_blank" rel="noopener">Reconnaître un triangle isocèle, équilatéral ou rectangle à partir d’un schéma codé</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Triangles%20-%20Conna%C3%AEtre%20la%20somme%20des%20angles%20d'un%20triangle%20et%20calculer%20le%203e%20angle&amp;p=0~t=5e%202026%20-%20Triangles%20-%20Conna%C3%AEtre%20la%20somme%20des%20angles%20d'un%20triangle%20et%20calculer%20le%203e%20angle~c=1~o=true~d=normal~at=10_i=5GB1~o=~q=~p=~t=8~n=4_i=5GB2~o=~q=~p=~t=8~n=4" target="_blank" rel="noopener">Connaître la somme des angles d'un triangle et calculer le 3e angle</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Triangles%20-%20Notion%20de%20m%C3%A9diatrice%20et%20de%20cercle%20circonscrit&amp;p=0~t=5e%202026%20-%20Triangles%20-%20Notion%20de%20m%C3%A9diatrice%20et%20de%20cercle%20circonscrit~c=1~o=true~d=normal~at=10_i=6GD6~o=~q=~p=~t=8~n=4_i=6GD4~o=~q=~p=~t=8~n=4" target="_blank" rel="noopener">Notion de médiatrice et de cercle circonscrit</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="quadrilateres"></a>
+                <h2>Parallélogrammes et polygones</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Parall%C3%A9logrammes%20et%20polygones%20-%20Reconna%C3%AEtre%20un%20quadrilat%C3%A8re%2C%20parall%C3%A9logramme%2C%20rectangle%2C%20losange%2C%20carr%C3%A9%2C%20trap%C3%A8ze%2C%20pentagone%2C%20hexagone&amp;p=0~t=5e%202026%20-%20Parall%C3%A9logrammes%20et%20polygones%20-%20Reconna%C3%AEtre%20un%20quadrilat%C3%A8re%2C%20parall%C3%A9logramme%2C%20rectangle%2C%20losange%2C%20carr%C3%A9%2C%20trap%C3%A8ze%2C%20pentagone%2C%20hexagone~c=1~o=true~d=normal~at=10_i=5GB10~o=~q=~p=~t=8~n=5_i=5GB11~o=~q=~p=~t=8~n=5" target="_blank" rel="noopener">Reconnaître un quadrilatère, parallélogramme, rectangle, losange, carré, trapèze, pentagone, hexagone</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20%2d%20Parall%C3%A9logrammes%20et%20polygones%20%2d%20Identifier%20un%20parall%C3%A9logramme%20particulier%20par%20les%20codages&p=0~t=5e%202026%20-%20Parall%C3%A9logrammes%20et%20polygones%20-%20identifier%20un%20parall%C3%A9logramme%20particulier%20par%20les%20codages~c=1~o=true~d=normal~at=10_i=8GC2~q=0.-1.-2.-3.-4.~t=8~n=5_i=5GB8~q=0.-1.-2.-3.-4.-.~t=8~n=5" target="_blank" rel="noopener">Exploiter le codage pour identifier un parallélogramme particulier</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="probabilites"></a>
+                <h2>Probabilités</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Probabilit%C3%A9s%20-%20Positionner%20un%20%C3%A9v%C3%A8nement%20sur%20une%20%C3%A9chelle%20de%20probabilit%C3%A9%20et%20l'exprimer%20sous%20forme%20de%20fraction&amp;p=0~t=5e%202026%20-%20Probabilit%C3%A9s%20-%20Positionner%20un%20%C3%A9v%C3%A8nement%20sur%20une%20%C3%A9chelle%20de%20probabilit%C3%A9%20et%20l'exprimer%20sous%20forme%20de%20fraction~c=1~o=true~d=normal~at=10_i=6DA6~o=~q=~p=~t=8~n=8" target="_blank" rel="noopener">Positionner un évènement sur une échelle de probabilité et l'exprimer sous forme de fraction</a></li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="proportions"></a>
+                <h2>Proportionnalité</h2>
+                <ul>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Proportionnalit%C3%A9%20-%20Reconna%C3%AEtre%20si%20une%20situation%20est%20proportionnelle&amp;p=0~t=5e%202026%20-%20Proportionnalit%C3%A9%20-%20Reconna%C3%AEtre%20si%20une%20situation%20est%20proportionnelle~c=1~o=true~d=normal~at=10_i=5DC4~o=~q=~p=~t=8~n=4_i=5DC5~o=~q=~p=~t=8~n=4" target="_blank" rel="noopener">Reconnaître si une situation est proportionnelle</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Proportionnalit%C3%A9%20-%20Choisir%20une%20proc%C3%A9dure%20adapt%C3%A9e%20%3A%20lin%C3%A9arit%C3%A9%20(addition%2C%20multiplication)%20ou%20retour%20%C3%A0%20l%E2%80%99unit%C3%A9&amp;p=0~t=5e%202026%20-%20Proportionnalit%C3%A9%20-%20Choisir%20une%20proc%C3%A9dure%20adapt%C3%A9e%20%3A%20lin%C3%A9arit%C3%A9%20(addition%2C%20multiplication)%20ou%20retour%20%C3%A0%20l%E2%80%99unit%C3%A9~c=1~o=true~d=normal~at=10_i=5DC3~o=0,3,4~q=0.-3.-4.~p=~t=8~n=6" target="_blank" rel="noopener">Choisir une procédure adaptée : linéarité (addition, multiplication) ou retour à l’unité</a></li>
+                    <li><a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=5e%202026%20-%20Proportionnalit%C3%A9%20-%20Calculer%20un%20pourcentage%20dans%20une%20situation%20concr%C3%A8te&amp;p=0~t=5e%202026%20-%20Proportionnalit%C3%A9%20-%20Calculer%20un%20pourcentage%20dans%20une%20situation%20concr%C3%A8te~c=1~o=true~d=normal~at=10_i=5DC1~o=~q=~p=~t=8~n=6" target="_blank" rel="noopener">Calculer un pourcentage dans une situation concrète</a></li>
+                </ul>
+            </div>
+        </div>
+        <footer>
+            Les entrées marquées « bientôt » n'ont pas encore d'activité
+            correspondante dans la bibliothèque MathsMentales.
+        </footer>
+    </body>
+</html>

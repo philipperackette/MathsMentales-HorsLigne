@@ -1,0 +1,76 @@
+title: Repérage dans le plan avec des positifs
+dest:
+  - 5GR
+  - 4GR
+  - 3GR
+type: text
+textSize: medium
+description: "Abscisse, ordonnée, coordonnées d'un point, placer un point, repère. Option « Placer un point » non adaptée au mode interactif (online/duel)."
+options:
+  - name: Lire les coordonnées
+    vars:
+      x: "0_5"
+      y: "0_5"
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 6, 6, -1]
+      keepAspect: false
+      axis: false
+      grid: true
+      content:
+        - - axis
+          - [[0, 0], [1, 0]]
+          - { ticks: { drawZero: true, label: { fontsize: 24, anchorx: "middle", anchory: "top", offset: [0, -3] } } }
+        - - axis
+          - [[0, 0], [0, 1]]
+          - { ticks: { label: { fontsize: 24, anchorx: "right", anchory: "middle", offset: [-6, 0] } } }
+        - - point
+          - [:x, :y]
+          - { face: "x", size: 9, strokeWidth: 3, label: { fontsize: 24 } }
+    question:
+      - Quelle est l’abscisse de A ?
+      - Quelle est l’ordonnée de A ?
+      - Quelles sont les coordonnées du point A ?
+    answer:
+      - L’abscisse de A est <span class='red'>:x</span>.
+      - L’ordonnée de A est <span class='red'>:y</span>.
+      - Les coordonnées du point A sont <span class='red'>( :x ; :y )</span>.
+    value: (:x, :y)
+  - name: Placer un point
+    vars:
+      x: "0_5"
+      y: "0_5"
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 6, 6, -1]
+      keepAspect: false
+      axis: false
+      grid: true
+      content:
+        - - axis
+          - [[0, 0], [1, 0]]
+          - { ticks: { drawZero: true, label: { fontsize: 24, anchorx: "middle", anchory: "top", offset: [0, -3] } } }
+        - - axis
+          - [[0, 0], [0, 1]]
+          - { ticks: { label: { fontsize: 24, anchorx: "right", anchory: "middle", offset: [-6, 0] } } }
+    question: Placer le point de coordonnées ( :x ; :y )
+    answer: ""
+    figureCorrection:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 6, 6, -1]
+      keepAspect: false
+      axis: false
+      grid: true
+      content:
+        - - axis
+          - [[0, 0], [1, 0]]
+          - { ticks: { drawZero: true, label: { fontsize: 24, anchorx: "middle", anchory: "top", offset: [0, -3] } } }
+        - - axis
+          - [[0, 0], [0, 1]]
+          - { ticks: { label: { fontsize: 24, anchorx: "right", anchory: "middle", offset: [-6, 0] } } }
+        - - point
+          - [:x, :y]
+          - { face: "x", size: 9, strokeWidth: 3, label: { fontsize: 24 } }

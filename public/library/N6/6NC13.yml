@@ -1,0 +1,167 @@
+title: Comparer des nombres (progression)
+description: Des entiers aux décimaux, une option par obstacle. Utiliser l’un des symboles <, > ou =
+ID: 6NC13
+type: text
+speech: 1
+keys: ["<", ">", "=", "_"]
+dest:
+  - 9NC
+  - 8NC
+  - 7NC
+  - 6NC
+options:
+  - name: Entiers pas même nombre de chiffres
+    vars:
+      n: [1, 2, 3]
+      ordre: [0, 1]
+      x: ${MMmath.aleaInt(Math.pow(10,:n-1),Math.pow(10,:n)-1)}
+      y: ${MMmath.aleaInt(Math.pow(10,:n),Math.pow(10,:n+1)-1)}
+      a: ${:ordre===0?:x::y}
+      b: ${:ordre===0?:y::x}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Entiers même nombre de chiffres
+    vars:
+      n: [3, 4]
+      k: "1_${:n-1}"
+      t: ${Math.pow(10,:n-:k)}
+      pref: ${MMmath.aleaInt(Math.pow(10,:k-1),Math.pow(10,:k)-1)}
+      q: "0_${:t-1}_2_^&"
+      a: ${:pref*:t+:q[0]}
+      b: ${:pref*:t+:q[1]}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Grands entiers
+    vars:
+      n: [5, 6, 7]
+      k: "1_${:n-1}"
+      t: ${Math.pow(10,:n-:k)}
+      pref: ${MMmath.aleaInt(Math.pow(10,:k-1),Math.pow(10,:k)-1)}
+      q: "0_${:t-1}_2_^&"
+      a: ${:pref*:t+:q[0]}
+      b: ${:pref*:t+:q[1]}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Décimaux, parties entières différentes
+    vars:
+      e: "1_99_2_^&"
+      nda: [1, 2, 3]
+      ndb: [1, 2, 3]
+      ua: "0_99"
+      ub: "0_99"
+      ha: "1_9"
+      hb: "1_9"
+      a: ${MMmath.round(:e[0]+((:ua%Math.pow(10,:nda-1))*10+:ha)/Math.pow(10,:nda),:nda)}
+      b: ${MMmath.round(:e[1]+((:ub%Math.pow(10,:ndb-1))*10+:hb)/Math.pow(10,:ndb),:ndb)}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Même partie entière, autant de décimales
+    vars:
+      e: "1_99"
+      nd: [1, 2, 3]
+      ua: "0_99"
+      ub: "0_99"
+      ha: "1_9"
+      hb: "1_9"
+      a: ${MMmath.round(:e+((:ua%Math.pow(10,:nd-1))*10+:ha)/Math.pow(10,:nd),:nd)}
+      b: ${MMmath.round(:e+((:ub%Math.pow(10,:nd-1))*10+:hb)/Math.pow(10,:nd),:nd)}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Même partie entière, pas autant de décimales
+    vars:
+      e: "1_99"
+      nd: "1_3_2_^&"
+      ua: "0_99"
+      ub: "0_99"
+      ha: "1_9"
+      hb: "1_9"
+      a: ${MMmath.round(:e+((:ua%Math.pow(10,:nd[0]-1))*10+:ha)/Math.pow(10,:nd[0]),:nd[0])}
+      b: ${MMmath.round(:e+((:ub%Math.pow(10,:nd[1]-1))*10+:hb)/Math.pow(10,:nd[1]),:nd[1])}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Zéros après la virgule
+    vars:
+      e: "1_99"
+      h1: "1_9"
+      h2: "1_9"
+      forme: [0, 1, 2]
+      ordre: [0, 1]
+      x: ${MMmath.round(:e+:h1/100,2)}
+      y: ${:forme===0?MMmath.round(:e+:h2/10,1):(:forme===1?MMmath.round(:e+:h2/1000,3):MMmath.round(:e+:h2/100,2))}
+      a: ${:ordre===0?:x::y}
+      b: ${:ordre===0?:y::x}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Un entier et un décimal
+    vars:
+      e: "2_99"
+      d: "1_99"
+      cote: [0, 1]
+      ordre: [0, 1]
+      x: ${:e}
+      y: ${:cote===0?MMmath.round(:e-:d/100,2):MMmath.round(:e+:d/100,2)}
+      a: ${:ordre===0?:x::y}
+      b: ${:ordre===0?:y::x}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Autour de l’unité supérieure
+    vars:
+      e: "1_98"
+      d: "1_99_2_^&"
+      variante: [0, 1]
+      ordre: [0, 1]
+      sx: ${:variante===0?(:ordre===0?-1:1):-1}
+      sy: ${:variante===0?(:ordre===0?1:-1):-1}
+      a: ${MMmath.round(:e+1+:sx*:d[0]/1000,3)}
+      b: ${MMmath.round(:e+1+:sy*:d[1]/1000,3)}
+      s: ${MMmath.compare(:a,:b)}
+  - name: Égalités et zéros inutiles
+    vars:
+      e: "1_30"
+      forme: [0, 1]
+      d1: "1_9"
+      d2: "1_9"
+      dz: [0, 0, 0, 3, 6, 9]
+      extra: ["", "0"]
+      ordre: [0, 1]
+      x: ${:forme===0?:e:MMmath.round(:e+:d1/10,1)}
+      sep: "${:forme===0?'.':''}"
+      zsuf: ${:dz===0&&:forme<2?:extra:''}
+      y: ${MMmath.round(:x+:dz/Math.pow(10,:forme+1),4)}
+      ydisp: '{}${:x}${:sep}${:dz}${:zsuf}'
+      xaudio: "${String(:x).replace('.',',')}"
+      yaudio: "${String(:x).replace('.',',')}${:sep===''?'':','}${:dz}${:zsuf}"
+      a: ${:ordre===0?:x::ydisp}
+      b: ${:ordre===0?:ydisp::x}
+      s: ${:ordre===0?MMmath.compare(:x,:y):MMmath.compare(:y,:x)}
+    audio: "Compare ${:ordre===0?:xaudio::yaudio} ( ) et ( ) ${:ordre===0?:yaudio::xaudio}"
+    value: ["${:s}"]
+  - name: Écritures différentes d’un même nombre
+    vars:
+      e: "1_20"
+      nd: [1, 2]
+      p: ${Math.pow(10,:nd)}
+      f: "1_${:p-1}"
+      forme: [0, 1, 2]
+      ecart: [0, 0, 1, -1]
+      a: ${MMmath.round(:e+(:f+:ecart)/:p,:nd)}
+      nb: ${MMmath.round(:e+:f/:p,:nd)}
+      total: ${:e*:p+:f}
+      unite: "${:nd===1?'dixièmes':'centièmes'}"
+      bfrac: '${:e}+\frac{${:f}}{${:p}}'
+      bsum: "${:e}+${String(MMmath.round(:f/:p,:nd)).replace('.',',')}"
+      btxt: '${:total}\text{ ${:unite}}'
+      b: ${:forme===0?:bfrac:(:forme===1?:bsum::btxt)}
+      baudio: "${:forme===0?:e+' plus '+:f+' sur '+:p:(:forme===1?:e+' plus '+String(MMmath.round(:f/:p,:nd)).replace('.',','):String(:total)+' '+:unite)}"
+      s: ${MMmath.compare(:a,:nb)}
+    audio: "Compare ${String(:a).replace('.',',')} ( ) et ( ) ${:baudio}"
+    value: ["${:s}"]
+  - name: Comparer à 0,5 ou à 1
+    vars:
+      repere: [0.5, 1]
+      nd: [1, 2, 3]
+      i: [0, 1]
+      u: "0_99"
+      h: "1_9"
+      ordre: [0, 1]
+      x: ${MMmath.round(:i+((:u%Math.pow(10,:nd-1))*10+:h)/Math.pow(10,:nd),:nd)}
+      a: ${:ordre===0?:x::repere}
+      b: ${:ordre===0?:repere::x}
+      s: ${MMmath.compare(:a,:b)}
+question: Compare $$${:a}$$ et $$${:b}$$
+shortq: $$ ${:a} ~\colorbox{#ECECEC}{\quad}~ ${:b}$$
+audio: "Compare ${String(:a).replace('.',',')} ( ) et ( ) ${String(:b).replace('.',',')}"
+answer: $$${:a}\color{red}{${:s}}${:b}$$
+value: ["${:a}${:s}${:b}", "${:s}"]

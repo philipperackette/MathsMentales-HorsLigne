@@ -1,0 +1,492 @@
+@import url("../js/libs/JSXGraph1.11.1/jsxgraph.css");
+
+@font-face {
+    font-family: "Baloo 2";
+    src: url("./fonts/Baloo2-VariableFont_wght.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url("./fonts/Nunito-VariableFont_wght.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bg: #0f1b2d;
+    --surface: #162033;
+    --card-default: #ecf8f6;
+    --card-hover: #feeaa1;
+    --accent-a: #ff6b6b;
+    --accent-b: #ffd166;
+    --accent-c: #06d6a0;
+    --accent-d: #118ab2;
+    --accent-e: #a78bfa;
+    --accent-f: #fb923c;
+    --text: #226d68;
+    --text-muted: #7a93b8;
+    --success: #06d6a0;
+    --error: #ff6b6b;
+    --border: rgba(255, 255, 255, 0.06);
+    --glow: rgba(6, 214, 160, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Nunito", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse at 20% 20%,
+            rgba(255, 107, 107, 0.06) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse at 80% 80%,
+            rgba(6, 214, 160, 0.06) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse at 60% 10%,
+            rgba(167, 139, 250, 0.04) 0%,
+            transparent 40%
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.logo {
+    font-family: "Baloo 2", cursive;
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff6b6b, #ffd166);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+}
+
+/* Level selector */
+.level-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.level-btn {
+    background: var(--card-default);
+    border: 2px solid var(--border);
+    color: var(--text-muted);
+    font-family: "Nunito", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.level-btn:hover {
+    border-color: var(--accent-b);
+    color: var(--accent-b);
+}
+.level-btn.active {
+    background: var(--accent-b);
+    border-color: var(--accent-b);
+    color: #0f1b2d;
+}
+
+/* Score bar */
+.score-bar {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.progress-track {
+    flex: 1;
+    height: 10px;
+    background: var(--surface);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success), #a8edea);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.score-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.hearts {
+    display: flex;
+    gap: 4px;
+    font-size: 1.1rem;
+}
+
+/* Game area */
+.game-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 80%;
+}
+
+.instruction {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 0.03em;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card {
+    background: var(--card-default);
+    border: 2.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 12px;
+    text-align: center;
+    font-family: "Baloo 2", cursive;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.15s,
+        border-color 0.15s,
+        background 0.15s,
+        box-shadow 0.15s;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--card-color, transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 14px;
+}
+
+.card:hover:not(.matched):not(.error-flash) {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--card-hover);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card.selected {
+    border-color: var(--sel-color, var(--accent-b));
+    background: color-mix(
+        in srgb,
+        var(--sel-color, var(--accent-b)) 15%,
+        var(--card-default)
+    );
+    box-shadow: 0 0 0 3px
+        color-mix(in srgb, var(--sel-color, var(--accent-b)) 30%, transparent);
+    transform: scale(1.03);
+}
+
+.card.matched {
+    opacity: 0.35;
+    pointer-events: none;
+    transform: scale(0.96);
+    border-color: transparent;
+}
+
+/* New card entering the board */
+.card.entering {
+    opacity: 0;
+    transform: scale(0.85) translateY(8px);
+    pointer-events: none;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* Card leaving the board after match */
+.card.removing {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+    max-height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+/* Turn greyscale and transparent */
+.card.to-remove {
+    filter: grayscale(100%);
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.card.error-flash {
+    animation: errorShake 0.4s ease;
+    border-color: var(--error) !important;
+    background: color-mix(
+        in srgb,
+        var(--error) 15%,
+        var(--card-default)
+    ) !important;
+}
+
+.card.success-flash {
+    animation: successPop 0.35s ease;
+}
+.card table {
+    border: #06d6a0 2px solid;
+    border-radius: 8px;
+    border-collapse: collapse;
+}
+.card table td,
+.card table th {
+    border: #06d6a0 1px solid;
+    padding: 4px;
+    font-size: 1rem;
+}
+
+@keyframes errorShake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-6px);
+    }
+    60% {
+        transform: translateX(6px);
+    }
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(1.03);
+    }
+    50% {
+        transform: scale(1.12);
+    }
+    100% {
+        transform: scale(0.96);
+    }
+}
+
+/* Color coding pairs */
+.pair-0 {
+    --sel-color: #ff6b6b;
+}
+.pair-1 {
+    --sel-color: #ffd166;
+}
+.pair-2 {
+    --sel-color: #06d6a0;
+}
+.pair-3 {
+    --sel-color: #118ab2;
+}
+.pair-4 {
+    --sel-color: #a78bfa;
+}
+.pair-5 {
+    --sel-color: #fb923c;
+}
+
+/* Result banner */
+.result-banner {
+    display: none;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    margin-top: 8px;
+}
+
+.result-banner.show {
+    display: block;
+    animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-emoji {
+    font-size: 3rem;
+    margin-bottom: 8px;
+}
+.result-title {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+.result-title.win {
+    color: var(--success);
+}
+.result-title.lose {
+    color: var(--error);
+}
+.result-sub {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ff6b6b, #ffd166);
+    border: none;
+    border-radius: 14px;
+    color: #0f1b2d;
+    font-family: "Nunito", sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition:
+        transform 0.15s,
+        box-shadow 0.15s;
+    letter-spacing: 0.02em;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);
+}
+
+.btn-primary:active {
+    transform: scale(0.97);
+}
+
+/* Confetti */
+.confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 999;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Notification toast */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+    z-index: 100;
+    white-space: nowrap;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+.toast.good {
+    color: var(--success);
+    border-color: var(--success);
+}
+.toast.bad {
+    color: var(--error);
+    border-color: var(--error);
+}

@@ -1,0 +1,258 @@
+title: Relation entre deux angles formés par des droites concourantes
+description: Adjacents, supplémentaires, opposés par le sommet
+dest:
+  - 5GB
+  - 4GB
+  - 3GB
+type: text
+repeat: 2
+consts:
+  quelc: [[1, 3], [1, 5], [1, 6], [1, 8], [2, 7], [2, 6]]
+  colors: [
+      black,
+      blue,
+      red,
+      green,
+      purple,
+      orange,
+      brown,
+      grey,
+      chocolate,
+      coral,
+      darkblue,
+      darkcyan,
+      indigo,
+      olive,
+      pink,
+      violet,
+      navy
+      orangered,
+      teal,
+      tomato,
+      turquoise,
+    ]
+vars:
+  prop: [true, false]
+  cc: "0_${:colors.length-1}_8_^&"
+options:
+  - name: Des droites concourantes, angles adjacents
+    consts:
+      adj: [[1, 2], [2, 5], [5, 7], [7, 8], [4, 6]]
+    vars:
+      lequel: "0_${:prop?:adj.length-1::quelc.length-1}"
+      atoDraw1: "${:prop?:adj[:lequel][0]::quelc[:lequel][0]}"
+      atoDraw2: "${:prop?:adj[:lequel][1]::quelc[:lequel][1]}"
+      ang1: "-9_9"
+      angd1: ${:ang1*10}
+      ang2droit: [true, false]
+      ang2ad1: "${:ang2droit?9:'4_14_^9'}"
+      angd2: ${:ang2ad1*10 + :angd1}
+      ang3ad1: "2_${:ang2ad1-2}"
+      angd3: ${:ang3ad1*10 + :angd1}
+
+    question: Les angles marqués sont-ils adjacents ?
+    answer: ${:prop?'Oui':'Non'}, les angles ${:prop?'sont':' ne sont pas '} <b>adjacents</b>.
+    value: ${:prop?'Oui':'Non'}
+  - name: Des droites concourantes, angles supplémentaires
+    consts:
+      supp: [[1, 4], [3, 5], [4, 7], [5, 6]]
+    vars:
+      lequel: "0_${:prop?:supp.length-1::quelc.length-1}"
+      atoDraw1: "${:prop?:supp[:lequel][0]::quelc[:lequel][0]}"
+      atoDraw2: "${:prop?:supp[:lequel][1]::quelc[:lequel][1]}"
+      ang1: "-9_9"
+      angd1: ${:ang1*10}
+      ang2droit: [true, false]
+      ang2ad1: "${:ang2droit?9:'4_14_^9'}"
+      angd2: ${:ang2ad1*10 + :angd1}
+      ang3ad1: "2_${:ang2ad1-2}"
+      angd3: ${:ang3ad1*10 + :angd1}
+
+    question: Les angles marqués sont-ils supplémentaires ?
+    answer: ${:prop?'Oui':'Non'}, les angles ${:prop?'sont':' ne sont pas '} <b>supplémentaires</b>.
+    value: ${:prop?'Oui':'Non'}
+  - name: Des droites concourantes, angles opposés par le sommet
+    consts:
+      opp: [[1, 7], [3, 6], [2, 8]]
+    vars:
+      lequel: "0_${:prop?:opp.length-1::quelc.length-1}"
+      atoDraw1: "${:prop?:opp[:lequel][0]::quelc[:lequel][0]}"
+      atoDraw2: "${:prop?:opp[:lequel][1]::quelc[:lequel][1]}"
+      ang1: "-9_9"
+      angd1: ${:ang1*10}
+      ang2droit: [true, false]
+      ang2ad1: "${:ang2droit?9:'4_14_^9'}"
+      angd2: ${:ang2ad1*10 + :angd1}
+      ang3ad1: "2_${:ang2ad1-2}"
+      angd3: ${:ang3ad1*10 + :angd1}
+
+    question: Les angles marqués sont-ils opposés par le sommet ?
+    answer: ${:prop?'Oui':'Non'}, les angles ${:prop?'sont':' ne sont pas '} <b>opposés par le sommet</b>.
+    value: ${:prop?'Oui':'Non'}
+  - name: Des droites concourantes, trouver le vocabulaire
+    consts:
+      adj: [[1, 2], [2, 5], [5, 7], [7, 8], [4, 6]]
+      supp: [[1, 4], [3, 5], [4, 7], [5, 6]]
+      opp: [[1, 7], [3, 6], [2, 8]]
+    vars:
+      chx: "0_3"
+      lequel: "0_${:chx==0?:adj.length-1::chx==1?:supp.length-1::chx==2?:opp.length-1::quelc.length-1}"
+      atoDraw1: "${:chx==0?:adj[:lequel][0]::chx==1?:supp[:lequel][0]::chx==2?:opp[:lequel][0]::quelc[:lequel][0]}"
+      atoDraw2: "${:chx==0?:adj[:lequel][1]::chx==1?:supp[:lequel][1]::chx==2?:opp[:lequel][1]::quelc[:lequel][1]}"
+      ang1: "-9_9"
+      angd1: ${:ang1*10}
+      ang2droit: [true, false]
+      ang2ad1: "${:ang2droit?9:'4_14_^9'}"
+      angd2: ${:ang2ad1*10 + :angd1}
+      ang3ad1: "2_${:ang2ad1-2}"
+      angd3: ${:ang3ad1*10 + :angd1}
+
+    question: Les angles marqués sont-ils adjacents, supplémentaires, opposés par le sommet ou sans lien ?
+    answer: les angles sont <b>${:chx==0?'adjacents'::chx==1?'supplémentaires'::chx==2?'opposés par le sommet':'sans lien'}</b>.
+    value: ${:chx==0?'adjacents'::chx==1?'supplémentaires'::chx==2?'opposés par le sommet':'sans lien'}
+figure:
+  type: graph
+  boundingbox: [-5, 5, 5, -5]
+  axis: false
+  grid: false
+  content:
+    - [point, [0, 0], { name: O, visible: false }]
+    - [
+        point,
+        [
+          "${Math.cos(:angd1*Math.PI/180)*3}",
+          "${Math.sin(:angd1*Math.PI/180)*3}",
+        ],
+        { name: A, visible: false },
+      ]
+    - [
+        point,
+        [
+          "${Math.cos(:angd2*Math.PI/180)*3}",
+          "${Math.sin(:angd2*Math.PI/180)*3}",
+        ],
+        { name: C, visible: false },
+      ]
+    - [
+        point,
+        [
+          "${Math.cos(:angd3*Math.PI/180)*3}",
+          "${Math.sin(:angd3*Math.PI/180)*3}",
+        ],
+        { name: B, visible: false },
+      ]
+    - [
+        point,
+        [
+          "${-Math.cos(:angd1*Math.PI/180)*3}",
+          "${-Math.sin(:angd1*Math.PI/180)*3}",
+        ],
+        { name: D, visible: false },
+      ]
+    - [
+        point,
+        [
+          "${-Math.cos(:angd2*Math.PI/180)}*3",
+          "${-Math.sin(:angd2*Math.PI/180)}*3",
+        ],
+        { name: F, visible: false },
+      ]
+    - [
+        point,
+        [
+          "${-Math.cos(:angd3*Math.PI/180)}*3",
+          "${-Math.sin(:angd3*Math.PI/180)}*3",
+        ],
+        { name: E, visible: false },
+      ]
+    - [line, [O, A], { strokeWidth: 2, name: d1 }]
+    - [line, [O, C], { strokeWidth: 2, name: d2, color: blue }]
+    - [line, [O, B], { strokeWidth: 2, name: d3 }]
+    - [
+        angle,
+        [A, O, B],
+        {
+          name: a1,
+          radius: 2,
+          label: { visible: false },
+          color: "${:colors[:cc[0]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(1)?1:0}",
+        },
+      ]
+    - [
+        angle,
+        [B, O, C],
+        {
+          name: a2,
+          radius: 2.5,
+          label: { visible: false },
+          color: "${:colors[:cc[1]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(2)?1:0}",
+        },
+      ]
+    - [
+        angle,
+        [A, O, C],
+        {
+          name: a3,
+          radius: 1.5,
+          label: { visible: false },
+          color: "${:colors[:cc[2]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(3)?1:0}",
+        },
+      ]
+    - [
+        angle,
+        [B, O, D],
+        {
+          name: a4,
+          radius: 3,
+          label: { visible: false },
+          color: "${:colors[:cc[3]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(4)?1:0}",
+        },
+      ]
+    - [
+        angle,
+        [C, O, D],
+        {
+          name: a5,
+          radius: 2.75,
+          label: { visible: false },
+          color: "${:colors[:cc[4]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(5)?1:0}",
+        },
+      ]
+    - [
+        angle,
+        [D, O, F],
+        {
+          name: a6,
+          radius: 2.25,
+          label: { visible: false },
+          color: "${:colors[:cc[5]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(6)?1:0}",
+        },
+      ]
+    - [
+        angle,
+        [D, O, E],
+        {
+          name: a7,
+          radius: 3.25,
+          label: { visible: false },
+          color: "${:colors[:cc[6]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(7)?1:0}",
+        },
+      ]
+    - [
+        angle,
+        [E, O, F],
+        {
+          name: a8,
+          radius: 1.75,
+          label: { visible: false },
+          color: "${:colors[:cc[7]]}",
+          visible: "${[:atoDraw1,:atoDraw2].includes(8)?1:0}",
+        },
+      ]

@@ -1,0 +1,205 @@
+title: Reconnaitre graphiquement une situation de proportionnalité
+description: >
+  droite ou points alignés passant par l’origine du repère.
+dest:
+  - 5DC
+  - 4DC
+  - 3DC
+type: text
+textSize: medium
+repeat: 2
+keys: ["O", "N", "_", "_"]
+consts:
+  contextes:
+    [
+      [
+        "temps (min)",
+        "distance (km)",
+        "La distance parcourue est-elle proportionnelle au temps ?",
+      ],
+      [
+        "masse (kg)",
+        "prix (€)",
+        "Le prix payé est-il proportionnel à la masse achetée ?",
+      ],
+      [
+        "durée (h)",
+        "volume (L)",
+        "Le volume d’eau est-il proportionnel à la durée de remplissage ?",
+      ],
+      [
+        "nombre de billets",
+        "prix (€)",
+        "Le prix est-il proportionnel au nombre de billets ?",
+      ],
+    ]
+  # [axe des abscisses, axe des ordonnées,
+  #  question x → y, unité de x, question y → x, unité de y]
+  lectures:
+    [
+      [
+        "temps (min)",
+        "distance (km)",
+        "Quelle distance parcourt-on en",
+        "min",
+        "Combien de temps faut-il pour parcourir",
+        "km",
+      ],
+      [
+        "nombre de personnes",
+        "parts de pizza",
+        "Combien de parts de pizza faut-il pour",
+        "personnes",
+        "Combien de personnes peut-on servir avec",
+        "parts de pizza",
+      ],
+      [
+        "nombre de ventes",
+        "prime (€)",
+        "Quelle prime touche-t-on pour",
+        "ventes",
+        "Combien de ventes faut-il faire pour toucher une prime de",
+        "€",
+      ],
+      [
+        "durée (min)",
+        "volume (L)",
+        "Quel volume d’eau s’écoule en",
+        "min",
+        "Combien de temps faut-il pour recueillir",
+        "L",
+      ],
+    ]
+options:
+  - name: Un nuage de points
+    vars:
+      prop: [0, 1]
+      cas: "1_3"
+      a: [0.5, 1, 1.5]
+      b: [1, 2]
+      k: "2_4"
+      d: [-1, 1]
+      y1: "${:prop==1 ? :a : :cas==1 ? :a+:b : :cas==2 ? (:k==1 ? :a+:d : :a) : 0.5}"
+      y2: "${:prop==1 ? :a*2 : :cas==1 ? :a*2+:b : :cas==2 ? (:k==2 ? :a*2+:d : :a*2) : 2}"
+      y3: "${:prop==1 ? :a*3 : :cas==1 ? :a*3+:b : :cas==2 ? (:k==3 ? :a*3+:d : :a*3) : 4.5}"
+      y4: "${:prop==1 ? :a*4 : :cas==1 ? :a*4+:b : :cas==2 ? (:k==4 ? :a*4+:d : :a*4) : 8}"
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 9, 5.5, -1]
+      keepAspect: false
+      axis: true
+      grid: true
+      content:
+        - [point, [1, "${:y1}"], { face: "x", size: 4, strokeWidth: 2, withLabel: false, fixed: true }]
+        - [point, [2, "${:y2}"], { face: "x", size: 4, strokeWidth: 2, withLabel: false, fixed: true }]
+        - [point, [3, "${:y3}"], { face: "x", size: 4, strokeWidth: 2, withLabel: false, fixed: true }]
+        - [point, [4, "${:y4}"], { face: "x", size: 4, strokeWidth: 2, withLabel: false, fixed: true }]
+    question: Cette représentation correspond-elle à une situation de proportionnalité ?
+    answer: "${:prop==1 ? '<b>Oui</b> : les points sont alignés <b>avec l’origine</b> du repère.' : :cas==1 ? '<b>Non</b> : les points sont alignés, mais pas avec l’origine du repère.' : '<b>Non</b> : les points ne sont pas alignés.'}"
+    value: ["${:prop==1 ? 'Oui' : 'Non'}", "${:prop==1 ? 'oui' : 'non'}", "${:prop==1 ? 'O' : 'N'}"]
+  - name: Un tracé continu
+    vars:
+      prop: [0, 1]
+      cas: "1_3"
+      a: [0.5, 1, 1.5]
+      b: [1, 2, 3]
+      f: "${:prop==1 ? :a+'*x' : :cas==1 ? :a+'*x+'+:b : :cas==2 ? 'x*x/4' : 'x*x/6+'+:b}"
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 9, 6.5, -1]
+      keepAspect: false
+      axis: true
+      grid: true
+      content:
+        - [functiongraph, "${:f}", { strokeWidth: 3, strokeColor: "#0055aa" }]
+    question: Cette représentation correspond-elle à une situation de proportionnalité ?
+    answer: "${:prop==1 ? '<b>Oui</b> : le tracé est une droite qui passe par l’origine du repère.' : :cas==1 ? '<b>Non</b> : le tracé est une droite, mais elle ne passe pas par l’origine du repère.' : :cas==2 ? '<b>Non</b> : le tracé passe par l’origine, mais ce n’est pas une droite.' : '<b>Non</b> : le tracé n’est pas une droite et ne passe pas par l’origine du repère.'}"
+    value: ["${:prop==1 ? 'Oui' : 'Non'}", "${:prop==1 ? 'oui' : 'non'}", "${:prop==1 ? 'O' : 'N'}"]
+  - name: Deux tracés, lequel est proportionnel ?
+    keys: ["1", "2", "_", "_"]
+    vars:
+      q: [1, 2]
+      cas: "1_2"
+      a: [0.5, 1]
+      b: [1, 2]
+      f1: "${:q==1 ? :a+'*x' : :cas==1 ? :a+'*x+'+:b : 'x*x/4'}"
+      f2: "${:q==2 ? :a+'*x' : :cas==1 ? :a+'*x+'+:b : 'x*x/4'}"
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 9, 6.5, -1]
+      keepAspect: false
+      axis: true
+      grid: true
+      content:
+        - [functiongraph, "${:f1}", { strokeWidth: 3, strokeColor: "#cc0000" }]
+        - [functiongraph, "${:f2}", { strokeWidth: 3, strokeColor: "#0055aa", dash: 3 }]
+        - [segment, [[0.2, 8.5], [1, 8.5]], { strokeWidth: 3, strokeColor: "#cc0000", fixed: true }]
+        - [text, [1.15, 8.5, "(1)"], { fontSize: 16, strokeColor: "#cc0000", anchorY: "middle", fixed: true }]
+        - [segment, [[2.4, 8.5], [3.2, 8.5]], { strokeWidth: 3, strokeColor: "#0055aa", dash: 3, fixed: true }]
+        - [text, [3.35, 8.5, "(2)"], { fontSize: 16, strokeColor: "#0055aa", anchorY: "middle", fixed: true }]
+    question: Lequel de ces deux tracés correspond à une situation de proportionnalité ?
+    answer: "C’est le tracé <b>(:q)</b> : c’est une droite qui passe par l’origine du repère."
+    value: ["${:q}", "(${:q})"]
+  - name: Une situation concrète
+    vars:
+      prop: [0, 1]
+      cas: "1_2"
+      a: [0.5, 1, 1.5]
+      b: [1, 2]
+      n: "0_3"
+      f: "${:prop==1 ? :a+'*x' : :cas==1 ? :a+'*x+'+:b : 'x*x/4'}"
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 9, 6.5, -1]
+      keepAspect: false
+      axis: true
+      grid: true
+      content:
+        - [functiongraph, "${:f}", { strokeWidth: 3, strokeColor: "#0055aa" }]
+        - [text, [2.8, -0.75, "${:contextes[:n][0]}"], { fontSize: 14, anchorX: "middle", anchorY: "bottom", fixed: true }]
+        - [text, [0.3, 8.5, "${:contextes[:n][1]}"], { fontSize: 14, fixed: true }]
+    question: "D’après ce graphique : ${:contextes[:n][2]}"
+    answer: "${:prop==1 ? '<b>Oui</b> : le tracé est une droite qui passe par l’origine du repère.' : :cas==1 ? '<b>Non</b> : le tracé est une droite, mais elle ne passe pas par l’origine du repère.' : '<b>Non</b> : le tracé n’est pas une droite.'}"
+    value: ["${:prop==1 ? 'Oui' : 'Non'}", "${:prop==1 ? 'oui' : 'non'}", "${:prop==1 ? 'O' : 'N'}"]
+  - name: Lecture graphique dans une situation de proportionnalité
+    keys: ["_", "_", "_", "_"]
+    vars:
+      a0: [0.5, 1, 1.5, 2]
+      m: "1_3"
+      a: "${:m==3 && :a0>1 ? 1 : :a0}"
+      xq: "${:m*2}"
+      yq: "${:a*:m*2}"
+      sens: [0, 1]
+      n: "0_3"
+    figure:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 9, 6.5, -1]
+      keepAspect: false
+      axis: true
+      grid: true
+      content:
+        - [functiongraph, "${:a}*x", { strokeWidth: 3, strokeColor: "#0055aa" }]
+        - [text, [2.8, -0.75, "${:lectures[:n][0]}"], { fontSize: 14, anchorX: "middle", anchorY: "bottom", fixed: true }]
+        - [text, [0.3, 8.5, "${:lectures[:n][1]}"], { fontSize: 14, fixed: true }]
+    figureCorrection:
+      type: graph
+      scale: 3
+      boundingbox: [-1, 9, 6.5, -1]
+      keepAspect: false
+      axis: true
+      grid: true
+      content:
+        - [functiongraph, "${:a}*x", { strokeWidth: 3, strokeColor: "#0055aa" }]
+        - [text, [2.8, -0.75, "${:lectures[:n][0]}"], { fontSize: 14, anchorX: "middle", anchorY: "bottom", fixed: true }]
+        - [text, [0.3, 8.5, "${:lectures[:n][1]}"], { fontSize: 14, fixed: true }]
+        - [segment, [["${:xq}", 0], ["${:xq}", "${:yq}"]], { strokeWidth: 2, strokeColor: "#cc0000", dash: 3, fixed: true }]
+        - [segment, [[0, "${:yq}"], ["${:xq}", "${:yq}"]], { strokeWidth: 2, strokeColor: "#cc0000", dash: 3, fixed: true }]
+        - [point, ["${:xq}", "${:yq}"], { face: "x", size: 4, strokeWidth: 2, strokeColor: "#cc0000", withLabel: false, fixed: true }]
+    question: "${:sens==0 ? :lectures[:n][2]+' '+:xq+' '+:lectures[:n][3]+' ?' : :lectures[:n][4]+' '+:yq+' '+:lectures[:n][5]+' ?'}"
+    answer: "${:sens==0 ? 'On lit <b>'+:yq+' '+:lectures[:n][5]+'</b> sur l’axe vertical.' : 'On lit <b>'+:xq+' '+:lectures[:n][3]+'</b> sur l’axe horizontal.'}"
+    value: ["${:sens==0 ? :yq : :xq}", "${:sens==0 ? :yq+' '+:lectures[:n][5] : :xq+' '+:lectures[:n][3]}"]

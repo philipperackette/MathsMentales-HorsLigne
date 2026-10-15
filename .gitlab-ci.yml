@@ -1,0 +1,22 @@
+# .gitlab-ci.yml
+
+image: alpine:latest
+
+stages:
+  - deploy
+
+# Étape de déploiement
+pages:
+  stage: deploy
+  script:
+    - mkdir -p temp_public  # Créer un dossier temporaire
+    - cp -r src/* temp_public/  # Copier les fichiers de src dans temp_public
+    - cp -r public/* temp_public/  # Copier les fichiers de public dans temp_public
+    - rm -rf public/* 
+    - mv temp_public/* public  # Remplacer le contenu de public par temp_public
+    - rmdir temp_public  # Supprimer le dossier temporaire
+  artifacts:
+    paths:
+      - public  # Déclare le dossier public pour le déploiement
+  only:
+    - master  # Exécute cette 

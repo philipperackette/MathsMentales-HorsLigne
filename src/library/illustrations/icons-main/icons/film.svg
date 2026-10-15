@@ -1,0 +1,5 @@
+<svg class="i i-film" width="8em" height="8em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="20" height="20" x="2" y="2" rx="3" ry="3"/>
+  <path d="M7 2v20M17 2v20M2 12h20M2 7h5m15 0h-5M2 17h5m15 0h-5"/>
+  <path d="M0 12H24M12 0V24" fill="none" stroke="red" stroke-width="0.6" stroke-dasharray="4 1" stroke-linecap="butt" class="correction"/>
+</svg>

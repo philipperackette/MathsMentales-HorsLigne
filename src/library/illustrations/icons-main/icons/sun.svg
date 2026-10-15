@@ -1,0 +1,5 @@
+<svg class="i i-sun" width="8em" height="8em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="5"/>
+  <path d="M12 1v2m0 18v2M4.2 4.2l1.4 1.4m12.8 12.8 1.4 1.4M1 12h2m18 0h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+  <path d="M12 0V24M0 12H24M0 0L24 24M0 24L24 0M7 0L17 24M17 0L7 24M0 7L24 17M0 17L24 7" fill="none" stroke="red" stroke-width="0.6" stroke-dasharray="4 1" stroke-linecap="butt" class="correction"/>
+</svg>

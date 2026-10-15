@@ -1,0 +1,294 @@
+title: "Symétrie centrale sur un maillage : symétrique d’un point, d’un segment, d’un triangle"
+description: "symétrie centrale, symétrique, quadrillage, maillage, point, segment, triangle"
+ID: 5GT6
+type: text
+textSize: medium
+# l’énoncé ne change qu’à travers les lettres tirées : repeat:true tolère qu’un
+# énoncé revienne, mais pas dans les cinq dernières questions.
+repeat: true
+dest:
+  - 5GT
+  - 4GT
+  - 3GT
+consts:
+  # lettres des points. Ni I ni O (confusion avec 1 et 0), ni X, Y, Z (réservés
+  # aux axes et aux inconnues).
+  pool: "ABCDEFGHJKLMNPQRSTUVW"
+  # ── déplacements d'un point marqué à un autre, |di| ≤ 2 et |dj| ≤ 2, rangés
+  # par angle : vecs[23-t] est l'opposé de vecs[t]. Les suivants ne servent
+  # qu'aux pièges du maillage triangulaire, où un symétrique axial sort des 24.
+  vecs: [[1, 0], [2, 0], [2, 1], [1, 1], [2, 2], [1, 2], [0, 1], [0, 2], [-1, 2], [-1, 1], [-2, 2], [-2, 1], [2, -1], [2, -2], [1, -1], [1, -2], [0, -2], [0, -1], [-1, -2], [-2, -2], [-1, -1], [-2, -1], [-2, 0], [-1, 0], [3, -1], [4, -2], [3, -2], [-3, 2], [-4, 2], [-3, 1]]
+  # ── miroir[2·maillage + axe][t] : indice du symétrique de vecs[t] par
+  # rapport à l'axe qui passe par le centre. 0 et 1 : quadrillage, axe
+  # horizontal puis vertical. 2 et 3 : maillage triangulaire, de même.
+  miroir:
+    - [0, 1, 12, 14, 13, 15, 17, 16, 18, 20, 19, 21, 2, 4, 3, 5, 7, 6, 8, 10, 9, 11, 22, 23]
+    - [23, 22, 11, 9, 10, 8, 6, 7, 5, 3, 4, 2, 21, 19, 20, 18, 16, 17, 15, 13, 14, 12, 1, 0]
+    - [0, 1, 24, 12, 25, 26, 14, 13, 15, 17, 16, 20, 3, 7, 6, 8, 10, 9, 27, 28, 11, 29, 22, 23]
+    - [23, 22, 29, 11, 28, 27, 9, 10, 8, 6, 7, 3, 20, 16, 17, 15, 13, 14, 26, 25, 12, 24, 1, 0]
+  # ── 24 sommets seuls, quadrillage et maillage pointé
+  simplesQ: [2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 2, 3, 4, 5, 8, 9, 10, 11]
+  # ── 24 segments, quadrillage et maillage pointé
+  pairesQ: [[2, 5], [2, 10], [2, 14], [3, 4], [3, 10], [3, 13], [4, 8], [4, 12], [5, 9], [5, 11], [5, 14], [8, 11], [8, 20], [9, 10], [9, 21], [10, 20], [11, 18], [12, 15], [12, 19], [13, 18], [13, 21], [14, 21], [15, 20], [19, 20]]
+  # ── 24 triangles, quadrillage et maillage pointé
+  tripletsQ: [[2, 5, 9], [2, 5, 14], [2, 13, 14], [2, 13, 18], [3, 4, 8], [3, 4, 12], [3, 8, 11], [3, 12, 15], [4, 8, 12], [5, 9, 10], [5, 10, 21], [8, 11, 20], [9, 10, 21], [9, 18, 21], [11, 15, 19], [11, 19, 20], [12, 15, 20], [13, 14, 18], [14, 18, 21], [15, 19, 20], [2, 5, 9], [2, 5, 14], [2, 13, 14], [2, 13, 18]]
+  # ── 24 sommets seuls, maillage triangulaire
+  simplesT: [2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 2, 3, 4, 5, 6, 7]
+  # ── 24 segments, maillage triangulaire
+  pairesT: [[2, 6], [2, 10], [2, 14], [2, 18], [3, 13], [4, 7], [4, 11], [4, 16], [5, 10], [5, 14], [6, 12], [7, 9], [7, 19], [9, 18], [9, 21], [10, 20], [11, 17], [12, 16], [12, 19], [13, 18], [14, 16], [14, 20], [17, 18], [19, 20]]
+  # ── 24 triangles, maillage triangulaire
+  tripletsT: [[2, 6, 12], [2, 6, 13], [2, 7, 12], [2, 7, 14], [2, 12, 17], [2, 13, 17], [4, 6, 13], [4, 7, 12], [4, 7, 14], [5, 6, 12], [5, 6, 13], [5, 10, 21], [5, 11, 21], [6, 10, 21], [6, 11, 21], [9, 16, 19], [9, 16, 21], [10, 17, 18], [10, 17, 21], [11, 16, 19], [11, 16, 21], [11, 17, 18], [11, 17, 19], [11, 17, 21]]
+  # ── attribution des lettres aux dix rôles (3 sommets, 3 images, centre,
+  # 3 points de décor). Les permutations écartent les rangs voisins entre un
+  # sommet et son image : sinon la lettre suffirait à répondre.
+  perms:
+    - [2, 1, 8, 9, 3, 4, 0, 7, 6, 5]
+    - [4, 2, 0, 9, 5, 3, 1, 8, 7, 6]
+    - [5, 0, 2, 1, 3, 7, 8, 4, 6, 9]
+    - [8, 0, 5, 1, 7, 9, 4, 3, 2, 6]
+    - [9, 4, 3, 2, 0, 6, 1, 8, 5, 7]
+    - [2, 5, 1, 0, 8, 4, 9, 3, 6, 7]
+    - [7, 6, 5, 9, 4, 8, 2, 3, 0, 1]
+    - [5, 3, 9, 8, 6, 7, 0, 2, 4, 1]
+  # [0] point, [1] segment, [2] triangle
+  quest:
+    - "Quel est le symétrique du point $$:La$$ par rapport au point $$:Lo$$ ?"
+    - "Quel est le symétrique du segment $$[:La:Lb]$$ par rapport au point $$:Lo$$ ?"
+    - "Quel est le symétrique du triangle $$:La:Lb:Lc$$ par rapport au point $$:Lo$$ ?"
+  courte:
+    - "symétrique de $$:La$$ par rapport à $$:Lo$$ ?"
+    - "symétrique de $$[:La:Lb]$$ par rapport à $$:Lo$$ ?"
+    - "symétrique de $$:La:Lb:Lc$$ par rapport à $$:Lo$$ ?"
+  rep:
+    - "Le symétrique du point $$:La$$ est le point <span class='red'>$$:Ld$$</span>.<br>$$:Lo$$ est le milieu du segment $$[:La:Ld]$$ : on repart de $$:Lo$$ en reportant le déplacement qui va de $$:La$$ à $$:Lo$$."
+    - "Le symétrique du segment $$[:La:Lb]$$ est le segment <span class='red'>$$[:Ld:Le]$$</span>.<br>Le symétrique de $$:La$$ est $$:Ld$$, celui de $$:Lb$$ est $$:Le$$ : chaque fois, $$:Lo$$ est le milieu. La symétrie centrale conserve les longueurs : $$:La:Lb=:Ld:Le$$."
+    - "Le symétrique du triangle $$:La:Lb:Lc$$ est le triangle <span class='red'>$$:Ld:Le:Lf$$</span>.<br>Le symétrique de $$:La$$ est $$:Ld$$, celui de $$:Lb$$ est $$:Le$$ et celui de $$:Lc$$ est $$:Lf$$ : chaque fois, $$:Lo$$ est le milieu. Les deux triangles sont superposables."
+vars:
+  # ─── maillage : 0 quadrillage, 1 maillage triangulaire, 2 maillage pointé.
+  # ─── question : 0 point, 1 segment, 2 triangle. Les deux sont fixés par
+  # l’option choisie.
+  mesh: 0
+  k: 0
+  # ─── centre de symétrie : un point du maillage, écarté d’un pas au plus du
+  # milieu du cadre. Les sommets sont à deux pas au plus du centre, leurs images
+  # aussi : tout tient dans le cadre, quel que soit le maillage.
+  oi: "-1_1"
+  oj: "-1_1"
+  # ─── forme dont on demande le symétrique, tirée dans les listes contrôlées.
+  # Elles diffèrent d’un maillage à l’autre : la maille triangulaire aplatit
+  # d’autres triangles, et ses symétries axiales ne sont pas les mêmes.
+  ipt: "0_23"
+  ipa: "0_23"
+  itr: "0_23"
+  n1: ${:k===0?(:mesh===1?:simplesT[:ipt]::simplesQ[:ipt]):(:k===1?(:mesh===1?:pairesT[:ipa][0]::pairesQ[:ipa][0]):(:mesh===1?:tripletsT[:itr][0]::tripletsQ[:itr][0]))}
+  n2: ${:k===0?0:(:k===1?(:mesh===1?:pairesT[:ipa][1]::pairesQ[:ipa][1]):(:mesh===1?:tripletsT[:itr][1]::tripletsQ[:itr][1]))}
+  n3: ${:k===2?(:mesh===1?:tripletsT[:itr][2]::tripletsQ[:itr][2]):0}
+  # ─── le piège. Le décor reprend la figure, mais symétrique par rapport à un
+  # axe qui passe par le centre, horizontal ou vertical : c’est la confusion
+  # classique entre symétrie centrale et symétrie axiale. L’élève qui la fait
+  # tombe sur un point marqué et croit avoir répondu.
+  mir: [0, 1]
+  mm: ${(:mesh===1?2:0)+:mir}
+  t1: ${:miroir[:mm][:n1]}
+  t2: ${:miroir[:mm][:n2]}
+  t3: ${:miroir[:mm][:n3]}
+  # ─── décors restants, tirés au hasard en dehors des sommets, de leurs images
+  # et des pièges. Il n’en reste aucun à tirer quand la figure est un triangle :
+  # ses trois pièges occupent déjà les trois places.
+  dv: "0_23_2_^&,${:n1},${23-:n1},${:n2},${23-:n2},${:n3},${23-:n3},${:t1},${:t2},${:t3}"
+  d1: ${:t1}
+  d2: ${:k>=1?:t2::dv[0]}
+  d3: ${:k===2?:t3:(:k===1?:dv[0]::dv[1])}
+  # ─── coordonnées entières dans le maillage : sommets, images, décors
+  s1i: ${:oi+:vecs[:n1][0]}
+  s1j: ${:oj+:vecs[:n1][1]}
+  s2i: ${:oi+:vecs[:n2][0]}
+  s2j: ${:oj+:vecs[:n2][1]}
+  s3i: ${:oi+:vecs[:n3][0]}
+  s3j: ${:oj+:vecs[:n3][1]}
+  m1i: ${2*:oi-:s1i}
+  m1j: ${2*:oj-:s1j}
+  m2i: ${2*:oi-:s2i}
+  m2j: ${2*:oj-:s2j}
+  m3i: ${2*:oi-:s3i}
+  m3j: ${2*:oj-:s3j}
+  q1i: ${:oi+:vecs[:d1][0]}
+  q1j: ${:oj+:vecs[:d1][1]}
+  q2i: ${:oi+:vecs[:d2][0]}
+  q2j: ${:oj+:vecs[:d2][1]}
+  q3i: ${:oi+:vecs[:d3][0]}
+  q3j: ${:oj+:vecs[:d3][1]}
+  # ─── passage aux coordonnées du dessin. Le quadrillage et le maillage pointé
+  # ont pour vecteurs de base (1, 0) et (0, 1) ; le maillage triangulaire (1, 0)
+  # et (1/2, √3/2), d’où le décalage d’une demi-maille par ligne.
+  dx: ${:mesh===1?0.5:0}
+  dy: ${:mesh===1?0.866025:1}
+  xs1: ${MMmath.round(:s1i+:dx*:s1j,4)}
+  ys1: ${MMmath.round(:dy*:s1j,4)}
+  xs2: ${MMmath.round(:s2i+:dx*:s2j,4)}
+  ys2: ${MMmath.round(:dy*:s2j,4)}
+  xs3: ${MMmath.round(:s3i+:dx*:s3j,4)}
+  ys3: ${MMmath.round(:dy*:s3j,4)}
+  xm1: ${MMmath.round(:m1i+:dx*:m1j,4)}
+  ym1: ${MMmath.round(:dy*:m1j,4)}
+  xm2: ${MMmath.round(:m2i+:dx*:m2j,4)}
+  ym2: ${MMmath.round(:dy*:m2j,4)}
+  xm3: ${MMmath.round(:m3i+:dx*:m3j,4)}
+  ym3: ${MMmath.round(:dy*:m3j,4)}
+  xo: ${MMmath.round(:oi+:dx*:oj,4)}
+  yo: ${MMmath.round(:dy*:oj,4)}
+  xq1: ${MMmath.round(:q1i+:dx*:q1j,4)}
+  yq1: ${MMmath.round(:dy*:q1j,4)}
+  xq2: ${MMmath.round(:q2i+:dx*:q2j,4)}
+  yq2: ${MMmath.round(:dy*:q2j,4)}
+  xq3: ${MMmath.round(:q3i+:dx*:q3j,4)}
+  yq3: ${MMmath.round(:dy*:q3j,4)}
+  # ─── lettres. dix rôles, dix lettres consécutives réparties au hasard :
+  # 0 à 2 les sommets, 3 à 5 leurs images, 6 le centre, 7 à 9 les décors.
+  lp: "0_11"
+  pi: "0_7"
+  La: ${:pool[:lp+:perms[:pi][0]]}
+  Lb: ${:pool[:lp+:perms[:pi][1]]}
+  Lc: ${:pool[:lp+:perms[:pi][2]]}
+  Ld: ${:pool[:lp+:perms[:pi][3]]}
+  Le: ${:pool[:lp+:perms[:pi][4]]}
+  Lf: ${:pool[:lp+:perms[:pi][5]]}
+  Lo: ${:pool[:lp+:perms[:pi][6]]}
+  Lg: ${:pool[:lp+:perms[:pi][7]]}
+  Lh: ${:pool[:lp+:perms[:pi][8]]}
+  Lk: ${:pool[:lp+:perms[:pi][9]]}
+  # ─── cadre : le maillage triangulaire s’étale plus en largeur (une ligne sur
+  # deux est décalée d’une demi-maille) et moins en hauteur (les lignes sont
+  # espacées de √3/2).
+  bw: ${:mesh===1?5.3:3.8}
+  bh: ${:mesh===1?3.4:3.8}
+options:
+  - name: Symétrique d’un point, sur un quadrillage
+    vars:
+      mesh: 0
+      k: 0
+  - name: Symétrique d’un point, sur un maillage triangulaire
+    vars:
+      mesh: 1
+      k: 0
+  - name: Symétrique d’un point, sur un maillage pointé
+    vars:
+      mesh: 2
+      k: 0
+  - name: Symétrique d’un segment, sur un quadrillage
+    vars:
+      mesh: 0
+      k: 1
+  - name: Symétrique d’un segment, sur un maillage triangulaire
+    vars:
+      mesh: 1
+      k: 1
+  - name: Symétrique d’un segment, sur un maillage pointé
+    vars:
+      mesh: 2
+      k: 1
+  - name: Symétrique d’un triangle, sur un quadrillage
+    vars:
+      mesh: 0
+      k: 2
+  - name: Symétrique d’un triangle, sur un maillage triangulaire
+    vars:
+      mesh: 1
+      k: 2
+  - name: Symétrique d’un triangle, sur un maillage pointé
+    vars:
+      mesh: 2
+      k: 2
+question: "${:quest[:k]}"
+shortq: "${:courte[:k]}"
+answer: "${:rep[:k]}"
+value:
+  - "${:k===0?:Ld:(:k===1?'['+:Ld+:Le+']'::Ld+:Le+:Lf)}"
+  - "${:k===0?:Ld:(:k===1?:Ld+:Le::Lf+:Le+:Ld)}"
+  - "${:k===0?:Ld:(:k===1?'['+:Le+:Ld+']'::Ld+:Le+:Lf)}"
+  - "${:k===0?:Ld:(:k===1?:Le+:Ld::Lf+:Le+:Ld)}"
+figure:
+  type: graph
+  # une maille fait 10 × scale pixels de côté : 35 px, de quoi compter les
+  # déplacements d’un coup d’œil et écrire les lettres entre les points.
+  scale: 3.5
+  axis: false
+  grid: false
+  keepAspect: true
+  boundingbox: ["${-:bw}", :bh, :bw, "${-:bh}"]
+  content:
+    # ─── quadrillage et maillage pointé : le même élément grid, tracé en traits
+    # ou en points selon le maillage demandé.
+    - [grid, [], { majorStep: 1, major: { face: line }, strokeColor: "#9fb3c8", strokeOpacity: 0.9, strokeWidth: 1, visible: "${:mesh===0}" }]
+    - [grid, [], { majorStep: 1, major: { face: point, size: 5 }, strokeColor: "#7a869a", strokeOpacity: 1, visible: "${:mesh===2}" }]
+    # ─── maillage triangulaire : trois familles de parallèles, tracées comme des
+    # droites, que JSXGraph prolonge jusqu’aux bords du cadre.
+    - [line, [[-1, -3.4641], [1, -3.4641]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, -2.5981], [1, -2.5981]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, -1.7321], [1, -1.7321]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, -0.8660], [1, -0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, 0.0000], [1, 0.0000]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, 0.8660], [1, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, 1.7321], [1, 1.7321]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, 2.5981], [1, 2.5981]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, 3.4641], [1, 3.4641]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-7, 0], [-6.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-7, 0], [-7.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-6, 0], [-5.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-6, 0], [-6.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-5, 0], [-4.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-5, 0], [-5.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-4, 0], [-3.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-4, 0], [-4.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-3, 0], [-2.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-3, 0], [-3.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-2, 0], [-1.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-2, 0], [-2.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, 0], [-0.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[-1, 0], [-1.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[0, 0], [0.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[0, 0], [-0.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[1, 0], [1.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[1, 0], [0.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[2, 0], [2.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[2, 0], [1.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[3, 0], [3.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[3, 0], [2.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[4, 0], [4.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[4, 0], [3.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[5, 0], [5.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[5, 0], [4.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[6, 0], [6.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[6, 0], [5.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[7, 0], [7.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    - [line, [[7, 0], [6.5, 0.8660]], { strokeColor: "#9fb3c8", strokeWidth: 1, visible: "${:mesh===1}" }]
+    # ─── les points marqués, en gris très foncé pour ressortir sur le maillage.
+    # Sommets, images et décors portent la même croix : rien ne distingue la
+    # figure de son symétrique, seul le maillage permet de répondre.
+    - [point, [:xs1, :ys1], { name: ps1, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false }]
+    - [point, [:xs2, :ys2], { name: ps2, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false, visible: "${:k>=1}" }]
+    - [point, [:xs3, :ys3], { name: ps3, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false, visible: "${:k===2}" }]
+    - [point, [:xm1, :ym1], { name: pm1, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false }]
+    - [point, [:xm2, :ym2], { name: pm2, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false, visible: "${:k>=1}" }]
+    - [point, [:xm3, :ym3], { name: pm3, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false, visible: "${:k===2}" }]
+    - [point, [:xo, :yo], { name: po, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false }]
+    - [point, [:xq1, :yq1], { name: pq1, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false }]
+    - [point, [:xq2, :yq2], { name: pq2, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false }]
+    - [point, [:xq3, :yq3], { name: pq3, face: x, size: 3, strokeWidth: 2, strokeColor: "#1f2933", withLabel: false }]
+    # ─── la figure dont on demande le symétrique, repassée en rouge. Son image
+    # n’est pas tracée : c’est la réponse.
+    - [segment, [ps1, ps2], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:k===1}" }]
+    - [polygon, [ps1, ps2, ps3], { fillColor: "#c1121f", fillOpacity: 0.12, borders: { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:k===2}" }, withLines: true, visible: "${:k===2}" }]
+    - [point, [:xs1, :ys1], { name: prouge, face: x, size: 4, strokeWidth: 3, strokeColor: "#c1121f", withLabel: false, visible: "${:k===0}" }]
+    # ─── noms des points, écrits en haut à droite de chaque croix : cette
+    # direction là tombe au milieu d’une maille, jamais sur un trait.
+    - [text, ["${:xs1+0.3}", "${:ys1+0.32}", ":La"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14 }]
+    - [text, ["${:xs2+0.3}", "${:ys2+0.32}", ":Lb"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14, visible: "${:k>=1}" }]
+    - [text, ["${:xs3+0.3}", "${:ys3+0.32}", ":Lc"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14, visible: "${:k===2}" }]
+    - [text, ["${:xm1+0.3}", "${:ym1+0.32}", ":Ld"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14 }]
+    - [text, ["${:xm2+0.3}", "${:ym2+0.32}", ":Le"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14, visible: "${:k>=1}" }]
+    - [text, ["${:xm3+0.3}", "${:ym3+0.32}", ":Lf"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14, visible: "${:k===2}" }]
+    - [text, ["${:xo+0.3}", "${:yo+0.32}", ":Lo"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14 }]
+    - [text, ["${:xq1+0.3}", "${:yq1+0.32}", ":Lg"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14 }]
+    - [text, ["${:xq2+0.3}", "${:yq2+0.32}", ":Lh"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14 }]
+    - [text, ["${:xq3+0.3}", "${:yq3+0.32}", ":Lk"], { anchorX: middle, anchorY: middle, strokeColor: "#1f2933", fontSize: 14 }]

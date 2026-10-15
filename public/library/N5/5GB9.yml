@@ -1,0 +1,1045 @@
+title: "Droites remarquables du triangle : médiatrices, hauteurs, médianes et bissectrices"
+description: "Reconnaître, coder une figure : médiatrice, hauteur, médiane, bissectrice, triangle. Non adapté au mode interactif (online/duel)."
+ID: 5GB9
+type: text
+textSize: medium
+# L’énoncé ne varie que par les lettres des sommets, et la réponse est constante
+# dans presque toutes les séries : la déduplication question+valeur n’en
+# laisserait passer qu’une seule. repeat:1 la lève (fenêtre d’une question, donc
+# jamais deux occurrences dedans). La variété vient des lettres et de la figure.
+repeat: 1
+dest:
+  - 5GB
+  - 4GB
+consts:
+  # lettres des sommets. Ni I ni O (confusion avec 1 et 0), ni X, Y, Z (réservés
+  # aux axes et aux inconnues).
+  pool: "ABCDEFGHJKLMNPQRSTUVW"
+  formes: [quelconque, obtusangle, isocèle, équilatéral, rectangle]
+  # ─── forme du triangle : les trois sommets sont posés sur un même cercle, ce
+  # qui donne le contrôle de la forme par les arcs qu’ils y découpent.
+  # arcs[forme][n] = [arc V0→V1, arc V1→V2, arc V2→V0], en degrés, de somme 360.
+  # L’angle inscrit en V0 vaut arcs[1]/2, celui en V1 arcs[2]/2, celui en V2
+  # arcs[0]/2 : c’est ce qui fixe la nature du triangle. V0 porte toujours la
+  # particularité — angle obtus, sommet principal de l’isocèle, angle droit.
+  # Le centre du cercle est l’origine du repère, donc le point de concours des
+  # médiatrices ; l’orthocentre est en V0+V1+V2, et les arcs sont choisis pour
+  # qu’il reste dans le cadre.
+  arcs:
+    # 0 — quelconque : trois arcs distincts, tous inférieurs à 180°, assez
+    # écartés pour que le triangle n’ait pas l’air isocèle
+    - [[100, 140, 120], [90, 150, 120], [80, 160, 120], [110, 160, 90], [95, 145, 120]]
+    # 1 — obtusangle : l’arc V1→V2 dépasse 180°, donc l’angle en V0 dépasse 90°.
+    # Les arcs sont aussi choisis pour qu’aucune médiatrice ne frôle un sommet :
+    # elle aurait l’air d’y passer, et se confondrait avec une hauteur.
+    - [[70, 200, 90], [60, 210, 90], [95, 205, 60], [65, 205, 90], [95, 200, 65]]
+    # 2 — isocèle de sommet principal V0 : arcs[0] = arcs[2], donc V0V1 = V0V2.
+    # Le dernier est isocèle obtusangle.
+    - [[100, 160, 100], [140, 80, 140], [110, 140, 110], [130, 100, 130], [80, 200, 80]]
+    # 3 — équilatéral : la variété ne vient plus que de l’orientation
+    - [[120, 120, 120]]
+    # 4 — rectangle en V0 : l’arc V1→V2 est un demi-cercle, [V1V2] l’hypoténuse
+    - [[70, 180, 110], [110, 180, 70], [60, 180, 120], [120, 180, 60], [100, 180, 80]]
+  # ─── réponses. Les constantes sont traversées par la substitution des
+  # variables (resolveVars() les repasse après avoir tiré les variables), on peut
+  # donc y écrire :nS ou :nU comme dans un énoncé.
+  repMediatrice: "C’est la <span class='red'>médiatrice de $$[:nU:nV]$$</span>.<br><i>Le codage le dit : elle coupe ce côté en son milieu, perpendiculairement.</i>"
+  repHauteur: "C’est la <span class='red'>hauteur issue de $$:nS$$</span>.<br><i>Elle passe par le sommet $$:nS$$ et, le codage le dit, elle est perpendiculaire au côté $$[:nU:nV]$$.</i>"
+  repMediane: "C’est la <span class='red'>médiane issue de $$:nS$$</span>.<br><i>Elle joint le sommet $$:nS$$ au milieu du côté $$[:nU:nV]$$, que le codage désigne.</i>"
+  # cas où la droite tracée est un axe de symétrie du triangle : les trois
+  # droites remarquables y sont confondues, aucune réponse ne peut être exigée
+  # plutôt qu’une autre
+  repAxe: '${"C’est <span class=''red''>à la fois la médiatrice de $$["+:nU+:nV+"]$$, la hauteur issue de $$"+:nS+"$$ et la médiane issue de $$"+:nS+"$$</span>.<br><i>"+(:forme===3?"Ce triangle est équilatéral : la médiatrice, la hauteur et la médiane de chaque côté y sont confondues.":"Ce triangle est isocèle de sommet principal $$"+:nS+"$$ : la médiatrice, la hauteur et la médiane issues de ce sommet y sont confondues.")+"</i>"}'
+  repMediatrices: "Ce sont les <span class='red'>trois médiatrices</span> du triangle.<br><i>Chacune coupe un côté en son milieu, perpendiculairement. Elles se coupent en un même point, le centre du cercle circonscrit.</i>"
+  repHauteurs: "Ce sont les <span class='red'>trois hauteurs</span> du triangle.<br><i>Chacune passe par un sommet et est perpendiculaire au côté opposé. Elles se coupent en un même point, l’orthocentre.</i>"
+  repMedianes: "Ce sont les <span class='red'>trois médianes</span> du triangle.<br><i>Chacune joint un sommet au milieu du côté opposé. Elles se coupent en un même point, le centre de gravité.</i>"
+  repAxe3: "Ce sont <span class='red'>à la fois les médiatrices, les hauteurs et les médianes</span> du triangle.<br><i>Dans un triangle équilatéral, ces trois familles de droites sont confondues : ce sont les trois axes de symétrie.</i>"
+  repCodeHauteur: "Il faut coder <span class='red'>l’angle droit</span> en $$:nD$$, entre $$(:nA:nD)$$ et le côté $$[:nB:nC]$$.<br><i>Une hauteur est perpendiculaire au côté opposé au sommet dont elle est issue.</i>"
+  repCodeMediane: "Il faut coder que <span class='red'>$$:nD$$ est le milieu de $$[:nB:nC]$$</span>, par une même marque sur $$[:nB:nD]$$ et sur $$[:nD:nC]$$.<br><i>Une médiane joint un sommet au milieu du côté opposé.</i>"
+  repCodeBissectrice: "Il faut coder que <span class='red'>l’angle $$:nB:nA:nD$$ est égal à l’angle $$:nD:nA:nC$$</span>, par un même codage (un même nombre d’arcs) sur chacun.<br><i>Une bissectrice partage l’angle en deux angles de même mesure.</i>"
+  repCodeMediatrice: "Il faut coder à la fois <span class='red'>l’angle droit en $$:nD$$</span> et que <span class='red'>$$:nD$$ est le milieu de $$[:nB:nC]$$</span>, par une marque d’angle droit et une même marque sur $$[:nB:nD]$$ et sur $$[:nD:nC]$$.<br><i>Une médiatrice est perpendiculaire au côté et passe par son milieu.</i>"
+  repBissectrice: "C’est la <span class='red'>bissectrice issue de $$:nS$$</span>.<br><i>Le codage le dit : elle partage l’angle $$\\widehat{:nU:nS:nV}$$ en deux angles égaux.</i>"
+  repBissectrices: "Ce sont les <span class='red'>trois bissectrices</span> du triangle.<br><i>Chacune part d’un sommet et partage l’angle en deux angles égaux. Elles se coupent en un même point, le centre du cercle inscrit.</i>"
+  # ─── figures à main levée de la dernière série, produites par
+  # tools/figures-5GB9.mjs (Rough.js). Elles ne portent aucun codage : c’est
+  # l’énoncé qui donne la nature de la droite tracée, et l’élève dit le codage
+  # qui la traduirait. Le tremblé du tracé rappelle qu’il ne faut pas mesurer —
+  # le pied de la droite n’est ni le milieu du côté ni le pied de la hauteur.
+  # Les lettres sont laissées en marques %A% à %C% et %M%, remplacées à la
+  # génération : les constantes ne traversent pas la substitution de variables
+  # au moment où la variable fig est tirée.
+  figs:
+    # 0 — quelconque
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M154.7 108.8 C143.5 93, 138.6 80.7, 107.2 36 M109 33.5 C93.5 67.7, 73.1 97.6, 58.6 130.9 M56.1 129.3 C90.6 124.8, 126.3 118.9, 156.1 109.5' stroke='#118ab2' stroke-width='2'/><path d='M153.4 112 C138.4 110.2, 122 107.3, 74.2 97.1' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='167' y='115'>%A%</text><text x='109' y='22'>%B%</text><text x='47' y='138'>%C%</text><text x='59' y='100'>%M%</text></g></svg>"
+    # 1 — quelconque
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M73.6 141.5 C87.7 133.5, 109.1 126.5, 156.5 101.4 M155.7 100.7 C130.4 89.3, 99.8 79.4, 51.2 63.1 M50.7 64.2 C58.8 87.6, 63.8 113.2, 72.2 143' stroke='#118ab2' stroke-width='2'/><path d='M72.4 144.7 C81 133, 89.2 119.9, 115.2 85.1' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='66' y='154'>%A%</text><text x='170' y='101'>%B%</text><text x='40' y='56'>%C%</text><text x='127' y='77'>%M%</text></g></svg>"
+    # 2 — obtusangle
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M134.8 136.8 C137.5 123.8, 145.7 111, 155.1 73.7 M156 74.9 C136.7 83.9, 116.1 97.4, 56.3 129.6 M53.2 129 C74.4 129.9, 94.3 135.4, 134.8 139' stroke='#118ab2' stroke-width='2'/><path d='M133.6 135.6 C127.2 129.8, 118.7 124.7, 96.5 103.8' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='144' y='147'>%A%</text><text x='164' y='65'>%B%</text><text x='42' y='131'>%C%</text><text x='81' y='101'>%M%</text></g></svg>"
+    # 3 — obtusangle
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M142.9 131.7 C139.9 114.1, 143.1 99.8, 137 45.6 M135.3 48.6 C120.5 82.2, 100.7 117.1, 88 148.6 M86.9 146.4 C99 142.8, 106.5 143.5, 139.9 130.2' stroke='#118ab2' stroke-width='2'/><path d='M141.6 130.5 C134.1 126.2, 125.9 122.3, 105.3 115.1' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='150' y='141'>%A%</text><text x='139' y='35'>%B%</text><text x='78' y='158'>%C%</text><text x='88' y='117'>%M%</text></g></svg>"
+    # 4 — isocèle
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M64.2 138.7 C81.1 133.6, 102.7 130.8, 153.3 115.6 M153.5 116.1 C127.3 99.9, 100.7 79.4, 61.7 48.8 M58.1 49.3 C61.5 82.6, 65.5 114.2, 67.1 138' stroke='#118ab2' stroke-width='2'/><path d='M67.3 137.6 C75.8 128.4, 85.8 121.6, 115.6 92.9' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='58' y='149'>%A%</text><text x='164' y='121'>%B%</text><text x='53' y='40'>%C%</text><text x='132' y='86'>%M%</text></g></svg>"
+    # 5 — isocèle
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M61.1 49.7 C65.7 69.2, 78.4 89.6, 104.7 151.5 M102.2 149.4 C115.7 137.5, 127.6 127.3, 159.2 101 M157.5 99.8 C129.8 84.3, 99.5 70.7, 61.1 49.8' stroke='#118ab2' stroke-width='2'/><path d='M59.9 48.6 C71.9 65.3, 83.8 83.3, 120.9 132' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='52' y='40'>%A%</text><text x='102' y='162'>%B%</text><text x='170' y='99'>%C%</text><text x='128' y='146'>%M%</text></g></svg>"
+    # 6 — équilatéral
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M40.6 101.6 C59.7 107.2, 82.9 113.2, 134.7 137.9 M138.4 137.7 C133.6 103.9, 125.8 67.9, 122.6 37.9 M122.9 39.5 C100.3 53.7, 80.6 72, 42 102.4' stroke='#118ab2' stroke-width='2'/><path d='M43.7 100.5 C59.4 94.3, 75.8 88.2, 126 71.2' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='30' y='103'>%A%</text><text x='144' y='147'>%B%</text><text x='125' y='26'>%C%</text><text x='139' y='63'>%M%</text></g></svg>"
+    # 7 — équilatéral
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M66.2 140.5 C83.7 132.6, 106.3 125.5, 156.8 97.3 M157.9 98.9 C135.6 81.4, 111.5 65.6, 77.3 37.6 M75.1 37.6 C74.6 57.4, 69.6 81.1, 64.7 137.7' stroke='#118ab2' stroke-width='2'/><path d='M65 139.4 C75 122.6, 82.2 104.7, 105 57.8' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='59' y='149'>%A%</text><text x='170' y='99'>%B%</text><text x='71' y='28'>%C%</text><text x='107' y='44'>%M%</text></g></svg>"
+    # 8 — rectangle
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M71.4 44.2 C62.4 55.7, 61 68.1, 42.9 102.6 M41.4 101.7 C69.1 97.9, 94.2 95.7, 158.3 81.6 M158 79.9 C125.4 68.8, 97.3 55.6, 71.3 42.1' stroke='#118ab2' stroke-width='2'/><path d='M70.1 43.1 C73.8 52.9, 77.2 64.7, 90.5 95.8' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='63' y='32'>%A%</text><text x='33' y='110'>%B%</text><text x='169' y='81'>%C%</text><text x='89' y='110'>%M%</text></g></svg>"
+    # 9 — rectangle
+    - "<svg width='12em' height='11.04em' viewBox='0 0 200 184' xmlns='http://www.w3.org/2000/svg'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M140.5 53.4 C120 55.3, 104.8 57.1, 48.1 65.3 M48.4 66.2 C86 85, 120.6 98.9, 153.8 116.5 M151 117.5 C150.8 97.2, 146.9 78.4, 141.9 52' stroke='#118ab2' stroke-width='2'/><path d='M139.2 52.2 C130.3 59.7, 119.1 66.8, 91.7 88' stroke='#c1121f' stroke-width='2'/></g><g font-size='14' fill='#118ab2' text-anchor='middle' dominant-baseline='central'><text x='150' y='43'>%A%</text><text x='35' y='65'>%B%</text><text x='161' y='126'>%C%</text><text x='75' y='93'>%M%</text></g></svg>"
+vars:
+  # ─── nature de la droite tracée et nombre de droites, fixés par chaque option
+  dr: 0 # 0 = médiatrice, 1 = hauteur, 2 = médiane
+  nb: 1 # 1 = une seule droite tracée, 3 = les trois de la famille
+  cod: 1 # série « coder la figure » : 1 = hauteur, 0 = médiane
+  # ─── forme du triangle. Deux des trois hauteurs d’un triangle rectangle sont
+  # portées par ses côtés : le tracé rouge se confondrait avec le tracé bleu, on
+  # écarte donc le rectangle de la série des trois hauteurs.
+  forme4: "0_3"
+  forme5: "0_4"
+  forme: ${(:dr===1&&:nb===3)?:forme4::forme5}
+  arcId: "0_${:arcs[:forme].length-1}"
+  a0: ${:arcs[:forme][:arcId][0]}
+  a1: ${:arcs[:forme][:arcId][1]}
+  # ─── côté visé : la droite tracée est la médiatrice du côté som, ou la
+  # hauteur ou la médiane issue du sommet som (celui que ce côté ne touche pas).
+  # Dans un triangle rectangle, la seule hauteur qui ne soit pas portée par un
+  # côté est celle du sommet de l’angle droit, c’est-à-dire V0.
+  som3: "0_2"
+  som: ${(:forme===4&&:dr===1)?0::som3}
+  # ─── sommets, sur le cercle de centre O et de rayon 2,6
+  phi: "0_359"
+  t0: ${:phi}
+  t1: ${:phi+:a0}
+  t2: ${:phi+:a0+:a1}
+  x0: ${MMmath.round(2.6*Math.cos(:t0*Math.PI/180),4)}
+  y0: ${MMmath.round(2.6*Math.sin(:t0*Math.PI/180),4)}
+  x1: ${MMmath.round(2.6*Math.cos(:t1*Math.PI/180),4)}
+  y1: ${MMmath.round(2.6*Math.sin(:t1*Math.PI/180),4)}
+  x2: ${MMmath.round(2.6*Math.cos(:t2*Math.PI/180),4)}
+  y2: ${MMmath.round(2.6*Math.sin(:t2*Math.PI/180),4)}
+  # décalage des lettres, en pixels, vers l’extérieur du cercle : JSXGraph les
+  # poserait toutes du même côté, où elles chevaucheraient les tracés
+  lx0: ${MMmath.round(12*Math.cos(:t0*Math.PI/180),0)}
+  ly0: ${MMmath.round(12*Math.sin(:t0*Math.PI/180),0)}
+  lx1: ${MMmath.round(12*Math.cos(:t1*Math.PI/180),0)}
+  ly1: ${MMmath.round(12*Math.sin(:t1*Math.PI/180),0)}
+  lx2: ${MMmath.round(12*Math.cos(:t2*Math.PI/180),0)}
+  ly2: ${MMmath.round(12*Math.sin(:t2*Math.PI/180),0)}
+  # ─── côté 0 : celui que le sommet V0 ne touche pas, de V1 vers V2
+  L0: ${MMmath.round(Math.hypot(:x2-:x1,:y2-:y1),4)}
+  # vecteur unitaire porté par le côté
+  u0x: ${MMmath.round((:x2-:x1)/:L0,4)}
+  u0y: ${MMmath.round((:y2-:y1)/:L0,4)}
+  m0x: ${MMmath.round((:x1+:x2)/2,4)}
+  m0y: ${MMmath.round((:y1+:y2)/2,4)}
+  # normale unitaire, orientée vers le sommet V0 : les marques de codage se
+  # posent ainsi du côté du triangle, et non à l’extérieur
+  s0: ${(:x0-:m0x)*(-:u0y)+(:y0-:m0y)*:u0x>=0?1:-1}
+  v0x: ${MMmath.round(-:s0*:u0y,4)}
+  v0y: ${MMmath.round(:s0*:u0x,4)}
+  # pied de la hauteur issue de V0, projeté de V0 sur le côté
+  p0: ${MMmath.round((:x0-:x1)*:u0x+(:y0-:y1)*:u0y,4)}
+  f0x: ${MMmath.round(:x1+:p0*:u0x,4)}
+  f0y: ${MMmath.round(:y1+:p0*:u0y,4)}
+  # les deux points qui portent la droite tracée : la médiatrice part du milieu
+  # et suit la normale, la hauteur part du sommet et suit la normale, la médiane
+  # part du sommet et rejoint le milieu
+  # ─── côté 1 : mêmes calculs, de V2 vers V0
+  L1: ${MMmath.round(Math.hypot(:x0-:x2,:y0-:y2),4)}
+  u1x: ${MMmath.round((:x0-:x2)/:L1,4)}
+  u1y: ${MMmath.round((:y0-:y2)/:L1,4)}
+  m1x: ${MMmath.round((:x2+:x0)/2,4)}
+  m1y: ${MMmath.round((:y2+:y0)/2,4)}
+  s1: ${(:x1-:m1x)*(-:u1y)+(:y1-:m1y)*:u1x>=0?1:-1}
+  v1x: ${MMmath.round(-:s1*:u1y,4)}
+  v1y: ${MMmath.round(:s1*:u1x,4)}
+  p1: ${MMmath.round((:x1-:x2)*:u1x+(:y1-:y2)*:u1y,4)}
+  f1x: ${MMmath.round(:x2+:p1*:u1x,4)}
+  f1y: ${MMmath.round(:y2+:p1*:u1y,4)}
+  # ─── côté 2 : mêmes calculs, de V0 vers V1
+  L2: ${MMmath.round(Math.hypot(:x1-:x0,:y1-:y0),4)}
+  u2x: ${MMmath.round((:x1-:x0)/:L2,4)}
+  u2y: ${MMmath.round((:y1-:y0)/:L2,4)}
+  m2x: ${MMmath.round((:x0+:x1)/2,4)}
+  m2y: ${MMmath.round((:y0+:y1)/2,4)}
+  s2: ${(:x2-:m2x)*(-:u2y)+(:y2-:m2y)*:u2x>=0?1:-1}
+  v2x: ${MMmath.round(-:s2*:u2y,4)}
+  v2y: ${MMmath.round(:s2*:u2x,4)}
+  p2: ${MMmath.round((:x2-:x0)*:u2x+(:y2-:y0)*:u2y,4)}
+  f2x: ${MMmath.round(:x0+:p2*:u2x,4)}
+  f2y: ${MMmath.round(:y0+:p2*:u2y,4)}
+  # ─── bissectrices issues de V0, V1, V2 : maintenant que L0, L1, L2, u0, u1,
+  # u2 sont tous connus, direction obtenue en additionnant les deux vecteurs
+  # unitaires portés par les côtés de l’angle, puis en normalisant —
+  # propriété classique de la bissectrice. Le pied sur le côté opposé sert de
+  # second point pour tracer la droite ; les deux directions mA/mB (milieu de
+  # chaque demi-angle, par la même propriété appliquée à un côté et à la
+  # bissectrice) placent les marques de codage des angles égaux.
+  p0x: ${MMmath.round((:x1-:x0)/:L2,4)}
+  p0y: ${MMmath.round((:y1-:y0)/:L2,4)}
+  q0x: ${MMmath.round((:x2-:x0)/:L1,4)}
+  q0y: ${MMmath.round((:y2-:y0)/:L1,4)}
+  bp0: ${MMmath.round((:L2/(:L2+:L1))*:L0,4)}
+  bis0x: ${MMmath.round(:x1+:bp0*:u0x,4)}
+  bis0y: ${MMmath.round(:y1+:bp0*:u0y,4)}
+  db0L: ${MMmath.round(Math.hypot(:bis0x-:x0,:bis0y-:y0),4)}
+  db0x: ${MMmath.round((:bis0x-:x0)/:db0L,4)}
+  db0y: ${MMmath.round((:bis0y-:y0)/:db0L,4)}
+  mA0L: ${MMmath.round(Math.hypot(:p0x+:db0x,:p0y+:db0y),4)}
+  mA0x: ${MMmath.round((:p0x+:db0x)/:mA0L,4)}
+  mA0y: ${MMmath.round((:p0y+:db0y)/:mA0L,4)}
+  mB0L: ${MMmath.round(Math.hypot(:db0x+:q0x,:db0y+:q0y),4)}
+  mB0x: ${MMmath.round((:db0x+:q0x)/:mB0L,4)}
+  mB0y: ${MMmath.round((:db0y+:q0y)/:mB0L,4)}
+  p1x: ${MMmath.round((:x2-:x1)/:L0,4)}
+  p1y: ${MMmath.round((:y2-:y1)/:L0,4)}
+  q1x: ${MMmath.round((:x0-:x1)/:L2,4)}
+  q1y: ${MMmath.round((:y0-:y1)/:L2,4)}
+  bp1: ${MMmath.round((:L0/(:L0+:L2))*:L1,4)}
+  bis1x: ${MMmath.round(:x2+:bp1*:u1x,4)}
+  bis1y: ${MMmath.round(:y2+:bp1*:u1y,4)}
+  db1L: ${MMmath.round(Math.hypot(:bis1x-:x1,:bis1y-:y1),4)}
+  db1x: ${MMmath.round((:bis1x-:x1)/:db1L,4)}
+  db1y: ${MMmath.round((:bis1y-:y1)/:db1L,4)}
+  mA1L: ${MMmath.round(Math.hypot(:p1x+:db1x,:p1y+:db1y),4)}
+  mA1x: ${MMmath.round((:p1x+:db1x)/:mA1L,4)}
+  mA1y: ${MMmath.round((:p1y+:db1y)/:mA1L,4)}
+  mB1L: ${MMmath.round(Math.hypot(:db1x+:q1x,:db1y+:q1y),4)}
+  mB1x: ${MMmath.round((:db1x+:q1x)/:mB1L,4)}
+  mB1y: ${MMmath.round((:db1y+:q1y)/:mB1L,4)}
+  p2x: ${MMmath.round((:x0-:x2)/:L1,4)}
+  p2y: ${MMmath.round((:y0-:y2)/:L1,4)}
+  q2x: ${MMmath.round((:x1-:x2)/:L0,4)}
+  q2y: ${MMmath.round((:y1-:y2)/:L0,4)}
+  bp2: ${MMmath.round((:L1/(:L1+:L0))*:L2,4)}
+  bis2x: ${MMmath.round(:x0+:bp2*:u2x,4)}
+  bis2y: ${MMmath.round(:y0+:bp2*:u2y,4)}
+  db2L: ${MMmath.round(Math.hypot(:bis2x-:x2,:bis2y-:y2),4)}
+  db2x: ${MMmath.round((:bis2x-:x2)/:db2L,4)}
+  db2y: ${MMmath.round((:bis2y-:y2)/:db2L,4)}
+  mA2L: ${MMmath.round(Math.hypot(:p2x+:db2x,:p2y+:db2y),4)}
+  mA2x: ${MMmath.round((:p2x+:db2x)/:mA2L,4)}
+  mA2y: ${MMmath.round((:p2y+:db2y)/:mA2L,4)}
+  mB2L: ${MMmath.round(Math.hypot(:db2x+:q2x,:db2y+:q2y),4)}
+  mB2x: ${MMmath.round((:db2x+:q2x)/:mB2L,4)}
+  mB2y: ${MMmath.round((:db2y+:q2y)/:mB2L,4)}
+  # ─── les deux points qui portent chaque droite tracée : la médiatrice part
+  # du milieu et suit la normale, la hauteur part du sommet et suit la
+  # normale, la médiane part du sommet et rejoint le milieu, la bissectrice
+  # part du sommet et rejoint son pied sur le côté opposé
+  o0x: ${:dr===0?:m0x::x0}
+  o0y: ${:dr===0?:m0y::y0}
+  n0x: ${MMmath.round(:dr===2?:m0x:(:dr===3?:bis0x::o0x+:v0x),4)}
+  n0y: ${MMmath.round(:dr===2?:m0y:(:dr===3?:bis0y::o0y+:v0y),4)}
+  # sommet de l’angle droit codé : le pied pour une hauteur, le milieu sinon
+  a0x: ${:dr===1?:f0x::m0x}
+  a0y: ${:dr===1?:f0y::m0y}
+  # sens du bras du codage porté par le côté : vers le milieu, pour que la
+  # marque d’angle droit d’une hauteur extérieure regarde le triangle
+  w0: ${(:m0x-:a0x)*:u0x+(:m0y-:a0y)*:u0y>=0?1:-1}
+  # JSXGraph mesure un angle dans le sens direct : si les deux bras sont donnés
+  # dans le sens des aiguilles d’une montre, il lit 270° et dessine un secteur
+  # au lieu du carré de l’angle droit. e0 dit lequel des deux bras vient en
+  # premier — celui de la droite, ou celui du côté.
+  e0: ${:s0*:w0<0}
+  o1x: ${:dr===0?:m1x::x1}
+  o1y: ${:dr===0?:m1y::y1}
+  n1x: ${MMmath.round(:dr===2?:m1x:(:dr===3?:bis1x::o1x+:v1x),4)}
+  n1y: ${MMmath.round(:dr===2?:m1y:(:dr===3?:bis1y::o1y+:v1y),4)}
+  a1x: ${:dr===1?:f1x::m1x}
+  a1y: ${:dr===1?:f1y::m1y}
+  w1: ${(:m1x-:a1x)*:u1x+(:m1y-:a1y)*:u1y>=0?1:-1}
+  e1: ${:s1*:w1<0}
+  o2x: ${:dr===0?:m2x::x2}
+  o2y: ${:dr===0?:m2y::y2}
+  n2x: ${MMmath.round(:dr===2?:m2x:(:dr===3?:bis2x::o2x+:v2x),4)}
+  n2y: ${MMmath.round(:dr===2?:m2y:(:dr===3?:bis2y::o2y+:v2y),4)}
+  a2x: ${:dr===1?:f2x::m2x}
+  a2y: ${:dr===1?:f2y::m2y}
+  w2: ${(:m2x-:a2x)*:u2x+(:m2y-:a2y)*:u2y>=0?1:-1}
+  e2: ${:s2*:w2<0}
+  # ─── la droite tracée et son codage, quand une seule droite est tracée : on
+  # choisit dans les trois côtés celui que l’option a tiré
+  ox: ${[:o0x,:o1x,:o2x][:som]}
+  oy: ${[:o0y,:o1y,:o2y][:som]}
+  qx: ${[:n0x,:n1x,:n2x][:som]}
+  qy: ${[:n0y,:n1y,:n2y][:som]}
+  cax: ${[:a0x,:a1x,:a2x][:som]}
+  cay: ${[:a0y,:a1y,:a2y][:som]}
+  cux: ${[:u0x,:u1x,:u2x][:som]}
+  cuy: ${[:u0y,:u1y,:u2y][:som]}
+  cvx: ${[:v0x,:v1x,:v2x][:som]}
+  cvy: ${[:v0y,:v1y,:v2y][:som]}
+  cmx: ${[:m0x,:m1x,:m2x][:som]}
+  cmy: ${[:m0y,:m1y,:m2y][:som]}
+  cw: ${[:w0,:w1,:w2][:som]}
+  ce: ${[:e0,:e1,:e2][:som]}
+  # directions des marques d’angles égaux de la bissectrice, sur la droite
+  # tracée quand une seule l’est
+  mAx: ${[:mA0x,:mA1x,:mA2x][:som]}
+  mAy: ${[:mA0y,:mA1y,:mA2y][:som]}
+  mBx: ${[:mB0x,:mB1x,:mB2x][:som]}
+  mBy: ${[:mB0y,:mB1y,:mB2y][:som]}
+  # les deux côtés de l’angle et la bissectrice elle-même, sur la droite tracée
+  # quand une seule l’est : servent à dessiner les deux arcs codés (mêmes
+  # marques de part et d’autre de la bissectrice)
+  brx: ${[:p0x,:p1x,:p2x][:som]}
+  bry: ${[:p0y,:p1y,:p2y][:som]}
+  bdx: ${[:db0x,:db1x,:db2x][:som]}
+  bdy: ${[:db0y,:db1y,:db2y][:som]}
+  bqx: ${[:q0x,:q1x,:q2x][:som]}
+  bqy: ${[:q0y,:q1y,:q2y][:som]}
+  # extrémités du côté visé
+  ce1x: ${[:x1,:x2,:x0][:som]}
+  ce1y: ${[:y1,:y2,:y0][:som]}
+  ce2x: ${[:x2,:x0,:x1][:som]}
+  ce2y: ${[:y2,:y0,:y1][:som]}
+  # ─── lettres : quatre consécutives de pool, prises au hasard. La quatrième
+  # nomme le pied de la droite tracée sur la figure à main levée.
+  lp: "0_${:pool.length-4}"
+  nA: ${:pool[:lp]}
+  nB: ${:pool[:lp+1]}
+  nC: ${:pool[:lp+2]}
+  nD: ${:pool[:lp+3]}
+  nom: ${:nA+:nB+:nC}
+  # sommet visé, et extrémités du côté opposé
+  nS: ${[:nA,:nB,:nC][:som]}
+  nU: ${[:nB,:nC,:nA][:som]}
+  nV: ${[:nC,:nA,:nB][:som]}
+  formeNom: ${:formes[:forme]}
+  # ─── énoncé des séries à une seule droite. Dans un isocèle ou un équilatéral,
+  # une même droite peut être à la fois médiatrice, hauteur et médiane : sans
+  # savoir que le triangle est particulier, l’élève ne peut pas le voir, le
+  # codage seul ne le dit pas. On le lui annonce donc, avec le sommet principal
+  # quand c’est un isocèle — c’est lui qui porte l’axe de symétrie.
+  questionUne: '${:forme===3?("Le triangle $$"+:nom+"$$ est équilatéral.<br>Comment s’appelle la droite rouge tracée ?"):(:forme===2?("Le triangle $$"+:nom+"$$ est isocèle en $$"+:nA+"$$.<br>Comment s’appelle la droite rouge tracée ?"):("Comment s’appelle la droite rouge tracée dans le triangle $$"+:nom+"$$ ?"))}'
+  nomD: ${:dr===0?"médiatrice":(:dr===1?"hauteur":(:dr===2?"médiane":"bissectrice"))}
+  nomDsa: ${:dr===0?"mediatrice":(:dr===1?"hauteur":(:dr===2?"mediane":"bissectrice"))}
+  nomD3: ${:dr===0?"médiatrices":(:dr===1?"hauteurs":(:dr===2?"médianes":"bissectrices"))}
+  nomD3sa: ${:dr===0?"mediatrices":(:dr===1?"hauteurs":(:dr===2?"medianes":"bissectrices"))}
+  # la droite tracée est-elle un axe de symétrie du triangle ? Alors elle est à
+  # la fois médiatrice, hauteur et médiane, et toutes les réponses se valent :
+  # c’est le cas de toutes les droites de l’équilatéral, et de celle du sommet
+  # principal de l’isocèle.
+  axe: ${:forme===3||(:forme===2&&:som===0)}
+  axe3: ${:forme===3}
+  # ─── codage porté sur la figure : l’angle droit dit la perpendicularité
+  # (médiatrice, hauteur), les deux marques égales disent le milieu (médiatrice,
+  # médiane). Quand la droite est un axe de symétrie, les deux sont vrais.
+  codeAngle: ${:dr===0||:dr===1||:axe}
+  codeMilieu: ${:dr===0||:dr===2||:axe}
+  codeAngle3: ${:dr===0||:dr===1||:axe3}
+  codeMilieu3: ${:dr===0||:dr===2||:axe3}
+  # ─── codage de la bissectrice : deux mêmes marques sur les deux demi-angles,
+  # aucune exception liée à l’axe de symétrie — une bissectrice reste toujours
+  # ce qu’elle est, contrairement aux trois autres droites qui peuvent s’y
+  # confondre
+  codeBissectrice: ${:dr===3}
+  codNom: ${:cod===1?"hauteur":(:cod===2?"bissectrice":(:cod===3?"médiatrice":"médiane"))}
+  # ─── figure à main levée de la dernière série
+  numfig: "0_9"
+  fig: ${:figs[:numfig].replaceAll("%A%",:nA).replaceAll("%B%",:nB).replaceAll("%C%",:nC).replaceAll("%M%",:nD)}
+options:
+  # ───────────────── une seule droite tracée
+  - name: Une médiatrice tracée
+    vars:
+      dr: 0
+      nb: 1
+    question: ${:questionUne}
+    shortq: la droite rouge ?
+    answer: ${:axe?:repAxe::repMediatrice}
+    value: &valeursUne
+      - '${:nomD}'
+      - '${:nomDsa}'
+      - 'une ${:nomD}'
+      - 'la ${:nomD}'
+      - '${:dr===0?"médiatrice de ["+:nU+:nV+"]"::nomD+" issue de "+:nS}'
+      - '${:axe?"médiatrice"::nomD}'
+      - '${:axe?"mediatrice"::nomDsa}'
+      - '${:axe?"hauteur"::nomD}'
+      - '${:axe?"médiane"::nomD}'
+      - '${:axe?"mediane"::nomDsa}'
+    figure: &figureUne
+      type: graph
+      axis: false
+      grid: false
+      keepAspect: true
+      boundingbox: [-4.8, 4.4, 4.8, -4.4]
+      content:
+        # Les points de service sont préfixés z : les points nommés qui portent
+        # les lettres des sommets sont créés à part, pour maîtriser la position
+        # de leur étiquette.
+        - [point, ["${:x0}", "${:y0}"], { name: zA, visible: false, withLabel: false }]
+        - [point, ["${:x1}", "${:y1}"], { name: zB, visible: false, withLabel: false }]
+        - [point, ["${:x2}", "${:y2}"], { name: zC, visible: false, withLabel: false }]
+        - [segment, [zA, zB], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        - [segment, [zB, zC], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        - [segment, [zC, zA], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        # sommets en croix, lettre posée juste à l’extérieur du cercle
+        - [point, ["${:x0}", "${:y0}"], { name: "${:nA}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx0}", "${:ly0}"] } }]
+        - [point, ["${:x1}", "${:y1}"], { name: "${:nB}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx1}", "${:ly1}"] } }]
+        - [point, ["${:x2}", "${:y2}"], { name: "${:nC}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx2}", "${:ly2}"] } }]
+        # la droite tracée, portée par deux points de service
+        - [point, ["${:ox}", "${:oy}"], { name: zP1, visible: false, withLabel: false }]
+        - [point, ["${:qx}", "${:qy}"], { name: zP2, visible: false, withLabel: false }]
+        - [line, [zP1, zP2], { strokeColor: "#c1121f", strokeWidth: 1.4 }]
+        # angle droit entre la droite et le côté : sommet de l’angle, bras porté
+        # par la droite, bras porté par le côté et tourné vers le milieu
+        - [point, ["${:cax}", "${:cay}"], { name: zPD, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:cax+(:ce?:cvx::cw*:cux)*0.4,4)}", "${MMmath.round(:cay+(:ce?:cvy::cw*:cuy)*0.4,4)}"], { name: zPE, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:cax+(:ce?:cw*:cux::cvx)*0.4,4)}", "${MMmath.round(:cay+(:ce?:cw*:cuy::cvy)*0.4,4)}"], { name: zPF, visible: false, withLabel: false }]
+        - [angle, [zPE, zPD, zPF], { radius: 0.28, label: { visible: false }, strokeColor: "#c1121f", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeAngle}" }]
+        # milieu du côté : une même marque au milieu de chaque demi-côté
+        - [point, ["${MMmath.round((:ce1x+:cmx)/2+0.14*:cvx,4)}", "${MMmath.round((:ce1y+:cmy)/2+0.14*:cvy,4)}"], { name: zPG, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:ce1x+:cmx)/2-0.14*:cvx,4)}", "${MMmath.round((:ce1y+:cmy)/2-0.14*:cvy,4)}"], { name: zPH, visible: false, withLabel: false }]
+        - [segment, [zPG, zPH], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu}" }]
+        - [point, ["${MMmath.round((:ce2x+:cmx)/2+0.14*:cvx,4)}", "${MMmath.round((:ce2y+:cmy)/2+0.14*:cvy,4)}"], { name: zPJ, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:ce2x+:cmx)/2-0.14*:cvx,4)}", "${MMmath.round((:ce2y+:cmy)/2-0.14*:cvy,4)}"], { name: zPK, visible: false, withLabel: false }]
+        - [segment, [zPJ, zPK], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu}" }]
+        # bissectrice : les deux demi-angles qu’elle sépare sont codés de la
+        # même façon — même arc, même marque — pour dire qu’ils sont égaux
+        - [point, ["${MMmath.round(:ox+:brx*1.1,4)}", "${MMmath.round(:oy+:bry*1.1,4)}"], { name: zPQ1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:ox+:bdx*1.1,4)}", "${MMmath.round(:oy+:bdy*1.1,4)}"], { name: zPQ2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:ox+:bqx*1.1,4)}", "${MMmath.round(:oy+:bqy*1.1,4)}"], { name: zPQ3, visible: false, withLabel: false }]
+        - [angle, [zPQ1, zP1, zPQ2], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [angle, [zPQ2, zP1, zPQ3], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:ox+:mAx*0.66,4)}", "${MMmath.round(:oy+:mAy*0.66,4)}"], { name: zPL, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:ox+:mAx*1.14,4)}", "${MMmath.round(:oy+:mAy*1.14,4)}"], { name: zPM, visible: false, withLabel: false }]
+        - [segment, [zPL, zPM], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:ox+:mBx*0.66,4)}", "${MMmath.round(:oy+:mBy*0.66,4)}"], { name: zPN, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:ox+:mBx*1.14,4)}", "${MMmath.round(:oy+:mBy*1.14,4)}"], { name: zPO, visible: false, withLabel: false }]
+        - [segment, [zPN, zPO], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+  - name: Une bissectrice tracée
+    vars:
+      dr: 3
+      nb: 1
+      forme: [0, 1, 4]
+    question: ${:questionUne}
+    shortq: la droite rouge ?
+    answer: ${:repBissectrice}
+    value: *valeursUne
+    figure: *figureUne
+  - name: Une hauteur tracée
+    vars:
+      dr: 1
+      nb: 1
+    question: ${:questionUne}
+    shortq: la droite rouge ?
+    answer: ${:axe?:repAxe::repHauteur}
+    value: *valeursUne
+    figure: *figureUne
+  - name: Une médiane tracée
+    vars:
+      dr: 2
+      nb: 1
+    question: ${:questionUne}
+    shortq: la droite rouge ?
+    answer: ${:axe?:repAxe::repMediane}
+    value: *valeursUne
+    figure: *figureUne
+  - name: Deux droites tracées, laquelle est la médiatrice, la hauteur ou la médiane
+    vars:
+      forme: [0, 1, 4]
+      # ─── deux types distincts, tirés parmi les quatre familles (0 médiatrice,
+      # 1 hauteur, 2 médiane, 3 bissectrice)
+      drpair: [[0, 1], [0, 2], [0, 3], [1, 0], [1, 2], [1, 3], [2, 0], [2, 1], [2, 3], [3, 0], [3, 1], [3, 2]]
+      drA: ${:drpair[0]}
+      drB: ${:drpair[1]}
+      # ─── deux côtés distincts, un par droite
+      sompair: [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]]
+      somA0: ${:sompair[0]}
+      somB0: ${:sompair[1]}
+      # une hauteur d’un triangle rectangle qui n’est pas au sommet de l’angle
+      # droit se confondrait avec un côté : on la ramène à ce sommet, et on
+      # décale l’autre droite si elle y était déjà
+      isRectHautA: ${:forme===4&&:drA===1}
+      isRectHautB: ${:forme===4&&:drB===1}
+      somA: ${:isRectHautA?0:((:isRectHautB&&:somA0===0)?:somB0::somA0)}
+      somB: ${:isRectHautB?0:((:isRectHautA&&:somB0===0)?:somA0::somB0)}
+      # ─── extrémités de la droite d1, selon son type et son côté
+      oAx: ${:drA===0?[:m0x,:m1x,:m2x][:somA]:[:x0,:x1,:x2][:somA]}
+      oAy: ${:drA===0?[:m0y,:m1y,:m2y][:somA]:[:y0,:y1,:y2][:somA]}
+      qAx: ${MMmath.round(:drA===2?[:m0x,:m1x,:m2x][:somA]:(:drA===3?[:bis0x,:bis1x,:bis2x][:somA]::oAx+[:v0x,:v1x,:v2x][:somA]),4)}
+      qAy: ${MMmath.round(:drA===2?[:m0y,:m1y,:m2y][:somA]:(:drA===3?[:bis0y,:bis1y,:bis2y][:somA]::oAy+[:v0y,:v1y,:v2y][:somA]),4)}
+      # bissectrice de l’angle en somA, pour le codage (marques d’angles égaux)
+      btAx: ${[:mA0x,:mA1x,:mA2x][:somA]}
+      btAy: ${[:mA0y,:mA1y,:mA2y][:somA]}
+      btA2x: ${[:mB0x,:mB1x,:mB2x][:somA]}
+      btA2y: ${[:mB0y,:mB1y,:mB2y][:somA]}
+      # les deux côtés de l’angle en somA et la bissectrice elle-même, pour les
+      # deux arcs codés de la même façon de part et d’autre
+      brAx: ${[:p0x,:p1x,:p2x][:somA]}
+      brAy: ${[:p0y,:p1y,:p2y][:somA]}
+      bdAx: ${[:db0x,:db1x,:db2x][:somA]}
+      bdAy: ${[:db0y,:db1y,:db2y][:somA]}
+      bqAx: ${[:q0x,:q1x,:q2x][:somA]}
+      bqAy: ${[:q0y,:q1y,:q2y][:somA]}
+      # vecteur unitaire porté par d1, pour poser l’étiquette au-delà de la
+      # pointe, décalée sur le côté : elle ne recouvre alors ni le tracé ni le
+      # triangle
+      dAx: ${MMmath.round((:qAx-:oAx)/Math.hypot(:qAx-:oAx,:qAy-:oAy),4)}
+      dAy: ${MMmath.round((:qAy-:oAy)/Math.hypot(:qAx-:oAx,:qAy-:oAy),4)}
+      # ─── extrémités de la droite d2
+      oBx: ${:drB===0?[:m0x,:m1x,:m2x][:somB]:[:x0,:x1,:x2][:somB]}
+      oBy: ${:drB===0?[:m0y,:m1y,:m2y][:somB]:[:y0,:y1,:y2][:somB]}
+      qBx: ${MMmath.round(:drB===2?[:m0x,:m1x,:m2x][:somB]:(:drB===3?[:bis0x,:bis1x,:bis2x][:somB]::oBx+[:v0x,:v1x,:v2x][:somB]),4)}
+      qBy: ${MMmath.round(:drB===2?[:m0y,:m1y,:m2y][:somB]:(:drB===3?[:bis0y,:bis1y,:bis2y][:somB]::oBy+[:v0y,:v1y,:v2y][:somB]),4)}
+      # bissectrice de l’angle en somB
+      btBx: ${[:mA0x,:mA1x,:mA2x][:somB]}
+      btBy: ${[:mA0y,:mA1y,:mA2y][:somB]}
+      btB2x: ${[:mB0x,:mB1x,:mB2x][:somB]}
+      btB2y: ${[:mB0y,:mB1y,:mB2y][:somB]}
+      brBx: ${[:p0x,:p1x,:p2x][:somB]}
+      brBy: ${[:p0y,:p1y,:p2y][:somB]}
+      bdBx: ${[:db0x,:db1x,:db2x][:somB]}
+      bdBy: ${[:db0y,:db1y,:db2y][:somB]}
+      bqBx: ${[:q0x,:q1x,:q2x][:somB]}
+      bqBy: ${[:q0y,:q1y,:q2y][:somB]}
+      dBx: ${MMmath.round((:qBx-:oBx)/Math.hypot(:qBx-:oBx,:qBy-:oBy),4)}
+      dBy: ${MMmath.round((:qBy-:oBy)/Math.hypot(:qBx-:oBx,:qBy-:oBy),4)}
+      # ─── place des étiquettes d1 et d2, au bord du cadre.
+      # Une droite est tracée à l’infini : elle sort du cadre par deux bouts, et
+      # l’étiquette peut se poser d’un côté ou de l’autre du trait — quatre
+      # places possibles. Un décalage fixe en tombe trop souvent sur une lettre
+      # de sommet, qui occupe déjà la couronne de rayon 3,8 ; on essaie donc les
+      # quatre et on garde celle qui s’éloigne le plus de ce qu’il ne faut pas
+      # recouvrir. Le résultat est rendu en « x,y » : une variable ne peut pas
+      # porter un tableau, resolveVars ne repasse que des scalaires.
+      # d1 s’écarte des trois lettres et de la droite d2.
+      labA: '${(function(){var O=[Number(:oAx),Number(:oAy)],D=[Number(:dAx),Number(:dAy)],V=[[:x0+:lx0/10,:y0+:ly0/10],[:x1+:lx1/10,:y1+:ly1/10],[:x2+:lx2/10,:y2+:ly2/10]],b=null,bs=-1;for(var s=-1;s<2;s+=2){for(var p=-1;p<2;p+=2){var dx=D[0]*s,dy=D[1]*s,t=1e9;if(dx>0.0001)t=Math.min(t,(6-O[0])/dx);if(dx<-0.0001)t=Math.min(t,(-6-O[0])/dx);if(dy>0.0001)t=Math.min(t,(5.4-O[1])/dy);if(dy<-0.0001)t=Math.min(t,(-5.4-O[1])/dy);var X=O[0]+(t-1.1)*dx-dy*0.95*p,Y=O[1]+(t-1.1)*dy+dx*0.95*p;X=Math.max(-5.3,Math.min(5.3,X));Y=Math.max(-4.7,Math.min(4.7,Y));var sc=1e9,k;for(k=0;k<3;k++)sc=Math.min(sc,Math.hypot(X-V[k][0],Y-V[k][1]));sc=Math.min(sc,Math.abs((X-:oBx)*:dBy-(Y-:oBy)*:dBx)*1.3);if(sc>bs){bs=sc;b=[X,Y];}}}if(b===null)b=[O[0]+2*D[0],O[1]+2*D[1]];return b[0].toFixed(3)+","+b[1].toFixed(3);})()}'
+      labAx: ${Number(:labA.split(",")[0])}
+      labAy: ${Number(:labA.split(",")[1])}
+      # d2 s’écarte en plus de l’étiquette de d1, déjà posée.
+      labB: '${(function(){var O=[Number(:oBx),Number(:oBy)],D=[Number(:dBx),Number(:dBy)],V=[[:x0+:lx0/10,:y0+:ly0/10],[:x1+:lx1/10,:y1+:ly1/10],[:x2+:lx2/10,:y2+:ly2/10]],b=null,bs=-1;for(var s=-1;s<2;s+=2){for(var p=-1;p<2;p+=2){var dx=D[0]*s,dy=D[1]*s,t=1e9;if(dx>0.0001)t=Math.min(t,(6-O[0])/dx);if(dx<-0.0001)t=Math.min(t,(-6-O[0])/dx);if(dy>0.0001)t=Math.min(t,(5.4-O[1])/dy);if(dy<-0.0001)t=Math.min(t,(-5.4-O[1])/dy);var X=O[0]+(t-1.1)*dx-dy*0.95*p,Y=O[1]+(t-1.1)*dy+dx*0.95*p;X=Math.max(-5.3,Math.min(5.3,X));Y=Math.max(-4.7,Math.min(4.7,Y));var sc=1e9,k;for(k=0;k<3;k++)sc=Math.min(sc,Math.hypot(X-V[k][0],Y-V[k][1]));sc=Math.min(sc,Math.hypot(X-:labAx,Y-:labAy));sc=Math.min(sc,Math.abs((X-:oAx)*:dAy-(Y-:oAy)*:dAx)*1.3);if(sc>bs){bs=sc;b=[X,Y];}}}if(b===null)b=[O[0]+2*D[0],O[1]+2*D[1]];return b[0].toFixed(3)+","+b[1].toFixed(3);})()}'
+      labBx: ${Number(:labB.split(",")[0])}
+      labBy: ${Number(:labB.split(",")[1])}
+      # ─── grandeurs du côté de d1, pour son codage
+      fAx: ${[:f0x,:f1x,:f2x][:somA]}
+      fAy: ${[:f0y,:f1y,:f2y][:somA]}
+      mAx: ${[:m0x,:m1x,:m2x][:somA]}
+      mAy: ${[:m0y,:m1y,:m2y][:somA]}
+      uAx: ${[:u0x,:u1x,:u2x][:somA]}
+      uAy: ${[:u0y,:u1y,:u2y][:somA]}
+      vAx: ${[:v0x,:v1x,:v2x][:somA]}
+      vAy: ${[:v0y,:v1y,:v2y][:somA]}
+      sA: ${[:s0,:s1,:s2][:somA]}
+      aAx: ${:drA===1?:fAx::mAx}
+      aAy: ${:drA===1?:fAy::mAy}
+      wA: ${(:mAx-:aAx)*:uAx+(:mAy-:aAy)*:uAy>=0?1:-1}
+      eA: ${:sA*:wA<0}
+      ceA1x: ${[:x1,:x2,:x0][:somA]}
+      ceA1y: ${[:y1,:y2,:y0][:somA]}
+      ceA2x: ${[:x2,:x0,:x1][:somA]}
+      ceA2y: ${[:y2,:y0,:y1][:somA]}
+      # ─── grandeurs du côté de d2
+      fBx: ${[:f0x,:f1x,:f2x][:somB]}
+      fBy: ${[:f0y,:f1y,:f2y][:somB]}
+      mBx: ${[:m0x,:m1x,:m2x][:somB]}
+      mBy: ${[:m0y,:m1y,:m2y][:somB]}
+      uBx: ${[:u0x,:u1x,:u2x][:somB]}
+      uBy: ${[:u0y,:u1y,:u2y][:somB]}
+      vBx: ${[:v0x,:v1x,:v2x][:somB]}
+      vBy: ${[:v0y,:v1y,:v2y][:somB]}
+      sB: ${[:s0,:s1,:s2][:somB]}
+      aBx: ${:drB===1?:fBx::mBx}
+      aBy: ${:drB===1?:fBy::mBy}
+      wB: ${(:mBx-:aBx)*:uBx+(:mBy-:aBy)*:uBy>=0?1:-1}
+      eB: ${:sB*:wB<0}
+      ceB1x: ${[:x1,:x2,:x0][:somB]}
+      ceB1y: ${[:y1,:y2,:y0][:somB]}
+      ceB2x: ${[:x2,:x0,:x1][:somB]}
+      ceB2y: ${[:y2,:y0,:y1][:somB]}
+      # ─── droite tracée sur un axe de symétrie du triangle : les trois
+      # familles y sont confondues. Toujours faux ici, forme exclut isocèle et
+      # équilatéral, mais on la calcule quand même pour rester uniforme avec
+      # l’option suivante.
+      axeA: ${:forme===3||(:forme===2&&:somA===0)}
+      axeB: ${:forme===3||(:forme===2&&:somB===0)}
+      # ─── codage visible sur chaque droite : angle droit sauf médiane, milieu
+      # sauf hauteur, sauf axe où les deux se voient
+      codeAngleA: ${:drA===0||:drA===1||:axeA}
+      codeMilieuA: ${:drA===0||:drA===2||:axeA}
+      codeAngleB: ${:drB===0||:drB===1||:axeB}
+      codeMilieuB: ${:drB===0||:drB===2||:axeB}
+      codeBissectriceA: ${:drA===3}
+      codeBissectriceB: ${:drB===3}
+      # ─── lettres touchées par chaque droite
+      nSA: ${[:nA,:nB,:nC][:somA]}
+      nUA: ${[:nB,:nC,:nA][:somA]}
+      nVA: ${[:nC,:nA,:nB][:somA]}
+      nSB: ${[:nA,:nB,:nC][:somB]}
+      nUB: ${[:nB,:nC,:nA][:somB]}
+      nVB: ${[:nC,:nA,:nB][:somB]}
+      # ─── type interrogé : l’un des deux tracés, choisi au hasard — la droite
+      # qui le porte est la réponse
+      # note : la valeur d’une vars ne doit jamais contenir de « _ » — le
+      # moteur (resolveVars) réinterprète alors le résultat comme une nouvelle
+      # plage aléatoire « 0_9 ». On écrit donc "d1"/"d2" sans tiret bas ici, et
+      # on ne compose "d_1"/"d_2" (pour l’affichage $$…$$) qu’en ligne, dans
+      # question/answer, jamais dans une vars.
+      askA: [true, false]
+      correctLine: ${:askA?"d1":"d2"}
+      targetDr: ${:askA?:drA::drB}
+      targetNS: ${:askA?:nSA::nSB}
+      targetNU: ${:askA?:nUA::nUB}
+      targetNV: ${:askA?:nVA::nVB}
+      targetAxe: ${:askA?:axeA::axeB}
+      askedTypeName: ${:targetDr===0?"médiatrice":(:targetDr===1?"hauteur":(:targetDr===2?"médiane":"bissectrice"))}
+      targetDescr: ${:targetDr===0?("la médiatrice de $$["+:targetNU+:targetNV+"]$$"):(:targetDr===1?("la hauteur issue de $$"+:targetNS+"$$"):(:targetDr===2?("la médiane issue de $$"+:targetNS+"$$"):("la bissectrice issue de $$"+:targetNS+"$$")))}
+      targetReason: '${:targetAxe?(:forme===3?"Ce triangle est équilatéral : la médiatrice, la hauteur et la médiane de chaque côté y sont confondues.":"Ce triangle est isocèle de sommet principal $$"+:targetNS+"$$ : la médiatrice, la hauteur et la médiane issues de ce sommet y sont confondues."):(:targetDr===0?"Le codage le dit : elle coupe ce côté en son milieu, perpendiculairement.":(:targetDr===1?("Elle passe par le sommet $$"+:targetNS+"$$ et, le codage le dit, elle est perpendiculaire au côté opposé."):(:targetDr===2?("Elle joint le sommet $$"+:targetNS+"$$ au milieu du côté opposé, que le codage désigne."):("Elle part du sommet $$"+:targetNS+"$$ et, le codage le dit, partage l’angle en deux angles égaux."))))}'
+    question: Deux droites, $$d_1$$ et $$d_2$$, sont tracées dans le triangle $$:nom$$.<br>Laquelle est une :askedTypeName ?
+    shortq: d1 ou d2 ?
+    answer: '${"C’est <span class=''red''>$$"+(:askA?"d_1":"d_2")+"$$</span> : c’est "+:targetDescr+".<br><i>"+:targetReason+"</i>"}'
+    value:
+      - '${:correctLine}'
+      - 'la droite ${:correctLine}'
+      - 'la ${:correctLine}'
+    figure: &figureDeux
+      type: graph
+      axis: false
+      grid: false
+      keepAspect: true
+      # cadre plus large que celui des autres séries : les lettres des sommets
+      # occupent déjà la couronne de rayon 3,8, et les étiquettes d1 et d2 se
+      # posent au bord — il leur faut une marge au-delà, sinon les deux se
+      # chevauchent. Une unité valant un em, ce cadre n’agrandit que la marge :
+      # le triangle garde exactement la même taille à l’écran.
+      boundingbox: [-6, 5.4, 6, -5.4]
+      content:
+        # Les points de service sont préfixés z : les points nommés qui portent
+        # les lettres des sommets sont créés à part, pour maîtriser la position
+        # de leur étiquette.
+        - [point, ["${:x0}", "${:y0}"], { name: zA, visible: false, withLabel: false }]
+        - [point, ["${:x1}", "${:y1}"], { name: zB, visible: false, withLabel: false }]
+        - [point, ["${:x2}", "${:y2}"], { name: zC, visible: false, withLabel: false }]
+        - [segment, [zA, zB], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        - [segment, [zB, zC], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        - [segment, [zC, zA], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        # sommets en croix, lettre posée juste à l’extérieur du cercle
+        - [point, ["${:x0}", "${:y0}"], { name: "${:nA}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx0}", "${:ly0}"] } }]
+        - [point, ["${:x1}", "${:y1}"], { name: "${:nB}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx1}", "${:ly1}"] } }]
+        - [point, ["${:x2}", "${:y2}"], { name: "${:nC}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx2}", "${:ly2}"] } }]
+        # ─── droite d1, rouge, et son codage
+        - [point, ["${:oAx}", "${:oAy}"], { name: zD1a, visible: false, withLabel: false }]
+        - [point, ["${:qAx}", "${:qAy}"], { name: zD1b, visible: false, withLabel: false }]
+        - [line, [zD1a, zD1b], { strokeColor: "#c1121f", strokeWidth: 1.4 }]
+        # Le repère compte 10 unités de viewBox par unité et la police 12 : un
+        # écart se mesure en unités entières, pas en dixièmes, sinon l’étiquette
+        # reste posée sur le trait. La place retenue est calculée dans labA.
+        - [text, ["${:labAx}", "${:labAy}", "d₁"], { fontSize: 12, strokeColor: "#c1121f", anchorX: middle, anchorY: middle }]
+        - [point, ["${:aAx}", "${:aAy}"], { name: zD1D, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:aAx+(:eA?:vAx::wA*:uAx)*0.4,4)}", "${MMmath.round(:aAy+(:eA?:vAy::wA*:uAy)*0.4,4)}"], { name: zD1E, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:aAx+(:eA?:wA*:uAx::vAx)*0.4,4)}", "${MMmath.round(:aAy+(:eA?:wA*:uAy::vAy)*0.4,4)}"], { name: zD1F, visible: false, withLabel: false }]
+        - [angle, [zD1E, zD1D, zD1F], { radius: 0.28, label: { visible: false }, strokeColor: "#c1121f", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeAngleA}" }]
+        - [point, ["${MMmath.round((:ceA1x+:mAx)/2+0.14*:vAx,4)}", "${MMmath.round((:ceA1y+:mAy)/2+0.14*:vAy,4)}"], { name: zD1G, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:ceA1x+:mAx)/2-0.14*:vAx,4)}", "${MMmath.round((:ceA1y+:mAy)/2-0.14*:vAy,4)}"], { name: zD1H, visible: false, withLabel: false }]
+        - [segment, [zD1G, zD1H], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieuA}" }]
+        - [point, ["${MMmath.round((:ceA2x+:mAx)/2+0.14*:vAx,4)}", "${MMmath.round((:ceA2y+:mAy)/2+0.14*:vAy,4)}"], { name: zD1J, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:ceA2x+:mAx)/2-0.14*:vAx,4)}", "${MMmath.round((:ceA2y+:mAy)/2-0.14*:vAy,4)}"], { name: zD1K, visible: false, withLabel: false }]
+        - [segment, [zD1J, zD1K], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieuA}" }]
+        - [point, ["${MMmath.round(:oAx+:brAx*1.1,4)}", "${MMmath.round(:oAy+:brAy*1.1,4)}"], { name: zD1Q1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oAx+:bdAx*1.1,4)}", "${MMmath.round(:oAy+:bdAy*1.1,4)}"], { name: zD1Q2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oAx+:bqAx*1.1,4)}", "${MMmath.round(:oAy+:bqAy*1.1,4)}"], { name: zD1Q3, visible: false, withLabel: false }]
+        - [angle, [zD1Q1, zD1a, zD1Q2], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectriceA}" }]
+        - [angle, [zD1Q2, zD1a, zD1Q3], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectriceA}" }]
+        - [point, ["${MMmath.round(:oAx+:btAx*0.66,4)}", "${MMmath.round(:oAy+:btAy*0.66,4)}"], { name: zD1L, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oAx+:btAx*1.14,4)}", "${MMmath.round(:oAy+:btAy*1.14,4)}"], { name: zD1M, visible: false, withLabel: false }]
+        - [segment, [zD1L, zD1M], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectriceA}" }]
+        - [point, ["${MMmath.round(:oAx+:btA2x*0.66,4)}", "${MMmath.round(:oAy+:btA2y*0.66,4)}"], { name: zD1N, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oAx+:btA2x*1.14,4)}", "${MMmath.round(:oAy+:btA2y*1.14,4)}"], { name: zD1O, visible: false, withLabel: false }]
+        - [segment, [zD1N, zD1O], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectriceA}" }]
+        # ─── droite d2, verte, et son codage
+        - [point, ["${:oBx}", "${:oBy}"], { name: zD2a, visible: false, withLabel: false }]
+        - [point, ["${:qBx}", "${:qBy}"], { name: zD2b, visible: false, withLabel: false }]
+        - [line, [zD2a, zD2b], { strokeColor: "#2a9d8f", strokeWidth: 1.4 }]
+        - [text, ["${:labBx}", "${:labBy}", "d₂"], { fontSize: 12, strokeColor: "#2a9d8f", anchorX: middle, anchorY: middle }]
+        - [point, ["${:aBx}", "${:aBy}"], { name: zD2D, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:aBx+(:eB?:vBx::wB*:uBx)*0.4,4)}", "${MMmath.round(:aBy+(:eB?:vBy::wB*:uBy)*0.4,4)}"], { name: zD2E, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:aBx+(:eB?:wB*:uBx::vBx)*0.4,4)}", "${MMmath.round(:aBy+(:eB?:wB*:uBy::vBy)*0.4,4)}"], { name: zD2F, visible: false, withLabel: false }]
+        - [angle, [zD2E, zD2D, zD2F], { radius: 0.28, label: { visible: false }, strokeColor: "#2a9d8f", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeAngleB}" }]
+        - [point, ["${MMmath.round((:ceB1x+:mBx)/2+0.14*:vBx,4)}", "${MMmath.round((:ceB1y+:mBy)/2+0.14*:vBy,4)}"], { name: zD2G, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:ceB1x+:mBx)/2-0.14*:vBx,4)}", "${MMmath.round((:ceB1y+:mBy)/2-0.14*:vBy,4)}"], { name: zD2H, visible: false, withLabel: false }]
+        - [segment, [zD2G, zD2H], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieuB}" }]
+        - [point, ["${MMmath.round((:ceB2x+:mBx)/2+0.14*:vBx,4)}", "${MMmath.round((:ceB2y+:mBy)/2+0.14*:vBy,4)}"], { name: zD2J, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:ceB2x+:mBx)/2-0.14*:vBx,4)}", "${MMmath.round((:ceB2y+:mBy)/2-0.14*:vBy,4)}"], { name: zD2K, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oBx+:brBx*1.1,4)}", "${MMmath.round(:oBy+:brBy*1.1,4)}"], { name: zD2Q1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oBx+:bdBx*1.1,4)}", "${MMmath.round(:oBy+:bdBy*1.1,4)}"], { name: zD2Q2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oBx+:bqBx*1.1,4)}", "${MMmath.round(:oBy+:bqBy*1.1,4)}"], { name: zD2Q3, visible: false, withLabel: false }]
+        - [angle, [zD2Q1, zD2a, zD2Q2], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectriceB}" }]
+        - [angle, [zD2Q2, zD2a, zD2Q3], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectriceB}" }]
+        - [point, ["${MMmath.round(:oBx+:btBx*0.66,4)}", "${MMmath.round(:oBy+:btBy*0.66,4)}"], { name: zD2L, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oBx+:btBx*1.14,4)}", "${MMmath.round(:oBy+:btBy*1.14,4)}"], { name: zD2M, visible: false, withLabel: false }]
+        - [segment, [zD2L, zD2M], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectriceB}" }]
+        - [point, ["${MMmath.round(:oBx+:btB2x*0.66,4)}", "${MMmath.round(:oBy+:btB2y*0.66,4)}"], { name: zD2N, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:oBx+:btB2x*1.14,4)}", "${MMmath.round(:oBy+:btB2y*1.14,4)}"], { name: zD2O, visible: false, withLabel: false }]
+        - [segment, [zD2N, zD2O], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectriceB}" }]
+        - [segment, [zD2J, zD2K], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieuB}" }]
+  - name: Deux droites tracées, qu’est-ce que d1 ou d2
+    vars:
+      forme: [0, 1, 4]
+      # ─── deux types distincts, tirés parmi les quatre familles (0 médiatrice,
+      # 1 hauteur, 2 médiane, 3 bissectrice)
+      drpair: [[0, 1], [0, 2], [0, 3], [1, 0], [1, 2], [1, 3], [2, 0], [2, 1], [2, 3], [3, 0], [3, 1], [3, 2]]
+      drA: ${:drpair[0]}
+      drB: ${:drpair[1]}
+      # ─── deux côtés distincts, un par droite
+      sompair: [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]]
+      somA0: ${:sompair[0]}
+      somB0: ${:sompair[1]}
+      # une hauteur d’un triangle rectangle qui n’est pas au sommet de l’angle
+      # droit se confondrait avec un côté : on la ramène à ce sommet, et on
+      # décale l’autre droite si elle y était déjà
+      isRectHautA: ${:forme===4&&:drA===1}
+      isRectHautB: ${:forme===4&&:drB===1}
+      somA: ${:isRectHautA?0:((:isRectHautB&&:somA0===0)?:somB0::somA0)}
+      somB: ${:isRectHautB?0:((:isRectHautA&&:somB0===0)?:somA0::somB0)}
+      # ─── extrémités de la droite d1, selon son type et son côté
+      oAx: ${:drA===0?[:m0x,:m1x,:m2x][:somA]:[:x0,:x1,:x2][:somA]}
+      oAy: ${:drA===0?[:m0y,:m1y,:m2y][:somA]:[:y0,:y1,:y2][:somA]}
+      qAx: ${MMmath.round(:drA===2?[:m0x,:m1x,:m2x][:somA]:(:drA===3?[:bis0x,:bis1x,:bis2x][:somA]::oAx+[:v0x,:v1x,:v2x][:somA]),4)}
+      qAy: ${MMmath.round(:drA===2?[:m0y,:m1y,:m2y][:somA]:(:drA===3?[:bis0y,:bis1y,:bis2y][:somA]::oAy+[:v0y,:v1y,:v2y][:somA]),4)}
+      # bissectrice de l’angle en somA, pour le codage (marques d’angles égaux)
+      btAx: ${[:mA0x,:mA1x,:mA2x][:somA]}
+      btAy: ${[:mA0y,:mA1y,:mA2y][:somA]}
+      btA2x: ${[:mB0x,:mB1x,:mB2x][:somA]}
+      btA2y: ${[:mB0y,:mB1y,:mB2y][:somA]}
+      # les deux côtés de l’angle en somA et la bissectrice elle-même, pour les
+      # deux arcs codés de la même façon de part et d’autre
+      brAx: ${[:p0x,:p1x,:p2x][:somA]}
+      brAy: ${[:p0y,:p1y,:p2y][:somA]}
+      bdAx: ${[:db0x,:db1x,:db2x][:somA]}
+      bdAy: ${[:db0y,:db1y,:db2y][:somA]}
+      bqAx: ${[:q0x,:q1x,:q2x][:somA]}
+      bqAy: ${[:q0y,:q1y,:q2y][:somA]}
+      # vecteur unitaire porté par d1, pour poser l’étiquette au-delà de la
+      # pointe, décalée sur le côté : elle ne recouvre alors ni le tracé ni le
+      # triangle
+      dAx: ${MMmath.round((:qAx-:oAx)/Math.hypot(:qAx-:oAx,:qAy-:oAy),4)}
+      dAy: ${MMmath.round((:qAy-:oAy)/Math.hypot(:qAx-:oAx,:qAy-:oAy),4)}
+      # ─── extrémités de la droite d2
+      oBx: ${:drB===0?[:m0x,:m1x,:m2x][:somB]:[:x0,:x1,:x2][:somB]}
+      oBy: ${:drB===0?[:m0y,:m1y,:m2y][:somB]:[:y0,:y1,:y2][:somB]}
+      qBx: ${MMmath.round(:drB===2?[:m0x,:m1x,:m2x][:somB]:(:drB===3?[:bis0x,:bis1x,:bis2x][:somB]::oBx+[:v0x,:v1x,:v2x][:somB]),4)}
+      qBy: ${MMmath.round(:drB===2?[:m0y,:m1y,:m2y][:somB]:(:drB===3?[:bis0y,:bis1y,:bis2y][:somB]::oBy+[:v0y,:v1y,:v2y][:somB]),4)}
+      # bissectrice de l’angle en somB
+      btBx: ${[:mA0x,:mA1x,:mA2x][:somB]}
+      btBy: ${[:mA0y,:mA1y,:mA2y][:somB]}
+      btB2x: ${[:mB0x,:mB1x,:mB2x][:somB]}
+      btB2y: ${[:mB0y,:mB1y,:mB2y][:somB]}
+      brBx: ${[:p0x,:p1x,:p2x][:somB]}
+      brBy: ${[:p0y,:p1y,:p2y][:somB]}
+      bdBx: ${[:db0x,:db1x,:db2x][:somB]}
+      bdBy: ${[:db0y,:db1y,:db2y][:somB]}
+      bqBx: ${[:q0x,:q1x,:q2x][:somB]}
+      bqBy: ${[:q0y,:q1y,:q2y][:somB]}
+      dBx: ${MMmath.round((:qBx-:oBx)/Math.hypot(:qBx-:oBx,:qBy-:oBy),4)}
+      dBy: ${MMmath.round((:qBy-:oBy)/Math.hypot(:qBx-:oBx,:qBy-:oBy),4)}
+      # ─── place des étiquettes d1 et d2, au bord du cadre.
+      # Une droite est tracée à l’infini : elle sort du cadre par deux bouts, et
+      # l’étiquette peut se poser d’un côté ou de l’autre du trait — quatre
+      # places possibles. Un décalage fixe en tombe trop souvent sur une lettre
+      # de sommet, qui occupe déjà la couronne de rayon 3,8 ; on essaie donc les
+      # quatre et on garde celle qui s’éloigne le plus de ce qu’il ne faut pas
+      # recouvrir. Le résultat est rendu en « x,y » : une variable ne peut pas
+      # porter un tableau, resolveVars ne repasse que des scalaires.
+      # d1 s’écarte des trois lettres et de la droite d2.
+      labA: '${(function(){var O=[Number(:oAx),Number(:oAy)],D=[Number(:dAx),Number(:dAy)],V=[[:x0+:lx0/10,:y0+:ly0/10],[:x1+:lx1/10,:y1+:ly1/10],[:x2+:lx2/10,:y2+:ly2/10]],b=null,bs=-1;for(var s=-1;s<2;s+=2){for(var p=-1;p<2;p+=2){var dx=D[0]*s,dy=D[1]*s,t=1e9;if(dx>0.0001)t=Math.min(t,(6-O[0])/dx);if(dx<-0.0001)t=Math.min(t,(-6-O[0])/dx);if(dy>0.0001)t=Math.min(t,(5.4-O[1])/dy);if(dy<-0.0001)t=Math.min(t,(-5.4-O[1])/dy);var X=O[0]+(t-1.1)*dx-dy*0.95*p,Y=O[1]+(t-1.1)*dy+dx*0.95*p;X=Math.max(-5.3,Math.min(5.3,X));Y=Math.max(-4.7,Math.min(4.7,Y));var sc=1e9,k;for(k=0;k<3;k++)sc=Math.min(sc,Math.hypot(X-V[k][0],Y-V[k][1]));sc=Math.min(sc,Math.abs((X-:oBx)*:dBy-(Y-:oBy)*:dBx)*1.3);if(sc>bs){bs=sc;b=[X,Y];}}}if(b===null)b=[O[0]+2*D[0],O[1]+2*D[1]];return b[0].toFixed(3)+","+b[1].toFixed(3);})()}'
+      labAx: ${Number(:labA.split(",")[0])}
+      labAy: ${Number(:labA.split(",")[1])}
+      # d2 s’écarte en plus de l’étiquette de d1, déjà posée.
+      labB: '${(function(){var O=[Number(:oBx),Number(:oBy)],D=[Number(:dBx),Number(:dBy)],V=[[:x0+:lx0/10,:y0+:ly0/10],[:x1+:lx1/10,:y1+:ly1/10],[:x2+:lx2/10,:y2+:ly2/10]],b=null,bs=-1;for(var s=-1;s<2;s+=2){for(var p=-1;p<2;p+=2){var dx=D[0]*s,dy=D[1]*s,t=1e9;if(dx>0.0001)t=Math.min(t,(6-O[0])/dx);if(dx<-0.0001)t=Math.min(t,(-6-O[0])/dx);if(dy>0.0001)t=Math.min(t,(5.4-O[1])/dy);if(dy<-0.0001)t=Math.min(t,(-5.4-O[1])/dy);var X=O[0]+(t-1.1)*dx-dy*0.95*p,Y=O[1]+(t-1.1)*dy+dx*0.95*p;X=Math.max(-5.3,Math.min(5.3,X));Y=Math.max(-4.7,Math.min(4.7,Y));var sc=1e9,k;for(k=0;k<3;k++)sc=Math.min(sc,Math.hypot(X-V[k][0],Y-V[k][1]));sc=Math.min(sc,Math.hypot(X-:labAx,Y-:labAy));sc=Math.min(sc,Math.abs((X-:oAx)*:dAy-(Y-:oAy)*:dAx)*1.3);if(sc>bs){bs=sc;b=[X,Y];}}}if(b===null)b=[O[0]+2*D[0],O[1]+2*D[1]];return b[0].toFixed(3)+","+b[1].toFixed(3);})()}'
+      labBx: ${Number(:labB.split(",")[0])}
+      labBy: ${Number(:labB.split(",")[1])}
+      # ─── grandeurs du côté de d1, pour son codage
+      fAx: ${[:f0x,:f1x,:f2x][:somA]}
+      fAy: ${[:f0y,:f1y,:f2y][:somA]}
+      mAx: ${[:m0x,:m1x,:m2x][:somA]}
+      mAy: ${[:m0y,:m1y,:m2y][:somA]}
+      uAx: ${[:u0x,:u1x,:u2x][:somA]}
+      uAy: ${[:u0y,:u1y,:u2y][:somA]}
+      vAx: ${[:v0x,:v1x,:v2x][:somA]}
+      vAy: ${[:v0y,:v1y,:v2y][:somA]}
+      sA: ${[:s0,:s1,:s2][:somA]}
+      aAx: ${:drA===1?:fAx::mAx}
+      aAy: ${:drA===1?:fAy::mAy}
+      wA: ${(:mAx-:aAx)*:uAx+(:mAy-:aAy)*:uAy>=0?1:-1}
+      eA: ${:sA*:wA<0}
+      ceA1x: ${[:x1,:x2,:x0][:somA]}
+      ceA1y: ${[:y1,:y2,:y0][:somA]}
+      ceA2x: ${[:x2,:x0,:x1][:somA]}
+      ceA2y: ${[:y2,:y0,:y1][:somA]}
+      # ─── grandeurs du côté de d2
+      fBx: ${[:f0x,:f1x,:f2x][:somB]}
+      fBy: ${[:f0y,:f1y,:f2y][:somB]}
+      mBx: ${[:m0x,:m1x,:m2x][:somB]}
+      mBy: ${[:m0y,:m1y,:m2y][:somB]}
+      uBx: ${[:u0x,:u1x,:u2x][:somB]}
+      uBy: ${[:u0y,:u1y,:u2y][:somB]}
+      vBx: ${[:v0x,:v1x,:v2x][:somB]}
+      vBy: ${[:v0y,:v1y,:v2y][:somB]}
+      sB: ${[:s0,:s1,:s2][:somB]}
+      aBx: ${:drB===1?:fBx::mBx}
+      aBy: ${:drB===1?:fBy::mBy}
+      wB: ${(:mBx-:aBx)*:uBx+(:mBy-:aBy)*:uBy>=0?1:-1}
+      eB: ${:sB*:wB<0}
+      ceB1x: ${[:x1,:x2,:x0][:somB]}
+      ceB1y: ${[:y1,:y2,:y0][:somB]}
+      ceB2x: ${[:x2,:x0,:x1][:somB]}
+      ceB2y: ${[:y2,:y0,:y1][:somB]}
+      # ─── droite tracée sur un axe de symétrie du triangle : les trois
+      # familles y sont confondues
+      axeA: ${:forme===3||(:forme===2&&:somA===0)}
+      axeB: ${:forme===3||(:forme===2&&:somB===0)}
+      # ─── codage visible sur chaque droite : angle droit sauf médiane, milieu
+      # sauf hauteur, sauf axe où les deux se voient
+      codeAngleA: ${:drA===0||:drA===1||:axeA}
+      codeMilieuA: ${:drA===0||:drA===2||:axeA}
+      codeAngleB: ${:drB===0||:drB===1||:axeB}
+      codeMilieuB: ${:drB===0||:drB===2||:axeB}
+      codeBissectriceA: ${:drA===3}
+      codeBissectriceB: ${:drB===3}
+      # ─── lettres touchées par chaque droite
+      nSA: ${[:nA,:nB,:nC][:somA]}
+      nUA: ${[:nB,:nC,:nA][:somA]}
+      nVA: ${[:nC,:nA,:nB][:somA]}
+      nSB: ${[:nA,:nB,:nC][:somB]}
+      nUB: ${[:nB,:nC,:nA][:somB]}
+      nVB: ${[:nC,:nA,:nB][:somB]}
+      # ─── droite interrogée : d1 ou d2, choisie au hasard. targetLine reste
+      # sans tiret bas (voir la note plus haut sur les vars et « _ ») ; la
+      # version $$d_1$$/$$d_2$$ n’est composée qu’en ligne, dans question.
+      askA: [true, false]
+      targetLine: ${:askA?"d1":"d2"}
+      targetDr: ${:askA?:drA::drB}
+      targetNS: ${:askA?:nSA::nSB}
+      targetNU: ${:askA?:nUA::nUB}
+      targetNV: ${:askA?:nVA::nVB}
+      targetAxe: ${:askA?:axeA::axeB}
+      targetDescr: ${:targetAxe?("à la fois la médiatrice de $$["+:targetNU+:targetNV+"]$$, la hauteur issue de $$"+:targetNS+"$$ et la médiane issue de $$"+:targetNS+"$$"):(:targetDr===0?("la médiatrice de $$["+:targetNU+:targetNV+"]$$"):(:targetDr===1?("la hauteur issue de $$"+:targetNS+"$$"):(:targetDr===2?("la médiane issue de $$"+:targetNS+"$$"):("la bissectrice issue de $$"+:targetNS+"$$"))))}
+      targetReason: '${:targetAxe?(:forme===3?"Ce triangle est équilatéral : la médiatrice, la hauteur et la médiane de chaque côté y sont confondues.":"Ce triangle est isocèle de sommet principal $$"+:targetNS+"$$ : la médiatrice, la hauteur et la médiane issues de ce sommet y sont confondues."):(:targetDr===0?"Le codage le dit : elle coupe ce côté en son milieu, perpendiculairement.":(:targetDr===1?("Elle passe par le sommet $$"+:targetNS+"$$ et, le codage le dit, elle est perpendiculaire au côté opposé."):(:targetDr===2?("Elle joint le sommet $$"+:targetNS+"$$ au milieu du côté opposé, que le codage désigne."):("Elle part du sommet $$"+:targetNS+"$$ et, le codage le dit, partage l’angle en deux angles égaux."))))}'
+      targetNomD: ${:targetDr===0?"médiatrice":(:targetDr===1?"hauteur":(:targetDr===2?"médiane":"bissectrice"))}
+      targetNomDsa: ${:targetDr===0?"mediatrice":(:targetDr===1?"hauteur":(:targetDr===2?"mediane":"bissectrice"))}
+    # Comme dans les séries à une seule droite : dans un isocèle ou un
+    # équilatéral, la droite tracée peut être à la fois médiatrice, hauteur et
+    # médiane, et rien sur la figure ne le dit. On annonce donc la nature du
+    # triangle, avec le sommet principal quand il est isocèle.
+    # Tout est composé ici, dans l’énoncé, et non dans une variable : une valeur
+    # de vars qui contiendrait « d_1 » serait relue comme une plage aléatoire.
+    question: '${(:forme===3?("Le triangle $$"+:nom+"$$ est équilatéral.<br>Deux droites, $$d_1$$ et $$d_2$$, y sont tracées."):(:forme===2?("Le triangle $$"+:nom+"$$ est isocèle en $$"+:nA+"$$.<br>Deux droites, $$d_1$$ et $$d_2$$, y sont tracées."):("Deux droites, $$d_1$$ et $$d_2$$, sont tracées dans le triangle $$"+:nom+"$$.")))+"<br>Qu’est-ce que la droite $$"+(:askA?"d_1":"d_2")+"$$ ?"}'
+    shortq: cette droite ?
+    answer: ${"C’est <span class='red'>"+:targetDescr+"</span>.<br><i>"+:targetReason+"</i>"}
+    value:
+      - '${:targetNomD}'
+      - '${:targetNomDsa}'
+      - 'une ${:targetNomD}'
+      - 'la ${:targetNomD}'
+      - '${:targetDr===0?"médiatrice de ["+:targetNU+:targetNV+"]"::targetNomD+" issue de "+:targetNS}'
+      - '${:targetAxe?"médiatrice"::targetNomD}'
+      - '${:targetAxe?"mediatrice"::targetNomDsa}'
+      - '${:targetAxe?"hauteur"::targetNomD}'
+      - '${:targetAxe?"médiane"::targetNomD}'
+      - '${:targetAxe?"mediane"::targetNomDsa}'
+      - '${:targetLine}'
+      - 'la droite ${:targetLine}'
+    figure: *figureDeux
+  # ───────────────── les trois droites d’une même famille
+  - name: Les trois médiatrices tracées
+    vars:
+      dr: 0
+      nb: 3
+    question: Comment s’appellent les trois droites rouges tracées dans le triangle $$:nom$$ ?
+    shortq: les trois droites rouges ?
+    answer: ${:axe3?:repAxe3::repMediatrices}
+    value: &valeursTrois
+      - '${:nomD3}'
+      - '${:nomD3sa}'
+      - 'les ${:nomD3}'
+      - 'les trois ${:nomD3}'
+      - '${:axe3?"médiatrices"::nomD3}'
+      - '${:axe3?"mediatrices"::nomD3sa}'
+      - '${:axe3?"hauteurs"::nomD3}'
+      - '${:axe3?"médianes"::nomD3}'
+      - '${:axe3?"medianes"::nomD3sa}'
+    figure: &figureTrois
+      type: graph
+      axis: false
+      grid: false
+      keepAspect: true
+      boundingbox: [-4.8, 4.4, 4.8, -4.4]
+      content:
+        # Les points de service sont préfixés z : les points nommés qui portent
+        # les lettres des sommets sont créés à part, pour maîtriser la position
+        # de leur étiquette.
+        - [point, ["${:x0}", "${:y0}"], { name: zA, visible: false, withLabel: false }]
+        - [point, ["${:x1}", "${:y1}"], { name: zB, visible: false, withLabel: false }]
+        - [point, ["${:x2}", "${:y2}"], { name: zC, visible: false, withLabel: false }]
+        - [segment, [zA, zB], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        - [segment, [zB, zC], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        - [segment, [zC, zA], { strokeColor: "#118ab2", strokeWidth: 1.4 }]
+        # sommets en croix, lettre posée juste à l’extérieur du cercle
+        - [point, ["${:x0}", "${:y0}"], { name: "${:nA}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx0}", "${:ly0}"] } }]
+        - [point, ["${:x1}", "${:y1}"], { name: "${:nB}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx1}", "${:ly1}"] } }]
+        - [point, ["${:x2}", "${:y2}"], { name: "${:nC}", face: x, size: 2, strokeWidth: 1.4, strokeColor: "#118ab2", label: { offset: ["${:lx2}", "${:ly2}"] } }]
+        # ─── droite du côté 0 et son codage
+        - [point, ["${:o0x}", "${:o0y}"], { name: zA1, visible: false, withLabel: false }]
+        - [point, ["${:n0x}", "${:n0y}"], { name: zA2, visible: false, withLabel: false }]
+        - [line, [zA1, zA2], { strokeColor: "#c1121f", strokeWidth: 1.4 }]
+        # angle droit entre la droite et le côté : sommet de l’angle, bras porté
+        # par la droite, bras porté par le côté et tourné vers le milieu
+        - [point, ["${:a0x}", "${:a0y}"], { name: zAD, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:a0x+(:e0?:v0x::w0*:u0x)*0.4,4)}", "${MMmath.round(:a0y+(:e0?:v0y::w0*:u0y)*0.4,4)}"], { name: zAE, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:a0x+(:e0?:w0*:u0x::v0x)*0.4,4)}", "${MMmath.round(:a0y+(:e0?:w0*:u0y::v0y)*0.4,4)}"], { name: zAF, visible: false, withLabel: false }]
+        - [angle, [zAE, zAD, zAF], { radius: 0.28, label: { visible: false }, strokeColor: "#c1121f", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeAngle3}" }]
+        # milieu du côté : une même marque au milieu de chaque demi-côté
+        - [point, ["${MMmath.round((:x1+:m0x)/2+0.14*:v0x,4)}", "${MMmath.round((:y1+:m0y)/2+0.14*:v0y,4)}"], { name: zAG, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:x1+:m0x)/2-0.14*:v0x,4)}", "${MMmath.round((:y1+:m0y)/2-0.14*:v0y,4)}"], { name: zAH, visible: false, withLabel: false }]
+        - [segment, [zAG, zAH], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu3}" }]
+        - [point, ["${MMmath.round((:x2+:m0x)/2+0.14*:v0x,4)}", "${MMmath.round((:y2+:m0y)/2+0.14*:v0y,4)}"], { name: zAJ, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:x2+:m0x)/2-0.14*:v0x,4)}", "${MMmath.round((:y2+:m0y)/2-0.14*:v0y,4)}"], { name: zAK, visible: false, withLabel: false }]
+        - [segment, [zAJ, zAK], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu3}" }]
+        - [point, ["${MMmath.round(:x0+:p0x*1.1,4)}", "${MMmath.round(:y0+:p0y*1.1,4)}"], { name: zAQ1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x0+:db0x*1.1,4)}", "${MMmath.round(:y0+:db0y*1.1,4)}"], { name: zAQ2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x0+:q0x*1.1,4)}", "${MMmath.round(:y0+:q0y*1.1,4)}"], { name: zAQ3, visible: false, withLabel: false }]
+        - [angle, [zAQ1, zA1, zAQ2], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [angle, [zAQ2, zA1, zAQ3], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:x0+:mA0x*0.66,4)}", "${MMmath.round(:y0+:mA0y*0.66,4)}"], { name: zAT1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x0+:mA0x*1.14,4)}", "${MMmath.round(:y0+:mA0y*1.14,4)}"], { name: zAT2, visible: false, withLabel: false }]
+        - [segment, [zAT1, zAT2], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:x0+:mB0x*0.66,4)}", "${MMmath.round(:y0+:mB0y*0.66,4)}"], { name: zAT3, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x0+:mB0x*1.14,4)}", "${MMmath.round(:y0+:mB0y*1.14,4)}"], { name: zAT4, visible: false, withLabel: false }]
+        - [segment, [zAT3, zAT4], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+        # ─── droite du côté 1 et son codage
+        - [point, ["${:o1x}", "${:o1y}"], { name: zB1, visible: false, withLabel: false }]
+        - [point, ["${:n1x}", "${:n1y}"], { name: zB2, visible: false, withLabel: false }]
+        - [line, [zB1, zB2], { strokeColor: "#c1121f", strokeWidth: 1.4 }]
+        # angle droit entre la droite et le côté : sommet de l’angle, bras porté
+        # par la droite, bras porté par le côté et tourné vers le milieu
+        - [point, ["${:a1x}", "${:a1y}"], { name: zBD, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:a1x+(:e1?:v1x::w1*:u1x)*0.4,4)}", "${MMmath.round(:a1y+(:e1?:v1y::w1*:u1y)*0.4,4)}"], { name: zBE, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:a1x+(:e1?:w1*:u1x::v1x)*0.4,4)}", "${MMmath.round(:a1y+(:e1?:w1*:u1y::v1y)*0.4,4)}"], { name: zBF, visible: false, withLabel: false }]
+        - [angle, [zBE, zBD, zBF], { radius: 0.28, label: { visible: false }, strokeColor: "#c1121f", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeAngle3}" }]
+        # milieu du côté : une même marque au milieu de chaque demi-côté
+        - [point, ["${MMmath.round((:x2+:m1x)/2+0.14*:v1x,4)}", "${MMmath.round((:y2+:m1y)/2+0.14*:v1y,4)}"], { name: zBG, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:x2+:m1x)/2-0.14*:v1x,4)}", "${MMmath.round((:y2+:m1y)/2-0.14*:v1y,4)}"], { name: zBH, visible: false, withLabel: false }]
+        - [segment, [zBG, zBH], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu3}" }]
+        - [point, ["${MMmath.round((:x0+:m1x)/2+0.14*:v1x,4)}", "${MMmath.round((:y0+:m1y)/2+0.14*:v1y,4)}"], { name: zBJ, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:x0+:m1x)/2-0.14*:v1x,4)}", "${MMmath.round((:y0+:m1y)/2-0.14*:v1y,4)}"], { name: zBK, visible: false, withLabel: false }]
+        - [segment, [zBJ, zBK], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu3}" }]
+        - [point, ["${MMmath.round(:x1+:p1x*1.1,4)}", "${MMmath.round(:y1+:p1y*1.1,4)}"], { name: zBQ1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x1+:db1x*1.1,4)}", "${MMmath.round(:y1+:db1y*1.1,4)}"], { name: zBQ2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x1+:q1x*1.1,4)}", "${MMmath.round(:y1+:q1y*1.1,4)}"], { name: zBQ3, visible: false, withLabel: false }]
+        - [angle, [zBQ1, zB1, zBQ2], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [angle, [zBQ2, zB1, zBQ3], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:x1+:mA1x*0.66,4)}", "${MMmath.round(:y1+:mA1y*0.66,4)}"], { name: zBT1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x1+:mA1x*1.14,4)}", "${MMmath.round(:y1+:mA1y*1.14,4)}"], { name: zBT2, visible: false, withLabel: false }]
+        - [segment, [zBT1, zBT2], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:x1+:mB1x*0.66,4)}", "${MMmath.round(:y1+:mB1y*0.66,4)}"], { name: zBT3, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x1+:mB1x*1.14,4)}", "${MMmath.round(:y1+:mB1y*1.14,4)}"], { name: zBT4, visible: false, withLabel: false }]
+        - [segment, [zBT3, zBT4], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+        # ─── droite du côté 2 et son codage
+        - [point, ["${:o2x}", "${:o2y}"], { name: zC1, visible: false, withLabel: false }]
+        - [point, ["${:n2x}", "${:n2y}"], { name: zC2, visible: false, withLabel: false }]
+        - [line, [zC1, zC2], { strokeColor: "#c1121f", strokeWidth: 1.4 }]
+        # angle droit entre la droite et le côté : sommet de l’angle, bras porté
+        # par la droite, bras porté par le côté et tourné vers le milieu
+        - [point, ["${:a2x}", "${:a2y}"], { name: zCD, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:a2x+(:e2?:v2x::w2*:u2x)*0.4,4)}", "${MMmath.round(:a2y+(:e2?:v2y::w2*:u2y)*0.4,4)}"], { name: zCE, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:a2x+(:e2?:w2*:u2x::v2x)*0.4,4)}", "${MMmath.round(:a2y+(:e2?:w2*:u2y::v2y)*0.4,4)}"], { name: zCF, visible: false, withLabel: false }]
+        - [angle, [zCE, zCD, zCF], { radius: 0.28, label: { visible: false }, strokeColor: "#c1121f", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeAngle3}" }]
+        # milieu du côté : une même marque au milieu de chaque demi-côté
+        - [point, ["${MMmath.round((:x0+:m2x)/2+0.14*:v2x,4)}", "${MMmath.round((:y0+:m2y)/2+0.14*:v2y,4)}"], { name: zCG, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:x0+:m2x)/2-0.14*:v2x,4)}", "${MMmath.round((:y0+:m2y)/2-0.14*:v2y,4)}"], { name: zCH, visible: false, withLabel: false }]
+        - [segment, [zCG, zCH], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu3}" }]
+        - [point, ["${MMmath.round((:x1+:m2x)/2+0.14*:v2x,4)}", "${MMmath.round((:y1+:m2y)/2+0.14*:v2y,4)}"], { name: zCJ, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round((:x1+:m2x)/2-0.14*:v2x,4)}", "${MMmath.round((:y1+:m2y)/2-0.14*:v2y,4)}"], { name: zCK, visible: false, withLabel: false }]
+        - [segment, [zCJ, zCK], { strokeColor: "#7b2cbf", strokeWidth: 1.4, visible: "${:codeMilieu3}" }]
+        - [point, ["${MMmath.round(:x2+:p2x*1.1,4)}", "${MMmath.round(:y2+:p2y*1.1,4)}"], { name: zCQ1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x2+:db2x*1.1,4)}", "${MMmath.round(:y2+:db2y*1.1,4)}"], { name: zCQ2, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x2+:q2x*1.1,4)}", "${MMmath.round(:y2+:q2y*1.1,4)}"], { name: zCQ3, visible: false, withLabel: false }]
+        - [angle, [zCQ1, zC1, zCQ2], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [angle, [zCQ2, zC1, zCQ3], { radius: 0.9, selection: minor, label: { visible: false }, strokeColor: "#7b2cbf", strokeWidth: 1.2, fillColor: "#ffd166", fillOpacity: 0.6, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:x2+:mA2x*0.66,4)}", "${MMmath.round(:y2+:mA2y*0.66,4)}"], { name: zCT1, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x2+:mA2x*1.14,4)}", "${MMmath.round(:y2+:mA2y*1.14,4)}"], { name: zCT2, visible: false, withLabel: false }]
+        - [segment, [zCT1, zCT2], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+        - [point, ["${MMmath.round(:x2+:mB2x*0.66,4)}", "${MMmath.round(:y2+:mB2y*0.66,4)}"], { name: zCT3, visible: false, withLabel: false }]
+        - [point, ["${MMmath.round(:x2+:mB2x*1.14,4)}", "${MMmath.round(:y2+:mB2y*1.14,4)}"], { name: zCT4, visible: false, withLabel: false }]
+        - [segment, [zCT3, zCT4], { strokeColor: "#7b2cbf", strokeWidth: 1.2, visible: "${:codeBissectrice}" }]
+  - name: Les trois bissectrices tracées
+    vars:
+      dr: 3
+      nb: 3
+      forme: [0, 1, 4]
+    question: Comment s’appellent les trois droites rouges tracées dans le triangle $$:nom$$ ?
+    shortq: les trois droites rouges ?
+    answer: ${:repBissectrices}
+    value: *valeursTrois
+    figure: *figureTrois
+  - name: Les trois hauteurs tracées
+    vars:
+      dr: 1
+      nb: 3
+    question: Comment s’appellent les trois droites rouges tracées dans le triangle $$:nom$$ ?
+    shortq: les trois droites rouges ?
+    answer: ${:axe3?:repAxe3::repHauteurs}
+    value: *valeursTrois
+    figure: *figureTrois
+  - name: Les trois médianes tracées
+    vars:
+      dr: 2
+      nb: 3
+    question: Comment s’appellent les trois droites rouges tracées dans le triangle $$:nom$$ ?
+    shortq: les trois droites rouges ?
+    answer: ${:axe3?:repAxe3::repMedianes}
+    value: *valeursTrois
+    figure: *figureTrois
+  # ───────────────── coder une figure à main levée
+  - name: Coder une hauteur
+    vars:
+      cod: 1
+    question: Sur cette figure à main levée, la droite $$(:nA:nD)$$ est une :codNom du triangle $$:nom$$.<br>Coder la figure.
+    shortq: coder la figure ?
+    answer: ${:cod===1?:repCodeHauteur::repCodeMediane}
+    value: &valeursCodage
+      - '${:cod===1?"angle droit":"milieu"}'
+      - '${:cod===1?"un angle droit":"un milieu"}'
+      - '${:cod===1?"l’angle droit":"le milieu"}'
+      - '${:cod===1?"l''angle droit":"le milieu de ["+:nB+:nC+"]"}'
+      - '${:cod===1?"angle droit en "+:nD:"milieu de ["+:nB+:nC+"]"}'
+    figure: &figureCodage
+      type: svg
+      content: ${:fig}
+  - name: Coder une médiane
+    vars:
+      cod: 0
+    question: Sur cette figure à main levée, la droite $$(:nA:nD)$$ est une :codNom du triangle $$:nom$$.<br>Coder la figure.
+    shortq: coder la figure ?
+    answer: ${:cod===1?:repCodeHauteur::repCodeMediane}
+    value: *valeursCodage
+    figure: *figureCodage
+  - name: Coder une bissectrice
+    vars:
+      cod: 2
+    question: Sur cette figure à main levée, la droite $$(:nA:nD)$$ est une :codNom du triangle $$:nom$$.<br>Coder la figure.
+    shortq: coder la figure ?
+    answer: ${:repCodeBissectrice}
+    value:
+      - "angles égaux"
+      - "deux angles égaux"
+      - '${"angle "+:nB+:nA+:nD+" égal à angle "+:nD+:nA+:nC}'
+      - '${"angle "+:nB+:nA+:nD+"=angle "+:nD+:nA+:nC}'
+    figure: *figureCodage
+  - name: Coder une médiatrice
+    vars:
+      cod: 3
+    question: Sur cette figure à main levée, la droite $$(:nA:nD)$$ est une :codNom du triangle $$:nom$$.<br>Coder la figure.
+    shortq: coder la figure ?
+    answer: ${:repCodeMediatrice}
+    value:
+      - "angle droit et milieu"
+      - '${"angle droit en "+:nD+" et milieu de ["+:nB+:nC+"]"}'
+      - '${"angle droit en "+:nD}'
+      - '${"milieu de ["+:nB+:nC+"]"}'
+    figure: *figureCodage

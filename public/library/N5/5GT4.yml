@@ -1,0 +1,483 @@
+title: "Symétrie centrale : longueurs et angles conservés"
+description: "symétrie centrale, conservation des longueurs, des angles, des aires, milieu"
+ID: 5GT4
+type: text
+textSize: medium
+# repeat: true tolère qu’un même énoncé revienne, mais pas dans les 5 dernières
+# questions : les réponses « on ne peut pas savoir » sont identiques d’un tirage
+# à l’autre, une déduplication stricte bloquerait le tirage.
+repeat: true
+dest:
+  - 5GT
+  - 5MB
+consigne: Utiliser uniquement les informations portées sur la figure, sans mesurer.
+consts:
+  # lettres des sommets. Ni I ni O (confusion avec 1 et 0), ni X, Y, Z (réservés
+  # aux axes et aux inconnues). O reste le nom du centre de symétrie.
+  pool: "ABCDEFGHJKLMNPQRSTUVW"
+  # [0] angle, [1] longueur, [2] demi-côté à partir du milieu, [3] aire
+  quest:
+    - ":figi est le symétrique de :fig par rapport au point O.<br>Combien mesure l’angle $$\\widehat{:angAskNom}$$ ?"
+    - ":figi est le symétrique de :fig par rapport au point O.<br>Quelle est la longueur $$:lgAskNom$$ ?"
+    - ":figi est le symétrique de :fig par rapport au point O, et :lm est le milieu de $$[:msdNom]$$.<br>Quelle est la longueur $$:demiNom$$ ?"
+    - ":figi est le symétrique de :fig par rapport au point O.<br>Quelle est l’aire de :figAsk ?"
+  courte:
+    - "$$\\widehat{:angAskNom}=?$$"
+    - "$$:lgAskNom=?$$"
+    - "$$:demiNom=?$$"
+    - "aire de :figAsk = ?"
+  # rep[type de question][0 = donnée absente partout, 1 = donnée présente]
+  rep:
+    - - "<span class='red'>On ne peut pas savoir.</span><br>La symétrie centrale conserve les mesures d’angles, donc $$\\widehat{:angAskNom}=\\widehat{:angOthNom}$$, mais cette mesure n’est indiquée sur aucune des deux figures."
+      - "La symétrie centrale conserve les mesures d’angles :<br>$$\\widehat{:angAskNom}=\\widehat{:angOthNom}=\\color{red}{:angAsked°}$$"
+    - - "<span class='red'>On ne peut pas savoir.</span><br>La symétrie centrale conserve les longueurs, donc $$:lgAskNom=:lgOthNom$$, mais cette longueur n’est indiquée sur aucune des deux figures."
+      - "La symétrie centrale conserve les longueurs :<br>$$:lgAskNom=:lgOthNom=\\color{red}{:lgAsked}\\text{ cm}$$"
+    - - "<span class='red'>On ne peut pas savoir.</span><br>:lm est le milieu de $$[:msdNom]$$, donc $$:demiNom=:msdNom\\div 2$$, mais la longueur $$:msdNom$$ n’est indiquée sur aucune des deux figures."
+      - "La symétrie centrale conserve les longueurs, donc $$:msdNom=:msdOthNom=:lgMsd\\text{ cm}$$.<br>:lm est le milieu de $$[:msdNom]$$, donc $$:demiNom=:msdNom\\div 2=\\color{red}{:demi}\\text{ cm}$$"
+    - - "<span class='red'>On ne peut pas savoir.</span><br>La symétrie centrale conserve les aires, donc :figAsk et :figOth ont la même aire, mais celle-ci n’est indiquée sur aucune des deux figures."
+      - "La symétrie centrale conserve les aires : :figAsk et :figOth ont la même aire.<br>L’aire de :figAsk est donc $$\\color{red}{:aire}\\text{ cm}^2$$"
+vars:
+  # forme tirée : quadrilatère ou triangle. Les deux sont inscrits dans le même
+  # cercle, le triangle réutilisant les trois premiers sommets du quadrilatère :
+  # une seule construction sert aux deux cas.
+  quad: [true, false]
+  # nature de la question : 0 = angle, 1 = longueur, 2 = demi-côté, 3 = aire
+  k: [0, 1, 2, 3]
+  ns: ${:quad?4:3}
+  # quatre demi-arcs de somme 180°. Chaque angle inscrit du quadrilatère vaut la
+  # somme de deux demi-arcs consécutifs : il reste entre 60° et 120°, donc la
+  # figure est toujours convexe et lisible. c3 est borné pour que c4 tienne aussi
+  # entre 30 et 60.
+  c1: "30_60"
+  c2: "30_60"
+  c3: "${Math.max(30,120-:c1-:c2)}_${Math.min(60,150-:c1-:c2)}"
+  c4: ${180-:c1-:c2-:c3}
+  # isd : côté dont la longueur est indiquée sur la figure de départ. Il est tiré
+  # avant l’orientation, car c’est lui qui la fixe : la direction de son milieu
+  # vaut t0 + phi, et poser t0 = 180 - phi le fait regarder vers l’extérieur du
+  # cadre, à l’opposé du centre de symétrie. Son étiquette ne peut donc pas
+  # tomber sur O. jit garde de la variété, sans dépasser 20° : au delà,
+  # l’étiquette du côté marqué sur l’image reviendrait vers le centre.
+  isd: "0_${:ns-1}"
+  # phi : direction du milieu de l’arc que le côté sous-tend du côté opposé aux
+  # autres sommets. C’est exactement la direction vers laquelle son étiquette
+  # est écartée, que le centre du cercle soit dans le polygone ou non. Dans le
+  # triangle, le dernier côté referme la figure et couvre deux demi-arcs.
+  phi: ${:isd===0?:c1:(:isd===1?2*:c1+:c2:(:isd===2?(:quad?2*:c1+2*:c2+:c3:2*:c1+2*:c2+:c3+:c4):2*:c1+2*:c2+2*:c3+:c4))}
+  jit: "-20_20"
+  t0: ${180-:phi+:jit}
+  # rayon du cercle circonscrit et abscisse du centre de la figure de départ.
+  # Le centre de symétrie est l’origine : l’image se déduit par changement de
+  # signe des coordonnées, et occupe la moitié droite du cadre.
+  rc: 2.6
+  cx: 4.4
+  uA: ${:t0}
+  uB: ${:t0+2*:c1}
+  uC: ${:t0+2*(:c1+:c2)}
+  uD: ${:t0+2*(:c1+:c2+:c3)}
+  # vecteurs unitaires du centre vers chaque sommet : servent aussi à écarter
+  # les noms des sommets vers l’extérieur de la figure
+  nxA: ${Math.round((Math.cos(:uA*Math.PI/180))*1e4)/1e4}
+  nyA: ${Math.round((Math.sin(:uA*Math.PI/180))*1e4)/1e4}
+  nxB: ${Math.round((Math.cos(:uB*Math.PI/180))*1e4)/1e4}
+  nyB: ${Math.round((Math.sin(:uB*Math.PI/180))*1e4)/1e4}
+  nxC: ${Math.round((Math.cos(:uC*Math.PI/180))*1e4)/1e4}
+  nyC: ${Math.round((Math.sin(:uC*Math.PI/180))*1e4)/1e4}
+  nxD: ${Math.round((Math.cos(:uD*Math.PI/180))*1e4)/1e4}
+  nyD: ${Math.round((Math.sin(:uD*Math.PI/180))*1e4)/1e4}
+  xA: ${Math.round((:rc*:nxA-:cx)*1e4)/1e4}
+  yA: ${Math.round((:rc*:nyA)*1e4)/1e4}
+  xB: ${Math.round((:rc*:nxB-:cx)*1e4)/1e4}
+  yB: ${Math.round((:rc*:nyB)*1e4)/1e4}
+  xC: ${Math.round((:rc*:nxC-:cx)*1e4)/1e4}
+  yC: ${Math.round((:rc*:nyC)*1e4)/1e4}
+  xD: ${Math.round((:rc*:nxD-:cx)*1e4)/1e4}
+  yD: ${Math.round((:rc*:nyD)*1e4)/1e4}
+  # noms des sommets : posés sur le rayon, assez loin du cercle pour ne pas
+  # recouvrir la croix du sommet ni les côtés qui en partent
+  txA: ${Math.round(((:rc+0.8)*:nxA-:cx)*1e4)/1e4}
+  tyA: ${Math.round(((:rc+0.8)*:nyA)*1e4)/1e4}
+  txB: ${Math.round(((:rc+0.8)*:nxB-:cx)*1e4)/1e4}
+  tyB: ${Math.round(((:rc+0.8)*:nyB)*1e4)/1e4}
+  txC: ${Math.round(((:rc+0.8)*:nxC-:cx)*1e4)/1e4}
+  tyC: ${Math.round(((:rc+0.8)*:nyC)*1e4)/1e4}
+  txD: ${Math.round(((:rc+0.8)*:nxD-:cx)*1e4)/1e4}
+  tyD: ${Math.round(((:rc+0.8)*:nyD)*1e4)/1e4}
+  # centre de gravité, pour orienter les étiquettes vers l’extérieur
+  gx: ${:quad?(:xA+:xB+:xC+:xD)/4:(:xA+:xB+:xC)/3}
+  gy: ${:quad?(:yA+:yB+:yC+:yD)/4:(:yA+:yB+:yC)/3}
+  # angles inscrits, en degrés entiers : somme de deux demi-arcs pour le
+  # quadrilatère, d’un seul aux deux sommets extrêmes du triangle
+  angA: ${:quad?:c2+:c3::c2}
+  angB: ${:c3+:c4}
+  angC: ${:quad?:c4+:c1::c1}
+  angD: ${:c1+:c2}
+  # longueurs des côtés : cordes de l’arc correspondant, arrondies au dixième.
+  # lgCA n’existe que dans le triangle, lgCD et lgDA que dans le quadrilatère.
+  lgAB: ${Math.round((2*:rc*Math.sin(:c1*Math.PI/180))*10)/10}
+  lgBC: ${Math.round((2*:rc*Math.sin(:c2*Math.PI/180))*10)/10}
+  lgCD: ${Math.round((2*:rc*Math.sin(:c3*Math.PI/180))*10)/10}
+  lgDA: ${Math.round((2*:rc*Math.sin(:c4*Math.PI/180))*10)/10}
+  lgCA: ${Math.round((2*:rc*Math.sin((:c3+:c4)*Math.PI/180))*10)/10}
+  # aire du polygone inscrit : demi-somme des sinus des angles au centre, qui
+  # font 360° à eux tous. Le sinus devient négatif pour le côté d’un triangle
+  # obtusangle dont l’arc dépasse le demi-cercle, ce qui retranche justement la
+  # part de disque située hors du triangle.
+  aire: ${Math.round(:rc*:rc/2*(Math.sin(2*:c1*Math.PI/180)+Math.sin(2*:c2*Math.PI/180)+(:quad?Math.sin(2*:c3*Math.PI/180)+Math.sin(2*:c4*Math.PI/180):Math.sin(2*(:c3+:c4)*Math.PI/180)))*10)/10}
+  aireTxt: "Aire : ${MMmath.nbToFr(:aire)} cm²"
+  # Les deux figures portent chacune une mesure d’angle et une longueur, à des
+  # emplacements différents : iv et isd sur la figure de départ, ivB et isdB sur
+  # son image. Aucun élément n’est donc écrit deux fois, et ce qui manque sur une
+  # figure se lit parfois sur l’autre.
+  # Le côté marqué sur l’image est celui dont l’étiquette s’écarte dans la
+  # direction la plus proche de celle du côté marqué au départ, donc elle aussi
+  # vers le bord du cadre. Un autre choix pourrait la renvoyer sur le centre O.
+  ph0: ${:c1}
+  ph1: ${2*:c1+:c2}
+  ph2: ${:quad?2*:c1+2*:c2+:c3:2*:c1+2*:c2+:c3+:c4}
+  ph3: ${2*:c1+2*:c2+2*:c3+:c4}
+  ew0: ${:isd===0?999:Math.abs(((:ph0-:phi+540)%360)-180)}
+  ew1: ${:isd===1?999:Math.abs(((:ph1-:phi+540)%360)-180)}
+  ew2: ${:isd===2?999:Math.abs(((:ph2-:phi+540)%360)-180)}
+  ew3: ${(:isd===3||!:quad)?999:Math.abs(((:ph3-:phi+540)%360)-180)}
+  ewmin: ${Math.min(:ew0,:ew1,:ew2,:ew3)}
+  isdB: ${:ew0===:ewmin?0:(:ew1===:ewmin?1:(:ew2===:ewmin?2:3))}
+  # côté dont la longueur n’est marquée nulle part
+  dsB: ${(:isdB-:isd+:ns)%:ns}
+  dsxraw: "1_${:ns-2}"
+  isdx: ${(:isd+(:dsB-1+:dsxraw)%(:ns-1)+1)%:ns}
+  # Sommets dont l’angle est marqué : jamais une extrémité du côté rouge de la
+  # même figure, sinon les deux mesures se chevaucheraient.
+  rv1: "0_${:ns-3}"
+  rv2: "0_${:ns-3}"
+  iv: ${(:isd+2+:rv1)%:ns}
+  ivB0: ${(:isdB+2+:rv2)%:ns}
+  ivB: ${:ivB0===:iv?(:isdB+2+(:ns-3-:rv2))%:ns::ivB0}
+  # sommet dont l’angle n’est marqué nulle part
+  dvB: ${(:ivB-:iv+:ns)%:ns}
+  dvxraw: "1_${:ns-2}"
+  ivx: ${(:iv+(:dvB-1+:dvxraw)%(:ns-1)+1)%:ns}
+  # figure sur laquelle porte la question : 0 = celle de départ, 1 = son image.
+  # ok : l’élément demandé est marqué sur l’autre figure, donc la conservation
+  # permet de conclure. Sinon il n’est marqué nulle part.
+  face: [0, 1]
+  ok: [true, false]
+  qv: ${:ok?(:face===0?:ivB::iv)::ivx}
+  qs: ${:ok?(:face===0?:isdB::isd)::isdx}
+  angShown: ${:iv===0?:angA:(:iv===1?:angB:(:iv===2?:angC::angD))}
+  angShownB: ${:ivB===0?:angA:(:ivB===1?:angB:(:ivB===2?:angC::angD))}
+  angAsked: ${:qv===0?:angA:(:qv===1?:angB:(:qv===2?:angC::angD))}
+  lgShown: ${:isd===0?:lgAB:(:isd===1?:lgBC:(:isd===2?(:quad?:lgCD::lgCA)::lgDA))}
+  lgShownB: ${:isdB===0?:lgAB:(:isdB===1?:lgBC:(:isdB===2?(:quad?:lgCD::lgCA)::lgDA))}
+  lgAsked: ${:qs===0?:lgAB:(:qs===1?:lgBC:(:qs===2?(:quad?:lgCD::lgCA)::lgDA))}
+  angShownTxt: "${:angShown}°"
+  angShownTxtB: "${:angShownB}°"
+  lgShownTxt: "${MMmath.nbToFr(:lgShown)} cm"
+  lgShownTxtB: "${MMmath.nbToFr(:lgShownB)} cm"
+  # ─── repérage de la mesure d’angle de la figure de départ.
+  # Elle est écrite par un texte posé à la main sur la bissectrice : l’étiquette
+  # de l’élément angle de JSXGraph reste collée au sommet et chevauche les côtés.
+  iv1p: ${(:iv+:ns-1)%:ns}
+  iv1n: ${(:iv+1)%:ns}
+  av1x: ${:iv===0?:xA:(:iv===1?:xB:(:iv===2?:xC::xD))}
+  av1y: ${:iv===0?:yA:(:iv===1?:yB:(:iv===2?:yC::yD))}
+  ap1x: ${:iv1p===0?:xA:(:iv1p===1?:xB:(:iv1p===2?:xC::xD))}
+  ap1y: ${:iv1p===0?:yA:(:iv1p===1?:yB:(:iv1p===2?:yC::yD))}
+  an1x: ${:iv1n===0?:xA:(:iv1n===1?:xB:(:iv1n===2?:xC::xD))}
+  an1y: ${:iv1n===0?:yA:(:iv1n===1?:yB:(:iv1n===2?:yC::yD))}
+  ad1p: ${Math.hypot(:ap1x-:av1x,:ap1y-:av1y)}
+  ad1n: ${Math.hypot(:an1x-:av1x,:an1y-:av1y)}
+  bx1: ${(:ap1x-:av1x)/:ad1p+(:an1x-:av1x)/:ad1n}
+  by1: ${(:ap1y-:av1y)/:ad1p+(:an1y-:av1y)/:ad1n}
+  bn1: ${Math.hypot(:bx1,:by1)}
+  # longueur de la bissectrice jusqu’à la diagonale qui joint les deux sommets
+  # voisins : au delà, on sortirait de la figure. Elle borne le rayon de la
+  # marque comme la position de la mesure.
+  bl1: ${2*:ad1p*:ad1n*Math.cos(:angShown*Math.PI/360)/(:ad1p+:ad1n)}
+  # rayon de la marque d’angle : plus l’angle est fermé, plus il faut s’éloigner
+  # du sommet pour que la marque se voie
+  ar1: ${Math.round(Math.min(1.5,Math.max(0.75,0.5/Math.sin(:angShown*Math.PI/360)),0.5*:bl1)*100)/100}
+  # la mesure s’écrit au delà de l’arc, assez loin du sommet pour que l’angle y
+  # soit ouvert d’au moins la largeur du texte
+  al1: ${Math.round(Math.min(Math.max(:ar1+0.9,0.7/Math.sin(:angShown*Math.PI/360)),0.9*:bl1)*100)/100}
+  ax1: ${Math.round((:av1x+:al1*:bx1/:bn1)*1e4)/1e4}
+  ay1: ${Math.round((:av1y+:al1*:by1/:bn1)*1e4)/1e4}
+  # ─── la même chose pour la mesure d’angle de l’image. Tout se calcule sur la
+  # figure de départ, puis la figure prend les coordonnées opposées.
+  iv2p: ${(:ivB+:ns-1)%:ns}
+  iv2n: ${(:ivB+1)%:ns}
+  av2x: ${:ivB===0?:xA:(:ivB===1?:xB:(:ivB===2?:xC::xD))}
+  av2y: ${:ivB===0?:yA:(:ivB===1?:yB:(:ivB===2?:yC::yD))}
+  ap2x: ${:iv2p===0?:xA:(:iv2p===1?:xB:(:iv2p===2?:xC::xD))}
+  ap2y: ${:iv2p===0?:yA:(:iv2p===1?:yB:(:iv2p===2?:yC::yD))}
+  an2x: ${:iv2n===0?:xA:(:iv2n===1?:xB:(:iv2n===2?:xC::xD))}
+  an2y: ${:iv2n===0?:yA:(:iv2n===1?:yB:(:iv2n===2?:yC::yD))}
+  ad2p: ${Math.hypot(:ap2x-:av2x,:ap2y-:av2y)}
+  ad2n: ${Math.hypot(:an2x-:av2x,:an2y-:av2y)}
+  bx2: ${(:ap2x-:av2x)/:ad2p+(:an2x-:av2x)/:ad2n}
+  by2: ${(:ap2y-:av2y)/:ad2p+(:an2y-:av2y)/:ad2n}
+  bn2: ${Math.hypot(:bx2,:by2)}
+  bl2: ${2*:ad2p*:ad2n*Math.cos(:angShownB*Math.PI/360)/(:ad2p+:ad2n)}
+  ar2: ${Math.round(Math.min(1.5,Math.max(0.75,0.5/Math.sin(:angShownB*Math.PI/360)),0.5*:bl2)*100)/100}
+  al2: ${Math.round(Math.min(Math.max(:ar2+0.9,0.7/Math.sin(:angShownB*Math.PI/360)),0.9*:bl2)*100)/100}
+  ax2: ${Math.round((:av2x+:al2*:bx2/:bn2)*1e4)/1e4}
+  ay2: ${Math.round((:av2y+:al2*:by2/:bn2)*1e4)/1e4}
+  # ─── longueur indiquée sur la figure de départ : écrite au milieu du côté,
+  # décalée perpendiculairement vers l’extérieur (le sens s’obtient en comparant
+  # au centre de gravité). L’écart est plus grand à l’horizontale qu’à la
+  # verticale : l’étiquette est large et peu haute.
+  is1n: ${(:isd+1)%:ns}
+  ea1x: ${:isd===0?:xA:(:isd===1?:xB:(:isd===2?:xC::xD))}
+  ea1y: ${:isd===0?:yA:(:isd===1?:yB:(:isd===2?:yC::yD))}
+  eb1x: ${:is1n===0?:xA:(:is1n===1?:xB:(:is1n===2?:xC::xD))}
+  eb1y: ${:is1n===0?:yA:(:is1n===1?:yB:(:is1n===2?:yC::yD))}
+  mx1: ${(:ea1x+:eb1x)/2}
+  my1: ${(:ea1y+:eb1y)/2}
+  # direction d’écartement : perpendiculaire au côté, du côté opposé au centre
+  # de gravité, donc toujours hors du polygone. L’orientation choisie plus haut
+  # fait que cette direction ne ramène jamais l’étiquette vers le centre O.
+  dx1: ${:eb1x-:ea1x}
+  dy1: ${:eb1y-:ea1y}
+  dn1: ${Math.hypot(:dx1,:dy1)}
+  sg1: ${(-:dy1)*(:mx1-:gx)+:dx1*(:my1-:gy)<0?-1:1}
+  nx1: ${:sg1*(-:dy1)/:dn1}
+  ny1: ${:sg1*:dx1/:dn1}
+  ec1: ${0.75+0.85*Math.abs(:nx1)}
+  lp1x: ${:mx1+:ec1*:nx1}
+  lp1y: ${:my1+:ec1*:ny1}
+  # si l’étiquette de longueur vient toucher la mesure d’angle, on la fait
+  # glisser le long du côté, du côté opposé à cette mesure
+  sl1: ${Math.abs(:ax1-:lp1x)<1.8&&Math.abs(:ay1-:lp1y)<0.75?((:ax1-:mx1)*:dx1+(:ay1-:my1)*:dy1>0?-0.28:0.28):0}
+  lx1: ${Math.round((:lp1x+:sl1*:dx1)*1e4)/1e4}
+  ly1: ${Math.round((:lp1y+:sl1*:dy1)*1e4)/1e4}
+  # ─── longueur indiquée sur l’image, calculée de même sur la figure de départ
+  is2n: ${(:isdB+1)%:ns}
+  ea2x: ${:isdB===0?:xA:(:isdB===1?:xB:(:isdB===2?:xC::xD))}
+  ea2y: ${:isdB===0?:yA:(:isdB===1?:yB:(:isdB===2?:yC::yD))}
+  eb2x: ${:is2n===0?:xA:(:is2n===1?:xB:(:is2n===2?:xC::xD))}
+  eb2y: ${:is2n===0?:yA:(:is2n===1?:yB:(:is2n===2?:yC::yD))}
+  mx2: ${(:ea2x+:eb2x)/2}
+  my2: ${(:ea2y+:eb2y)/2}
+  dx2: ${:eb2x-:ea2x}
+  dy2: ${:eb2y-:ea2y}
+  dn2: ${Math.hypot(:dx2,:dy2)}
+  sg2: ${(-:dy2)*(:mx2-:gx)+:dx2*(:my2-:gy)<0?-1:1}
+  nx2: ${:sg2*(-:dy2)/:dn2}
+  ny2: ${:sg2*:dx2/:dn2}
+  ec2: ${0.75+0.85*Math.abs(:nx2)}
+  lp2x: ${:mx2+:ec2*:nx2}
+  lp2y: ${:my2+:ec2*:ny2}
+  sl2: ${Math.abs(:ax2-:lp2x)<1.8&&Math.abs(:ay2-:lp2y)<0.75?((:ax2-:mx2)*:dx2+(:ay2-:my2)*:dy2>0?-0.28:0.28):0}
+  lq2x: ${:lp2x+:sl2*:dx2}
+  lq2y: ${:lp2y+:sl2*:dy2}
+  # le côté marqué sur l’image peut regarder vers le centre : si son étiquette
+  # arrive sur O, elle glisse le long du côté, vers l’extrémité la plus éloignée
+  so2: ${Math.hypot(:lq2x,:lq2y)<2.1?(:lq2x*:dx2+:lq2y*:dy2>0?0.3:-0.3):0}
+  lx2: ${Math.round((:lq2x+:so2*:dx2)*1e4)/1e4}
+  ly2: ${Math.round((:lq2y+:so2*:dy2)*1e4)/1e4}
+  # ─── milieu d’un côté (questions de type 2). Il est placé sur la figure dont
+  # parle la question, sur un côté dont la longueur est donnée quelque part
+  # (ok) ou nulle part. mfrom dit sur quelle figure cette longueur est écrite :
+  # si c’est celle du milieu, la symétrie n’a pas à intervenir.
+  # la longueur du côté porteur, quand elle est connue, est toujours écrite sur
+  # l’autre figure : le côté qui porte le milieu n’est donc jamais celui repassé
+  # en rouge, et le nom du milieu ne peut pas heurter l’étiquette de longueur.
+  msd: ${:ok?(:face===0?:isdB::isd)::isdx}
+  ms1n: ${(:msd+1)%:ns}
+  # extrémité du demi-côté demandé
+  mbout: [0, 1]
+  mend: ${:mbout===0?:msd::ms1n}
+  lgMsd: ${:msd===0?:lgAB:(:msd===1?:lgBC:(:msd===2?(:quad?:lgCD::lgCA)::lgDA))}
+  demi: ${Math.round(:lgMsd*500)/1000}
+  ea3x: ${:msd===0?:xA:(:msd===1?:xB:(:msd===2?:xC::xD))}
+  ea3y: ${:msd===0?:yA:(:msd===1?:yB:(:msd===2?:yC::yD))}
+  eb3x: ${:ms1n===0?:xA:(:ms1n===1?:xB:(:ms1n===2?:xC::xD))}
+  eb3y: ${:ms1n===0?:yA:(:ms1n===1?:yB:(:ms1n===2?:yC::yD))}
+  mx3: ${(:ea3x+:eb3x)/2}
+  my3: ${(:ea3y+:eb3y)/2}
+  # le nom du milieu se pose à l’extérieur, comme les autres étiquettes, mais
+  # plus près du tracé : rien d’autre n’occupe ce côté
+  dx3: ${:eb3x-:ea3x}
+  dy3: ${:eb3y-:ea3y}
+  dn3: ${Math.hypot(:dx3,:dy3)}
+  sg3: ${(-:dy3)*(:mx3-:gx)+:dx3*(:my3-:gy)<0?-1:1}
+  nx3: ${:sg3*(-:dy3)/:dn3}
+  ny3: ${:sg3*:dx3/:dn3}
+  # sgf renvoie la construction sur la figure interrogée : l’image a les
+  # coordonnées opposées
+  sgf: ${:face===0?1:-1}
+  pmx: ${Math.round(:sgf*:mx3*1e4)/1e4}
+  pmy: ${Math.round(:sgf*:my3*1e4)/1e4}
+  tmx: ${Math.round(:sgf*(:mx3+0.55*:nx3)*1e4)/1e4}
+  tmy: ${Math.round(:sgf*(:my3+0.55*:ny3)*1e4)/1e4}
+  # ─── lettres des sommets : deux séries consécutives prises dans pool, l’une
+  # pour la figure de départ, l’autre pour son image, toujours dans l’ordre de
+  # l’alphabet. Les bornes de lp1 et gap garantissent qu’elles ne se recouvrent
+  # pas et qu’il reste une lettre libre, lp3, pour le milieu.
+  lp1: "0_${20-2*:ns}"
+  gap: "0_${20-2*:ns-:lp1}"
+  lp2: ${:lp1+:ns+:gap}
+  lp3: ${:lp2+:ns}
+  ltA: ${:pool[:lp1]}
+  ltB: ${:pool[:lp1+1]}
+  ltC: ${:pool[:lp1+2]}
+  ltD: ${:pool[:lp1+3]}
+  liA: ${:pool[:lp2]}
+  liB: ${:pool[:lp2+1]}
+  liC: ${:pool[:lp2+2]}
+  liD: ${:pool[:lp2+3]}
+  lm: ${:pool[:lp3]}
+  # première lettre de la figure interrogée, puis de l’autre
+  sAsk: ${:face===0?:lp1::lp2}
+  sOth: ${:face===0?:lp2::lp1}
+  fig: ${:ltA+:ltB+:ltC+(:quad?:ltD:'')}
+  figi: ${:liA+:liB+:liC+(:quad?:liD:'')}
+  figAsk: ${:face===0?:fig::figi}
+  figOth: ${:face===0?:figi::fig}
+  # l’aire, quand elle est donnée, est écrite sous la figure d’en face
+  arx: ${:face===1?-:cx::cx}
+  # noms : sommets voisins de celui dont on demande l’angle, extrémités du côté
+  # dont on demande la longueur, extrémités du côté qui porte le milieu
+  qvp: ${(:qv+:ns-1)%:ns}
+  qvn: ${(:qv+1)%:ns}
+  qsn: ${(:qs+1)%:ns}
+  angAskNom: ${:pool[:sAsk+:qvp]+:pool[:sAsk+:qv]+:pool[:sAsk+:qvn]}
+  angOthNom: ${:pool[:sOth+:qvp]+:pool[:sOth+:qv]+:pool[:sOth+:qvn]}
+  lgAskNom: ${:pool[:sAsk+:qs]+:pool[:sAsk+:qsn]}
+  lgOthNom: ${:pool[:sOth+:qs]+:pool[:sOth+:qsn]}
+  msdNom: ${:pool[:sAsk+:msd]+:pool[:sAsk+:ms1n]}
+  msdOthNom: ${:pool[:sOth+:msd]+:pool[:sOth+:ms1n]}
+  demiNom: ${:lm+:pool[:sAsk+:mend]}
+  vNum: ${:k===0?:angAsked:(:k===1?MMmath.nbToFr(:lgAsked):(:k===2?MMmath.nbToFr(:demi):MMmath.nbToFr(:aire)))}
+  vBrut: ${:k===0?:angAsked:(:k===1?:lgAsked:(:k===2?:demi::aire))}
+  vUnit: ${:k===0?'°':(:k===3?' cm²':' cm')}
+options:
+  - name: Triangle, longueurs
+    vars:
+      quad: false
+      k: 1
+  - name: Triangle, angles
+    vars:
+      quad: false
+      k: 0
+  - name: Triangle, longueurs et angles
+    vars:
+      quad: false
+      k: [0, 1]
+  - name: Quadrilatère, longueurs
+    vars:
+      quad: true
+      k: 1
+  - name: Quadrilatère, angles
+    vars:
+      quad: true
+      k: 0
+  - name: Quadrilatère, longueurs et angles
+    vars:
+      quad: true
+      k: [0, 1]
+  - name: Triangle, milieu d’un côté
+    vars:
+      quad: false
+      k: 2
+  - name: Quadrilatère, milieu d’un côté
+    vars:
+      quad: true
+      k: 2
+  - name: Milieu d’un côté, triangles et quadrilatères
+    vars:
+      k: 2
+  - name: Aire de la figure symétrique
+    vars:
+      k: 3
+  - name: Tout mélangé
+question: "${:quest[:k]}"
+shortq: "${:courte[:k]}"
+answer: "${:rep[:k][:ok?1:0]}"
+value:
+  - "${:ok?:vNum+:vUnit:'on ne peut pas savoir'}"
+  - "${:ok?:vNum:'on ne peut pas le savoir'}"
+  - "${:ok?''+:vBrut:'on ne sait pas'}"
+  - "${:ok?:vNum+:vUnit:'impossible'}"
+figure:
+  type: graph
+  # taille nominale du dessin : 10 x scale pixels par unité. C’est elle, et non
+  # la taille à l’écran, qui fixe le rapport entre le dessin et le texte : la
+  # figure est ensuite mise à l’échelle par la mise en page. À 20 px l’unité,
+  # un texte de 14 px occupe 0,7 unité de haut, lisible jusque dans la vignette
+  # des questions types. Les écarts ci-dessus sont réglés pour ce rapport.
+  scale: 2
+  axis: false
+  grid: false
+  keepAspect: true
+  # cadre volontairement plus haut que le dessin : la vignette d’aperçu est
+  # dimensionnée d’après le cadre, un rapport trop allongé la rendrait minuscule
+  boundingbox: [-9.4, 5.9, 9.4, -5.9]
+  content:
+    # sommets de la figure de départ, puis de son image, marqués par une croix.
+    # Les noms sont écrits par des textes placés à la main (voir plus bas), pas
+    # par les étiquettes de JSXGraph, qui ne savent pas éviter les tracés.
+    - [point, [:xA, :yA], { name: A, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false }]
+    - [point, [:xB, :yB], { name: B, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false }]
+    - [point, [:xC, :yC], { name: C, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false }]
+    - [point, [:xD, :yD], { name: D, face: x, size: 3, strokeWidth: 2, strokeColor: "#118ab2", withLabel: false, visible: "${:quad}" }]
+    - [point, ["${-:xA}", "${-:yA}"], { name: Ai, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false }]
+    - [point, ["${-:xB}", "${-:yB}"], { name: Bi, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false }]
+    - [point, ["${-:xC}", "${-:yC}"], { name: Ci, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false }]
+    - [point, ["${-:xD}", "${-:yD}"], { name: Di, face: x, size: 3, strokeWidth: 2, strokeColor: "#06915c", withLabel: false, visible: "${:quad}" }]
+    - [point, [0, 0], { name: O, face: x, size: 4, strokeWidth: 2, strokeColor: "#333333", withLabel: false }]
+    - [polygon, [A, B, C], { fillColor: "#118ab2", fillOpacity: 0.18, borders: { strokeColor: "#118ab2", strokeWidth: 2, visible: "${!:quad}" }, withLines: true, visible: "${!:quad}" }]
+    - [polygon, [A, B, C, D], { fillColor: "#118ab2", fillOpacity: 0.18, borders: { strokeColor: "#118ab2", strokeWidth: 2, visible: "${:quad}" }, withLines: true, visible: "${:quad}" }]
+    - [polygon, [Ai, Bi, Ci], { fillColor: "#06915c", fillOpacity: 0.18, borders: { strokeColor: "#06915c", strokeWidth: 2, visible: "${!:quad}" }, withLines: true, visible: "${!:quad}" }]
+    - [polygon, [Ai, Bi, Ci, Di], { fillColor: "#06915c", fillOpacity: 0.18, borders: { strokeColor: "#06915c", strokeWidth: 2, visible: "${:quad}" }, withLines: true, visible: "${:quad}" }]
+    # côtés dont la longueur est donnée, repassés en rouge : un sur chaque figure
+    - [segment, [A, B], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:isd===0}" }]
+    - [segment, [B, C], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:isd===1}" }]
+    - [segment, [C, A], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${!:quad&&:isd===2}" }]
+    - [segment, [C, D], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:quad&&:isd===2}" }]
+    - [segment, [D, A], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:quad&&:isd===3}" }]
+    - [segment, [Ai, Bi], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:isdB===0}" }]
+    - [segment, [Bi, Ci], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:isdB===1}" }]
+    - [segment, [Ci, Ai], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${!:quad&&:isdB===2}" }]
+    - [segment, [Ci, Di], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:quad&&:isdB===2}" }]
+    - [segment, [Di, Ai], { strokeColor: "#c1121f", strokeWidth: 3, visible: "${:quad&&:isdB===3}" }]
+    # marques des angles dont la mesure est donnée. Les sommets sont donnés dans
+    # l’ordre « suivant, sommet, précédent » (sens direct de la construction) et
+    # selection: minor force l’angle saillant, le seul qui soit intérieur ici.
+    # orthoSensitivity ramené à 0,5° : JSXGraph code l’angle droit par un carré
+    # dès qu’il est à moins d’un degré de 90°, ce qui contredirait le 89° ou le
+    # 91° écrit à côté. Le carré ne reste que pour un angle droit exact.
+    - [angle, [B, A, C], { radius: :ar1, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${!:quad&&:iv===0}" }]
+    - [angle, [B, A, D], { radius: :ar1, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:quad&&:iv===0}" }]
+    - [angle, [C, B, A], { radius: :ar1, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:iv===1}" }]
+    - [angle, [A, C, B], { radius: :ar1, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${!:quad&&:iv===2}" }]
+    - [angle, [D, C, B], { radius: :ar1, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:quad&&:iv===2}" }]
+    - [angle, [A, D, C], { radius: :ar1, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:quad&&:iv===3}" }]
+    - [angle, [Bi, Ai, Ci], { radius: :ar2, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${!:quad&&:ivB===0}" }]
+    - [angle, [Bi, Ai, Di], { radius: :ar2, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:quad&&:ivB===0}" }]
+    - [angle, [Ci, Bi, Ai], { radius: :ar2, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:ivB===1}" }]
+    - [angle, [Ai, Ci, Bi], { radius: :ar2, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${!:quad&&:ivB===2}" }]
+    - [angle, [Di, Ci, Bi], { radius: :ar2, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:quad&&:ivB===2}" }]
+    - [angle, [Ai, Di, Ci], { radius: :ar2, orthoSensitivity: 0.5, selection: minor, withLabel: false, fillColor: "#ffd166", fillOpacity: 0.7, strokeColor: "#c1121f", strokeWidth: 1, visible: "${:quad&&:ivB===3}" }]
+    # milieu d’un côté, placé seulement pour les questions de type 2
+    - [point, [:pmx, :pmy], { name: M, face: x, size: 3, strokeWidth: 2, strokeColor: "#7b2cbf", withLabel: false, visible: "${:k===2}" }]
+    - [text, [:tmx, :tmy, ":lm"], { anchorX: middle, anchorY: middle, strokeColor: "#7b2cbf", fontSize: 14, visible: "${:k===2}" }]
+    # mesures données, sur l’une et l’autre figure
+    - [text, [:ax1, :ay1, ":angShownTxt"], { anchorX: middle, anchorY: middle, strokeColor: "#c1121f", fontSize: 14 }]
+    - [text, [:lx1, :ly1, ":lgShownTxt"], { anchorX: middle, anchorY: middle, strokeColor: "#c1121f", fontSize: 14 }]
+    - [text, ["${-:ax2}", "${-:ay2}", ":angShownTxtB"], { anchorX: middle, anchorY: middle, strokeColor: "#c1121f", fontSize: 14 }]
+    - [text, ["${-:lx2}", "${-:ly2}", ":lgShownTxtB"], { anchorX: middle, anchorY: middle, strokeColor: "#c1121f", fontSize: 14 }]
+    # noms des sommets, écartés vers l’extérieur de chaque figure
+    - [text, [:txA, :tyA, ":ltA"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14 }]
+    - [text, [:txB, :tyB, ":ltB"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14 }]
+    - [text, [:txC, :tyC, ":ltC"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14 }]
+    - [text, [:txD, :tyD, ":ltD"], { anchorX: middle, anchorY: middle, strokeColor: "#118ab2", fontSize: 14, visible: "${:quad}" }]
+    - [text, ["${-:txA}", "${-:tyA}", ":liA"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14 }]
+    - [text, ["${-:txB}", "${-:tyB}", ":liB"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14 }]
+    - [text, ["${-:txC}", "${-:tyC}", ":liC"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14 }]
+    - [text, ["${-:txD}", "${-:tyD}", ":liD"], { anchorX: middle, anchorY: middle, strokeColor: "#06915c", fontSize: 14, visible: "${:quad}" }]
+    # aire de la figure d’en face, écrite sous elle, seulement quand la question
+    # porte sur les aires et que la réponse est possible
+    - [text, [:arx, -4.7, ":aireTxt"], { anchorX: middle, anchorY: middle, strokeColor: "#c1121f", fontSize: 14, visible: "${:k===3&&:ok}" }]
+    # le nom du centre est écrit sous la croix, la place y est libre
+    - [text, [0, -0.95, "O"], { anchorX: middle, anchorY: middle, strokeColor: "#333333", fontSize: 14 }]

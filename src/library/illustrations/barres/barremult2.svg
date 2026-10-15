@@ -1,0 +1,20 @@
+<svg width="12em" height="4em" version="1.1" viewBox="0 0 63.5 21.17" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <g id="a" transform="matrix(0 .1346 -.2876 0 55.56 8.731)">
+   <g id="c" style="stroke-width:1.345">
+    <path d="m19.8 25.8c0-14.6-4.2-23.6-19.8-25.4l.4-.4c22.6.4 28.8 7.2 28.8 29v30.2c0 13.4 1.4 19.8 16 23.4v.4c-14.4 3.6-16 10-16 23.2v32.2c0 21-7.8 27-28.8 27.6l-.4-.399c16-2.4 19.8-10.4 19.8-25.6v-32.2c0-13.6 1.8-21.4 16.8-24.8v-.4c-15.2-3.6-16.8-12-16.8-25.6z" style="stroke-width:1.345"/>
+   </g>
+  </g>
+  <text x="31.0305" y="18.65519" style="font-family:Arial;font-size:4.233px;letter-spacing:0px;line-height:1.25;stroke-width:.2646;text-align:center;text-anchor:middle;word-spacing:0px" xml:space="preserve"><tspan x="31.0305" y="18.65519" style="stroke-width:.2646">${:total}</tspan></text>
+  <g transform="matrix(4.906 0 0 1 -30.79 0)" style="fill:#b7c4c8;stroke-width:.2388;stroke:#164450">
+   <rect x="7.937" y="3.175" width="4.762" height="4.762" style="stroke-width:.2388"/>
+  </g>
+  <g transform="matrix(4.851 0 0 1 -29.94 0)" style="fill:#dbe2e3;stroke-width:.2403;stroke:#164450">
+   <rect x="12.7" y="3.175" width="4.762" height="4.762" style="stroke-width:.2403"/>
+  </g>
+  <g style="font-family:Arial;font-size:3.213px;letter-spacing:0px;line-height:1.25;stroke-width:.2646;text-align:center;text-anchor:middle;word-spacing:0px">
+   <text x="19.532158" y="6.3205433">${:n}</text>
+   <text x="43.349255" y="6.3205433">${:n}</text>
+  </g>
+ </g>
+</svg>

@@ -1,0 +1,5 @@
+<svg class="i i-microchip" width="8em" height="8em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="16" height="16" x="4" y="4" rx="2"/>
+  <path d="M9 9h6v6H9zm0-8v3m6-3v3M9 20v3m6-3v3m5-14h3m-3 5h3M1 9h3m-3 5h3"/>
+  <path d="M12 0V24M0 12H24M0 0L24 24M0 24L24 0" fill="none" stroke="red" stroke-width="0.6" stroke-dasharray="4 1" stroke-linecap="butt" class="correction"/>
+</svg>

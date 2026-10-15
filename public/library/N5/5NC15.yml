@@ -1,0 +1,82 @@
+dest: ["5NC"]
+title: Trouver un nombre manquant dans une opération avec des entiers
+description: opération à trou, équation
+options:
+  - name: Addition
+    vars:
+      n1: "1_20"
+      n2: "1_20"
+    question:
+      - :n1 + ? = ${:n1+:n2}
+      - "? + :n2 = ${:n1+:n2}"
+      - :n1 + x = ${:n1+:n2}
+      - x + :n2 = ${:n1+:n2}
+    answer:
+      - :n1 + \color{red}{:n2} = ${:n1+:n2}
+      - \color{red}{:n1} + :n2 = ${:n1+:n2}
+      - x = ${:n1+:n2} - :n1 = \color{red}{:n2}
+      - x = ${:n1+:n2} - :n2 = \color{red}{:n1}
+    value:
+      - :n2
+      - :n1
+      - :n2
+      - :n1
+  - name: Soustraction
+    vars:
+      n1: "1_20"
+      n2: "1_20"
+      t: "${:n1+:n2}"
+    question:
+      - :t - ? = :n2
+      - "? - :n1 = :n2"
+      - :t - x = :n2
+      - x - :n2 = :n1
+    answer:
+      - :t - \color{red}{:n1} = :n2
+      - \color{red}{:t} - :n1 = :n2
+      - x = :t - :n2 = \color{red}{:n1}
+      - x = :n1 + :n2 = \color{red}{:t}
+    value:
+      - :n2
+      - :t
+      - :n2
+      - :t
+  - name: Multiplication
+    vars:
+      n1: "2_10"
+      n2: "2_10"
+    question:
+      - :n1 \times ? = ${:n1*:n2}
+      - "? \\times :n2 = ${:n1*:n2}"
+      - :n1 \times x = ${:n1*:n2}
+      - x \times :n2 = ${:n1*:n2}
+    answer:
+      - :n1 \times \color{red}{:n2} = ${:n1*:n2}
+      - \color{red}{:n1} \times :n2 = ${:n1*:n2}
+      - x = ${:n1*:n2} / :n1 = \color{red}{:n2}
+      - x = ${:n1*:n2} / :n2 = \color{red}{:n1}
+    value:
+      - :n2
+      - :n1
+      - :n2
+      - :n1
+  - name: Division
+    vars:
+      n1: "2_10"
+      n2: "2_10"
+      t: "${:n1*:n2}"
+    question:
+      - :t \div ? = :n1
+      - "? \\div :n2 = :n1"
+      - :t \div x = :n1
+      - x \div :n2 = :n1
+    answer:
+      - :t \div \color{red}{:n2} = :n1
+      - \color{red}{:t} \div :n2 = :n1
+      - x = :t \div :n1 = \color{red}{:n2}
+      - x = :n1 \times :n2 = \color{red}{:t}
+    value:
+      - :n2
+      - :t
+      - :n2
+      - :t

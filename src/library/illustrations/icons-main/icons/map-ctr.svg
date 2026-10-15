@@ -1,0 +1,7 @@
+<svg class="i i-map" width="8em" height="8em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4zm7-4v16m8-12v16"/>
+    <g transform="translate(0.04918,0.114754)" style="fill:none;stroke:#00ff00;stroke-width:1;stroke-dasharray:none" class="correction">
+    <path d="m 10.360656,10.42623 3.180328,2.918032" />
+    <path d="m 13.540984,10.42623 -3.180328,2.918032" />
+  </g>
+</svg>

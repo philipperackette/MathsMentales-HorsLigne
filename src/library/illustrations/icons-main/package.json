@@ -1,0 +1,34 @@
+{
+  "name": "meteor-icons",
+  "version": "3.7.1",
+  "description": "Handcrafted line by line, for as little code as possible",
+  "scripts": {
+    "build": "npm-run-all --sequential build:*",
+    "build:svg": "node ./build/svg.js",
+    "build:sprite": "node ./build/sprite.js",
+    "build:blogger": "node ./build/blogger.js"
+  },
+  "files": [
+    "icons",
+    "variants"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zkreations/icons.git"
+  },
+  "keywords": [],
+  "author": "@danieIabel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zkreations/icons/issues"
+  },
+  "homepage": "https://github.com/zkreations/icons#readme",
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "eslint": "^8.43.0",
+    "eslint-config-standard": "^17.1.0",
+    "npm-run-all": "^4.1.5",
+    "svg-sprite": "^2.0.2",
+    "svgo": "^3.0.2"
+  }
+}

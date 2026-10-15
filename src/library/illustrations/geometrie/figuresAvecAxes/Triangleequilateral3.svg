@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="10em"
+   height="10em"
+   viewBox="0 0 47.61 47.7"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="Triangleequilateral3.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="37.651991"
+     inkscape:cx="23.810162"
+     inkscape:cy="23.85"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="1285"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <path
+     d="M 23.425479,6.5528077 22.451097,11.51557 m 13.238114,14.313268 -4.785485,-1.636321"
+     fill="none"
+     stroke="#000000"
+     stroke-width="0.53"
+     id="path2" />
+  <path
+     d="M 44.881392,7.7334897 9.5259114,28.151998"
+     fill="none"
+     stroke="#ff0000"
+     stroke-width="0.53"
+     stroke-dasharray="2.12, 0.53"
+     class="correction"
+     id="path3" />
+  <path
+     sodipodi:type="star"
+     style="fill:none;stroke:#000000;stroke-width:0.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+     id="path4"
+     inkscape:flatsided="true"
+     sodipodi:sides="3"
+     sodipodi:cx="9.9596329"
+     sodipodi:cy="13.27951"
+     sodipodi:r1="20.846243"
+     sodipodi:r2="10.423121"
+     sodipodi:arg1="0.52359878"
+     sodipodi:arg2="1.5707963"
+     inkscape:rounded="0"
+     inkscape:randomized="0"
+     d="m 28.013009,23.702631 -36.1067521,0 L 9.959633,-7.5667334 Z"
+     inkscape:transform-center-y="5.2104097"
+     transform="rotate(59.992694,11.80269,28.973533)"
+     inkscape:transform-center-x="0.0013290105" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.53;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+     d="m 16.209443,22.429338 -1.313711,4.469759"
+     id="path5" />
+  <path
+     d="M 39.399066,28.156141 4.0383785,7.7466487"
+     fill="none"
+     stroke="#ff0000"
+     stroke-width="0.53"
+     stroke-dasharray="2.12, 0.53"
+     class="correction"
+     id="path6" />
+  <path
+     d="m 24.448113,2.7990169 0.0052,40.8280001"
+     fill="none"
+     stroke="#ff0000"
+     stroke-width="0.53"
+     stroke-dasharray="2.12, 0.53"
+     class="correction"
+     id="path7" />
+</svg>

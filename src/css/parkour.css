@@ -1,0 +1,113 @@
+@import url("../js/libs/JSXGraph1.11.1/jsxgraph.css");
+@import url("./keyboard.css");
+
+#parkour-app {
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+.hidden {
+  display: none;
+}
+#parkour-chemin {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.parkour-etape {
+  border: 2px solid #999;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+.parkour-etape.available {
+  border-color: #2a8f2a;
+  cursor: pointer;
+}
+.parkour-etape.passed {
+  background: #e6f7e6;
+  border-color: #2a8f2a;
+}
+.parkour-etape[class*="locked"] {
+  opacity: 0.5;
+}
+.parkour-etape-support {
+  font-size: 1.4rem;
+  margin-right: 0.3rem;
+}
+.parkour-etape-deadline,
+.parkour-etape-best {
+  display: block;
+  font-size: 0.8rem;
+  color: #555;
+}
+.parkour-question-text {
+  font-size: 2.2rem;
+  line-height: 1.4;
+  text-align: center;
+  margin: 1rem 0;
+}
+.parkour-question-text .fig {
+  margin: auto;
+}
+math-field {
+  display: block;
+  margin: 1rem auto;
+  min-width: 300px;
+  width: 80%;
+  font-size: 2rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+/* on masque le bouton du clavier virtuel de mathlive */
+math-field::part(virtual-keyboard-toggle) {
+  display: none;
+}
+/* on masque le menu (burger) de mathlive */
+math-field::part(menu-toggle) {
+  display: none;
+}
+.parkour-corrige {
+  list-style: decimal;
+  padding-left: 2rem;
+  margin: 1rem 0;
+  font-size: 1.2rem;
+}
+.parkour-corrige li {
+  border-left: 4px solid #999;
+  padding: 0.4rem 0.8rem;
+  margin-bottom: 0.6rem;
+}
+.parkour-corrige li.good {
+  border-color: #2a8f2a;
+  background: #e6f7e6;
+}
+.parkour-corrige li.wrong {
+  border-color: #c62828;
+  background: #ffe9e6;
+}
+.parkour-corrige li.good::marker {
+  color: #2a8f2a;
+}
+.parkour-corrige li.wrong::marker {
+  color: #c62828;
+}
+.parkour-corrige-question {
+  display: block;
+}
+.parkour-corrige-user,
+.parkour-corrige-answer {
+  display: block;
+  font-size: 0.9em;
+  color: #444;
+}
+.parkour-theme {
+  margin: 0.3rem 0;
+}
+.parkour-theme-stars {
+  margin-left: 0.5rem;
+  color: #d4a017;
+  letter-spacing: 0.1rem;
+}

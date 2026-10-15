@@ -1,0 +1,52 @@
+{
+    "title":"Addition de relatifs (entiers)",
+    "description":"relatifs, addition, somme algébrique, négatifs, opposé",
+    "ID":"5NC1",
+    "textSize":"medium",
+    "dest":["5NC","4NC","3NB"],
+    "consigne":"Calculer.",
+    "options":[{
+        "name":"Notation avec parenthèses",
+        "vars":{"n1":"-20_20_^0","n2":"${:n1>0?'-20_-1':'-20_20_^0'}"},
+        "question": "(${MMmath.signedNumber(:n1)})+(${MMmath.signedNumber(:n2)})",
+        "answer":":question=\\color{red}{${:n1+:n2}}",
+        "value":"${:n1+:n2}"
+    },{
+        "name":"Notation sans parenthèses",
+        "vars":{"n1":"-20_20_^0","n2":"${:n1>0?'-20_-1':'-20_20_^0'}"},
+        "question":"${MMmath.signedNumber(:n1)}${MMmath.signedNumber(:n2)}",
+        "answer":":question=\\color{red}{${:n1+:n2}}",
+        "value":"${:n1+:n2}"
+    },{
+        "name":"Somme algébrique de 3 termes",
+        "vars":{"n1":"-20_20_^0","n2":"-20_20_^0","n3":"${:n1>0&&:n2>0?'-20_-1':'-20_20_^0'}"},
+        "question":":n1 ${MMmath.signedNumber(:n2)}${MMmath.signedNumber(:n3)}",
+        "answer":":question=\\color{red}{${:n1+:n2+:n3}}",
+        "value":"${:n1+:n2+:n3}"
+    },{
+        "name":"Somme algébrique de 4 termes",
+        "vars":{"n1":"-20_20_^0","n2":"-20_20_^0","n3":"-20_20_^0","n4":"${:n1>0&&:n2>0&&:n3>0?'-20_-1':'-20_20_^0'}"},
+        "question":":n1${MMmath.signedNumber(:n2)}${MMmath.signedNumber(:n3)}${MMmath.signedNumber(:n4)}",
+        "answer":":question=\\color{red}{${:n1+:n2+:n3+:n4}}",
+        "value":"${:n1+:n2+:n3+:n4}"
+    },{
+        "name":"Somme algébrique de 5 termes",
+        "vars":{"n1":"-20_20_^0","n2":"-20_20_^0","n3":"-20_20_^0","n4":"-20_20_^0","n5":"${:n1>0&&:n2>0&&:n3>0&&:n4>0?'-20_-1':'-20_20_^0'}"},
+        "question":":n1${MMmath.signedNumber(:n2)}${MMmath.signedNumber(:n3)}${MMmath.signedNumber(:n4)}${MMmath.signedNumber(:n5)}",
+        "answer":":question=\\color{red}{${:n1+:n2+:n3+:n4+:n5}}",
+        "value":"${:n1+:n2+:n3+:n4+:n5}"
+    },{
+        "name":"Notation mixte avec parenthèses autour des négatifs",
+        "vars":{"n":"-20_20_^0","n2":"${:n>0?'-20_-1':'-20_20_^0'}"},
+        "question": "${:n<0?'('+:n+')'::n}+${:n2<0?'('+:n2+')'::n2}",
+        "answer":":question=\\color{red}{${:n+:n2}}",
+        "value":"${:n+:n2}"
+    },{
+        "name":"Notation mixte avec parenthèses sur le 2e terme si négatif",
+        "vars":{"n":"-20_20_^0","n2":"${:n>0?'-20_-1':'-20_20_^0'}"},
+        "question": "${:n}+${:n2<0?'('+:n2+')'::n2}",
+        "answer":":question=\\color{red}{${:n+:n2}}",
+        "value":"${:n+:n2}"
+    }
+    ]
+}

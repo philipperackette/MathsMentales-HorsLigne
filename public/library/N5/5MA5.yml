@@ -1,0 +1,189 @@
+title: Aires de parallélogrammes et de figures composées
+description: >
+  Lire les informations de la figure pour calculer.
+ID: 5MA5
+type: text
+textSize: small
+speech: 1
+consigne: Lire les longueurs utiles sur la figure.
+keys:
+  - mm
+  - cm
+  - dm
+  - mt
+  - dam
+  - hm
+  - km
+  - x²
+dest:
+  - 5MA
+  - 4MA
+  - 3MA
+consts:
+  unites: [mm, cm, dm, m, dam, hm, km]
+  uv:
+    mm: millimètres
+    cm: centimètres
+    dm: décimètres
+    m: mètres
+    dam: décamètres
+    hm: hectomètres
+    km: kilomètres
+  # ─── figures : quatre tracés par option, dessinés d’avance plutôt que
+  # construits à la volée par JSXGraph, dans le style de 6MC1 (trait noir fin
+  # dans un cadre de 79,35 x 47,7, hauteurs en pointillés, marque d’angle
+  # droit). Elles sont produites par tools/figures-5MA5.mjs.
+  #
+  # Comme dans 6MC1, le dessin ne respecte pas les mesures tirées : les
+  # longueurs ne sont que des étiquettes posées sur une forme figée. Ces
+  # étiquettes restent en marques %B% (base ou côté), %C% (côté oblique),
+  # %H% (hauteur), %L% et %W% (côtés du rectangle), %P% (hauteur du
+  # parallélogramme), %T% (hauteur du triangle), remplacées à la génération :
+  # les figures sont des constantes, et la substitution de variables ne les
+  # traverse pas au bon moment.
+  paraPoses:
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M0.6 37.15L60.04 37.15L78.75 1.93L19.31 1.93Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M19.31 1.93L19.31 37.15' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M19.31 37.15L21.61 37.15L21.61 34.85L19.31 34.85Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='20.71' y='21.58' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%H%</text><text x='30.32' y='44.27' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M21.81 38.45L74.35 38.45L57.54 0.63L5 0.63Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M57.54 0.63L57.54 38.45' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M57.54 38.45L55.24 38.45L55.24 36.15L57.54 36.15Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='56.14' y='21.58' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%H%</text><text x='48.08' y='45.57' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M0.6 30.64L57.44 30.64L78.75 8.44L21.91 8.44Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M21.91 8.44L21.91 30.64' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M21.91 30.64L24.21 30.64L24.21 28.34L21.91 28.34Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='23.31' y='21.58' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%H%</text><text x='29.02' y='37.76' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M12.29 38.46L56.11 38.46L67.06 0.62L23.24 0.62Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M23.24 0.62L23.24 38.46' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M23.24 38.46L25.54 38.46L25.54 36.16L23.24 36.16Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='24.64' y='21.58' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%H%</text><text x='34.2' y='45.58' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text></svg>"
+  paraBiais:
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M15.53 39.87L64.55 39.87L78.69 7.83L29.67 7.83Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M64.55 39.87L23.52 21.77' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M23.52 21.77L25.62 22.7L26.55 20.6L24.45 19.67Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='46.7' y='26.83' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%H%</text><text x='19.01' y='24.31' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%C%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M15.9 43.35L65.72 43.35L78.72 4.35L28.89 4.35Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M65.72 43.35L20.88 28.4' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M20.88 28.4L23.06 29.13L23.79 26.94L21.61 26.22Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='45.09' y='29.18' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%H%</text><text x='18.98' y='24.75' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%C%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M15.05 36.75L63.2 36.75L78.68 10.95L30.53 10.95Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M63.2 36.75L27.8 15.5' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M27.8 15.5L29.77 16.69L30.95 14.72L28.98 13.53Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='48.9' y='22.51' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%H%</text><text x='19.02' y='23.63' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%C%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M14.51 42.91L62.67 42.91L78.72 4.79L30.56 4.79Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M62.67 42.91L21.76 25.69' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M21.76 25.69L23.88 26.58L24.78 24.46L22.66 23.57Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='44.72' y='27.02' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%H%</text><text x='18.98' y='24.39' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%C%</text></svg>"
+  paraTournes:
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M16.91 42.44L58.16 29.03L62.44 0.62L21.19 14.02Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M21.19 14.02L29.13 38.47' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M29.13 38.47L31.32 37.75L30.61 35.57L28.42 36.28Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='27.42' y='27.55' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%H%</text><text x='39.14' y='45.58' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M23.84 29.06L57.73 47.08L59.82 18.63L25.93 0.61Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M59.82 18.63L47.57 41.68' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M47.57 41.68L45.54 40.6L46.62 38.57L48.65 39.65Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='51.05' y='30.79' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%H%</text><text x='37.88' y='45.59' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%B%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M69.67 24.51L27.49 2.08L0.66 23.19L42.84 45.62Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M27.49 2.08L54.52 36.43' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M54.52 36.43L53.1 34.62L51.29 36.05L52.71 37.85Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='37.11' y='24.36' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%H%</text><text x='60.34' y='42.29' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%B%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M46.09 0.6L11.65 22.12L12.72 47.1L47.16 25.58Z' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M11.65 22.12L46.95 20.6' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M46.95 20.6L44.65 20.7L44.75 23L47.05 22.9Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='29.43' y='29.27' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%H%</text><text x='49.35' y='15.01' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%B%</text></svg>"
+  rectTriangles:
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M10.08 38.46L49.32 38.46L49.32 18.84L24.8 0.62L10.08 18.84ZM10.08 18.84L49.32 18.84' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M24.8 0.62L24.8 18.84' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M24.8 18.84L27.1 18.84L27.1 16.54L24.8 16.54Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='29.7' y='45.58' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%L%</text><text x='50.92' y='30.69' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%W%</text><text x='26.2' y='14.81' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%T%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M12.49 33.64L44.31 39.82L48.43 18.61L40.92 0.64L16.61 12.43ZM16.61 12.43L48.43 18.61' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M40.92 0.64L37.82 16.55' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M37.82 16.55L40.08 16.99L40.52 14.73L38.26 14.29Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='27.64' y='45.56' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%L%</text><text x='48.51' y='31.67' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%W%</text><text x='36.91' y='12.91' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%T%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M20.58 32.96L53.38 32.96L78.72 16.56L53.38 6.12L20.58 6.12ZM53.38 32.96L53.38 6.12' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M78.72 16.56L53.38 16.56' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M53.38 16.56L55.68 16.56L55.68 14.26L53.38 14.26Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='36.98' y='40.08' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%W%</text><text x='18.98' y='21.58' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%L%</text><text x='61.82' y='23.28' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%T%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M14.47 39.73L48.53 34.34L45.83 17.31L32.45 0.64L11.78 22.71ZM11.78 22.71L45.83 17.31' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M32.45 0.64L35.35 18.97' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M35.35 18.97L37.62 18.61L37.26 16.34L34.99 16.7Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='32.07' y='45.56' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%L%</text><text x='49.23' y='27.54' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%W%</text><text x='32.53' y='15.19' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%T%</text></svg>"
+  paraTriangles:
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M12.48 39.46L54.44 39.46L66.87 19.26L51.33 0.62L24.91 19.26ZM24.91 19.26L66.87 19.26' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M24.91 19.26L24.91 39.46M51.33 0.62L51.33 19.26' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M24.91 39.46L27.21 39.46L27.21 37.16L24.91 37.16ZM51.33 19.26L53.63 19.26L53.63 16.96L51.33 16.96Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='26.31' y='31.4' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%P%</text><text x='33.46' y='45.58' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text><text x='49.93' y='15.09' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%T%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M27.61 39.46L63.58 39.46L52.79 19.32L35.52 0.62L16.82 19.32ZM16.82 19.32L52.79 19.32' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M52.79 19.32L52.79 39.46M35.52 0.62L35.52 19.32' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M52.79 39.46L50.49 39.46L50.49 37.16L52.79 37.16ZM35.52 19.32L37.82 19.32L37.82 17.02L35.52 17.02Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='51.39' y='31.43' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%P%</text><text x='45.59' y='45.58' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text><text x='34.12' y='15.13' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%T%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M7.36 33.79L53.62 41.95L71.99 24.74L60.91 0.64L25.73 16.58ZM25.73 16.58L71.99 24.74' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M25.73 16.58L22.23 36.41M60.91 0.64L57.12 22.12' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M22.23 36.41L24.5 36.81L24.89 34.54L22.63 34.15ZM57.12 22.12L59.38 22.52L59.78 20.25L57.52 19.85Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='25.88' y='28.87' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%P%</text><text x='30' y='45.56' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text><text x='56.48' y='16.66' font-family='Arial' font-size='6' text-anchor='end' stroke-width='.265'>%T%</text></svg>"
+    - "<svg width='15em' height='9em' viewBox='0 0 79.35 47.7' xmlns='http://www.w3.org/2000/svg'><path d='M18.84 40.55L52.42 35.83L59.27 13.46L38.91 0.63L25.69 18.18ZM25.69 18.18L59.27 13.46' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-linejoin='round'/><path d='M25.69 18.18L28.64 39.17M38.91 0.63L41.08 16.02' fill='none' stroke='#000' stroke-width='.49' stroke-linecap='round' stroke-dasharray='1.6 1.2'/><path d='M28.64 39.17L30.91 38.85L30.59 36.57L28.32 36.89ZM41.08 16.02L43.35 15.7L43.03 13.42L40.76 13.74Z' fill='#fff' stroke='#000' stroke-width='.4' stroke-linejoin='round'/><text x='28.97' y='30.46' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%P%</text><text x='35.98' y='45.57' font-family='Arial' font-size='6' text-anchor='middle' stroke-width='.265'>%B%</text><text x='42.16' y='12.68' font-family='Arial' font-size='6' text-anchor='start' stroke-width='.265'>%T%</text></svg>"
+options:
+  - name: Aire d’un parallélogramme
+    vars:
+      b: "2_12"
+      h: "2_9"
+      u: "0_6"
+      aire: "${:b*:h}"
+      lb: "${:b} ${:unites[:u]}"
+      lh: "${:h} ${:unites[:u]}"
+      numfig: "0_3"
+      fig: "${:paraPoses[:numfig].replaceAll('%B%',:lb).replaceAll('%H%',:lh)}"
+    figure:
+      type: svg
+      content: "${:fig}"
+    question: 'Quelle est l’<b>aire</b> de ce parallélogramme de base $$${:b}\text{ ${:unites[:u]}}$$ et de hauteur $$${:h}\text{ ${:unites[:u]}}$$ ?'
+    shortq: 'Aire du parallélogramme ?'
+    audio: 'Quelle est l’aire d’un parallélogramme de base ${:b} ${:uv[:unites[:u]]} et de hauteur ${:h} ${:uv[:unites[:u]]} ?'
+    answer: '$$b\times h=${:b}\times${:h}=\color{red}{${:aire}\text{ ${:unites[:u]}}^2}$$'
+    value:
+      - "${:aire}~${:unites[:u]}^2"
+      - "${:aire}${:unites[:u]}^2"
+      - "${:aire}"
+  - name: Aire d’un parallélogramme, hauteur relative à un côté
+    vars:
+      c: "2_12"
+      h: "2_9"
+      u: "0_6"
+      aire: "${:c*:h}"
+      lc: "${:c} ${:unites[:u]}"
+      lh: "${:h} ${:unites[:u]}"
+      numfig: "0_3"
+      fig: "${:paraBiais[:numfig].replaceAll('%C%',:lc).replaceAll('%H%',:lh)}"
+    figure:
+      type: svg
+      content: "${:fig}"
+    question: 'Quelle est l’<b>aire</b> de ce parallélogramme de côté $$${:c}\text{ ${:unites[:u]}}$$ et de hauteur relative à ce côté $$${:h}\text{ ${:unites[:u]}}$$ ?'
+    shortq: 'Aire du parallélogramme ?'
+    audio: 'Quelle est l’aire d’un parallélogramme de côté ${:c} ${:uv[:unites[:u]]} et de hauteur relative à ce côté ${:h} ${:uv[:unites[:u]]} ?'
+    answer: '$$c\times h=${:c}\times${:h}=\color{red}{${:aire}\text{ ${:unites[:u]}}^2}$$'
+    value:
+      - "${:aire}~${:unites[:u]}^2"
+      - "${:aire}${:unites[:u]}^2"
+      - "${:aire}"
+  - name: Aire d’un parallélogramme non posé
+    vars:
+      b: "2_12"
+      h: "2_9"
+      u: "0_6"
+      aire: "${:b*:h}"
+      lb: "${:b} ${:unites[:u]}"
+      lh: "${:h} ${:unites[:u]}"
+      numfig: "0_3"
+      fig: "${:paraTournes[:numfig].replaceAll('%B%',:lb).replaceAll('%H%',:lh)}"
+    figure:
+      type: svg
+      content: "${:fig}"
+    question: 'Quelle est l’<b>aire</b> de ce parallélogramme de côté $$${:b}\text{ ${:unites[:u]}}$$ et de hauteur associée $$${:h}\text{ ${:unites[:u]}}$$ ?'
+    shortq: 'Aire du parallélogramme ?'
+    audio: 'Quelle est l’aire d’un parallélogramme de côté ${:b} ${:uv[:unites[:u]]} et de hauteur associée ${:h} ${:uv[:unites[:u]]} ?'
+    answer: '$$b\times h=${:b}\times${:h}=\color{red}{${:aire}\text{ ${:unites[:u]}}^2}$$'
+    value:
+      - "${:aire}~${:unites[:u]}^2"
+      - "${:aire}${:unites[:u]}^2"
+      - "${:aire}"
+  - name: Aire d’un rectangle et d’un triangle
+    # la longueur du rectangle est paire : l’aire du triangle qui s’appuie
+    # dessus reste entière, et le calcul se fait de tête
+    vars:
+      k: "2_5"
+      lo: "${:k*2}"
+      # l’autre côté du rectangle évite la longueur du premier : un rectangle
+      # aux deux côtés égaux serait un carré, et l’énoncé le dirait mal
+      la: "2_8_^${:lo}"
+      ht: "2_6"
+      u: "0_6"
+      aireR: "${:lo*:la}"
+      aireT: "${:k*:ht}"
+      aire: "${:aireR+:aireT}"
+      llo: "${:lo} ${:unites[:u]}"
+      lla: "${:la} ${:unites[:u]}"
+      lht: "${:ht} ${:unites[:u]}"
+      numfig: "0_3"
+      fig: "${:rectTriangles[:numfig].replaceAll('%L%',:llo).replaceAll('%W%',:lla).replaceAll('%T%',:lht)}"
+    figure:
+      type: svg
+      content: "${:fig}"
+    question: 'Quelle est l’<b>aire</b> de cette figure, formée d’un rectangle de côtés $$${:lo}\text{ ${:unites[:u]}}$$ et $$${:la}\text{ ${:unites[:u]}}$$ et d’un triangle de base $$${:lo}\text{ ${:unites[:u]}}$$ et de hauteur $$${:ht}\text{ ${:unites[:u]}}$$ ?'
+    shortq: 'Aire de la figure ?'
+    audio: 'Quelle est l’aire d’une figure formée d’un rectangle de côtés ${:lo} et ${:la} ${:uv[:unites[:u]]} et d’un triangle de base ${:lo} et de hauteur ${:ht} ${:uv[:unites[:u]]} ?'
+    answer: '$$${:lo}\times${:la}+\dfrac{${:lo}\times${:ht}}{2}=${:aireR}+${:aireT}=\color{red}{${:aire}\text{ ${:unites[:u]}}^2}$$'
+    value:
+      - "${:aire}~${:unites[:u]}^2"
+      - "${:aire}${:unites[:u]}^2"
+      - "${:aire}"
+  - name: Aire d’un parallélogramme et d’un triangle
+    # même raison : la base commune est paire
+    vars:
+      k: "2_5"
+      b: "${:k*2}"
+      hp: "2_8"
+      ht: "2_6"
+      u: "0_6"
+      aireP: "${:b*:hp}"
+      aireT: "${:k*:ht}"
+      aire: "${:aireP+:aireT}"
+      lb: "${:b} ${:unites[:u]}"
+      lhp: "${:hp} ${:unites[:u]}"
+      lht: "${:ht} ${:unites[:u]}"
+      numfig: "0_3"
+      fig: "${:paraTriangles[:numfig].replaceAll('%B%',:lb).replaceAll('%P%',:lhp).replaceAll('%T%',:lht)}"
+    figure:
+      type: svg
+      content: "${:fig}"
+    question: 'Quelle est l’<b>aire</b> de cette figure, formée d’un parallélogramme de base $$${:b}\text{ ${:unites[:u]}}$$ et de hauteur $$${:hp}\text{ ${:unites[:u]}}$$ et d’un triangle de même base et de hauteur $$${:ht}\text{ ${:unites[:u]}}$$ ?'
+    shortq: 'Aire de la figure ?'
+    audio: 'Quelle est l’aire d’une figure formée d’un parallélogramme de base ${:b} et de hauteur ${:hp} ${:uv[:unites[:u]]} et d’un triangle de même base et de hauteur ${:ht} ${:uv[:unites[:u]]} ?'
+    answer: '$$${:b}\times${:hp}+\dfrac{${:b}\times${:ht}}{2}=${:aireP}+${:aireT}=\color{red}{${:aire}\text{ ${:unites[:u]}}^2}$$'
+    value:
+      - "${:aire}~${:unites[:u]}^2"
+      - "${:aire}${:unites[:u]}^2"
+      - "${:aire}"

@@ -1,0 +1,27 @@
+{
+    "title":"Demi-heure, quart d'heure, trois quarts d'heure : correspondance en minutes",
+    "description":"quart d'heure, demi-heure, minutes, fraction d'heure, durée",
+    "type":"text",
+    "speech":1,
+    "ID":"8MC3",
+    "dest":["8MC", "7MC", "6MB"],
+    "keys":["_","/","mn","hr", "1/4h", "1/2h", "3/4h","_"],
+    "vars":{
+        "m":[15,30,45],
+        "mot":"${:m==15?\"un quart d’heure\":(:m==30?\"une demi-heure\":\"trois quarts d’heure\")}",
+        "Mot":"${:m==15?\"Un quart d’heure\":(:m==30?\"Une demi-heure\":\"Trois quarts d’heure\")}"
+    },
+    "options":[{
+        "name":"Fraction d’heure => minutes",
+        "question":"Combien de minutes y a-t-il dans ${:mot} ?",
+        "audio":"Combien de minutes y a-t-il dans ${:mot} ?",
+        "answer":"${:Mot} = <span class='red'>${:m}</span> minutes.",
+        "value":["${:m}","${:m} min","${:m} minutes"]
+    },{
+        "name":"Minutes => fraction d’heure",
+        "question":"${:m} minutes, c’est quelle fraction d’heure ?",
+        "audio":"${:m} minutes, c’est quelle fraction d’heure ?",
+        "answer":"${:m} minutes = <span class='red'>${:mot}</span>.",
+        "value":["${:m==15?\"quart d’heure\":(:m==30?\"demi-heure\":\"trois quarts d’heure\")}","${:mot}","${:m==15?\"\\dfrac14 h\":(:m==30?\"\\dfrac12 h\":\"\\dfrac34 h\")}"]
+    }]
+}

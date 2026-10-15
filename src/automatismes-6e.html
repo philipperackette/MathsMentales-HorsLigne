@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Automatismes en classe de 6e</title>
+        <style>
+            :root {
+                --c1: #ff9f43; /* décimaux - orange */
+                --c1b: #ffe0b2;
+                --c2: #ff5e78; /* fractions - rose/rouge */
+                --c2b: #ffd3da;
+                --c3: #2ecc71; /* longueurs - vert */
+                --c3b: #c8f5d8;
+                --c4: #17b8a6; /* aires - turquoise */
+                --c4b: #c2f2ec;
+                --c5: #9b59f6; /* temps - violet */
+                --c5b: #e5d6fd;
+                --c6: #3fa7ff; /* configurations - bleu */
+                --c6b: #cfe9ff;
+                --c7: #5c6bff; /* espace - indigo */
+                --c7b: #dadeff;
+                --c8: #16c1c1; /* données - cyan */
+                --c8b: #c1f4f4;
+                --c9: #ffb700; /* proportions - ambre */
+                --c9b: #ffe9b3;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family: "Comic Sans MS", "Segoe UI", Verdana, Tahoma, sans-serif;
+                margin: 0;
+                padding: 0 1rem 3rem;
+                background: linear-gradient(160deg, #fdf6ff 0%, #eafaff 45%, #fff8ea 100%);
+                color: #2b2b45;
+            }
+            header.hero {
+                margin: 0 -1rem 2rem;
+                padding: 2.4rem 1.5rem 2.8rem;
+                text-align: center;
+                background: linear-gradient(120deg, #ff9f43, #ff5e78 35%, #9b59f6 70%, #3fa7ff);
+                background-size: 300% 300%;
+                animation: hero-glow 10s ease infinite;
+                color: white;
+                border-radius: 0 0 2rem 2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            }
+            @keyframes hero-glow {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            header.hero h1 {
+                margin: 0;
+                font-size: 2.2em;
+                text-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+            }
+            header.hero p {
+                margin: 0.6rem auto 0;
+                max-width: 40rem;
+                font-size: 1.1em;
+                opacity: 0.95;
+            }
+            nav.sommaire {
+                max-width: 60rem;
+                margin: 0 auto 2.2rem;
+            }
+            nav.sommaire h2 {
+                text-align: center;
+                font-size: 1.2em;
+                color: #6a3fbf;
+            }
+            nav.sommaire ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.6rem;
+            }
+            nav.sommaire a {
+                display: inline-block;
+                text-decoration: none;
+                font-weight: bold;
+                color: #2b2b45;
+                background: white;
+                border: 2px solid #e0d6ff;
+                border-radius: 2rem;
+                padding: 0.5rem 1.1rem;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                transition: 0.2s;
+            }
+            nav.sommaire a:hover {
+                transform: translateY(-2px) scale(1.04);
+                border-color: #9b59f6;
+                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+            }
+            .container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 1.6rem;
+                max-width: 78rem;
+                margin: 0 auto;
+            }
+            .tile {
+                position: relative;
+                background: white;
+                border-radius: 1.2rem;
+                padding: 1.4rem 1.4rem 1.2rem;
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+                border-top: 0.5rem solid var(--tile-color, #ccc);
+                transition: transform 0.2s, box-shadow 0.2s;
+                scroll-margin-top: 1rem;
+            }
+            .tile:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+            }
+            .tile h2 {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                font-weight: bold;
+                margin: 0 0 0.9rem;
+                font-size: 1.25em;
+                color: #2b2b45;
+            }
+            .tile h2 .icone {
+                font-size: 1.6em;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.1em;
+                height: 2.1em;
+                border-radius: 50%;
+                background: var(--tile-color-b, #eee);
+                flex: none;
+            }
+            .tile ul {
+                margin: 0;
+                padding-left: 0;
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .tile li a {
+                display: block;
+                text-decoration: none;
+                color: #2b2b45;
+                background: linear-gradient(90deg, var(--tile-color-b, #f2f2f2), white 70%);
+                border-radius: 0.7rem;
+                padding: 0.55rem 0.8rem;
+                border: 1px solid #eee;
+                transition: 0.15s;
+            }
+            .tile li a:hover {
+                background: var(--tile-color, #ddd);
+                color: white;
+                transform: translateX(4px);
+            }
+            .tile li a[href=""] {
+                cursor: not-allowed;
+                opacity: 0.55;
+                pointer-events: none;
+            }
+            .tile:nth-of-type(1) { --tile-color: var(--c1); --tile-color-b: var(--c1b); }
+            .tile:nth-of-type(2) { --tile-color: var(--c2); --tile-color-b: var(--c2b); }
+            .tile:nth-of-type(3) { --tile-color: var(--c3); --tile-color-b: var(--c3b); }
+            .tile:nth-of-type(4) { --tile-color: var(--c4); --tile-color-b: var(--c4b); }
+            .tile:nth-of-type(5) { --tile-color: var(--c5); --tile-color-b: var(--c5b); }
+            .tile:nth-of-type(6) { --tile-color: var(--c6); --tile-color-b: var(--c6b); }
+            .tile:nth-of-type(7) { --tile-color: var(--c7); --tile-color-b: var(--c7b); }
+            .tile:nth-of-type(8) { --tile-color: var(--c8); --tile-color-b: var(--c8b); }
+            .tile:nth-of-type(9) { --tile-color: var(--c9); --tile-color-b: var(--c9b); }
+        </style>
+    </head>
+    <body>
+        <header class="hero">
+            <h1>🎉 Automatismes en classe de 6e 🎉</h1>
+            <p>Clique sur une carte pour t'entraîner sur les nombres, les figures, les mesures... et devenir un champion du calcul mental !</p>
+        </header>
+        <nav class="sommaire">
+            <h2>Sommaire des thèmes</h2>
+            <ul>
+                <li><a href="#decimaux">🔢 Nombres entiers et décimaux</a></li>
+                <li><a href="#fractions">🍕 Fractions</a></li>
+                <li><a href="#longueurs">📏 Longueurs</a></li>
+                <li><a href="#aires">🟩 Aires</a></li>
+                <li><a href="#temps">⏰ Temps et durées</a></li>
+                <li><a href="#configurations">📐 Configurations planes</a></li>
+                <li><a href="#espace">🧊 Vision dans l'espace</a></li>
+                <li><a href="#donnees">📊 Gestion de données</a></li>
+                <li><a href="#proportions">⚖️ Proportionnalité</a></li>
+            </ul>
+        </nav>
+        <div class="container">
+            <div class="tile">
+                <a name="decimaux"></a>
+                <h2><span class="icone">🔢</span>Les nombres entiers et décimaux</h2>
+                <ul>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Relations%20entre%201%2C%20dixi%C3%A8mes%2C%20centi%C3%A8mes...&p=0~t=6e%20-%20Relations%20entre%201,%20dixi%C3%A8mes,%20centi%C3%A8mes...~c=1~o=true~d=normal~at=10_i=6NC14~q=0.-1.-2.-3.-4.-5.-6.-7.~t=8~n=8">Relations entre 1/1000, 1/100, 1/10 et 1</a>
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20%C3%89criture%20d%C3%A9cimale&p=0~t=6e%20-%20%C3%89criture%20d%C3%A9cimale~c=1~o=true~d=normal~at=10_i=6NB1~o=1,2~q=1.-2.~t=8~n=4_i=6NC1~q=0.-1.-2.-3.-4.-5.~t=8~n=6"
+                            >Équivalences d’écriture pour les fractions
+                            décimales</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20d%C3%A9cimaux%204&p=0~t=6e%202025%20-%20d%C3%A9cimaux~c=1~o=true~d=normal~at=10_i=6NB1~o=1~q=1.~p=~t=8~n=2_i=6NB1~o=2~q=1.-2.~p=~t=8~n=2_i=6NC1~o=0~q=0.1~p=~t=8~n=2_i=6NC1~o=2~q=0.-1.-2.-4.~p=~t=8~n=2_i=6NC1~o=1~q=0.-1.1~p=~t=8~n=2_i=6NC1~o=4~q=0.-1.-3.-4.~p=~t=8~n=2"
+                            >Passage de l'écriture fractionnaire à décimale et
+                            inversement</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20d%C3%A9cimaux%204&p=0~t=6e%202025%20-%20d%C3%A9cimaux~c=1~o=true~d=normal~at=10_i=8NE6~o=0,1,2~q=0.-1.-2.~p=~t=8~n=3_i=8NE6~o=3,4,5~q=0.-1.-2.-3.-4.-5.~p=~t=8~n=3_i=8NE6~o=6,7,8~q=0.-1.-2.-3.-4.-5.-6.-7.-8.~p=~t=8~n=3"
+                            >Multiplication de nombres décimaux par 10, 100 ou
+                            1000</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20d%C3%A9cimaux%205&p=0~t=6e%202025%20-%20d%C3%A9cimaux~c=1~o=true~d=normal~at=10_i=8NE5~o=0,1,2~q=0.-1.-2.~p=~t=8~n=3_i=8NE5~o=3,4,5~q=0.-1.-2.-3.-4.-5.~p=~t=8~n=3_i=8NE5~o=6,7,8~q=0.-1.-2.-3.-4.-5.-6.-7.-8.~p=~t=8~n=3"
+                            >Division de nombres décimaux par 10, 100 ou 1000</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="fractions"></a>
+                <h2><span class="icone">🍕</span>Les fractions</h2>
+                <ul>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20fractions%201&p=0~t=6e%202025%20-%20fractions~c=1~o=true~d=normal~at=10_i=8NB5~o=0~q=0.~p=~t=8~n=2_i=8NB5~o=1~q=0.-1.~p=~t=8~n=2_i=8NB5~o=2~q=0.-1.-2.~p=~t=8~n=2_i=8NB5~o=3~q=0.-1.-2.-3.~p=~t=8~n=2"
+                            >Reconnaissance de fractions sur différentes
+                            représentations</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20fractions%202&p=0~t=6e%202025%20-%20fractions~c=1~o=true~d=normal~at=10_i=6NB11~o=0~q=0.~p=~t=8~n=5_i=6NB11~o=1~q=0.-1.~p=~t=8~n=5"
+                            >Complétion automatique d'équivalences
+                            fractionnaires simples.</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20fractions%203&p=0~t=6e%202025%20-%20fractions~c=1~o=true~d=normal~at=10_i=6ND14~o=0,1~q=0.-1.~p=~t=8~n=6_i=6ND27~o=0,1,2,3,4,5,6,7,8,9,10~q=0.0,2,3-1.0,2,3-2.0,2,3-3.0,2,3-4.0,2,3-5.0,2,3-6.0,2,3-7.0,2,3-8.0,2,3-9.0,2,3-10.0,2,3~p=~t=8~n=6"
+                            >Diviseurs, multiples, tables de multiplications</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20fractions%204&p=0~t=6e%202025%20-%20Fractions~c=1~o=true~d=normal~at=10_i=7NB1~o=0~q=0.0,1~p=~t=8~n=6"
+                            >Calculs avec des fractions (ex: 2/3 de 12 œufs)</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="longueurs"></a>
+                <h2><span class="icone">📏</span>Les longueurs</h2>
+                <ul>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20Longueurs%202&p=0~t=6e%202025%20-%20Longueurs~c=1~o=true~d=normal~at=10_i=8MA2~o=~q=~p=~t=8~n=10"
+                        >
+                            Relations entre préfixes (kilo-, milli-) et unités
+                            de longueur
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Unit%C3%A9s%20de%20longueurs%20successives&p=0~t=6e%20-%20Unit%C3%A9s%20de%20longueurs%20successives~c=1~o=true~d=normal~at=10_i=6MA2~q=0.-1.-2.~t=8~n=8"
+                            >Relations entre unités successives (dm, cm)</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20Longueurs%203&p=0~t=6e%202025%20-%20Longueurs~c=1~o=true~d=normal~at=10_i=7MA1~o=0~q=0.~p=~t=8~n=4_i=7MA2~o=0~q=0.~p=~t=8~n=4"
+                            >Conversion de longueurs en mètres et inversement</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20Longueurs%204&p=0~t=6e%202025%20-%20Longueurs~c=1~o=true~d=normal~at=10_i=8MB1~o=0,1~q=0.0-1.0~p=~t=8~n=4_i=6MA1~o=0,1~q=0.-1.~p=~t=8~n=4"
+                            >Calcul du périmètre d'un carré et d'un rectangle</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="aires"></a>
+                <h2><span class="icone">🟩</span>Les aires</h2>
+                <ul>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Comparer%20des%20aires&p=0~t=6e%20-%20Comparer%20des%20aires~c=1~o=true~d=normal~at=10_i=6MC7~t=8~n=6"
+                            >Comparaison d'aires par superposition ou
+                            découpage</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=&p=0~t=Diapo%201~c=1~o=true~d=normal~at=10_i=5LM1~o=0,2~q=0.1,0-2.0,1~t=8~n=4_i=8MB1~o=0,1~q=0.1-1.1~t=8~n=4"
+                            >Définition et relations entre cm², m², et dm²</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20Aires%203&p=0~t=6e%202025%20-%20Aires~c=1~o=true~d=normal~at=10_i=8MB1~o=0,1~q=0.1-1.1~p=~t=8~n=6"
+                            >Détermination de l'aire avec un quadrillage</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Unit%C3%A9s%20d'aires%20successives&p=0~t=6e%20-%20Unit%C3%A9s%20d'aires%20successives~c=1~o=true~d=normal~at=10_i=6MC3~q=0.-1.~t=8~n=8"
+                            >Relations entre cm², m², et dm² (1 m² = 100 dm²)</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="temps"></a>
+                <h2><span class="icone">⏰</span>Le repérage dans le temps et les durées</h2>
+                <ul>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20Heure%20dur%C3%A9es%201&p=0~t=6e%202025%20-%20Heures%20dur%C3%A9es~c=1~o=true~d=normal~at=10_i=6MC6~o=~q=~p=~t=8~n=5"
+                            >Lecture de l'heure sur un cadran ou affichage
+                            digital</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20Heures%20dur%C3%A9es%202&p=0~t=6e%202025%20-%20Heures%20dur%C3%A9es~c=1~o=true~d=normal~at=10_i=8MC2~o=0~q=0.~p=~t=8~n=2_i=8MC2~o=1~q=0.-1.~p=~t=8~n=2_i=8MC2~o=2~q=0.-1.-2.~p=~t=8~n=2_i=8MC2~o=3~q=0.-1.-2.-3.~p=~t=8~n=2"
+                            >Placement des aiguilles sur une horloge</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Relations%20entre%20unit%C3%A9s%20de%20temps&p=0~t=6e%20-%20Relations%20entre%20unit%C3%A9s%20de%20temps~c=1~o=true~d=normal~at=10_i=7MC3~q=0.-1.-2.-3.-4.-5.~t=8~n=6"
+                            >Unités de mesure de durées et relations entre
+                            elles</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Vocabulaire%20du%20temps&p=0~t=6e%20-%20Vocabulaire%20du%20temps~c=1~o=true~d=normal~at=10_i=7MC4~o=0,1,2,3,4,5~q=0.0,1,2-1.0,1-2.0,1-3.0,1-4.0,1-5.0,1-6.~t=8~n=8"
+                            >Nombre de jours dans une année, siècles,
+                            millénaire</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Demi%2C%20quart%20d'heure&p=0~t=6e%20-%20Demi,%20quart%20d'heure~c=1~o=true~d=normal~at=10_i=8MC3~q=0.-1.~t=8~n=6"
+                            >Durées : demi-heure, quart d'heure, trois quarts
+                            d'heure</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="configurations"></a>
+                <h2><span class="icone">📐</span>Configurations planes</h2>
+                <ul>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20G%C3%A9om%C3%A9trie%201&p=0~t=6e%202025%20-%20G%C3%A9om%C3%A9trie~c=1~o=true~d=normal~at=10_i=8GC4~o=0,1,2,3,4~q=0.-1.-2.-3.-4.~p=~t=8~n=10"
+                            >Lexique et codage des objets de base de la
+                            géométrie plane</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20G%C3%A9om%C3%A9trie%202&p=0~t=6e%202025%20-%20G%C3%A9om%C3%A9trie~c=1~o=true~d=normal~at=10_i=8GC4~o=5,6,7,8,9,10,11~q=0.-1.-2.-3.-4.-5.-6.-7.-8.-9.-10.-11.~p=~t=8~n=10"
+                            >Reconnaissance de figures géométriques (carré,
+                            rectangle, triangle)</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20G%C3%A9om%C3%A9trie%203&p=0~t=6e%202025%20-%20G%C3%A9om%C3%A9trie~c=1~o=true~d=normal~at=10_i=8GC5~o=~q=~p=~t=8~n=10"
+                            >Reconnaissance des axes de symétrie</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Codage%20de%20figures&p=0~t=6e%20-%20Codage%20de%20figures~c=1~o=true~d=normal~at=10_i=6GC15~q=0.-1.-2.~t=8~n=6"
+                            >Codage des angles droits et longueurs égales</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="espace"></a>
+                <h2><span class="icone">🧊</span>La vision dans l'espace</h2>
+                <ul>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Identifier%20les%20solides&p=0~t=6e%20-%20Identifier%20les%20solides~c=1~o=true~d=normal~at=10_i=5GA4~q=0.-1.-2.-3.~t=8~n=4_i=5GA2~q=0.-1.-2.-3.~t=8~n=4"
+                            >Identification de solides (pyramides, boules,
+                            cubes, cylindres, etc.)</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="donnees"></a>
+                <h2><span class="icone">📊</span>Organisation et gestion de données</h2>
+                <ul>
+                    <li>
+                        <a
+                            href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%202025%20%2d%20Donn%C3%A9es%201&p=0~t=6e%202025%20-%20Donn%C3%A9es~c=1~o=true~d=normal~at=10_i=6DA5~o=3~q=3.~p=~t=8~n=2_i=6DA7~o=~q=~p=~t=8~n=4"
+                            >Lecture de tableaux, diagrammes en barres,
+                            diagrammes circulaires et courbes</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tile">
+                <a name="proportions"></a>
+                <h2><span class="icone">⚖️</span>Proportionnalité</h2>
+                <ul>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Relations%20multiplicatives&p=0~t=6e%20-%20Relations%20multiplicatives~c=1~o=true~d=normal~at=10_i=8ND5~q=0.-1.~t=8~n=4_i=6NB7~o=3,4,5~q=3.-4.-5.~t=8~n=4"
+                            >Repérage de relations multiplicatives simples</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://mathsmentales.net/wall.html?a=,fs=serif,t=6e%20%2d%20Expressions%20multiplicatives&p=0~t=6e%20-%20Expressions%20multiplicatives~c=1~o=true~d=normal~at=10_i=7NF1~q=0.-1.-2.-3.~t=8~n=6"
+                            >Association d'expressions multiplicatives à des
+                            opérations</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

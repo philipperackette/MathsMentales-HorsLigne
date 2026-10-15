@@ -1,0 +1,30 @@
+<svg width="300" height="100" version="1.1" viewBox="0 0 79.37 26.46" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <path d="m39.69 13.56-1.155 7.268a1.188 1.188 0 00-.03978.3052v.01117a1.188 1.188 0 001.198 1.176 1.188 1.188 0 001.179-1.195 1.188 1.188 0 00-.01553-.1798h.000527l-.0049-.03024z" style="fill:#000000"/>
+  <path d="m18.54 21.18h42.29" style="fill:none;stroke-width:.2646px;stroke:#000000"/>
+  <rect x="18.52" y="19.76" width=".881" height="1.496" style="fill:#000000"/>
+  <rect x="59.97" y="19.76" width=".881" height="1.496" style="fill:#000000"/>
+  <path d="m5.151 18.18 1.024 1.516h25.69l.9015-1.475" style="fill:none;stroke-width:.2646px;stroke:#000000"/>
+  <path d="m46.6 18.14 1.024 1.516h25.69l.9015-1.475" style="fill:none;stroke-width:.2646px;stroke:#000000"/>
+  <path d="m34.53 14.22a8.564 8.564 0 0110.37.03969" style="fill:none;stroke-width:.2;stroke:#000000"/>
+  <path d="m39.69 12.48v.891" style="fill:none;stroke-width:.1;stroke:#000000"/>
+  <path d="m40.9 12.56-.08233.5883" style="fill:none;stroke-width:.1;stroke:#000000"/>
+  <path d="m38.51 12.56.08233.5883" style="fill:none;stroke-width:.1;stroke:#000000"/>
+  <path d="m42.06 12.81-.162.5715" style="fill:none;stroke-width:.1;stroke:#000000"/>
+  <path d="m37.34 12.81.162.5715" style="fill:none;stroke-width:.1;stroke:#000000"/>
+  <path d="m43.2 13.22-.2395.5436" style="fill:none;stroke-width:.1;stroke:#000000"/>
+  <path d="m36.2 13.22.2395.5436" style="fill:none;stroke-width:.1;stroke:#000000"/>
+  <path d="m60.35 8.565a2.421 2.422 0 00-2.412 2.424v.0224a2.421 2.422 0 00.8034 1.777h-4.846v6.675h13.02v-6.675h-4.941a2.421 2.422 0 00.8034-1.816 2.421 2.422 0 00-2.429-2.408z" style="fill:#b3b3b3;stroke-width:.1;stroke:#000000"/>
+  <rect x="17.02" y="15.74" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="21.25" y="15.74" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="12.78" y="15.74" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="8.55" y="15.74" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="25.48" y="15.74" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="17.02" y="11.5" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="21.25" y="11.5" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="12.78" y="11.5" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="8.55" y="11.5" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <rect x="25.48" y="11.5" width="3.811" height="3.811" style="fill:#53676c;stroke-width:.1;stroke:#000000"/>
+  <text x="60.397362" y="17.259487" style="font-family:Arial;font-size:3.492px;letter-spacing:0px;line-height:1.25;stroke-width:.2646;text-align:center;text-anchor:middle;word-spacing:0px" xml:space="preserve"><tspan x="60.397362" y="17.259487" style="stroke-width:.2646;text-align:center;text-anchor:middle">${:m}</tspan></text>
+ </g>
+</svg>

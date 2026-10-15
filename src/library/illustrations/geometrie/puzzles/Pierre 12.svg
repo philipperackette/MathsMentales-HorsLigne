@@ -1,0 +1,149 @@
+<svg width="747.879" height="1020.645" viewBox="0 0 197.876 270.046" xmlns="http://www.w3.org/2000/svg">
+    <path d="M98.938 269.693v-72.17l62.5 36.085zM98.938.353v72.17l-62.5-36.086zM98.938 72.522V.352l62.5 36.085z" fill="#fff" stroke="#1a1a1a" stroke-width=".7056348599999999" stroke-linecap="round" stroke-linejoin="round"/><path d="M135.023 135.023h-72.17l36.085-62.5z" fill="#fff" stroke="#1a1a1a" stroke-width=".7056348599999999" stroke-linecap="round" stroke-linejoin="round"/><path d="M.353 171.108v-72.17l62.5 36.085zM98.938 197.523v72.17l-62.5-36.085zM135.023 135.023l62.5-36.085v72.17zM62.853 135.023h72.17l-36.085 62.5z" fill="#fff" stroke="#1a1a1a" stroke-width=".7056348599999999" stroke-linecap="round" stroke-linejoin="round"/><path fill="#fff" stroke="#1a1a1a" stroke-width=".706" stroke-linecap="round" stroke-linejoin="round" d="M36.556 36.505l62.382 36.017-36.016 62.382L.539 98.888zM135.073 135.209l62.382 36.016-36.016 62.382-62.383-36.016zM99.124 72.573l62.382-36.017 36.017 62.382-62.382 36.017zM.42 171.225l62.383-36.016L98.82 197.59l-62.383 36.017z"/>
+    <g>
+        <foreignObject x='56' y='-8.5' width='60' height='20' transform="rotate(30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[8]}</div>
+        </foreignObject>
+        <foreignObject x='97' y='16' width='60' height='20' transform="rotate(150 100 20)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[9]}</div>
+        </foreignObject>
+        <foreignObject x='-66' y='77' width='60' height='20' transform="rotate(-90)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[9]}</div>
+        </foreignObject>
+    </g>
+    <g>
+        <foreignObject x='56' y='90.5' width='60' height='20' transform="rotate(-30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[0]}</div>
+        </foreignObject>
+        <foreignObject x='6' y='-120.5' width='60' height='20' transform="rotate(90)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[9]}</div>
+        </foreignObject>
+        <foreignObject x='-152' y='27.5' width='60' height='20' transform="rotate(-150)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[0]}</div>
+        </foreignObject>
+    </g>
+    <g>
+        <foreignObject x='56' y='64' width='60' height='20' transform="rotate(30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[7]}</div>
+        </foreignObject>
+        <foreignObject x='19.5' y='-72' width='60' height='20' transform="rotate(120)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[8]}</div>
+        </foreignObject>
+        <foreignObject x='-116' y='-35' width='60' height='20' transform="rotate(-150)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[8]}</div>
+        </foreignObject>
+        <foreignObject x='-79.5' y='100' width='60' height='20' transform="rotate(-60)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[13]}</div>
+        </foreignObject>
+    </g>
+    <g transform="translate(13.5 23)">
+        <foreignObject x='56' y='90.5' width='60' height='20'>
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[14]}</div>
+        </foreignObject>
+        <foreignObject x='6' y='-120.5' width='60' height='20' transform="rotate(120)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[13]}</div>
+        </foreignObject>
+        <foreignObject x='-152' y='27.5' width='60' height='20' transform="rotate(-120)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[10]}</div>
+        </foreignObject>
+    </g>
+    <g transform="translate(49 86)">
+        <foreignObject x='56' y='64' width='60' height='20' transform="rotate(-30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[1]}</div>
+        </foreignObject>
+        <foreignObject x='19.5' y='-72' width='60' height='20' transform="rotate(60)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[10]}</div>
+        </foreignObject>
+        <foreignObject x='-116' y='-35' width='60' height='20' transform="rotate(-210)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[0]}</div>
+        </foreignObject>
+        <foreignObject x='-79.5' y='100' width='60' height='20' transform="rotate(-120)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[1]}</div>
+        </foreignObject>
+    </g>
+    <g transform="translate(-98.5 98.5)">
+        <foreignObject x='56' y='90.5' width='60' height='20' transform="rotate(-30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[6]}</div>
+        </foreignObject>
+        <foreignObject x='6' y='-120.5' width='60' height='20' transform="rotate(90)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[7]}</div>
+        </foreignObject>
+        <foreignObject x='-152' y='27.5' width='60' height='20' transform="rotate(-150)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[7]}</div>
+        </foreignObject>
+    </g>
+    <g>
+        <foreignObject x='-129' y='-156' width='60' height='20' transform="scale(-1)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[14]}</div>
+        </foreignObject>
+        <foreignObject x='-115.5' y='163' width='60' height='20' transform="rotate(-60)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[11]}</div>
+        </foreignObject>
+        <foreignObject x='154' y='-8.5' width='60' height='20' transform="rotate(60)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[12]}</div>
+        </foreignObject>
+    </g>
+    <g transform="translate(98.5 98.5)">
+        <foreignObject x='56' y='-8.5' width='60' height='20' transform="rotate(30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[2]}</div>
+        </foreignObject>
+        <foreignObject x='97' y='16' width='60' height='20' transform="rotate(150 100 20)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[1]}</div>
+        </foreignObject>
+        <foreignObject x='-66' y='77' width='60' height='20' transform="rotate(-90)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[2]}</div>
+        </foreignObject>
+    </g>
+    <g transform="translate(-49.5 184.5)">
+        <foreignObject x='56' y='64' width='60' height='20' transform="rotate(-30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[5]}</div>
+        </foreignObject>
+        <foreignObject x='19.5' y='-72' width='60' height='20' transform="rotate(60)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[6]}</div>
+        </foreignObject>
+        <foreignObject x='-116' y='-35' width='60' height='20' transform="rotate(-210)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[6]}</div>
+        </foreignObject>
+        <foreignObject x='-79.5' y='100' width='60' height='20' transform="rotate(-120)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[12]}</div>
+        </foreignObject>
+    </g>
+    <g transform="translate(98.5 98.5)">
+        <foreignObject x='56' y='64' width='60' height='20' transform="rotate(30)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[3]}</div>
+        </foreignObject>
+        <foreignObject x='19.5' y='-72' width='60' height='20' transform="rotate(120)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${Q[11]}</div>
+        </foreignObject>
+        <foreignObject x='-116' y='-35' width='60' height='20' transform="rotate(-150)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${R[2]}</div>
+        </foreignObject>
+        <foreignObject x='-79.5' y='100' width='60' height='20' transform="rotate(-60)">
+            <div xmlns='http://www.w3.org/1999/xhtml'>${D[3]}</div>
+        </foreignObject>
+    </g>
+    <g transform="translate(0 197.4)">
+        <g>
+            <foreignObject x='56' y='-8.5' width='60' height='20' transform="rotate(30)">
+                <div xmlns='http://www.w3.org/1999/xhtml'>${D[5]}</div>
+            </foreignObject>
+            <foreignObject x='97' y='16' width='60' height='20' transform="rotate(150 100 20)">
+                <div xmlns='http://www.w3.org/1999/xhtml'>${R[5]}</div>
+            </foreignObject>
+            <foreignObject x='-66' y='77' width='60' height='20' transform="rotate(-90)">
+                <div xmlns='http://www.w3.org/1999/xhtml'>${Q[4]}</div>
+            </foreignObject>
+        </g>
+        <g>
+            <foreignObject x='56' y='90.5' width='60' height='20' transform="rotate(-30)">
+                <div xmlns='http://www.w3.org/1999/xhtml'>${D[4]}</div>
+            </foreignObject>
+            <foreignObject x='6' y='-120.5' width='60' height='20' transform="rotate(90)">
+                <div xmlns='http://www.w3.org/1999/xhtml'>${R[4]}</div>
+            </foreignObject>
+            <foreignObject x='-152' y='27.5' width='60' height='20' transform="rotate(-150)">
+                <div xmlns='http://www.w3.org/1999/xhtml'>${Q[3]}</div>
+            </foreignObject>
+        </g>
+    </g>
+</svg>
