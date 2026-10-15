@@ -2,7 +2,7 @@
 >
 > Ce dépôt est une copie de [MathsMentales](https://www.mathsmentales.net/), créé par **Sébastien Cogez** et ses contributeurs (voir « Auteurs » ci-dessous), publié sous licence [Apache 2.0](LICENSE). Elle a un seul but : **pouvoir utiliser MathsMentales sur un ordinateur sans connexion internet**, sous Windows ou macOS, sans rien installer.
 >
-> 👉 **Mode d'emploi : [UTILISER-SANS-INTERNET.md](UTILISER-SANS-INTERNET.md)** — téléchargement direct : [MathsMentales-main.zip](https://github.com/philipperackette/MathsMentales/archive/refs/heads/main.zip)
+> 👉 **Mode d'emploi : [UTILISER-SANS-INTERNET.md](UTILISER-SANS-INTERNET.md)** — téléchargement direct : [MathsMentales-HorsLigne-main.zip](https://github.com/philipperackette/MathsMentales-HorsLigne/archive/refs/heads/main.zip)
 >
 > - Source : <https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr>
 > - Version reprise : branche `master` au **11 octobre 2026** — version 2.4.11, commit `a39d7713e0a9d3efcace9a2e29419fae3b34b361`
