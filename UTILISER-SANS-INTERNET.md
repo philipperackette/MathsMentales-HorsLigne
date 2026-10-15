@@ -16,9 +16,11 @@ Cette copie de MathsMentales peut fonctionner sur un ordinateur **sans connexion
 
 ### Windows (10 et 11)
 
-1. **Décompressez d'abord le ZIP** : clic droit sur le fichier ZIP → **Extraire tout…** → **Extraire**. Windows permet d'ouvrir un ZIP comme un dossier, mais un lanceur ouvert depuis l'intérieur du ZIP ne trouve pas le serveur.
+1. **Décompressez d'abord le ZIP** : clic droit sur le fichier ZIP → **Extraire tout…** → **Extraire** (ou, si le ZIP est déjà ouvert dans l'Explorateur, onglet **Extraire** en haut de la fenêtre → **Extraire tout**). Windows permet de parcourir un ZIP comme un dossier, mais un lanceur ouvert depuis l'intérieur du ZIP est copié seul dans un dossier temporaire et ne trouve pas le serveur. On reconnaît qu'on est dans le ZIP aux colonnes « Taille compressée » et « Ratio ».
 2. Dans le dossier extrait, double-cliquez sur **`MathsMentales-Windows.cmd`**.
-3. La première fois, Windows peut afficher « Windows a protégé votre ordinateur » : cliquez sur **Informations complémentaires**, puis **Exécuter quand même**.
+3. Windows peut afficher un avertissement :
+   - « *Fichier ouvert – Avertissement de sécurité : L'éditeur n'a pas pu être vérifié. Voulez-vous vraiment exécuter ce logiciel ?* » : cliquez sur **Exécuter** (vérifiez que la ligne « De : » indique bien le dossier extrait, et non un dossier `Temp`) ;
+   - ou « *Windows a protégé votre ordinateur* » : cliquez sur **Informations complémentaires**, puis **Exécuter quand même**.
 4. Une fenêtre noire s'ouvre, puis MathsMentales s'affiche dans le navigateur.
 5. **Laissez la fenêtre noire ouverte** pendant l'utilisation (vous pouvez la réduire). Pour arrêter, fermez-la.
 
