@@ -16,6 +16,16 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+
+# Sur certains ordinateurs gérés (établissements), PowerShell est limité
+# (« ConstrainedLanguage ») : le serveur ne peut alors pas fonctionner.
+if ($ExecutionContext.SessionState.LanguageMode -ne 'FullLanguage') {
+    Write-Host ''
+    Write-Host "PowerShell est limité sur cet ordinateur (mode $($ExecutionContext.SessionState.LanguageMode))." -ForegroundColor Red
+    Write-Host "C'est un réglage de l'administration informatique : le serveur de MathsMentales ne peut pas démarrer."
+    Write-Host "Demandez au service informatique d'autoriser ce script, ou utilisez MathsMentales en ligne."
+    exit 2
+}
 $base = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $start = '/src/index.html'
 

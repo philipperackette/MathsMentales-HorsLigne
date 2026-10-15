@@ -1,6 +1,8 @@
-> **Copie de travail de MathsMentales**
+> **MathsMentales utilisable sans internet**
 >
-> Ce dépôt est une copie de [MathsMentales](https://www.mathsmentales.net/), créé par **Sébastien Cogez** et ses contributeurs (voir « Auteurs » ci-dessous), publié sous licence [Apache 2.0](LICENSE).
+> Ce dépôt est une copie de [MathsMentales](https://www.mathsmentales.net/), créé par **Sébastien Cogez** et ses contributeurs (voir « Auteurs » ci-dessous), publié sous licence [Apache 2.0](LICENSE). Elle a un seul but : **pouvoir utiliser MathsMentales sur un ordinateur sans connexion internet**, sous Windows ou macOS, sans rien installer.
+>
+> 👉 **Mode d'emploi : [UTILISER-SANS-INTERNET.md](UTILISER-SANS-INTERNET.md)** — téléchargement direct : [MathsMentales-main.zip](https://github.com/philipperackette/MathsMentales/archive/refs/heads/main.zip)
 >
 > - Source : <https://forge.apps.education.fr/mathsmentales/mathsmentales.forge.apps.education.fr>
 > - Version reprise : branche `master` au **11 octobre 2026** — version 2.4.11, commit `a39d7713e0a9d3efcace9a2e29419fae3b34b361`
@@ -10,7 +12,7 @@
 >   - ajout de `src/js/libs/katex/katex.mjs.js` (KaTeX 0.18.4, licence MIT), importé par le code mais absent de la Forge : sans lui, MathsMentales ne démarre pas ;
 >   - ajout de lanceurs pour utiliser MathsMentales **sans internet** sous Windows et macOS (`MathsMentales-Windows.cmd`, `MathsMentales-Mac.command`, dossier `hors-ligne/`, guide [UTILISER-SANS-INTERNET.md](UTILISER-SANS-INTERNET.md)) ; `public/startMM.cmd` modifié pour les utiliser ; `.gitattributes` ajouté pour les fins de ligne de ces fichiers.
 >
-> Pour utiliser MathsMentales ou contribuer au projet officiel, rendez-vous sur le site et sur la Forge ci-dessus.
+> Pour utiliser MathsMentales en ligne (version la plus récente) ou contribuer au projet officiel, rendez-vous sur le site et sur la Forge ci-dessus.
 
 ---
 

@@ -1,43 +1,75 @@
 # Utiliser MathsMentales sans internet
 
-Cette copie de MathsMentales peut fonctionner sur un ordinateur **sans connexion internet**, sous **Windows** ou **macOS**, sans rien installer : un petit serveur web, déjà inclus, tourne sur l'ordinateur pendant l'utilisation et ouvre MathsMentales dans le navigateur.
+Cette copie de [MathsMentales](https://www.mathsmentales.net/) (Sébastien Cogez et contributeurs) peut fonctionner sur un ordinateur **sans connexion internet**, sous **Windows** ou **macOS**, sans rien installer : un petit serveur web, déjà inclus, tourne sur l'ordinateur pendant l'utilisation et ouvre MathsMentales dans le navigateur.
+
+Testé sous Windows 10 et macOS, avec Google Chrome.
 
 > Pourquoi un serveur ? Le navigateur refuse de faire fonctionner MathsMentales si l'on ouvre simplement le fichier `index.html` : il faut passer par une adresse web, même locale (`http://127.0.0.1:1180`). Ce serveur n'est accessible que depuis l'ordinateur lui-même, pas depuis le réseau.
 
 ## 1. Récupérer MathsMentales (une seule fois, avec internet)
 
-1. Sur la page GitHub du dépôt, cliquez sur le bouton vert **Code**, puis **Download ZIP**.
+1. Téléchargez le ZIP (environ 75 Mo) : **[MathsMentales-main.zip](https://github.com/philipperackette/MathsMentales/archive/refs/heads/main.zip)**
+   (ou, sur la page GitHub du dépôt, bouton vert **Code**, puis **Download ZIP**).
 2. Décompressez le fichier ZIP :
-   - **Windows** : clic droit sur le ZIP, **Extraire tout…** (ne lancez rien depuis l'intérieur du ZIP) ;
+   - **Windows** : clic droit sur le ZIP, **Extraire tout…** (ne lancez rien depuis l'intérieur du ZIP) ; l'extraction prend quelques minutes. Windows crée deux dossiers du même nom l'un dans l'autre : les lanceurs sont dans `MathsMentales-main\MathsMentales-main` ;
    - **Mac** : double-clic sur le ZIP.
-3. Rangez le dossier obtenu où vous voulez (Documents, clé USB…). Il fonctionne depuis n'importe quel emplacement.
+3. Rangez le dossier obtenu où vous voulez (Documents, clé USB…). Il fonctionne depuis n'importe quel emplacement, et sur plusieurs ordinateurs si vous le copiez sur une clé USB.
 
 ## 2. Lancer MathsMentales
 
 ### Windows (10 et 11)
 
-1. Double-cliquez sur **`MathsMentales-Windows.cmd`**.
-2. La première fois, Windows peut afficher « Windows a protégé votre ordinateur » : cliquez sur **Informations complémentaires**, puis **Exécuter quand même**.
-3. Une fenêtre noire s'ouvre, puis MathsMentales s'affiche dans le navigateur.
-4. **Laissez la fenêtre noire ouverte** pendant l'utilisation. Pour arrêter, fermez-la.
+1. **Décompressez d'abord le ZIP** : clic droit sur le fichier ZIP → **Extraire tout…** → **Extraire** (ou, si le ZIP est déjà ouvert dans l'Explorateur, onglet **Extraire** en haut de la fenêtre → **Extraire tout**). Windows permet de parcourir un ZIP comme un dossier, mais un lanceur ouvert depuis l'intérieur du ZIP est copié seul dans un dossier temporaire et ne trouve pas le serveur. On reconnaît qu'on est dans le ZIP aux colonnes « Taille compressée » et « Ratio ».
+2. Dans le dossier extrait, double-cliquez sur **`MathsMentales-Windows.cmd`**.
+3. Windows peut afficher un avertissement :
+   - « *Fichier ouvert – Avertissement de sécurité : L'éditeur n'a pas pu être vérifié. Voulez-vous vraiment exécuter ce logiciel ?* » : cliquez sur **Exécuter** (vérifiez que la ligne « De : » indique bien le dossier extrait, et non un dossier `Temp`) ;
+   - ou « *Windows a protégé votre ordinateur* » : cliquez sur **Informations complémentaires**, puis **Exécuter quand même**.
+4. Une fenêtre noire s'ouvre, puis MathsMentales s'affiche dans le navigateur.
+5. **Laissez la fenêtre noire ouverte** pendant l'utilisation (vous pouvez la réduire). Pour arrêter, fermez-la.
+
+Si MathsMentales ne s'ouvre pas, la fenêtre noire reste ouverte et explique pourquoi :
+
+- « *Le fichier hors-ligne\serveur.ps1 est introuvable* » : le ZIP n'a pas été décompressé (étape 1) ;
+- « *PowerShell est limité sur cet ordinateur* » ou un message parlant de scripts désactivés : l'administration informatique de l'établissement bloque les scripts PowerShell ; c'est à voir avec elle ;
+- autre message : faites-en une capture d'écran pour le signaler.
 
 ### Mac
 
-1. Double-cliquez sur **`MathsMentales-Mac.command`**.
-2. La première fois, macOS peut refuser de l'ouvrir (« développeur non identifié » ou « Apple n'a pas pu vérifier… ») :
-   - macOS 15 et suivants : ouvrez **Réglages Système → Confidentialité et sécurité**, descendez jusqu'au message concernant `MathsMentales-Mac.command` et cliquez sur **Ouvrir quand même** ;
-   - versions précédentes : clic droit (ou Ctrl+clic) sur le fichier, **Ouvrir**, puis **Ouvrir**.
-3. Une fenêtre du Terminal s'ouvre, puis MathsMentales s'affiche dans le navigateur.
-4. **Laissez la fenêtre du Terminal ouverte** pendant l'utilisation. Pour arrêter, fermez-la (ou Ctrl+C).
+#### Premier lancement (une seule fois)
 
-Autre possibilité sur Mac, sans message de sécurité : ouvrez l'application **Terminal**, tapez `perl ` (avec une espace), faites glisser dans la fenêtre le fichier `hors-ligne/serveur.pl` du dossier MathsMentales, puis appuyez sur Entrée.
+macOS bloque au premier lancement les fichiers téléchargés sur internet qui ne sont pas signés par un développeur enregistré auprès d'Apple (l'enregistrement est payant). C'est le cas de `MathsMentales-Mac.command` : il s'agit d'un simple fichier texte de quelques lignes, que vous pouvez lire avec TextEdit avant de le lancer. Voici comment l'autoriser.
+
+1. Double-cliquez sur **`MathsMentales-Mac.command`**.
+2. macOS affiche : « *« MathsMentales-Mac.command » n'a pas été ouvert* » (ou, selon la version, « *Apple n'a pas pu confirmer que « MathsMentales-Mac.command » ne contenait pas de logiciels malveillants…* »).
+   Cliquez sur **Terminé**. ⚠️ **Ne cliquez pas sur « Placer dans la corbeille »**, qui supprimerait le fichier.
+3. Ouvrez le menu Apple (la pomme en haut à gauche de l'écran) → **Réglages Système…** → **Confidentialité et sécurité**, puis descendez jusqu'à la rubrique **Sécurité**. Vous y trouvez :
+   > *« MathsMentales-Mac.command » a été bloqué pour protéger votre Mac.*
+
+   Cliquez sur **Ouvrir quand même**. Ce bouton n'apparaît que pendant environ une heure après l'étape 1 ; s'il n'est plus là, recommencez à l'étape 1.
+4. macOS demande une dernière confirmation : cliquez sur **Ouvrir quand même**, puis saisissez le mot de passe de la session (ou utilisez Touch ID).
+5. Une fenêtre du Terminal s'ouvre, puis MathsMentales s'affiche dans le navigateur.
+6. Si macOS demande si **« Terminal » peut accéder aux fichiers** de votre dossier Téléchargements (ou Documents, Bureau), cliquez sur **Autoriser** : sans cela, le serveur ne peut pas lire les fichiers de MathsMentales et la page reste vide ou incomplète.
+
+Sur les versions de macOS antérieures à macOS 15 (Sequoia), on peut aussi faire, à la place des étapes 2 à 4 : clic droit (ou Ctrl+clic) sur le fichier → **Ouvrir**, puis **Ouvrir**.
+
+Cette autorisation est mémorisée : les fois suivantes, un double-clic suffit. Elle est à refaire si vous téléchargez une nouvelle version du ZIP.
+
+#### Utilisation habituelle
+
+1. Double-cliquez sur **`MathsMentales-Mac.command`** : le Terminal s'ouvre, puis MathsMentales s'affiche dans le navigateur.
+2. **Laissez la fenêtre du Terminal ouverte** pendant l'utilisation (vous pouvez la réduire dans le Dock).
+3. Pour arrêter, fermez la fenêtre du Terminal (ou Ctrl+C). Si le Terminal demande s'il faut mettre fin aux processus en cours, cliquez sur **Terminer**.
+
+#### Sans aucun message de sécurité
+
+Ouvrez l'application **Terminal** (Applications → Utilitaires), tapez `perl ` (avec une espace à la fin), faites glisser dans la fenêtre le fichier `hors-ligne/serveur.pl` du dossier MathsMentales, puis appuyez sur Entrée. MathsMentales s'ouvre dans le navigateur ; fermez la fenêtre du Terminal pour l'arrêter.
 
 ## 3. Bon à savoir
 
 - **Historique** : MathsMentales garde l'historique des diaporamas dans le navigateur, pour l'adresse `http://127.0.0.1:1180`. Utilisez toujours le même navigateur pour le retrouver. Si le port 1180 est déjà occupé, le serveur prend le suivant (1181…) et le signale : l'historique est alors distinct.
 - **Ce qui ne fonctionne pas sans internet** : ce qui dépend du serveur officiel mathsmentales.net, comme les liens courts ou la synchronisation de l'historique en ligne.
-- **Mettre à jour** : téléchargez de nouveau le ZIP et remplacez l'ancien dossier.
-- **Ça ne démarre pas sous Windows** (la fenêtre se ferme ou parle de scripts désactivés) : l'administration informatique de l'établissement bloque peut-être les scripts PowerShell ; c'est à voir avec elle.
+- **Mettre à jour** : téléchargez de nouveau le ZIP et remplacez l'ancien dossier. Cette copie reprend MathsMentales à une date donnée (indiquée en tête du [README](README.md)) ; la version la plus récente est toujours sur [mathsmentales.net](https://www.mathsmentales.net/).
+- **Durée de chaque question** : si elle est réglée sur 0 seconde, le diaporama est en défilement manuel (pas de chrono ni de bouton pause) ; c'est le fonctionnement normal de MathsMentales.
 - **Ancien lanceur** : `public/startMM.cmd` fonctionne toujours ; il appelle désormais `MathsMentales-Windows.cmd`.
 
 ## Pour les curieux
