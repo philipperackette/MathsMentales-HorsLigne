@@ -1,16 +1,19 @@
 # Utiliser MathsMentales sans internet
 
-Cette copie de MathsMentales peut fonctionner sur un ordinateur **sans connexion internet**, sous **Windows** ou **macOS**, sans rien installer : un petit serveur web, déjà inclus, tourne sur l'ordinateur pendant l'utilisation et ouvre MathsMentales dans le navigateur.
+Cette copie de [MathsMentales](https://www.mathsmentales.net/) (Sébastien Cogez et contributeurs) peut fonctionner sur un ordinateur **sans connexion internet**, sous **Windows** ou **macOS**, sans rien installer : un petit serveur web, déjà inclus, tourne sur l'ordinateur pendant l'utilisation et ouvre MathsMentales dans le navigateur.
+
+Testé sous Windows 10 et macOS, avec Google Chrome.
 
 > Pourquoi un serveur ? Le navigateur refuse de faire fonctionner MathsMentales si l'on ouvre simplement le fichier `index.html` : il faut passer par une adresse web, même locale (`http://127.0.0.1:1180`). Ce serveur n'est accessible que depuis l'ordinateur lui-même, pas depuis le réseau.
 
 ## 1. Récupérer MathsMentales (une seule fois, avec internet)
 
-1. Sur la page GitHub du dépôt, cliquez sur le bouton vert **Code**, puis **Download ZIP**.
+1. Téléchargez le ZIP (environ 75 Mo) : **[MathsMentales-main.zip](https://github.com/philipperackette/MathsMentales/archive/refs/heads/main.zip)**
+   (ou, sur la page GitHub du dépôt, bouton vert **Code**, puis **Download ZIP**).
 2. Décompressez le fichier ZIP :
-   - **Windows** : clic droit sur le ZIP, **Extraire tout…** (ne lancez rien depuis l'intérieur du ZIP) ;
+   - **Windows** : clic droit sur le ZIP, **Extraire tout…** (ne lancez rien depuis l'intérieur du ZIP) ; l'extraction prend quelques minutes. Windows crée deux dossiers du même nom l'un dans l'autre : les lanceurs sont dans `MathsMentales-main\MathsMentales-main` ;
    - **Mac** : double-clic sur le ZIP.
-3. Rangez le dossier obtenu où vous voulez (Documents, clé USB…). Il fonctionne depuis n'importe quel emplacement.
+3. Rangez le dossier obtenu où vous voulez (Documents, clé USB…). Il fonctionne depuis n'importe quel emplacement, et sur plusieurs ordinateurs si vous le copiez sur une clé USB.
 
 ## 2. Lancer MathsMentales
 
@@ -65,7 +68,8 @@ Ouvrez l'application **Terminal** (Applications → Utilitaires), tapez `perl ` 
 
 - **Historique** : MathsMentales garde l'historique des diaporamas dans le navigateur, pour l'adresse `http://127.0.0.1:1180`. Utilisez toujours le même navigateur pour le retrouver. Si le port 1180 est déjà occupé, le serveur prend le suivant (1181…) et le signale : l'historique est alors distinct.
 - **Ce qui ne fonctionne pas sans internet** : ce qui dépend du serveur officiel mathsmentales.net, comme les liens courts ou la synchronisation de l'historique en ligne.
-- **Mettre à jour** : téléchargez de nouveau le ZIP et remplacez l'ancien dossier.
+- **Mettre à jour** : téléchargez de nouveau le ZIP et remplacez l'ancien dossier. Cette copie reprend MathsMentales à une date donnée (indiquée en tête du [README](README.md)) ; la version la plus récente est toujours sur [mathsmentales.net](https://www.mathsmentales.net/).
+- **Durée de chaque question** : si elle est réglée sur 0 seconde, le diaporama est en défilement manuel (pas de chrono ni de bouton pause) ; c'est le fonctionnement normal de MathsMentales.
 - **Ancien lanceur** : `public/startMM.cmd` fonctionne toujours ; il appelle désormais `MathsMentales-Windows.cmd`.
 
 ## Pour les curieux
